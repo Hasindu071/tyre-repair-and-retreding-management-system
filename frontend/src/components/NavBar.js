@@ -1,15 +1,16 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom'; // Using NavLink to highlight active page
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Logo from '../assets/Logo.png'; // Adjust path based on your structure
-import '../styles/Navbar.css'; // Optional CSS file for additional styles
+import Logo from '../assets/Logo.png'; // Adjust path accordingly
+import '../styles/Navbar.css'; // Optional for additional custom styling
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
       <div className="container">
-        <a className="navbar-brand" href="/">
-          <img src={Logo} alt="Ryak Tires Logo" style={{ height: '40px' }} />
-        </a>
+        <NavLink className="navbar-brand" to="/">
+          <img src={Logo} alt="Ryak Tires Logo" style={{ height: '45px' }} />
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,27 +25,19 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <button className="nav-link active btn btn-link" onClick={() => window.location.href = '/'}>
-                Home
-              </button>
+              <NavLink className="nav-link" activeClassName="active" exact to="/" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>Home</NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/about">
-                About Us
-              </a>
+              <NavLink className="nav-link" activeClassName="active" to="/about" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>About Us</NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/contact">
-                Contact
-              </a>
+              <NavLink className="nav-link" activeClassName="active" to="/contact" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>Contact</NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/HowItWorks">
-                How It Works
-              </a>
+              <NavLink className="nav-link" activeClassName="active" to="/HowItWorks" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>How It Works</NavLink>
             </li>
             <li className="nav-item">
-              <button className="btn btn-danger ms-2">Login</button>
+              <NavLink className="btn btn-danger ms-3 px-4 py-2 fw-bold rounded" to="/login">Login</NavLink>
             </li>
           </ul>
         </div>
