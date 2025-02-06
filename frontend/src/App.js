@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { getData } from './api';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
 
 function App() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getData().then(setData);
-  }, []);
-
   return (
-    <div className="container mt-4">
-      <h1>Data from Backend</h1>
-      <ul>
-        {data.map((item, index) => (
-          <li key={index}>{item.name}</li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
