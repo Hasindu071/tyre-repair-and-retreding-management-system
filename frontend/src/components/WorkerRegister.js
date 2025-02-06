@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { useNavigate } from 'react-router-dom';
 import Navbar from './NavBar'; // Import the Navbar component
 
 const WorkerRegister = () => {
-    const navigate = useNavigate();
     
     const [formData, setFormData] = useState({
         firstName: '',

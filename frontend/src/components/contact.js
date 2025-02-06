@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Navbar from './NavBar'; // Import the Navbar component
+import '../styles/contact.css';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
