@@ -8,7 +8,7 @@ const RoleLoginSelection = () => {
   const navigate = useNavigate();
 
   const handleRegister = (role) => {
-    navigate(`/register/${role.toLowerCase()}`);
+    navigate(`/login/${role.toLowerCase()}`);
   };
 
   return (

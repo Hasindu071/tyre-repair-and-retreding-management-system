@@ -9,6 +9,9 @@ import About from './components/about';
 import Contact from './components/contact';
 import HowItWorks from './components/HowItWorks';
 import RoleLoginSelection from './components/RoleLoginSelection';
+import WorkerLogin from './components/WorkerLogin';
+import OwnerLogin from './components/OwnerLogin';
+import CustomerLogin from './components/CustomerLogin';
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/HowItWorks" element={<HowItWorks />} />
           <Route path="/RoleLoginSelection" element={<RoleLoginSelection />} />
+          <Route path="/login/worker" element={<WorkerLogin />} />
+          <Route path="/login/owner" element={<OwnerLogin />} />
+          <Route path="/login/customer" element={<CustomerLogin />} />
         </Routes>
       </div>
     </Router>
