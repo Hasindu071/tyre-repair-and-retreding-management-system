@@ -5,6 +5,9 @@ import RoleRegisterSelection from "./components/RoleRegisterSelection";
 import OwnerRegister from './components/OwnerRegister';
 import WorkerRegister from './components/WorkerRegister';
 import CustomerRegister from './components/CustomerRegister';
+import About from './components/about';
+import Contact from './components/contact';
+import HowItWorks from './components/HowItWorks';
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
           <Route path="/register/owner" element={<OwnerRegister />} />
           <Route path="/register/worker" element={<WorkerRegister />} />
           <Route path="/register/customer" element={<CustomerRegister />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/HowItWorks" element={<HowItWorks />} />
         </Routes>
       </div>
     </Router>
