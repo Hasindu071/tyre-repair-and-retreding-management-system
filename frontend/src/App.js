@@ -8,6 +8,7 @@ import CustomerRegister from './components/CustomerRegister';
 import About from './components/about';
 import Contact from './components/contact';
 import HowItWorks from './components/HowItWorks';
+import RoleLoginSelection from './components/RoleLoginSelection';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/HowItWorks" element={<HowItWorks />} />
+          <Route path="/RoleLoginSelection" element={<RoleLoginSelection />} />
         </Routes>
       </div>
     </Router>
