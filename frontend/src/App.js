@@ -12,6 +12,9 @@ import RoleLoginSelection from './components/RoleLoginSelection';
 import WorkerLogin from './components/WorkerLogin';
 import OwnerLogin from './components/OwnerLogin';
 import CustomerLogin from './components/CustomerLogin';
+import CustomerDashboard from './components/CustomerDashboard';
+import OwnerDashboard from './components/OwnerDashboard';
+import WorkerDashboard from './components/WorkerDashboard';
 
 function App() {
   return (
@@ -30,6 +33,10 @@ function App() {
           <Route path="/login/worker" element={<WorkerLogin />} />
           <Route path="/login/owner" element={<OwnerLogin />} />
           <Route path="/login/customer" element={<CustomerLogin />} />
+          <Route path="/CustomerDashboard" element={<CustomerDashboard />} />
+          <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
+          <Route path="/WorkerDashboard" element={<WorkerDashboard />} />
+          
         </Routes>
       </div>
     </Router>

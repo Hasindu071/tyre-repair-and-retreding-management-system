@@ -1,0 +1,89 @@
+/* Owner Dashboard Styling */
+.owner-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+/* Title Styling */
+.owner-dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.owner-dashboard-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Dashboard Grid */
+.owner-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 90%;
+    max-width: 1000px;
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Dashboard Items */
+.dashboard-item {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Indicator */
+.status {
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+.status.pending {
+    color: #dc3545;
+}
+
+.status.approved {
+    color: #28a745;
+}
+
+/* Buttons */
+.dashboard-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.dashboard-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .owner-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
