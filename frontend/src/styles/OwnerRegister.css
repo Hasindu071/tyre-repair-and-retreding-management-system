@@ -1,0 +1,90 @@
+.custom-container {
+    background-image: url('../assets/background.png'); /* Ensure this path is correct */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    max-width: 600px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+/* Card styling */
+.custom-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 30px;
+}
+
+/* Title and subtitle styling */
+.custom-title {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.custom-subtitle {
+    color: #777;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Row for organizing form inputs */
+.custom-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Column styling for each input */
+.custom-col {
+    width: 48%; /* Adjust width for form fields */
+    margin-bottom: 15px;
+}
+
+.custom-col.full-width {
+    width: 100%; /* Full width for submit button */
+}
+
+/* Input field styling */
+.custom-input {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+/* Input focus styling */
+.custom-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button styling */
+.custom-btn {
+    background-color: #ff4c4c;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.custom-btn:hover {
+    background-color: #e63e3e;
+}
+
+/* Responsive design: Stacks the columns on smaller screens */
+@media (max-width: 768px) {
+    .custom-col {
+        width: 100%;
+    }
+}

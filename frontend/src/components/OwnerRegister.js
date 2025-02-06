@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // You can still use Bootstrap for grid layout, if needed.
+import Navbar from './NavBar';  // Assuming you have a NavBar component
+import '../styles/OwnerRegister.css'; // Assuming you have a CSS file for styling
 
 const OwnerRegister = () => {
     const [formData, setFormData] = useState({
@@ -28,20 +31,91 @@ const OwnerRegister = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-900">
-            <div className="bg-white p-10 rounded-xl shadow-md w-full max-w-3xl">
-                <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
-                <p className="text-center text-gray-600 mb-6">Let's get started!</p>
+        <div>
+            {/* Include Navbar */}
+            <Navbar />
 
-                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-                    <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} className="p-2 border rounded" required />
-                    <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} className="p-2 border rounded" required />
-                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="p-2 border rounded" required />
-                    <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="p-2 border rounded" required />
-                    <input type="password" name="rePassword" placeholder="RePassword" value={formData.rePassword} onChange={handleChange} className="p-2 border rounded" required />
-                    <input type="secretKey" name="secretKey" placeholder="secret Key" value={formData.secretKey} onChange={handleChange} className="p-2 border rounded" required />
-                    <button type="submit" className="col-span-2 bg-red-500 hover:bg-red-600 text-white py-2 rounded font-bold">SUBMIT</button>
-                </form>
+            <div className="custom-container">
+                <div className="custom-card">
+                    <h2 className="custom-title">Owner Sign Up</h2>
+                    <p className="custom-subtitle">Create your account to get started!</p>
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="custom-row">
+                            <div className="custom-col">
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    placeholder="First Name"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                    className="custom-input"
+                                    required
+                                />
+                            </div>
+                            <div className="custom-col">
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    placeholder="Last Name"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                    className="custom-input"
+                                    required
+                                />
+                            </div>
+                            <div className="custom-col">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="custom-input"
+                                    required
+                                />
+                            </div>
+                            <div className="custom-col">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="custom-input"
+                                    required
+                                />
+                            </div>
+                            <div className="custom-col">
+                                <input
+                                    type="password"
+                                    name="rePassword"
+                                    placeholder="Confirm Password"
+                                    value={formData.rePassword}
+                                    onChange={handleChange}
+                                    className="custom-input"
+                                    required
+                                />
+                            </div>
+                            <div className="custom-col">
+                                <input
+                                    type="text"
+                                    name="secretKey"
+                                    placeholder="Secret Key"
+                                    value={formData.secretKey}
+                                    onChange={handleChange}
+                                    className="custom-input"
+                                    required
+                                />
+                            </div>
+                            <div className="custom-col full-width">
+                                <button type="submit" className="custom-btn">
+                                    Sign Up
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

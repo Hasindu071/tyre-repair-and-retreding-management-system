@@ -40,7 +40,7 @@ const CustomerRegister = () => {
             {/* Include Navbar */}
             <Navbar />
 
-            <div className="container mt-5">
+            <div className="container-customer-register">
                 <div className="card p-4 shadow-sm">
                     <h2 className="text-center mb-4">Sign Up</h2>
                     <p className="text-center mb-4">Let's get started!</p>
