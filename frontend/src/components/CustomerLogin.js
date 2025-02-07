@@ -24,7 +24,7 @@ const CustomerLogin = () => {
         e.preventDefault();
         console.log('Customer Login Data:', formData);
         // Add authentication logic here
-        navigate('/dashboard'); // Redirect after successful login (adjust the route accordingly)
+        navigate('/CustomerDashboard'); // Redirect after successful login (adjust the route accordingly)
     };
 
     return (

@@ -23,26 +23,17 @@ const CustomerDashboard = () => {
 
                     <div className="customer-dashboard-grid">
                         <div className="dashboard-item">
-                            <h3>My Profile</h3>
-                            <p>Update personal details & password</p>
+                            <h3>Place Your Order</h3>
                             <button className="dashboard-button">View</button>
                         </div>
 
                         <div className="dashboard-item">
                             <h3>My Orders</h3>
-                            <p>Check your order history</p>
                             <button className="dashboard-button">View</button>
                         </div>
 
                         <div className="dashboard-item">
-                            <h3>Shop</h3>
-                            <p>Explore new products</p>
-                            <button className="dashboard-button">View</button>
-                        </div>
-
-                        <div className="dashboard-item">
-                            <h3>Support</h3>
-                            <p>Contact customer service</p>
+                            <h3>My Profile</h3>
                             <button className="dashboard-button">View</button>
                         </div>
                     </div>
