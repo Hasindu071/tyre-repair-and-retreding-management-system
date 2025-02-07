@@ -1,0 +1,51 @@
+.body{
+    background-image: url('../assets/background.png');
+}
+.assign-worker-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .worker-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .worker-table th,
+  .worker-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .worker-table th {
+    background: #f4f4f4;
+    font-size: 16px;
+  }
+  
+  .worker-table tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+  
+  .worker-select {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .assigned-worker {
+    font-weight: bold;
+    color: green;
+  }
+  
