@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/MyProfile.css"; // Import the CSS file
 
 const MyProfile = () => {
@@ -14,7 +14,7 @@ const MyProfile = () => {
 
     return (
         <div>
-            <Navbar />
+            <NewNavbar />
             <div className="profile-container">
                 <h2 className="profile-title">My Profile</h2>
                 <div className="profile-card">

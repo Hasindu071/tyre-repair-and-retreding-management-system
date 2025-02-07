@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "./NavBar"; // Assuming you have a Navbar component
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/MyOrders.css"; // Import the CSS file
 
 const MyOrders = () => {
@@ -12,7 +12,7 @@ const MyOrders = () => {
 
     return (
         <div>
-            <Navbar />
+            <NewNavbar />
             <div className="my-orders-container">
                 <h2 className="my-orders-title">My Orders</h2>
                 <p className="my-orders-subtitle">Track your past and current orders</p>

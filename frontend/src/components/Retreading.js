@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Import the Navbar component
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/Retreading.css";
 
 const RetreadingService = () => {
@@ -33,7 +33,7 @@ const RetreadingService = () => {
 
     return (
         <div>
-            <Navbar />
+            <NewNavbar />
         <div className="retreading-container">
             <h2 className="title">Retreading Service</h2>
             <form onSubmit={handleSubmit} className="retreading-form">

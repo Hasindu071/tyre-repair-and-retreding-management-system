@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Import the Navbar component
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import '../styles/ChooseService.css'; // Import the CSS file for styling
 
 
@@ -13,7 +13,7 @@ const ChooseService = () => {
 
   return (
     <div>
-      <Navbar />
+      <NewNavbar />
       <div className="role-service-selection-container">
         <h1 className="title-service">Select Your Service</h1>
         <div className="role-service-grid">

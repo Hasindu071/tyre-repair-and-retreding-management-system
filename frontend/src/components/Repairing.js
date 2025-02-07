@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Import the Navbar component
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/Repairing.css"; // Import CSS file
 
 const RepairServiceForm = () => {
@@ -25,7 +25,7 @@ const RepairServiceForm = () => {
 
   return (
     <div>
-      <Navbar />
+      <NewNavbar />
     <div className="repair-service-container">
       <h2 className="title">Repair Service (Fixing Punctures / Patches)</h2>
       <form onSubmit={handleSubmit} className="repair-form">
