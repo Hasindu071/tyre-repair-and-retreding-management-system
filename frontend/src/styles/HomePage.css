@@ -38,12 +38,12 @@
     color: white;
   }
   
-  .register-card {
+  .register-card-home {
     background-color: white;
     color: black;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.049);
     max-width: 300px;
     text-align: center;
   }
