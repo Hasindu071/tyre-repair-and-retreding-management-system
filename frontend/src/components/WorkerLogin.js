@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Assuming you have a Navbar component
-import '../styles/WorkerLogin.css'; // Import the CSS file
+import Navbar from './NavBar';
+import '../styles/WorkerLogin.css';
 
 const WorkerLogin = () => {
     const [formData, setFormData] = useState({
@@ -24,8 +24,7 @@ const WorkerLogin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Login Data:', formData);
-        // Add login authentication logic here
-        navigate('/WorkerDashboard'); // Redirect after successful login (adjust route accordingly)
+        navigate('/WorkerDashboard');
     };
 
     return (
@@ -68,10 +67,12 @@ const WorkerLogin = () => {
                                 required
                             />
                         </div>
-                        <button type="submit" className="worker-login-button">
-                            Login
-                        </button>
+                        <button type="submit" className="worker-login-button">Login</button>
                     </form>
+                    <div className="worker-login-options">
+                        <a href="/forgot-password" className="worker-forgot-password">Forgot Password?</a>
+                        <button className="worker-google-login">Continue with Google</button>
+                    </div>
                 </div>
             </div>
         </div>
