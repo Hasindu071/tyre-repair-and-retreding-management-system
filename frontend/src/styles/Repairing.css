@@ -1,0 +1,98 @@
+.repair-service-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .repair-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .section {
+    margin-top: 20px;
+  }
+  
+  .section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin: 5px 0;
+    font-size: 16px;
+  }
+  
+  .image-upload-section {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .image-upload {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .upload-box {
+    width: 150px;
+    height: 100px;
+    border: 2px dashed red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: red;
+    cursor: pointer;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background: darkred;
+  }
+  

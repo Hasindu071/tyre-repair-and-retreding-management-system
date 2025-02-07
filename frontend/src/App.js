@@ -19,6 +19,7 @@ import ChooseService from './components/ChooseService';
 import MyOrders from './components/MyOrders';
 import MyProfile from './components/MyProfile';
 import RetreadingService from './components/Retreading';
+import RepairingService from './components/Repairing';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/MyOrders" element={<MyOrders />} />
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/service/Retreading" element={<RetreadingService />} />
+          <Route path="/service/Repairing" element={<RepairingService />} />
         </Routes>
       </div>
     </Router>
