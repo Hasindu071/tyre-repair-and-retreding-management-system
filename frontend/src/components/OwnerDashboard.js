@@ -10,6 +10,14 @@ const OwnerDashboard = () => {
         navigate("/ApproveWorker"); // Redirect to ApproveWorker page
     };
 
+    const ApproveOrder = () => {
+        navigate("/ApproveOrder"); // Redirect to ApproveOrder page
+    };
+
+    const AssingWorker = () => {
+        navigate("/AssignWorker"); // Redirect to AssignWorker page
+    }
+
     return (
         <div>
             <Navbar />
@@ -21,13 +29,13 @@ const OwnerDashboard = () => {
                     {/* Approve Customer Orders */}
                     <div className="dashboard-section">
                         <h3>Approve Customer Orders</h3>
-                        <button className="dashboard-button">View Orders</button>
+                        <button className="dashboard-button"  onClick={ApproveOrder}>View Orders</button>
                     </div>
 
                     {/* Assign Workers */}
                     <div className="dashboard-section">
                         <h3>Assign Workers</h3>
-                        <button className="dashboard-button">Assign</button>
+                        <button className="dashboard-button" onClick={AssingWorker}>Assign</button>
                     </div>
 
                     {/* Approve New Workers */}

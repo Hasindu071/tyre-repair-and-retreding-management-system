@@ -21,6 +21,7 @@ import MyProfile from './components/MyProfile';
 import RetreadingService from './components/Retreading';
 import RepairingService from './components/Repairing';
 import ApproveWorker from './components/ApproveWorker';
+import ApproveOrder from './components/ApproveOrder';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/service/Retreading" element={<RetreadingService />} />
           <Route path="/service/Repairing" element={<RepairingService />} />
           <Route path="/ApproveWorker" element={<ApproveWorker />} />
+          <Route path="/ApproveOrder" element={<ApproveOrder />} />
         </Routes>
       </div>
     </Router>
