@@ -17,7 +17,7 @@ const ChooseService = () => {
       <div className="role-service-selection-container">
         <h1 className="title-service">Select Your Service</h1>
         <div className="role-service-grid">
-          {["Retreaging", "Repairing"].map((role) => (
+          {["Retreading", "Repairing"].map((role) => (
             <div key={role} className="role-service-card">
               <h2>{role}</h2>
               <button onClick={() => handleRegister(role)} className="role-service-button">

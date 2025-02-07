@@ -18,6 +18,7 @@ import WorkerDashboard from './components/WorkerDashboard';
 import ChooseService from './components/ChooseService';
 import MyOrders from './components/MyOrders';
 import MyProfile from './components/MyProfile';
+import RetreadingService from './components/Retreading';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/service" element={<ChooseService />} />
           <Route path="/MyOrders" element={<MyOrders />} />
           <Route path="/MyProfile" element={<MyProfile />} />
+          <Route path="/service/Retreading" element={<RetreadingService />} />
         </Routes>
       </div>
     </Router>
