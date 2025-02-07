@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
-import "../styles/CustomerDashboard.css"; // Import the CSS file
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Navbar component
+import { FaShoppingCart, FaClipboardList } from "react-icons/fa"; // Importing icons
+import "../styles/CustomerDashboard.css"; // Import CSS file
 
 const CustomerDashboard = () => {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ const CustomerDashboard = () => {
         navigate("/service"); // Redirect to ChooseService page
     };
 
-    const MyOrders = () => {
+    const handleMyOrders = () => {
         navigate("/MyOrders"); // Redirect to MyOrders page
     };
 
@@ -25,14 +26,22 @@ const CustomerDashboard = () => {
                     </p>
 
                     <div className="customer-dashboard-grid">
+                        {/* Place Order Section */}
                         <div className="dashboard-item">
+                            <FaShoppingCart size={50} className="dashboard-icon" />
                             <h3>Place Your Order</h3>
-                            <button className="dashboard-button" onClick={handlePlaceOrder}>View</button>
+                            <button className="dashboard-button" onClick={handlePlaceOrder}>
+                                View
+                            </button>
                         </div>
 
+                        {/* My Orders Section */}
                         <div className="dashboard-item">
+                            <FaClipboardList size={50} className="dashboard-icon" />
                             <h3>My Orders</h3>
-                            <button className="dashboard-button" onClick={MyOrders}>View</button>
+                            <button className="dashboard-button" onClick={handleMyOrders}>
+                                View
+                            </button>
                         </div>
                     </div>
                 </div>
