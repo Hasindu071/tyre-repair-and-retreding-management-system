@@ -15,6 +15,7 @@ import CustomerLogin from './components/CustomerLogin';
 import CustomerDashboard from './components/CustomerDashboard';
 import OwnerDashboard from './components/OwnerDashboard';
 import WorkerDashboard from './components/WorkerDashboard';
+import ChooseService from './components/ChooseService';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/CustomerDashboard" element={<CustomerDashboard />} />
           <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
           <Route path="/WorkerDashboard" element={<WorkerDashboard />} />
+          <Route path="/service" element={<ChooseService />} />
           
         </Routes>
       </div>

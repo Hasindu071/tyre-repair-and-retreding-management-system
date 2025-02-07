@@ -11,6 +11,10 @@ const CustomerDashboard = () => {
         navigate("/login"); // Redirect to login page
     };
 
+    const handlePlaceOrder = () => {
+        navigate("/service"); // Redirect to ChooseService page
+    };
+
     return (
         <div>
             <Navbar />
@@ -24,7 +28,7 @@ const CustomerDashboard = () => {
                     <div className="customer-dashboard-grid">
                         <div className="dashboard-item">
                             <h3>Place Your Order</h3>
-                            <button className="dashboard-button">View</button>
+                            <button className="dashboard-button" onClick={handlePlaceOrder}>View</button>
                         </div>
 
                         <div className="dashboard-item">
