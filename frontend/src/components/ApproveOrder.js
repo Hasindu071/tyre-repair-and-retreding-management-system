@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './NavBar'; // Import the Navbar component
 import "../styles/ApproveOrder.css"; // Import the CSS file
 
 const ApproveOrder = () => {
@@ -41,6 +43,8 @@ const ApproveOrder = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="approve-order-container">
       <h2 className="title">Approve Orders</h2>
       <table className="order-table">
@@ -86,6 +90,7 @@ const ApproveOrder = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
