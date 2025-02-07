@@ -9,7 +9,7 @@ const Howitworks = () => {
     return (
         <div style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
             <Navbar /> {/* Add the Navbar component here */}
-            <div className="content">
+            <div className="content-work">
                 <h2>How It Works</h2>
                 <p>At Ryak Tyres, our tyre repair and retreading process ensures high-quality and sustainable solutions for lorries and buses. Here's how our system works:</p>
                 

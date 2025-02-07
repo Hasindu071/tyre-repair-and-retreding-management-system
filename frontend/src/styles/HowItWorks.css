@@ -14,7 +14,7 @@ body {
     padding: 50px 20px;
 }
 
-.content {
+.content-work {
     max-width: 800px;
     color: #fff;
     margin: auto;
@@ -23,7 +23,7 @@ body {
     border-radius: 10px;
 }
 
-h2 {
+.content-work h2 {
     font-size: 2rem;
     color: #fff;
     margin-bottom: 20px;

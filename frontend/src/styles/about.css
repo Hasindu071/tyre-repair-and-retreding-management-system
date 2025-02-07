@@ -6,7 +6,9 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.overlay {
+.overlay-about {
+    max-width: 800px;
+    margin: auto;
     background: rgba(0, 0, 0, 0.6);
     color: white;
     padding: 50px;
@@ -14,7 +16,8 @@ body {
     text-align: center;
 }
 
-h2 {
+.about-section h2 {
+    color: rgb(187, 182, 182);
     font-size: 2em;
     margin-bottom: 20px;
 }
