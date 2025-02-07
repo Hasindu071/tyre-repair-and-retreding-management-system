@@ -1,10 +1,12 @@
+.body {
+    background-image: url('../assets/background.png');
+}
 /* Owner Dashboard Styling */
 .owner-dashboard-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #f8f9fa;
     padding: 20px;
 }
 
@@ -12,13 +14,13 @@
 .owner-dashboard-title {
     font-size: 2rem;
     font-weight: bold;
-    color: #333;
+    color: #fafafa;
     margin-bottom: 10px;
 }
 
 .owner-dashboard-subtitle {
     font-size: 1.2rem;
-    color: #666;
+    color: #c3c2c2;
     margin-bottom: 20px;
 }
 

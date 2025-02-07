@@ -25,7 +25,7 @@ const WorkerLogin = () => {
         e.preventDefault();
         console.log('Login Data:', formData);
         // Add login authentication logic here
-        navigate('/dashboard'); // Redirect after successful login (adjust route accordingly)
+        navigate('/WorkerDashboard'); // Redirect after successful login (adjust route accordingly)
     };
 
     return (

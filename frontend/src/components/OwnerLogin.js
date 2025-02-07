@@ -25,7 +25,7 @@ const OwnerLogin = () => {
         e.preventDefault();
         console.log('Owner Login Data:', formData);
         // Add authentication logic here
-        navigate('/dashboard'); // Redirect after successful login (adjust the route accordingly)
+        navigate('/OwnerDashboard'); // Redirect after successful login (adjust the route accordingly)
     };
 
     return (
