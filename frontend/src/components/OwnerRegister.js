@@ -37,7 +37,7 @@ const OwnerRegister = () => {
 
             <div className="custom-container">
                 <div className="custom-card">
-                    <h2 className="custom-title">Owner Sign Up</h2>
+                    <h2 className="register-owner-title">Worker <span>REGISTRATION</span></h2>
                     <p className="custom-subtitle">Create your account to get started!</p>
 
                     <form onSubmit={handleSubmit}>

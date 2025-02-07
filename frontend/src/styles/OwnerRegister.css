@@ -1,5 +1,9 @@
-.custom-container {
+.body{
     background-image: url('../assets/background.png'); /* Ensure this path is correct */
+}
+
+.custom-container {
+
     background-size: cover;
     background-position: center;
     min-height: 100vh;
@@ -17,13 +21,16 @@
     padding: 30px;
 }
 
-/* Title and subtitle styling */
-.custom-title {
-    color: #333;
-    font-size: 2rem;
+/* Title Styling */
+.register-owner-title {
+    font-size: 24px;
     font-weight: bold;
-    text-align: center;
     margin-bottom: 20px;
+    color: rgb(37, 37, 37);
+}
+
+.register-owner-title span {
+    color: red;
 }
 
 .custom-subtitle {
