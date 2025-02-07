@@ -1,8 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./NavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
 
 const OwnerDashboard = () => {
+    const navigate = useNavigate();
+
+    const ApproveWorker = () => {
+        navigate("/ApproveWorker"); // Redirect to ApproveWorker page
+    };
+
     return (
         <div>
             <Navbar />
@@ -26,7 +33,7 @@ const OwnerDashboard = () => {
                     {/* Approve New Workers */}
                     <div className="dashboard-section">
                         <h3>Approve New Workers</h3>
-                        <button className="dashboard-button">Approve</button>
+                        <button className="dashboard-button" onClick={ApproveWorker}>Approve</button>
                     </div>
                 </div>
             </div>

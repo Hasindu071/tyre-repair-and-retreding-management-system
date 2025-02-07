@@ -20,6 +20,7 @@ import MyOrders from './components/MyOrders';
 import MyProfile from './components/MyProfile';
 import RetreadingService from './components/Retreading';
 import RepairingService from './components/Repairing';
+import ApproveWorker from './components/ApproveWorker';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/service/Retreading" element={<RetreadingService />} />
           <Route path="/service/Repairing" element={<RepairingService />} />
+          <Route path="/ApproveWorker" element={<ApproveWorker />} />
         </Routes>
       </div>
     </Router>
