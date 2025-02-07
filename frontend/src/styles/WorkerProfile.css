@@ -1,9 +1,12 @@
+.body{
+    background-image: url('../assets/background.png');
+}
+
 .worker-profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f4f4;
 }
 
 .profile-card-worker {
@@ -13,7 +16,9 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
 }
-
+.profile-card-worker h2{
+    color: #000000;
+}
 .profile-info-worker p {
     margin: 10px 0;
     font-size: 16px;
