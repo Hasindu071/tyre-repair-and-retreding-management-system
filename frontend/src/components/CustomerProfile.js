@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "./NavBar"; // Assuming you have a Navbar component
+import Navbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/MyProfile.css"; // Import the CSS file
 
 const MyProfile = () => {

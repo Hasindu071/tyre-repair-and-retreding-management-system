@@ -17,7 +17,7 @@ import OwnerDashboard from './components/OwnerDashboard';
 import WorkerDashboard from './components/WorkerDashboard';
 import ChooseService from './components/ChooseService';
 import MyOrders from './components/MyOrders';
-import MyProfile from './components/MyProfile';
+import CustomerProfile from './components/CustomerProfile';
 import RetreadingService from './components/Retreading';
 import RepairingService from './components/Repairing';
 import ApproveWorker from './components/ApproveWorker';
@@ -46,7 +46,7 @@ function App() {
           <Route path="/WorkerDashboard" element={<WorkerDashboard />} />
           <Route path="/service" element={<ChooseService />} />
           <Route path="/MyOrders" element={<MyOrders />} />
-          <Route path="/MyProfile" element={<MyProfile />} />
+          <Route path="/Customer/Profile" element={<CustomerProfile />} />
           <Route path="/service/Retreading" element={<RetreadingService />} />
           <Route path="/service/Repairing" element={<RepairingService />} />
           <Route path="/ApproveWorker" element={<ApproveWorker />} />
