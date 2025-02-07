@@ -16,6 +16,7 @@ import CustomerDashboard from './components/CustomerDashboard';
 import OwnerDashboard from './components/OwnerDashboard';
 import WorkerDashboard from './components/WorkerDashboard';
 import ChooseService from './components/ChooseService';
+import MyOrders from './components/MyOrders';
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
           <Route path="/OwnerDashboard" element={<OwnerDashboard />} />
           <Route path="/WorkerDashboard" element={<WorkerDashboard />} />
           <Route path="/service" element={<ChooseService />} />
-          
+          <Route path="/MyOrders" element={<MyOrders />} />
         </Routes>
       </div>
     </Router>

@@ -15,6 +15,10 @@ const CustomerDashboard = () => {
         navigate("/service"); // Redirect to ChooseService page
     };
 
+    const MyOrders = () => {
+        navigate("/MyOrders"); // Redirect to MyOrders page
+    };
+
     return (
         <div>
             <Navbar />
@@ -33,7 +37,7 @@ const CustomerDashboard = () => {
 
                         <div className="dashboard-item">
                             <h3>My Orders</h3>
-                            <button className="dashboard-button">View</button>
+                            <button className="dashboard-button" onClick={MyOrders}>View</button>
                         </div>
 
                         <div className="dashboard-item">
