@@ -5,3 +5,34 @@ body {
     background-repeat: no-repeat;
     font-family: Arial, sans-serif;
 }
+
+.overlay {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 50px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+
+footer {
+    margin-top: 30px;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
