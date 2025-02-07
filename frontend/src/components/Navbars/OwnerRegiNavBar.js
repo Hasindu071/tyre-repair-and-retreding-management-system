@@ -47,14 +47,14 @@ const Navbar = () => {
             {/* Profile */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/Customer/Profile" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
-                Profile
+              Inquiries
               </NavLink>
             </li>
 
             {/* Your Services */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/services" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
-                Your Services
+                --------
               </NavLink>
             </li>
 

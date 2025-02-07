@@ -10,7 +10,7 @@ const Navbar = () => {
   const handleLogout = () => {
     // Add logout functionality here (e.g., clear user session, redirect)
     console.log("User logged out");
-    navigate("/login/customer");
+    navigate("/login/worker");
   };
 
   return (

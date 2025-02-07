@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./NavBar"; // Assuming you have a Navbar component
+import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
 
 const OwnerDashboard = () => {
@@ -18,9 +18,21 @@ const OwnerDashboard = () => {
         navigate("/AssignWorker"); // Redirect to AssignWorker page
     }
 
+    const HandleCustomer = () => {
+        navigate("/HandleCustomer"); // Redirect to HandleCustomer page
+    }
+
+    const productInquiries = () => {
+        navigate("/productInquiries"); // Redirect to productInquiries page
+    }
+
+    const WokerPayments = () => {
+        navigate("/WokerPayments"); // Redirect to WokerPayments page
+    }
+
     return (
         <div>
-            <Navbar />
+            <OwnerNavbar />
             <div className="owner-dashboard-container">
                 <h2 className="owner-dashboard-title">Owner Dashboard</h2>
                 <p className="owner-dashboard-subtitle">Manage operations efficiently</p>
@@ -42,6 +54,24 @@ const OwnerDashboard = () => {
                     <div className="dashboard-section-owner">
                         <h3>Approve New Workers</h3>
                         <button className="dashboard-button-owner" onClick={ApproveWorker}>Approve</button>
+                    </div>
+
+                    {/* Handle Customer */}
+                    <div className="dashboard-section-owner">
+                        <h3>Handle Customer</h3>
+                        <button className="dashboard-button-owner" onClick={HandleCustomer}>Approve</button>
+                    </div>
+
+                    {/* product inquiries */}
+                    <div className="dashboard-section-owner">
+                        <h3>product inquiries</h3>
+                        <button className="dashboard-button-owner" onClick={productInquiries}>Approve</button>
+                    </div>
+
+                    {/* Woker payments */}
+                    <div className="dashboard-section-owner">
+                        <h3>Woker payments</h3>
+                        <button className="dashboard-button-owner" onClick={WokerPayments}>Approve</button>
                     </div>
                 </div>
             </div>
