@@ -24,6 +24,7 @@ import ApproveWorker from './components/ApproveWorker';
 import ApproveOrder from './components/ApproveOrder';
 import AssignWorker from './components/AssignWorker';
 import WorkerProfile from './components/WorkerProfile';
+import WorkerMessage from './components/WorkerMassage';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="/ApproveOrder" element={<ApproveOrder />} />
           <Route path="/AssignWorker" element={<AssignWorker />} />
           <Route path="/Worker/Profile" element={<WorkerProfile />} />
+          <Route path="/Worker/Message" element={<WorkerMessage />} />
         </Routes>
       </div>
     </Router>
