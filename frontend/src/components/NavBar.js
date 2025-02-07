@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
       <div className="container">
-        <NavLink className="navbar-brand" to="/">
+        <NavLink className="navbar-brand">
           <img src={Logo} alt="Ryak Tires Logo" style={{ height: '45px' }} />
         </NavLink>
         <button
