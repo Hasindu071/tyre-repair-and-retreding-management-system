@@ -23,6 +23,7 @@ import RepairingService from './components/Repairing';
 import ApproveWorker from './components/ApproveWorker';
 import ApproveOrder from './components/ApproveOrder';
 import AssignWorker from './components/AssignWorker';
+import WorkerProfile from './components/WorkerProfile';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path="/ApproveWorker" element={<ApproveWorker />} />
           <Route path="/ApproveOrder" element={<ApproveOrder />} />
           <Route path="/AssignWorker" element={<AssignWorker />} />
+          <Route path="/Worker/Profile" element={<WorkerProfile />} />
         </Routes>
       </div>
     </Router>

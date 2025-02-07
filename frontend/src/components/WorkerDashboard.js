@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "./NavBar"; // Assuming you have a Navbar component
+import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/WorkerDashboard.css"; // Import the CSS file
 
 const WorkerDashboard = () => {
@@ -16,7 +16,7 @@ const WorkerDashboard = () => {
 
     return (
         <div>
-            <Navbar />
+            <WorkerNavbar />
             <div className="worker-dashboard-container">
                 <h2 className="worker-dashboard-title">Worker Dashboard</h2>
                 <p className="worker-dashboard-subtitle">Manage your assigned tasks efficiently</p>
