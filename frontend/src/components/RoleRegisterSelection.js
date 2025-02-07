@@ -16,9 +16,9 @@ const RoleSelection = () => {
       <Navbar />
       <div className="role-selection-container">
         <h1 className="title">Select Your Role</h1>
-        <div className="role-grid">
+        <div className="role-grid-registerht">
           {["Owner", "Worker", "Customer"].map((role) => (
-            <div key={role} className="role-card">
+            <div key={role} className="role-cardht">
               <h2>{role}</h2>
               <button onClick={() => handleRegister(role)} className="register-button">
                 Register
