@@ -5,3 +5,57 @@ body {
     background-repeat: no-repeat;
     font-family: Arial, sans-serif;
 }
+.contact-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.486);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.contact-title {
+    text-align: center;
+    color: #d8d6d6;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form-group {
+    margin-bottom: 15px;
+}
+
+.contact-label {
+    font-weight: bold;
+    color: #f4f3f3;
+}
+
+.contact-input, 
+.contact-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.contact-textarea {
+    resize: none;
+}
+
+.contact-submit-btn {
+    background: #ff001e;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.contact-submit-btn:hover {
+    background: #b30006;
+}
