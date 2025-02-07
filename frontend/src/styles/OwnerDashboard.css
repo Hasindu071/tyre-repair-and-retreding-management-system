@@ -34,7 +34,7 @@
 }
 
 /* Dashboard Sections */
-.dashboard-section {
+.dashboard-section-owner {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
@@ -67,8 +67,8 @@
 }
 
 /* Buttons */
-.dashboard-button {
-    background-color: #007bff;
+.dashboard-button-owner {
+    background-color: #5d0606;
     color: white;
     border: none;
     font-size: 1rem;
@@ -79,8 +79,8 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.dashboard-button:hover {
-    background-color: #0056b3;
+.dashboard-button-owner:hover {
+    background-color: #b30000;
 }
 
 /* Responsive Design */

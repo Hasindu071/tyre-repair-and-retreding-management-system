@@ -1,10 +1,12 @@
+.body{
+    background-image: url('../assets/background.png');
+}
 /* Owner Login Page Styling */
 .owner-login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f8f9fa;
     padding: 20px;
 }
 
@@ -43,8 +45,8 @@
 
 /* Input Focus Effect */
 .owner-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #ff000d;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
     outline: none;
 }
 

@@ -27,21 +27,21 @@ const OwnerDashboard = () => {
 
                 <div className="owner-dashboard-grid">
                     {/* Approve Customer Orders */}
-                    <div className="dashboard-section">
+                    <div className="dashboard-section-owner">
                         <h3>Approve Customer Orders</h3>
-                        <button className="dashboard-button"  onClick={ApproveOrder}>View Orders</button>
+                        <button className="dashboard-button-owner"  onClick={ApproveOrder}>View Orders</button>
                     </div>
 
                     {/* Assign Workers */}
-                    <div className="dashboard-section">
+                    <div className="dashboard-section-owner">
                         <h3>Assign Workers</h3>
-                        <button className="dashboard-button" onClick={AssingWorker}>Assign</button>
+                        <button className="dashboard-button-owner" onClick={AssingWorker}>Assign</button>
                     </div>
 
                     {/* Approve New Workers */}
-                    <div className="dashboard-section">
+                    <div className="dashboard-section-owner">
                         <h3>Approve New Workers</h3>
-                        <button className="dashboard-button" onClick={ApproveWorker}>Approve</button>
+                        <button className="dashboard-button-owner" onClick={ApproveWorker}>Approve</button>
                     </div>
                 </div>
             </div>
