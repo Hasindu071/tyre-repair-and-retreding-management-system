@@ -39,21 +39,21 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto">
             {/* Home */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/CustomerDashboard" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink className="nav-link" to="/OwnerDashboard" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
                 Home
               </NavLink>
             </li>
 
             {/* Profile */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/Customer/Profile" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink className="nav-link" to="/Inquiries" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
               Inquiries
               </NavLink>
             </li>
 
             {/* Your Services */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/services" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink className="nav-link" to="/------" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
                 --------
               </NavLink>
             </li>
