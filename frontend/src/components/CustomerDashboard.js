@@ -19,6 +19,10 @@ const CustomerDashboard = () => {
         navigate("/MyOrders"); // Redirect to MyOrders page
     };
 
+    const MyProfile = () => {
+        navigate("/MyProfile"); // Redirect to MyOrders page
+    };
+
     return (
         <div>
             <Navbar />
@@ -42,7 +46,7 @@ const CustomerDashboard = () => {
 
                         <div className="dashboard-item">
                             <h3>My Profile</h3>
-                            <button className="dashboard-button">View</button>
+                            <button className="dashboard-button" onClick={MyProfile}>View</button>
                         </div>
                     </div>
 
