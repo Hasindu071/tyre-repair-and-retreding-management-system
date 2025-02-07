@@ -27,6 +27,11 @@ const CustomerLogin = () => {
         navigate('/CustomerDashboard'); // Redirect after successful login (adjust the route accordingly)
     };
 
+    const handleGoogleLogin = () => {
+        console.log("Continue with Google clicked");
+        // Add Google authentication logic here
+    };
+
     return (
         <div>
             <Navbar />
@@ -58,6 +63,10 @@ const CustomerLogin = () => {
                         </div>
                         <button type="submit" className="customer-login-button">
                             Login
+                        </button>
+                        <a href="/forgot-password" className="worker-forgot-password">Forgot Password?</a>
+                        <button type="button" className="customer-google-login" onClick={handleGoogleLogin}>
+                            Continue with Google
                         </button>
                     </form>
                 </div>
