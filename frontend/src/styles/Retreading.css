@@ -1,91 +1,189 @@
-.body{
+/* General Styling */
+body {
     background-image: url('../assets/background.png');
 }
+
+/* Container */
 .retreading-container {
-    max-width: 800px;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    min-height: 100vh;
 }
 
+/* Title */
 .title {
-    text-align: center;
-    font-size: 24px;
+    font-size: 42px;
+    color: #fff;
+    font-weight: bold;
     margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
+/* Form Styling */
+.retreading-form {
+    background: rgba(255, 255, 255, 0.701);
+    padding: 30px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input Groups */
 .input-group {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    margin-bottom: 15px;
 }
 
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
 }
 
+/* Tire Patterns Container */
 .tire-patterns {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
-    margin: 10px 0;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
+/* Pattern Item */
+.pattern-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Pattern Image */
+.pattern-image {
+    width: 100px; /* Adjust size */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid white;
+    transition: 0.3s;
+}
+
+.pattern-image:hover {
+    border-color: #ff4400;
+    transform: scale(1.1);
+}
+
+/* Pattern Button */
 .pattern-btn {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
     padding: 10px;
-    border: 1px solid #ccc;
+    border-radius: 10px;
     cursor: pointer;
-    background: #f5f5f5;
-    border-radius: 5px;
+    transition: 0.3s;
+    margin-top: 5px;
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
 }
 
 .pattern-btn.selected {
-    background: red;
-    color: white;
+    background: #ff0000;
+    color: black;
 }
 
+
+/* Upload Section */
 .upload-section {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    margin-bottom: 15px;
 }
 
 .upload-box {
-    padding: 10px;
-    border: 1px dashed #ccc;
-    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
 }
 
+.upload-box:hover {
+    background: #ff0000;
+    color: black;
+}
+
+.upload-icon {
+    font-size: 20px;
+}
+
+/* Date Picker */
 .date-picker {
-    width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
-.radio-group label {
-    display: block;
-    margin: 5px 0;
+/* Radio Buttons */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
 }
 
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Notes Box */
 .notes-box {
     width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    resize: none;
     height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    margin-bottom: 15px;
 }
 
+/* Submit Button */
 .submit-btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: red;
-    color: white;
+    background: #ff2f00;
+    color: black;
+    padding: 15px;
+    border-radius: 8px;
     border: none;
-    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    background: #ff0000;
+}
+
+.submit-icon {
+    margin-right: 10px;
 }
