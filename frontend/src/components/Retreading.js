@@ -39,6 +39,7 @@ const RetreadingService = () => {
     return (
         <div>
             <NewNavbar />
+            <div className="retreading-container-body">
             <div className="retreading-container">
                 <form onSubmit={handleSubmit} className="retreading-form">
                 <h2 className="title">Retreading Service</h2>
@@ -105,6 +106,7 @@ const RetreadingService = () => {
                 </form>
             </div>
         </div>
+    </div>
     );
 };
 

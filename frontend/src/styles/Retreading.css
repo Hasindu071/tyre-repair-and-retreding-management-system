@@ -3,6 +3,10 @@ body {
     background-image: url('../assets/background.png');
 }
 
+.retreading-container-body {
+    background: rgba(0, 0, 0, 0.542);
+}
+
 /* Container */
 .retreading-container {
     display: flex;
