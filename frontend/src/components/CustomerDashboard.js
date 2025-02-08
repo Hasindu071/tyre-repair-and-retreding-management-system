@@ -38,7 +38,7 @@ const CustomerDashboard = () => {
                         {/* My Orders Section */}
                         <div className="dashboard-item">
                             <FaClipboardList size={50} className="dashboard-icon" />
-                            <h3>My Orders</h3>
+                            <h3>My  <br></br>  Orders</h3>
                             <button className="dashboard-button" onClick={handleMyOrders}>
                                 View
                             </button>

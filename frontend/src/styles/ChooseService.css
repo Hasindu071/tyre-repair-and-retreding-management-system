@@ -1,81 +1,105 @@
-.role-service-selection-container{
-    background-image: url('../assets/background.png'); /* Ensure this path is correct */
+/* Background Styling */
+body {
+    background-image: url('../assets/background.png'); /* Add a stylish background */
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
+    background-attachment: fixed;
+    font-family: 'Poppins', sans-serif;
 }
-/* Container styling */
+
+/* Container Styling */
 .role-service-selection-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    background-color: #f8f9fa;
+    height: 100vh;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
     padding: 20px;
 }
 
-/* Title styling */
+/* Title Styling */
 .title-service {
-    font-size: 2.5rem;
+    font-size: 32px;
+    color: #fff;
     font-weight: bold;
-    color: #ffffff;
     margin-bottom: 20px;
-    text-align: center;
 }
 
-/* Grid layout for role selection cards */
+/* Grid Layout */
 .role-service-grid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
 }
 
-/* Individual role card styling */
-.role-service-card {
-    background-color: #3f0f0f;
-    padding: 30px;
+/* Card Design */
+.role-service-card-choose {
+    background: rgba(204, 204, 204, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease-in-out;
     width: 250px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-.role-service-card:hover {
-    transform: translateY(-5px);
+.select-service-container-back{
+    max-width: 800px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.734);
+    padding: 50px 50px 50px 50px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-/* Role title styling */
-.role-service-card h2 {
-    font-size: 1.8rem;
-    color: #c1c1c1;
+.role-service-card-choose:hover {
+    transform: scale(1.05);
+}
+
+/* Icons */
+.service-icon-choose {
+    color: #ff0000;
     margin-bottom: 15px;
 }
 
-/* Register button styling */
-.role-service-button {
-    background-color: #eceff3;
-    color: rgb(16, 15, 15);
-    border: none;
-    font-size: 1rem;
+.role-service-card-choose h2 {
+    font-size: 24px;
+    color: #fff;
     font-weight: bold;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.role-service-button {
     width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #ff0000, #ff5900);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .role-service-button:hover {
-    background-color: #8b1a1a;
+    background: linear-gradient(90deg, #be2a08, #ff6600);
+    transform: scale(1.05);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .role-service-grid {
         flex-direction: column;
-        align-items: center;
+        gap: 20px;
+    }
+
+    .role-service-card {
+        width: 90%;
+        padding: 30px;
     }
 }

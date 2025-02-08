@@ -1,107 +1,108 @@
-.body{
-    background-image: url('../assets/background.png');
+/* Background Styling */
+body {
+    background-image: url('../assets/background.png'); /* Add a stylish background */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Poppins', sans-serif;
 }
-/* Customer Dashboard Styling */
+
+/* Container Styling */
 .customer-dashboard-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
 }
 
-/* Dashboard Card */
+/* Card Design with Glassmorphism Effect */
 .customer-dashboard-card {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 40px;
+    width: 420px;
     text-align: center;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease-in-out;
+}
+
+.customer-dashboard-card:hover {
+    transform: scale(1.02);
 }
 
 /* Title Styling */
 .customer-dashboard-title {
-    font-size: 2rem;
+    font-size: 28px;
+    color: #fff;
     font-weight: bold;
-    color: #333;
     margin-bottom: 10px;
 }
 
 .customer-dashboard-subtitle {
-    font-size: 1.2rem;
-    color: #666;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
     margin-bottom: 20px;
 }
 
 /* Dashboard Grid */
 .customer-dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     margin-top: 20px;
 }
 
-/* Dashboard Items */
+/* Dashboard Item */
 .dashboard-item {
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 12px;
     text-align: center;
+    transition: 0.3s;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
-.dashboard-item h3 {
-    font-size: 1.5rem;
-    color: #333;
+.dashboard-item:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px);
 }
 
-.dashboard-item p {
-    font-size: 1rem;
-    color: #666;
+/* Icons */
+.dashboard-icon {
+    color: #ff4b5c;
     margin-bottom: 10px;
 }
 
-/* Buttons */
+/* Dashboard Button */
 .dashboard-button {
-    background-color: #007bff;
-    color: white;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(90deg, #ff4b5c, #ff0000);
     border: none;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 8px 15px;
     border-radius: 8px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 .dashboard-button:hover {
-    background-color: #0056b3;
-}
-
-/* Logout Button */
-.logout-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 20px;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.logout-button:hover {
-    background-color: #c82333;
+    background: linear-gradient(90deg, #850d0d, #ff0000);
+    transform: scale(1.05);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .customer-dashboard-card {
         width: 90%;
+        padding: 30px;
+    }
+
+    .customer-dashboard-grid {
+        grid-template-columns: 1fr;
     }
 }

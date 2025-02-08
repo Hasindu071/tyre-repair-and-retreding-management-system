@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
-import '../styles/ChooseService.css'; // Import the CSS file for styling
-
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Navbar component
+import { FaTools, FaRecycle } from "react-icons/fa"; // Importing icons
+import '../styles/ChooseService.css'; // Import CSS file
 
 const ChooseService = () => {
   const navigate = useNavigate();
@@ -15,19 +15,30 @@ const ChooseService = () => {
     <div>
       <NewNavbar />
       <div className="role-service-selection-container">
+      <div className="select-service-container-back">
         <h1 className="title-service">Select Your Service</h1>
         <div className="role-service-grid">
-          {["Retreading", "Repairing"].map((role) => (
-            <div key={role} className="role-service-card">
-              <h2>{role}</h2>
-              <button onClick={() => handleRegister(role)} className="role-service-button">
-                Choose
-              </button>
-            </div>
-          ))}
+          {/* Retreading Service */}
+          <div className="role-service-card-choose">
+            <FaRecycle size={60} className="service-icon-choose" />
+            <h2>Retreading</h2>
+            <button onClick={() => handleRegister("Retreading")} className="role-service-button">
+              Choose
+            </button>
+          </div>
+
+          {/* Repairing Service */}
+          <div className="role-service-card-choose">
+            <FaTools size={60} className="service-icon-choose" />
+            <h2>Repairing</h2>
+            <button onClick={() => handleRegister("Repairing")} className="role-service-button">
+              Choose
+            </button>
+          </div>
         </div>
       </div>
     </div>
+</div>
   );
 };
 
