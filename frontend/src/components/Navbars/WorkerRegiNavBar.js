@@ -58,6 +58,13 @@ const Navbar = () => {
               </NavLink>
             </li>
 
+            {/* stock */}
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/Worker/Stocks" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+                Stocks
+              </NavLink>
+            </li>
+
             {/* Logout Button */}
             <li className="nav-item">
               <button className="btn btn-danger ms-3 px-4 py-2 fw-bold rounded" onClick={handleLogout}>

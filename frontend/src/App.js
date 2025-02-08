@@ -27,6 +27,7 @@ import WorkerProfile from './components/WorkerProfile';
 import WorkerMessage from './components/WorkerMassage';
 import Inquiries from './components/Inquiries';
 import OwnerProductInquiries from './components/OwnerProductInquiries';
+import WorkerStocks from './components/WorkerStocks';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path="/Worker/Message" element={<WorkerMessage />} />
           <Route path="/Inquiries" element={<Inquiries />} />
           <Route path="/OwnerProductInquiries" element={<OwnerProductInquiries />} />
+          <Route path="/Worker/Stocks" element={<WorkerStocks />} />
         </Routes>
       </div>
     </Router>

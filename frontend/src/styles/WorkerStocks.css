@@ -1,0 +1,40 @@
+body{
+    background-image: url('../assets/background.png');
+}
+.worker-stocks-container {
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.stocks-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.stocks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 10px;
+}
+
+.stock-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.stock-quantity {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.no-stocks {
+    text-align: center;
+    font-size: 1.2rem;
+    color: red;
+}
