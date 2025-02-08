@@ -1,0 +1,119 @@
+
+/* Container */
+.see-owner-payment-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f3f4f6);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: 0.3s;
+  }
+  
+  /* Title */
+  .title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Table */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .payment-table th,
+  .payment-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .payment-table th {
+    background-color: #575455;
+    color: white;
+  }
+  
+  .payment-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Status Colors */
+  .paid {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .pending {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Add Payment Form */
+  .add-payment-section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-payment-section h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ff0000;
+  }
+  
+  /* Form */
+  .payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .payment-form input,
+  .payment-form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .submit-btn {
+    background-color: #ff0040;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-btn:hover {
+    background-color: #b30000;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .payment-table th, .payment-table td {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .payment-form input,
+    .payment-form select {
+      font-size: 14px;
+    }
+  
+    .submit-btn {
+      font-size: 14px;
+    }
+  }
+  

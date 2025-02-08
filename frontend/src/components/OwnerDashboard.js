@@ -27,7 +27,7 @@ const OwnerDashboard = () => {
     }
 
     const WokerPayments = () => {
-        navigate("/WokerPayments"); // Redirect to WokerPayments page
+        navigate("/Owner/SeePayment"); // Redirect to WokerPayments page
     }
 
     return (
