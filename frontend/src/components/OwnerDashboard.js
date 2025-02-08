@@ -19,7 +19,7 @@ const OwnerDashboard = () => {
     }
 
     const HandleCustomer = () => {
-        navigate("/HandleCustomer"); // Redirect to HandleCustomer page
+        navigate("/CustomerHandle"); // Redirect to HandleCustomer page
     }
 
     const productInquiries = () => {
