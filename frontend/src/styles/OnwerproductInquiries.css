@@ -1,0 +1,114 @@
+/* General container styling */
+.owner-stock-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f3f4f6);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.owner-stock-container:hover {
+    transform: scale(1.02);
+}
+
+/* Title Styling */
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Table Styling */
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.stock-table th {
+    background-color: #545455;
+    color: white;
+    padding: 12px;
+    text-transform: uppercase;
+}
+
+.stock-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    color: #555;
+}
+
+.stock-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.stock-table tr:hover {
+    background-color: #e3f2fd;
+    transition: 0.3s;
+}
+
+/* Input Styling */
+.stock-table input {
+    width: 70px;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.stock-table input:focus {
+    border-color: #202021;
+    outline: none;
+    transform: scale(1.1);
+}
+
+/* Button Styling */
+.update-stock-btn {
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #a72828, #882121);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.update-stock-btn:hover {
+    background: linear-gradient(135deg, #882121, #7e311e);
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .owner-stock-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .stock-table th,
+    .stock-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .update-stock-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}

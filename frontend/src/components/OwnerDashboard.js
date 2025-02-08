@@ -23,7 +23,7 @@ const OwnerDashboard = () => {
     }
 
     const productInquiries = () => {
-        navigate("/productInquiries"); // Redirect to productInquiries page
+        navigate("/OwnerProductInquiries"); // Redirect to productInquiries page
     }
 
     const WokerPayments = () => {
