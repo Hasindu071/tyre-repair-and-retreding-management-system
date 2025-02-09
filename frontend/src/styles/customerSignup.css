@@ -1,82 +1,84 @@
-.container-customer-register{
-    background-image: url('../assets/background.png'); /* Ensure this path is correct */
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
+body{
+    background-image: url('../assets/background.png');
 }
-/* Container styling */
-.customer-register-container {
+/* Signup Container */
+.customer-signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #2d2d2d;
+    height: 100vh;
+    padding: 20px;
 }
 
-/* Form wrapper styling */
-.form-wrapper {
-    background-color: #ffffff;
+/* Signup Card */
+.customer-signup-card {
+    background: white;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
     width: 100%;
-    max-width: 500px;
+    text-align: center;
 }
 
-/* Title and subtitle styling */
-.form-title {
-    font-size: 2rem;
+/* Signup Title */
+.customer-signup-title {
+    font-size: 24px;
     font-weight: bold;
     color: #333;
-    text-align: center;
+    margin-bottom: 10px;
 }
 
-.form-subtitle {
-    font-size: 1rem;
+/* Subtitle */
+.customer-signup-subtitle {
+    font-size: 16px;
     color: #777;
-    text-align: center;
     margin-bottom: 20px;
 }
 
-/* Form styling */
-.form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.input-field {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* Form Group */
+.customer-signup-form-group {
     margin-bottom: 15px;
-    font-size: 1rem;
+}
+
+/* Input Fields */
+.customer-signup-input {
     width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
 }
 
-.input-field:focus {
-    border-color: #f5b4b4;
-    outline: none;
-}
-
-/* Button styling */
-.submit-button {
-    grid-column: span 2;
-    background-color: #ff4c4c;
+/* Submit Button */
+.customer-signup-button {
+    width: 100%;
+    padding: 10px;
+    background: #ff002f;
     color: white;
-    padding: 12px;
+    font-size: 16px;
     border: none;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    font-weight: bold;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: 0.3s;
 }
 
-.submit-button:hover {
-    background-color: #e63e3e;
+.customer-signup-button:hover {
+    background: #b30000;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 480px) {
+    .customer-signup-card {
+        padding: 20px;
+    }
+    
+    .customer-signup-input {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    .customer-signup-button {
+        font-size: 14px;
+    }
 }
