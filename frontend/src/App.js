@@ -30,6 +30,7 @@ import OwnerProductInquiries from './components/OwnerProductInquiries';
 import WorkerStocks from './components/WorkerStocks';
 import OwnerSeePayment from './components/OwnerSeePayment';
 import CustomerHandle from './components/CustomerHandle';
+import CustomerSignup from './components/CustomerSignup';
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
           <Route path="/Worker/Stocks" element={<WorkerStocks />} />
           <Route path="/Owner/SeePayment" element={<OwnerSeePayment />} />
           <Route path="/CustomerHandle" element={<CustomerHandle />} />
+          <Route path="/CustomerSignup" element={<CustomerSignup />} />
         </Routes>
       </div>
     </Router>

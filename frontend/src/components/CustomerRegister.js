@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './NavBar';  // Assuming you have a NavBar component
 import '../styles/customerRegister.css';  // Import the CSS file for styling
 
 const CustomerRegister = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        email: '',
         nic: '',
         phone1: '',
         phone2: '',
         houseName: '',
         city: '',
         state: '',
-        password: '',
-        rePassword: ''
     });
 
     const handleChange = (e) => {
@@ -28,11 +28,8 @@ const CustomerRegister = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData.password !== formData.rePassword) {
-            alert("Passwords do not match!");
-            return;
-        }
         console.log('Form submitted:', formData);
+        navigate('/CustomerSignup'); // Redirect to the signup page
     };
 
     return (
@@ -64,17 +61,6 @@ const CustomerRegister = () => {
                                     name="lastName"
                                     placeholder="Last Name"
                                     value={formData.lastName}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
-                            <div className="col-md-6 mb-3">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    value={formData.email}
                                     onChange={handleChange}
                                     className="form-control"
                                     required
@@ -145,31 +131,9 @@ const CustomerRegister = () => {
                                     required
                                 />
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
-                            <div className="col-md-6 mb-3">
-                                <input
-                                    type="password"
-                                    name="rePassword"
-                                    placeholder="Re-enter Password"
-                                    value={formData.rePassword}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
                             <div className="col-12">
                                 <button type="submit" className="btn btn-danger w-100">
-                                    Submit
+                                    Next
                                 </button>
                             </div>
                         </div>
