@@ -7,8 +7,7 @@ import '../styles/WorkerLogin.css';
 const WorkerLogin = () => {
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
-        secretKey: ''
+        password: ''
     });
 
     const navigate = useNavigate();
@@ -51,17 +50,6 @@ const WorkerLogin = () => {
                                 name="password"
                                 placeholder="Password"
                                 value={formData.password}
-                                onChange={handleChange}
-                                className="worker-input"
-                                required
-                            />
-                        </div>
-                        <div className="worker-input-group">
-                            <input
-                                type="text"
-                                name="secretKey"
-                                placeholder="Secret Key"
-                                value={formData.secretKey}
                                 onChange={handleChange}
                                 className="worker-input"
                                 required

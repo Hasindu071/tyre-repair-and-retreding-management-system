@@ -7,8 +7,7 @@ import '../styles/OwnerLogin.css'; // Import the CSS file
 const OwnerLogin = () => {
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
-        secretKey: ''
+        password: ''
     });
 
     const [resetMode, setResetMode] = useState(false); // Toggle between login and reset mode
@@ -91,17 +90,6 @@ const OwnerLogin = () => {
                                     name="password"
                                     placeholder="Password"
                                     value={formData.password}
-                                    onChange={handleChange}
-                                    className="owner-input"
-                                    required
-                                />
-                            </div>
-                            <div className="owner-input-group">
-                                <input
-                                    type="text"
-                                    name="secretKey"
-                                    placeholder="Secret Key"
-                                    value={formData.secretKey}
                                     onChange={handleChange}
                                     className="owner-input"
                                     required
