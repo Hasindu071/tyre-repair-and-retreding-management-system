@@ -8,10 +8,14 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // Import routes
-const registerRoute = require('./routes/OwnerRegister');
+const Owner_registerRoute = require('./routes/OwnerRegister');
+const customer_registerRoute = require('./routes/CustomerRegister');
+const Worker_registerRoute = require('./routes/WorkerRegister');
 
 // Use routes
-app.use('/OwnerRegister', registerRoute);
+app.use('/OwnerRegister', Owner_registerRoute);
+app.use('/CustomerRegister', customer_registerRoute);
+app.use('/WorkerRegister', Worker_registerRoute);
 
 app.listen(port, () => {
     console.log(`🚀 Server is running on http://localhost:${port}`);
