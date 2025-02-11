@@ -32,6 +32,7 @@ import OwnerSeePayment from './components/OwnerSeePayment';
 import CustomerHandle from './components/CustomerHandle';
 import CustomerSignup from './components/CustomerSignup';
 import WorkerSignup from './components/WorkerSignup';
+import CustomerNotice from './components/CustomerNotice';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
           <Route path="/CustomerHandle" element={<CustomerHandle />} />
           <Route path="/CustomerSignup" element={<CustomerSignup />} />
           <Route path="/WorkerSignup" element={<WorkerSignup />} />
+          <Route path="/notice" element={<CustomerNotice />} />
         </Routes>
       </div>
     </Router>
