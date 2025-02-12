@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Navbar from './NavBar'; // Import the Navbar component
+import Navbar from '../components/NavBar'; // Import the Navbar component
 import '../styles/contact.css'; // Updated CSS file with unique class names
 
 const Contact = () => {

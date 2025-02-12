@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // You can still use Bootstrap for grid layout, if needed.
-import Navbar from './NavBar';  // Assuming you have a NavBar component
+import Navbar from '../components/NavBar';  // Assuming you have a NavBar component
 import '../styles/OwnerRegister.css'; // Assuming you have a CSS file for styling
 import { registerOwner } from '../api'; // Import the registerOwner function
 

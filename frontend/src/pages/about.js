@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Navbar from './NavBar'; // Import the Navbar component
+import Navbar from '../components/NavBar'; // Import the Navbar component
 import background from '../assets/background.png'; 
 import '../styles/about.css';
 

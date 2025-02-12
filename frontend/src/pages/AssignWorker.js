@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Import the Navbar component
+import Navbar from '../components/NavBar'; // Import the Navbar component
 import "../styles/AssignWorker.css"; // Import the CSS file
 
 const AssignWorker = () => {

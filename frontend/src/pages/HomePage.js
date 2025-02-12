@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import background from '../assets/background.png'; 
-import Navbar from './NavBar';
+import Navbar from '../components/NavBar';
 import '../styles/HomePage.css';
 import { useNavigate } from "react-router-dom";
 

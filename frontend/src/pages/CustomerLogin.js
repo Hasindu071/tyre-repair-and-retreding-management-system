@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Assuming you have a Navbar component
+import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
 import '../styles/CustomerLogin.css'; // Import the CSS file
 
 const CustomerLogin = () => {

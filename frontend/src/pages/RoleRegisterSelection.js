@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar'; // Import the Navbar component
+import Navbar from '../components/NavBar'; // Import the Navbar component
 import { FaUser, FaUserTie, FaUserCog } from "react-icons/fa"; // FontAwesome icons
 import '../styles/RoleSelection.css'; // Import the CSS file for styling
 

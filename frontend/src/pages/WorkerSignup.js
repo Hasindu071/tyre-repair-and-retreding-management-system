@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar';
-import '../styles/customerSignup.css';
+import Navbar from '../components/NavBar';
+import '../styles/WorkerSignup.css';
 
-const CustomerSignup = () => {
+const WorkerSignup = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const previousFormData = location.state?.formData || {};  // Get previous form data
@@ -40,17 +40,17 @@ const CustomerSignup = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/registerCustomer', finalData, {
+            const response = await axios.post('http://localhost:5000/registerWorker', finalData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
-            console.log('Customer registered:', response.data);
+            console.log('Worker registered:', response.data);
             alert('Registration successful!');
-            navigate('/login/Customer'); // Redirect after success
+            navigate('/login/worker'); // Redirect after success
         } catch (error) {
-            console.error('Error registering customer:', error);
+            console.error('Error registering Worker:', error);
             alert('Registration failed! Please try again.');
         }
     };
@@ -59,9 +59,9 @@ const CustomerSignup = () => {
         <div>
             <Navbar />
 
-            <div className="customer-signup-container">
-                <div className="customer-signup-card">
-                    <h2 className="customer-signup-title">Customer <span>SignUp</span></h2>
+            <div className="worker-signup-container">
+                <div className="worker-signup-card">
+                    <h2 className="worker-signup-title">Worker <span>SignUp</span></h2>
 
                     <form onSubmit={handleSubmit}>
                         <input
@@ -70,7 +70,7 @@ const CustomerSignup = () => {
                             placeholder="Email"
                             value={signupData.email}
                             onChange={handleChange}
-                            className="customer-signup-input"
+                            className="worker-signup-input"
                             required
                         />
                         <input
@@ -79,7 +79,7 @@ const CustomerSignup = () => {
                             placeholder="Password"
                             value={signupData.password}
                             onChange={handleChange}
-                            className="customer-signup-input"
+                            className="worker-signup-input"
                             required
                         />
                         <input
@@ -88,10 +88,10 @@ const CustomerSignup = () => {
                             placeholder="Re-enter Password"
                             value={signupData.rePassword}
                             onChange={handleChange}
-                            className="customer-signup-input"
+                            className="worker-signup-input"
                             required
                         />
-                        <button type="submit" className="customer-signup-button">
+                        <button type="submit" className="worker-signup-button">
                             Submit
                         </button>
                     </form>
@@ -101,4 +101,4 @@ const CustomerSignup = () => {
     );
 };
 
-export default CustomerSignup;
+export default WorkerSignup;

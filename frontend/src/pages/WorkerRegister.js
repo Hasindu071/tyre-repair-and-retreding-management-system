@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar';
+import Navbar from '../components/NavBar';
 import '../styles/WorkerRegister.css'; // Import the CSS file for styling
 
 const WorkerRegister = () => {
