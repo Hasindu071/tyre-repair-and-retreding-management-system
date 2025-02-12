@@ -29,7 +29,7 @@ const WorkerRegister = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
-        navigate('/WorkerSignup'); 
+        navigate('/WorkerSignup', { state: { formData } });
     };
 
     return (

@@ -48,7 +48,7 @@ const CustomerSignup = () => {
 
             console.log('Customer registered:', response.data);
             alert('Registration successful!');
-            navigate('/Customer/login'); // Redirect after success
+            navigate('/login/Customer'); // Redirect after success
         } catch (error) {
             console.error('Error registering customer:', error);
             alert('Registration failed! Please try again.');
