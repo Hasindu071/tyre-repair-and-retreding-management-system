@@ -45,7 +45,7 @@ const OwnerRegister = () => {
         try {
             await registerOwner(formData);
             console.log('Owner registered successfully');
-            navigate('/OwnerDashboard'); // Redirect after successful registration
+            navigate('/login/owner'); // Redirect after successful registration
         } catch (error) {
             console.error('Error registering owner:', error);
         }
