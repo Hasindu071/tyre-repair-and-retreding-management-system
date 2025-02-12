@@ -14,8 +14,7 @@ const OwnerRegister = () => {
         lastName: '',
         email: '',
         password: '',
-        Confirm_Password: '',
-        secretKey: ''
+        Confirm_Password: ''
     });
 
     useEffect(() => {
@@ -121,7 +120,7 @@ const OwnerRegister = () => {
                             </div>
                             <div className="custom-col">
                                 <input
-                                    type="text"
+                                    type="password"
                                     name="secretKey"
                                     placeholder="Secret Key"
                                     value={formData.secretKey}

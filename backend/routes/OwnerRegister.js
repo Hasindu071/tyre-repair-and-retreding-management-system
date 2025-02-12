@@ -21,17 +21,17 @@ db.connect((err) => {
 
 // Register route
 router.post('/', async (req, res) => {
-    const { firstName, lastName, email, password, Confirm_Password, secretKey } = req.body;
+    const { firstName, lastName, email, password, Confirm_Password} = req.body;
 
-    if (!firstName || !lastName || !email || !password || !Confirm_Password || !secretKey) {
+    if (!firstName || !lastName || !email || !password || !Confirm_Password ) {
         return res.status(400).send('All fields are required.');
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const query = 'INSERT INTO owner_register (firstName, lastName, email, password, secretKey) VALUES (?, ?, ?, ?, ?)';
-        db.query(query, [firstName, lastName, email, hashedPassword, secretKey], (err, results) => {
+        const query = 'INSERT INTO owner_register (firstName, lastName, email, password) VALUES (?, ?, ?, ?)';
+        db.query(query, [firstName, lastName, email, hashedPassword], (err, results) => {
             if (err) {
                 console.error('Error inserting data:', err);
                 return res.status(500).send('Server error.');
