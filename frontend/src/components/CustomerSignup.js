@@ -1,35 +1,64 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './NavBar';  // Assuming you have a NavBar component
-import '../styles/customerSignup.css';  // Updated CSS file name
+import Navbar from './NavBar';
+import '../styles/customerSignup.css';
 
 const CustomerSignup = () => {
-    const [formData, setFormData] = useState({
+    const location = useLocation();
+    const navigate = useNavigate();
+    const previousFormData = location.state?.formData || {};  // Get previous form data
+
+    const [signupData, setSignupData] = useState({
         email: '',
         password: '',
-        rePassword: ''
+        rePassword: '',
+        secretKey: ''
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setSignupData({
+            ...signupData,
             [name]: value
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.password !== formData.rePassword) {
+
+        if (signupData.password !== signupData.rePassword) {
             alert("Passwords do not match!");
             return;
         }
-        console.log('Form submitted:', formData);
+
+        // Merge both formData and signupData
+        const finalData = {
+            ...previousFormData,
+            email: signupData.email,
+            password: signupData.password,
+            secretKey: signupData.secretKey
+        };
+
+        try {
+            const response = await axios.post('http://localhost:5000/registerCustomer', finalData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('Customer registered:', response.data);
+            alert('Registration successful!');
+            navigate('/CustomerDashboard'); // Redirect after success
+        } catch (error) {
+            console.error('Error registering customer:', error);
+            alert('Registration failed! Please try again.');
+        }
     };
 
     return (
         <div>
-            {/* Include Navbar */}
             <Navbar />
 
             <div className="customer-signup-container">
@@ -37,50 +66,42 @@ const CustomerSignup = () => {
                     <h2 className="customer-signup-title">Customer <span>SignUp</span></h2>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="customer-signup-form-group">
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="customer-signup-input"
-                                required
-                            />
-                        </div>
-                        <div className="customer-signup-form-group">
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="customer-signup-input"
-                                required
-                            />
-                        </div>
-                        <div className="customer-signup-form-group">
-                            <input
-                                type="password"
-                                name="rePassword"
-                                placeholder="Re-enter Password"
-                                value={formData.rePassword}
-                                onChange={handleChange}
-                                className="customer-signup-input"
-                                required
-                            />
-                        </div>
-                        <div className="customer-signup-form-group">
-                                <input
-                                    type="text"
-                                    name="secretKey"
-                                    placeholder="Secret Key"
-                                    value={formData.secretKey}
-                                    onChange={handleChange}
-                                    className="customer-signup-input"
-                                    required
-                                />
-                            </div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={signupData.email}
+                            onChange={handleChange}
+                            className="customer-signup-input"
+                            required
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={signupData.password}
+                            onChange={handleChange}
+                            className="customer-signup-input"
+                            required
+                        />
+                        <input
+                            type="password"
+                            name="rePassword"
+                            placeholder="Re-enter Password"
+                            value={signupData.rePassword}
+                            onChange={handleChange}
+                            className="customer-signup-input"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="secretKey"
+                            placeholder="Secret Key"
+                            value={signupData.secretKey}
+                            onChange={handleChange}
+                            className="customer-signup-input"
+                            required
+                        />
                         <button type="submit" className="customer-signup-button">
                             Submit
                         </button>
