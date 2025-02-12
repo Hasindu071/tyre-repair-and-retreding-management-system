@@ -1,13 +1,30 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const mysql = require('mysql2');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json()); 
+app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
+
+// MySQL connection
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
+
+db.connect((err) => {
+    if (err) {
+        console.error('❌ Database connection failed:', err);
+        return;
+    }
+    console.log('✅ Connected to the MySQL database.');
+});
 
 // Import routes
 const ownerRegisterRoute = require('./routes/OwnerRegister');
@@ -19,10 +36,16 @@ app.use('/CustomerRegister', customerRegisterRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', (req, res) => {
-    console.log('Received customer data:', req.body);
-    
-    // Simulate saving to database (Replace with actual DB logic)
-    res.json({ message: 'Customer registered successfully', data: req.body });
+    const { firstName, lastName, nic, phone1, phone2, houseName, city, state, email, password } = req.body;
+
+    const query = 'INSERT INTO customer_register (firstName, lastName, nic, phone1, phone2, houseName, city, state, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    db.query(query, [firstName, lastName, nic, phone1, phone2, houseName, city, state, email, password], (err, results) => {
+        if (err) {
+            console.error('Error inserting data:', err);
+            return res.status(500).send('Server error.');
+        }
+        res.status(201).send('Customer registered successfully.');
+    });
 });
 
 // Start server

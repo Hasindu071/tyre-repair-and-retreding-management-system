@@ -31,17 +31,12 @@ const CustomerSignup = () => {
             alert("Passwords do not match!");
             return;
         }
-        else if (signupData.secretKey !== "123") {
-            alert("Invalid secret key!");
-            return;
-        }
 
         // Merge both formData and signupData
         const finalData = {
             ...previousFormData,
             email: signupData.email,
-            password: signupData.password,
-            secretKey: signupData.secretKey
+            password: signupData.password
         };
 
         try {
@@ -92,15 +87,6 @@ const CustomerSignup = () => {
                             name="rePassword"
                             placeholder="Re-enter Password"
                             value={signupData.rePassword}
-                            onChange={handleChange}
-                            className="customer-signup-input"
-                            required
-                        />
-                        <input
-                            type="password"
-                            name="secretKey"
-                            placeholder="Secret Key"
-                            value={signupData.secretKey}
                             onChange={handleChange}
                             className="customer-signup-input"
                             required
