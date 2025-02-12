@@ -1,22 +1,21 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000; 
 
-app.use(bodyParser.json());
+// Middleware
+app.use(express.json()); // Replaces body-parser
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Import routes
-const Owner_registerRoute = require('./routes/OwnerRegister');
-const customer_registerRoute = require('./routes/CustomerRegister');
-const Worker_registerRoute = require('./routes/WorkerRegister');
+const ownerRegisterRoute = require('./routes/OwnerRegister');
 
 // Use routes
-app.use('/OwnerRegister', Owner_registerRoute);
-app.use('/CustomerRegister', customer_registerRoute);
-app.use('/WorkerRegister', Worker_registerRoute);
+app.use('/OwnerRegister', ownerRegisterRoute);
 
+// Start server
 app.listen(port, () => {
     console.log(`🚀 Server is running on http://localhost:${port}`);
-});0
+});
