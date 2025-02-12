@@ -11,9 +11,11 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Import routes
 const ownerRegisterRoute = require('./routes/OwnerRegister');
+const customerRegisterRoute = require('./routes/CustomerRegister');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
+app.use('/CustomerRegister', customerRegisterRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', (req, res) => {

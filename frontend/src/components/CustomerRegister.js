@@ -29,7 +29,7 @@ const CustomerRegister = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
-navigate('/CustomerSignup', { state: { formData } });    };
+        navigate('/CustomerSignup', { state: { formData } });    };
 
     return (
         <div>

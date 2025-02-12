@@ -13,8 +13,7 @@ const CustomerSignup = () => {
     const [signupData, setSignupData] = useState({
         email: '',
         password: '',
-        rePassword: '',
-        secretKey: ''
+        rePassword: ''
     });
 
     const handleChange = (e) => {
@@ -30,6 +29,10 @@ const CustomerSignup = () => {
 
         if (signupData.password !== signupData.rePassword) {
             alert("Passwords do not match!");
+            return;
+        }
+        else if (signupData.secretKey !== "123") {
+            alert("Invalid secret key!");
             return;
         }
 
@@ -50,7 +53,7 @@ const CustomerSignup = () => {
 
             console.log('Customer registered:', response.data);
             alert('Registration successful!');
-            navigate('/CustomerDashboard'); // Redirect after success
+            navigate('/Customer/login'); // Redirect after success
         } catch (error) {
             console.error('Error registering customer:', error);
             alert('Registration failed! Please try again.');
@@ -94,7 +97,7 @@ const CustomerSignup = () => {
                             required
                         />
                         <input
-                            type="text"
+                            type="password"
                             name="secretKey"
                             placeholder="Secret Key"
                             value={signupData.secretKey}
