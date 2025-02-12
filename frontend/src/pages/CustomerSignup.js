@@ -5,6 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar';
 import '../styles/customerSignup.css';
 
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+
+
 const CustomerSignup = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -28,7 +32,7 @@ const CustomerSignup = () => {
         e.preventDefault();
 
         if (signupData.password !== signupData.rePassword) {
-            alert("Passwords do not match!");
+            toast.error("Passwords do not match!");
             return;
         }
 
@@ -47,11 +51,11 @@ const CustomerSignup = () => {
             });
 
             console.log('Customer registered:', response.data);
-            alert('Registration successful!');
+            toast.success('Registration successful!');
             navigate('/login/Customer'); // Redirect after success
         } catch (error) {
             console.error('Error registering customer:', error);
-            alert('Registration failed! Please try again.');
+            toast.error('Registration failed! Please try again.');
         }
     };
 
