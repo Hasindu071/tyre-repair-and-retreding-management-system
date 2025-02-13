@@ -1,0 +1,84 @@
+/* Sidebar Styling */
+.sidebar {
+    width: 80px;
+    height: 100vh;
+    background: linear-gradient(135deg, #6e3131, #5e3434);
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease-in-out;
+    overflow-x: hidden;
+    padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* Open Sidebar */
+.sidebar.open {
+    width: 250px;
+}
+
+/* Sidebar Toggle Button */
+.toggle-btn {
+    position: absolute;
+    top: 15px;
+    right: -45px;
+    background: #5e3a34;
+    color: white;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.toggle-btn:hover {
+    background: #1abc9c;
+}
+
+/* Sidebar Navigation */
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 50px;
+}
+
+/* Sidebar Items */
+.nav-list li {
+    margin: 10px 0;
+}
+
+/* Sidebar Links */
+.nav-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    transition: 0.3s;
+    border-radius: 30px;
+    margin: 0 15px;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* Sidebar Icons */
+.icon {
+    font-size: 22px;
+    margin-right: 15px;
+}
+
+/* Hide Text when Collapsed */
+.sidebar:not(.open) .nav-text {
+    display: none;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
+import OwnerSidebar from "../components/SideNav";
 import "../styles/OnwerproductInquiries.css"; // Import the CSS file
 
 const OwnerProductInquiries = () => {
@@ -20,6 +21,7 @@ const OwnerProductInquiries = () => {
     return (
         <div>
             <NewNavbar />
+            <OwnerSidebar />
             <div className="owner-stock-container">
                 <h2 className="title">Product Stock Levels</h2>
                 <table className="stock-table">

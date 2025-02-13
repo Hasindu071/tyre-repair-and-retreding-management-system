@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/CustomerHandle.css"; // Import CSS file
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
+import OwnerSidebar from "../components/SideNav";
 
 const CustomerHandle = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,6 +21,7 @@ const CustomerHandle = () => {
   return (
     <div>
       <NewNavbar />
+      <OwnerSidebar />
       <div className="customer-handle-container">
         <h2 className="title">Customer Details</h2>
 

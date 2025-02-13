@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/SeePayment.css"; // Import CSS file
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
+import OwnerSidebar from "../components/SideNav";
 
 const SeePayment = () => {
   const [payments, setPayments] = useState([
@@ -37,6 +38,7 @@ const SeePayment = () => {
   return (
     <div>
       <NewNavbar />
+      <OwnerSidebar />
       <div className="see-owner-payment-container">
         <h2 className="title">Payment Records</h2>
 

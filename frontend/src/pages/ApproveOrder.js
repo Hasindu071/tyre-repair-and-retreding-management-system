@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar'; // Import the Navbar component
+import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveOrder.css"; // Import the CSS file
 
 const ApproveOrder = () => {
@@ -45,6 +46,7 @@ const ApproveOrder = () => {
   return (
     <div>
     <Navbar />
+    <OwnerSidebar />
     <div className="approve-order-container">
       <h2 className="title">Approve Orders</h2>
       <table className="order-table">

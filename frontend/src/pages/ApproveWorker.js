@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar'; // Import the Navbar component
+import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveWorker.css"; // Import the CSS file
 
 const ApproveWorker = () => {
@@ -45,6 +46,7 @@ const ApproveWorker = () => {
   return (
     <div>
         <Navbar />
+        <OwnerSidebar />
     <div className="approve-worker-container">
       <h2 className="title">Approve Worker</h2>
       <table className="worker-table">
