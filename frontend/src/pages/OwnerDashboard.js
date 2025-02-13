@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaClipboardCheck, FaUsers, FaUserPlus, FaShoppingCart, FaBox, FaDollarSign } from 'react-icons/fa';
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
 
@@ -41,37 +42,49 @@ const OwnerDashboard = () => {
                     {/* Approve Customer Orders */}
                     <div className="dashboard-section-owner">
                         <h3>Approve Customer Orders</h3>
-                        <button className="dashboard-button-owner"  onClick={ApproveOrder}>View Orders</button>
+                        <button className="dashboard-button-owner" onClick={ApproveOrder}>
+                            <FaClipboardCheck className="icon" /> View Orders
+                        </button>
                     </div>
 
                     {/* Assign Workers */}
                     <div className="dashboard-section-owner">
                         <h3>Assign Workers</h3>
-                        <button className="dashboard-button-owner" onClick={AssingWorker}>Assign</button>
+                        <button className="dashboard-button-owner" onClick={AssingWorker}>
+                            <FaUsers className="icon" /> Assign
+                        </button>
                     </div>
 
                     {/* Approve New Workers */}
                     <div className="dashboard-section-owner">
                         <h3>Approve New Workers</h3>
-                        <button className="dashboard-button-owner" onClick={ApproveWorker}>Approve</button>
+                        <button className="dashboard-button-owner" onClick={ApproveWorker}>
+                            <FaUserPlus className="icon" /> Approve
+                        </button>
                     </div>
 
                     {/* Handle Customer */}
                     <div className="dashboard-section-owner">
                         <h3>Handle Customer</h3>
-                        <button className="dashboard-button-owner" onClick={HandleCustomer}>Approve</button>
+                        <button className="dashboard-button-owner" onClick={HandleCustomer}>
+                            <FaShoppingCart className="icon" /> Approve
+                        </button>
                     </div>
 
-                    {/* product inquiries */}
+                    {/* Product Inquiries */}
                     <div className="dashboard-section-owner">
-                        <h3>product inquiries</h3>
-                        <button className="dashboard-button-owner" onClick={productInquiries}>Approve</button>
+                        <h3>Product Inquiries</h3>
+                        <button className="dashboard-button-owner" onClick={productInquiries}>
+                            <FaBox className="icon" /> Approve
+                        </button>
                     </div>
 
-                    {/* Woker payments */}
+                    {/* Worker Payments */}
                     <div className="dashboard-section-owner">
-                        <h3>Woker payments</h3>
-                        <button className="dashboard-button-owner" onClick={WokerPayments}>Approve</button>
+                        <h3>Worker Payments</h3>
+                        <button className="dashboard-button-owner" onClick={WokerPayments}>
+                            <FaDollarSign className="icon" /> Approve
+                        </button>
                     </div>
                 </div>
             </div>
