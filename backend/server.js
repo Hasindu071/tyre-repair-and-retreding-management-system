@@ -30,11 +30,13 @@ db.connect((err) => {
 const ownerRegisterRoute = require('./routes/OwnerRegister');
 const customerRegisterRoute = require('./routes/CustomerRegister');
 const workerRegisterRoute = require('./routes/WorkerRegister');
+const ownerLoginRoute = require('./routes/OwnerLogin');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
 app.use('/CustomerRegister', customerRegisterRoute);
 app.use('/WorkerRegister', workerRegisterRoute);
+app.use('/loginOwner', ownerLoginRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', (req, res) => {

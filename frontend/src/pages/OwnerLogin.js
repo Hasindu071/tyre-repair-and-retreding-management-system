@@ -12,6 +12,7 @@ const OwnerLogin = () => {
 
     const [resetMode, setResetMode] = useState(false); // Toggle between login and reset mode
     const [resetEmail, setResetEmail] = useState("");
+    const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
 
     const navigate = useNavigate();
 
@@ -27,11 +28,26 @@ const OwnerLogin = () => {
         setResetEmail(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Owner Login Data:', formData);
-        // Add authentication logic here
-        navigate('/OwnerDashboard'); // Redirect after successful login
+        try {
+            const response = await fetch('http://localhost:5000/loginOwner', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            if (data.success) {
+                navigate('/OwnerDashboard'); // Redirect after successful login
+            } else {
+                setErrorMessage('Login failed! Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setErrorMessage('An error occurred. Please try again.');
+        }
     };
 
     const handleResetSubmit = (e) => {
@@ -98,6 +114,7 @@ const OwnerLogin = () => {
                             <button type="submit" className="owner-login-button">
                                 Login
                             </button>
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
                             <p className="forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</p>
                         </form>
                     )}
