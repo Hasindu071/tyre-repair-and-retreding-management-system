@@ -36,7 +36,7 @@ const ownerLoginRoute = require('./routes/OwnerLogin');
 app.use('/OwnerRegister', ownerRegisterRoute);
 app.use('/CustomerRegister', customerRegisterRoute);
 app.use('/WorkerRegister', workerRegisterRoute);
-app.use('/loginOwner', ownerLoginRoute);
+app.use('/OwnerLogin', ownerLoginRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', (req, res) => {

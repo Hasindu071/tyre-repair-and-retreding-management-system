@@ -21,7 +21,7 @@ db.connect((err) => {
 });
 
 // Login route
-router.post('/loginOwner', (req, res) => {
+router.post('/OwnerLogin', (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
