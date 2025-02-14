@@ -31,7 +31,7 @@ const OwnerLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/loginOwner', {
+            const response = await fetch('http://localhost:5000/OwnerLogin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
