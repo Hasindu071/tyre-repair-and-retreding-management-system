@@ -4,7 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // You can still use Bootstrap for grid layout, if needed.
 import Navbar from '../components/NavBar';  // Assuming you have a NavBar component
 import '../styles/OwnerRegister.css'; // Assuming you have a CSS file for styling
-import { registerOwner } from '../api'; // Import the registerOwner function
+//import { registerOwner } from '../api'; // Import the registerOwner function
+const API_URL = "http://localhost:5000";
+
+export const registerOwner = async (ownerData) => {
+  try {
+    const response = await axios.post(`${API_URL}/OwnerRegister`, ownerData);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering owner:", error);
+    throw error;
+  }
+};
 
 const OwnerRegister = () => {
     const [setUsers] = useState([]);
