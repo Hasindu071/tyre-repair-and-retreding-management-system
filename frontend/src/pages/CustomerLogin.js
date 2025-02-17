@@ -4,12 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
 import '../styles/CustomerLogin.css'; // Import the CSS file
 
+const API_URL = "http://localhost:5000";
+
 const CustomerLogin = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
+    const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -20,11 +23,26 @@ const CustomerLogin = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Customer Login Data:', formData);
-        // Add authentication logic here
-        navigate('/CustomerDashboard'); // Redirect after successful login (adjust the route accordingly)
+        try {
+            const response = await fetch(`${API_URL}/Customer/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            if (data.success) {
+                navigate('/CustomerDashboard'); // Redirect after successful login
+            } else {
+                setErrorMessage('Login failed! Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setErrorMessage('An error occurred. Please try again.');
+        }
     };
 
     const handleGoogleLogin = () => {
@@ -64,6 +82,7 @@ const CustomerLogin = () => {
                         <button type="submit" className="customer-login-button">
                             Login
                         </button>
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <a href="/forgot-password" className="worker-forgot-password">Forgot Password?</a>
                         <button type="button" className="customer-google-login" onClick={handleGoogleLogin}>
                             Continue with Google

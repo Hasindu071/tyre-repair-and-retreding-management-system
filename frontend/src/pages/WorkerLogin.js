@@ -4,12 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar';
 import '../styles/WorkerLogin.css';
 
+const API_URL = "http://localhost:5000";
+
 const WorkerLogin = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
+    const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -20,10 +23,26 @@ const WorkerLogin = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Login Data:', formData);
-        navigate('/WorkerDashboard');
+        try {
+            const response = await fetch(`${API_URL}/Worker/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            if (data.success) {
+                navigate('/WorkerDashboard'); // Redirect after successful login
+            } else {
+                setErrorMessage('Login failed! Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setErrorMessage('An error occurred. Please try again.');
+        }
     };
 
     return (
@@ -56,6 +75,7 @@ const WorkerLogin = () => {
                             />
                         </div>
                         <button type="submit" className="worker-login-button">Login</button>
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
                     </form>
                     <div className="worker-login-options">
                         <a href="/forgot-password" className="worker-forgot-password">Forgot Password?</a>

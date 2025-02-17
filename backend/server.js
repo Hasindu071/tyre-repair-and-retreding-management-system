@@ -31,12 +31,16 @@ const ownerRegisterRoute = require('./routes/OwnerRegister');
 const customerRegisterRoute = require('./routes/CustomerRegister');
 const workerRegisterRoute = require('./routes/WorkerRegister');
 const ownerLoginRoute = require('./routes/OwnerLogin');
+const workerLoginRoute = require('./routes/WorkerLogin');
+const customerLoginRoute = require('./routes/CustomerLogin');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
 app.use('/CustomerRegister', customerRegisterRoute);
 app.use('/WorkerRegister', workerRegisterRoute);
 app.use('/Owner', ownerLoginRoute);
+app.use('/Woker', workerLoginRoute);
+app.use('/Customer', customerLoginRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', (req, res) => {
