@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
 import '../styles/OwnerLogin.css'; // Import the CSS file
 
+const API_URL = "http://localhost:5000";
+
 const OwnerLogin = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -31,7 +33,7 @@ const OwnerLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/OwnerLogin', {
+            const response = await fetch(`${API_URL}/Owner/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

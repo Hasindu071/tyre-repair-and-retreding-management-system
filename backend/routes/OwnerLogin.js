@@ -21,7 +21,7 @@ db.connect((err) => {
 });
 
 // Login route
-router.post('/OwnerLogin', (req, res) => {
+router.post('/login', (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -50,5 +50,4 @@ router.post('/OwnerLogin', (req, res) => {
         res.json({ success: true, token });
     });
 });
-
 module.exports = router;
