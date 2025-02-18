@@ -33,6 +33,19 @@ const WorkerLogin = () => {
                 },
                 body: JSON.stringify(formData)
             });
+
+            if (!response.ok) {
+                // Handle different HTTP status codes
+                if (response.status === 404) {
+                    setErrorMessage('Endpoint not found. Please check the server URL.');
+                } else if (response.status === 400) {
+                    setErrorMessage('Invalid credentials. Please check your email and password.');
+                } else {
+                    setErrorMessage('An error occurred. Please try again.');
+                }
+                return;
+            }
+
             const data = await response.json();
             if (data.success) {
                 navigate('/WorkerDashboard'); // Redirect after successful login

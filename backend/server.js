@@ -39,7 +39,7 @@ app.use('/OwnerRegister', ownerRegisterRoute);
 app.use('/CustomerRegister', customerRegisterRoute);
 app.use('/WorkerRegister', workerRegisterRoute);
 app.use('/Owner', ownerLoginRoute);
-app.use('/Woker', workerLoginRoute);
+app.use('/Worker', workerLoginRoute);
 app.use('/Customer', customerLoginRoute);
 
 // ✅ Add Customer Registration Route
