@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaUpload } from "react-icons/fa"; // Added icon for upload
 import NewNavbar from "../components/Navbars/CustomerRegiNavBar";
 import "../styles/Repairing.css"; // Import CSS file
+import axios from 'axios'; // Import axios for HTTP requests
 
 const RepairServiceForm = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,19 @@ const RepairServiceForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    const data = new FormData();
+    for (const key in formData) {
+      data.append(key, formData[key]);
+    }
+
+    axios.post('http://localhost:5000/api/repairing/submit', data)
+      .then(response => {
+        console.log('Form submitted:', response.data);
+        // Add any additional logic after successful form submission
+      })
+      .catch(error => {
+        console.error('There was an error submitting the form!', error);
+      });
   };
 
   return (
@@ -56,39 +69,38 @@ const RepairServiceForm = () => {
           </div>
 
           {/* Image Upload Section */}
-          {/* Image Upload Section */}
-        <div className="repair-section">
-          <h3>Upload Tire Damage Photos</h3>
-          <div className="repair-image-upload">
-            
-            {/* Inside Damage Photo Upload */}
-            <label className="repair-upload-box">
-              {formData.insideDamagePhoto ? (
-                <img src={formData.insideDamagePhoto} alt="Inside Damage" className="uploaded-image" />
-              ) : (
-                <>
-                  <FaUpload className="upload-icon" />
-                  <span>Inside Damage Photo</span>
-                </>
-              )}
-              <input type="file" name="insideDamagePhoto" accept="image/*" onChange={handleChange} hidden />
-            </label>
+          <div className="repair-section">
+            <h3>Upload Tire Damage Photos</h3>
+            <div className="repair-image-upload">
+              
+              {/* Inside Damage Photo Upload */}
+              <label className="repair-upload-box">
+                {formData.insideDamagePhoto ? (
+                  <img src={URL.createObjectURL(formData.insideDamagePhoto)} alt="Inside Damage" className="uploaded-image" />
+                ) : (
+                  <>
+                    <FaUpload className="upload-icon" />
+                    <span>Inside Damage Photo</span>
+                  </>
+                )}
+                <input type="file" name="insideDamagePhoto" accept="image/*" onChange={handleChange} hidden />
+              </label>
 
-            {/* Outside Damage Photo Upload */}
-            <label className="repair-upload-box">
-              {formData.outsideDamagePhoto ? (
-                <img src={formData.outsideDamagePhoto} alt="Outside Damage" className="uploaded-image" />
-              ) : (
-                <>
-                  <FaUpload className="upload-icon" />
-                  <span>Outside Damage Photo</span>
-                </>
-              )}
-              <input type="file" name="outsideDamagePhoto" accept="image/*" onChange={handleChange} hidden />
-            </label>
+              {/* Outside Damage Photo Upload */}
+              <label className="repair-upload-box">
+                {formData.outsideDamagePhoto ? (
+                  <img src={URL.createObjectURL(formData.outsideDamagePhoto)} alt="Outside Damage" className="uploaded-image" />
+                ) : (
+                  <>
+                    <FaUpload className="upload-icon" />
+                    <span>Outside Damage Photo</span>
+                  </>
+                )}
+                <input type="file" name="outsideDamagePhoto" accept="image/*" onChange={handleChange} hidden />
+              </label>
 
+            </div>
           </div>
-        </div>
 
           {/* Calendar Selection */}
           <div className="repair-section">
