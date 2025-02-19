@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Navbar from '../components/NavBar'; // Import the Navbar component
 import '../styles/contact.css'; // Updated CSS file with unique class names
+import axios from 'axios'; // Import axios for HTTP requests
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -22,8 +23,14 @@ const Contact = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        // Add form submission logic here
+        axios.post('http://localhost:5000/api/contact/submit', formData)
+            .then(response => {
+                console.log('Form submitted:', response.data);
+                // Add any additional logic after successful form submission
+            })
+            .catch(error => {
+                console.error('There was an error submitting the form!', error);
+            });
     };
 
     return (

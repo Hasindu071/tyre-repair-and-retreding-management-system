@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
+const db = require('./config/db');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -10,21 +11,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 
-// MySQL connection
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
 
-db.connect((err) => {
-    if (err) {
-        console.error('❌ Database connection failed:', err);
-        return;
-    }
-    console.log('✅ Connected to the MySQL database.');
-});
 
 // Import routes
 const ownerRegisterRoute = require('./routes/OwnerRegister');
@@ -33,6 +20,7 @@ const workerRegisterRoute = require('./routes/WorkerRegister');
 const ownerLoginRoute = require('./routes/OwnerLogin');
 const workerLoginRoute = require('./routes/WorkerLogin');
 const customerLoginRoute = require('./routes/CustomerLogin');
+const contactRoute = require('./routes/contact');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -41,6 +29,7 @@ app.use('/WorkerRegister', workerRegisterRoute);
 app.use('/Owner', ownerLoginRoute);
 app.use('/Worker', workerLoginRoute);
 app.use('/Customer', customerLoginRoute);
+app.use('/contact', contactRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', (req, res) => {
