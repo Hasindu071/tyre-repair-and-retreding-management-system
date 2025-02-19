@@ -21,8 +21,8 @@ const ownerLoginRoute = require('./routes/OwnerLogin');
 const workerLoginRoute = require('./routes/WorkerLogin');
 const customerLoginRoute = require('./routes/CustomerLogin');
 const contactRoute = require('./routes/contact');
-const retreadingRoute = require('./routes/retreading');
-const tyreRepairRoute = require('./routes/tyreRepair');
+const retreadingRoute = require('./routes/Retreading');
+const tyreRepairRoute = require('./routes/Repairing');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -32,8 +32,8 @@ app.use('/Owner', ownerLoginRoute);
 app.use('/Worker', workerLoginRoute);
 app.use('/Customer', customerLoginRoute);
 app.use('/contact', contactRoute);
-app.use('/retreading', retreadingRoute);
-app.use('/tyreRepair', tyreRepairRoute);
+app.use('/Retreading', retreadingRoute);
+app.use('/Repairing', tyreRepairRoute);
 
 
 

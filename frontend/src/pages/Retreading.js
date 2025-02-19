@@ -39,7 +39,7 @@ const RetreadingService = () => {
             data.append(key, formData[key]);
         }
 
-        axios.post('http://localhost:5000/api/retreading/submit', data)
+        axios.post('http://localhost:5000/api/Retreading/submit', data)
             .then(response => {
                 console.log('Form submitted:', response.data);
                 // Add any additional logic after successful form submission
