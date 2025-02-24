@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
 import '../styles/OwnerLogin.css'; // Import the CSS file
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = "http://localhost:5000";
 
@@ -42,20 +44,24 @@ const OwnerLogin = () => {
             });
             const data = await response.json();
             if (data.success) {
-                navigate('/OwnerDashboard'); // Redirect after successful login
-            } else {
+                toast.success('Login successful!');
+                setTimeout(() => navigate('/OwnerDashboard'), 2000); // 2 seconds
+            }
+             else {
                 setErrorMessage('Login failed! Please check your credentials.');
+                toast.error('Login failed! Please check your credentials.');
             }
         } catch (error) {
             console.error('Error logging in:', error);
             setErrorMessage('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
         }
     };
 
     const handleResetSubmit = (e) => {
         e.preventDefault();
         console.log("Password reset link sent to:", resetEmail);
-        alert("Password reset link has been sent to your email!");
+        toast.success('Password reset link has been sent to your email!');
         setResetMode(false);
     };
 
@@ -67,6 +73,7 @@ const OwnerLogin = () => {
     return (
         <div>
             <Navbar />
+            <ToastContainer />
             <div className="owner-login-container">
                 <div className="owner-login-card">
                     <h2 className="owner-login-title">{resetMode ? "Reset Password" : "Owner Login"}</h2>
