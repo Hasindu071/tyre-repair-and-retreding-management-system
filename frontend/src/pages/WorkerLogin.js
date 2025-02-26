@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar';
 import '../styles/WorkerLogin.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = "http://localhost:5000";
 
@@ -12,7 +14,10 @@ const WorkerLogin = () => {
         password: ''
     });
 
+    const [resetMode, setResetMode] = useState(false); // Toggle between login and reset mode
+    const [resetEmail, setResetEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
+
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -21,6 +26,10 @@ const WorkerLogin = () => {
             ...formData,
             [name]: value
         });
+    };
+
+    const handleResetChange = (e) => {
+        setResetEmail(e.target.value);
     };
 
     const handleSubmit = async (e) => {
@@ -33,29 +42,49 @@ const WorkerLogin = () => {
                 },
                 body: JSON.stringify(formData)
             });
-
-            if (!response.ok) {
-                // Handle different HTTP status codes
-                if (response.status === 404) {
-                    setErrorMessage('Endpoint not found. Please check the server URL.');
-                } else if (response.status === 400) {
-                    setErrorMessage('Invalid credentials. Please check your email and password.');
-                } else {
-                    setErrorMessage('An error occurred. Please try again.');
-                }
-                return;
-            }
-
             const data = await response.json();
             if (data.success) {
-                navigate('/WorkerDashboard'); // Redirect after successful login
+                toast.success('Login successful!');
+                setTimeout(() => navigate('/WorkerDashboard'), 2000); // 2 seconds
             } else {
                 setErrorMessage('Login failed! Please check your credentials.');
+                toast.error('Login failed! Please check your credentials.');
             }
         } catch (error) {
             console.error('Error logging in:', error);
             setErrorMessage('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
         }
+    };
+
+    const handleResetSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`${API_URL}/Worker/reset-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: resetEmail })
+            });
+            const data = await response.json();
+            if (data.success) {
+                toast.success('Password reset link has been sent to your email!');
+                setResetMode(false);
+            } else {
+                setErrorMessage('Failed to send reset link. Please try again.');
+                toast.error('Failed to send reset link. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error sending reset link:', error);
+            setErrorMessage('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
+        }
+    };
+
+    const handleGoogleLogin = () => {
+        console.log("Google login clicked");
+        // Add Google authentication logic here
     };
 
     return (
@@ -64,38 +93,57 @@ const WorkerLogin = () => {
             <div className="worker-login-container">
                 <div className="worker-login-card">
                     <h2 className="worker-login-title">Worker Login</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="worker-input-group">
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="worker-input"
-                                required
-                            />
-                        </div>
-                        <div className="worker-input-group">
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="worker-input"
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="worker-login-button">Login</button>
-                        {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    </form>
+                    {resetMode ? (
+                        <form onSubmit={handleResetSubmit}>
+                            <div className="worker-input-group">
+                                <input
+                                    type="email"
+                                    name="resetEmail"
+                                    placeholder="Enter your email"
+                                    value={resetEmail}
+                                    onChange={handleResetChange}
+                                    className="worker-input"
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="worker-login-button">Send Reset Link</button>
+                            <button type="button" className="worker-login-button" onClick={() => setResetMode(false)}>Back to Login</button>
+                        </form>
+                    ) : (
+                        <form onSubmit={handleSubmit}>
+                            <div className="worker-input-group">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="worker-input"
+                                    required
+                                />
+                            </div>
+                            <div className="worker-input-group">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="worker-input"
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="worker-login-button">Login</button>
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                        </form>
+                    )}
                     <div className="worker-login-options">
-                        <a href="/forgot-password" className="worker-forgot-password">Forgot Password?</a>
-                        <button className="worker-google-login">Continue with Google</button>
+                        <button className="worker-forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</button>
+                        <button className="worker-google-login" onClick={handleGoogleLogin}>Continue with Google</button>
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
