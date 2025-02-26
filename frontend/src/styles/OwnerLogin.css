@@ -85,6 +85,42 @@
     transform: scale(1.06);
 }
 
+.customer-forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Google Login Button */
+.owner-google-login {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.owner-google-login:hover {
+    background: #f1f1f1;
+}
+
+/* Forgot Password */
+.owner-forgot-password {
+    display: block;
+    margin: 10px 0;
+    color: #ff4b5c;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.owner-forgot-password:hover {
+    text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 400px) {
     .owner-login-card {

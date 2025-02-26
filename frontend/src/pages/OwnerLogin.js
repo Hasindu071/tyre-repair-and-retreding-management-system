@@ -124,16 +124,13 @@ const OwnerLogin = () => {
                                 Login
                             </button>
                             {errorMessage && <p className="error-message">{errorMessage}</p>}
-                            <p className="forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</p>
+                            <p className="owner-forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</p>
                         </form>
                     )}
 
-                    <div className="or-divider">OR</div>
-
-                    <button className="google-login-button" onClick={handleGoogleLogin}>
-                        <img src="../assets/google-icon.png" alt="Google Icon" className="google-icon" />
-                        Continue with Google
-                    </button>
+                    <button type="button" className="owner-google-login" onClick={handleGoogleLogin}>
+                            Continue with Google
+                        </button>
                 </div>
             </div>
         </div>
