@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
 import '../styles/CustomerLogin.css'; // Import the CSS file
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = "http://localhost:5000";
 
@@ -12,8 +14,8 @@ const CustomerLogin = () => {
         password: ''
     });
 
-    const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -35,13 +37,15 @@ const CustomerLogin = () => {
             });
             const data = await response.json();
             if (data.success) {
-                navigate('/CustomerDashboard'); // Redirect after successful login
+                toast.success('Login successful!');
+                setTimeout(() => navigate('/OwnerDashboard'), 2000); // 2 seconds
             } else {
                 setErrorMessage('Login failed! Please check your credentials.');
+                toast.error('Login failed! Please check your credentials.');
             }
         } catch (error) {
             console.error('Error logging in:', error);
-            setErrorMessage('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
         }
     };
 
@@ -90,6 +94,7 @@ const CustomerLogin = () => {
                     </form>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
