@@ -140,7 +140,7 @@ const WorkerLogin = () => {
                         </form>
                     )}
                     <div className="worker-login-options">
-                        <button className="worker-forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</button>
+                        <p className="worker-forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</p>
                         <button className="worker-google-login" onClick={handleGoogleLogin}>Continue with Google</button>
                     </div>
                 </div>
