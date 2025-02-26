@@ -38,7 +38,7 @@ const CustomerLogin = () => {
             const data = await response.json();
             if (data.success) {
                 toast.success('Login successful!');
-                setTimeout(() => navigate('/OwnerDashboard'), 2000); // 2 seconds
+                setTimeout(() => navigate('/customerDashboard'), 2000); // 2 seconds
             } else {
                 setErrorMessage('Login failed! Please check your credentials.');
                 toast.error('Login failed! Please check your credentials.');
