@@ -33,6 +33,8 @@ const WorkerLogin = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log("FormData being sent:", formData); // Debugging line
+
         e.preventDefault();
         try {
             const response = await fetch(`${API_URL}/Worker/login`, {
@@ -47,8 +49,8 @@ const WorkerLogin = () => {
                 toast.success('Login successful!');
                 setTimeout(() => navigate('/WorkerDashboard'), 2000); // 2 seconds
             } else {
-                setErrorMessage('Login failed! Please check your credentials.');
-                toast.error('Login failed! Please check your credentials.');
+                setErrorMessage(data.message || 'Login failed! Please check your credentials.');
+                toast.error(data.message || 'Login failed! Please check your credentials.');
             }
         } catch (error) {
             console.error('Error logging in:', error);
