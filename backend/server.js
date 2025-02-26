@@ -22,6 +22,7 @@ const customerLoginRoute = require('./routes/CustomerLogin');
 const contactRoute = require('./routes/contact');
 const retreadingRoute = require('./routes/retreading');
 const tyreRepairRoute = require('./routes/repairing');
+const showCustomerRoute = require('./routes/showCustomer');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -33,6 +34,7 @@ app.use('/Customer', customerLoginRoute);
 app.use('/contact', contactRoute);
 app.use('/Retreading', retreadingRoute);
 app.use('/Repairing', tyreRepairRoute);
+app.use('/', showCustomerRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', async (req, res) => {

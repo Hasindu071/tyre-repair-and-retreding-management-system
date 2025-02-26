@@ -13,24 +13,37 @@ const Contact = () => {
         message: ''
     });
 
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState({ message: '', type: '' });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/api/contact/submit', formData)
-            .then(response => {
-                console.log('Form submitted:', response.data);
-                // Add any additional logic after successful form submission
-            })
-            .catch(error => {
-                console.error('There was an error submitting the form!', error);
-            });
+
+        // Form validation
+        if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+            setAlert({ message: 'All fields are required!', type: 'danger' });
+            return;
+        }
+
+        setLoading(true);
+        setAlert({ message: '', type: '' });
+
+        try {
+            const response = await axios.post('http://localhost:5000/contact/submit', formData);
+            console.log('Form submitted:', response.data);
+            setAlert({ message: 'Your message has been sent successfully!', type: 'success' });
+            setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form
+        } catch (error) {
+            console.error('There was an error submitting the form!', error);
+            setAlert({ message: 'Failed to send your message. Please try again later.', type: 'danger' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -38,24 +51,66 @@ const Contact = () => {
             <Navbar /> {/* Navbar component */}
             <div className="contact-container">
                 <h2 className="contact-title">Contact Us</h2>
+
+                {/* Alert Messages */}
+                {alert.message && (
+                    <div className={`alert alert-${alert.type}`} role="alert">
+                        {alert.message}
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="contact-form">
                     <div className="contact-form-group">
                         <label htmlFor="name" className="contact-label">Name</label>
-                        <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} className="contact-input" required />
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className="contact-input"
+                            required
+                        />
                     </div>
                     <div className="contact-form-group">
                         <label htmlFor="email" className="contact-label">Email</label>
-                        <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} className="contact-input" required />
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="contact-input"
+                            required
+                        />
                     </div>
                     <div className="contact-form-group">
                         <label htmlFor="subject" className="contact-label">Subject</label>
-                        <input type="text" name="subject" id="subject" value={formData.subject} onChange={handleChange} className="contact-input" required />
+                        <input
+                            type="text"
+                            name="subject"
+                            id="subject"
+                            value={formData.subject}
+                            onChange={handleChange}
+                            className="contact-input"
+                            required
+                        />
                     </div>
                     <div className="contact-form-group">
                         <label htmlFor="message" className="contact-label">Message</label>
-                        <textarea name="message" id="message" value={formData.message} onChange={handleChange} className="contact-textarea" rows="5" required></textarea>
+                        <textarea
+                            name="message"
+                            id="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            className="contact-textarea"
+                            rows="5"
+                            required
+                        ></textarea>
                     </div>
-                    <button type="submit" className="contact-submit-btn">Submit</button>
+                    <button type="submit" className="contact-submit-btn" disabled={loading}>
+                        {loading ? 'Sending...' : 'Submit'}
+                    </button>
                 </form>
             </div>
         </div>

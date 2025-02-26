@@ -1,21 +1,27 @@
-import React, { useState } from "react";
-import "../styles/CustomerHandle.css"; // Import CSS file
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../styles/CustomerHandle.css";
+import NewNavbar from "../components/Navbars/OwnerRegiNavBar";
 import OwnerSidebar from "../components/SideNav";
 
 const CustomerHandle = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  
-  // Sample customer data (Can be fetched from an API in the future)
-  const [customers] = useState([
-    { id: 1, name: "John Doe", email: "john@example.com", phone: "123-456-7890", address: "123 Main St, NY" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", phone: "987-654-3210", address: "456 Park Ave, CA" },
-    { id: 3, name: "Alice Johnson", email: "alice@example.com", phone: "456-789-1234", address: "789 Broadway, TX" },
-  ]);
+  const [customers, setCustomers] = useState([]);
+
+  // Fetch customer data from the backend
+  useEffect(() => {
+    axios.get("http://localhost:5000/customers")
+      .then(response => {
+        setCustomers(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching customers:", error);
+      });
+  }, []);
 
   // Filter customers based on search input
   const filteredCustomers = customers.filter((customer) =>
-    customer.name.toLowerCase().includes(searchQuery.toLowerCase())
+    customer.customer_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -49,12 +55,12 @@ const CustomerHandle = () => {
             <tbody>
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((customer) => (
-                  <tr key={customer.id}>
-                    <td>{customer.id}</td>
-                    <td>{customer.name}</td>
-                    <td>{customer.email}</td>
-                    <td>{customer.phone}</td>
-                    <td>{customer.address}</td>
+                  <tr key={customer.customer_id}>
+                    <td>{customer.customer_id}</td>
+                    <td>{customer.customer_name}</td>
+                    <td>{customer.customer_email}</td>
+                    <td>{customer.customer_phone}</td>
+                    <td>{customer.customer_address}</td>
                   </tr>
                 ))
               ) : (
