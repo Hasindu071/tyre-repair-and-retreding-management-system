@@ -1,21 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
 import OwnerSidebar from "../components/SideNav";
 import "../styles/OnwerproductInquiries.css"; // Import the CSS file
+import axios from 'axios'; // Import axios for HTTP requests
 
 const OwnerProductInquiries = () => {
-    const [products, setProducts] = useState([
-        { id: 1, name: "Tire Retread Material", stock: 50 },
-        { id: 2, name: "Patching Solution", stock: 30 },
-        { id: 3, name: "Tire Sealant", stock: 40 },
-        { id: 4, name: "Rubber Strips", stock: 25 },
-    ]);
+    const [products, setProducts] = useState([]);
+    const [newProduct, setNewProduct] = useState({ name: "", stock: 0 });
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/products/getProducts');
+            setProducts(response.data);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
 
     const handleStockChange = (id, value) => {
         setProducts(products.map(product => 
             product.id === id ? { ...product, stock: value } : product
         ));
+    };
+
+    const handleSaveUpdates = async () => {
+        try {
+            for (const product of products) {
+                await axios.put(`http://localhost:5000/products/updateProduct/${product.id}`, { stock: product.stock });
+            }
+            alert("Stock updates saved successfully");
+        } catch (error) {
+            console.error("Error saving stock updates:", error);
+        }
+    };
+
+    const handleNewProductChange = (e) => {
+        const { name, value } = e.target;
+        setNewProduct({ ...newProduct, [name]: value });
+    };
+
+    const handleAddProduct = async () => {
+        if (newProduct.name && newProduct.stock >= 0) {
+            try {
+                await axios.post('http://localhost:5000/products/addProduct', newProduct);
+                fetchProducts(); // Refresh product list
+                setNewProduct({ name: "", stock: 0 });
+                alert("Product added successfully");
+            } catch (error) {
+                console.error("Error adding product:", error);
+            }
+        }
     };
 
     return (
@@ -49,7 +88,28 @@ const OwnerProductInquiries = () => {
                         ))}
                     </tbody>
                 </table>
-                <button className="update-stock-btn">Save Updates</button>
+                <button className="update-stock-btn" onClick={handleSaveUpdates}>Save Updates</button>
+                <br />
+                <br />
+                <h2 className="title">Add New Product</h2>
+                <div className="add-product-form">
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Product Name"
+                        value={newProduct.name}
+                        onChange={handleNewProductChange}
+                    />
+                    <input
+                        type="number"
+                        name="stock"
+                        placeholder="Stock"
+                        min="0"
+                        value={newProduct.stock}
+                        onChange={handleNewProductChange}
+                    />
+                    <button onClick={handleAddProduct} className="add-product-btn">Add Product</button>
+                </div>
             </div>
         </div>
     );

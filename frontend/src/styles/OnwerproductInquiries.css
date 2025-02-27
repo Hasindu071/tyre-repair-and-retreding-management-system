@@ -94,6 +94,36 @@
     transform: scale(1.05);
 }
 
+.update-stock-btn,
+.add-product-btn {
+    padding: 10px 20px;
+    background-color: #ed2e81;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.update-stock-btn:hover,
+.add-product-btn:hover {
+    background-color: #d8459d;
+}
+
+.add-product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+.add-product-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .owner-stock-container {
