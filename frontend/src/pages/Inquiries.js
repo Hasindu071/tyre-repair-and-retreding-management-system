@@ -18,7 +18,7 @@ const Inquiries = () => {
         <div>
             <OwnerNavbar />
         <div className="inquiries-container">
-            <h2>Customer Inquiries</h2>
+            <h2>Worker Inquiries</h2>
             <div className="inquiries-list">
                 {inquiries.map((inquiry) => (
                     <div key={inquiry.id} className="inquiry-card">
