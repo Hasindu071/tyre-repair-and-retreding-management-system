@@ -24,6 +24,7 @@ const retreadingRoute = require('./routes/retreading');
 const tyreRepairRoute = require('./routes/repairing');
 const showCustomerRoute = require('./routes/showCustomer');
 const customerPaymentRoute = require('./routes/CustomerPayment');
+const workerMessagesRoute = require('./routes/workerMessages');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -37,6 +38,7 @@ app.use('/Retreading', retreadingRoute);
 app.use('/Repairing', tyreRepairRoute);
 app.use('/', showCustomerRoute);
 app.use('/CustomerPayment', customerPaymentRoute);
+app.use('/WorkerMessages', workerMessagesRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', async (req, res) => {

@@ -1,32 +1,113 @@
-.body{
-    background-image: url('../assets/background.png');
-}
+/* WorkerMessage.css */
 
 .worker-message-container {
-    width: 50%;
-    margin: 20px auto;
+    max-width: 600px;
+    margin: 50px auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 h2 {
-    text-align: center;
     color: #333;
+    margin-bottom: 20px;
 }
 
 .message-box {
-    height: 300px;
+    max-height: 400px;
     overflow-y: auto;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #fff;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .message {
+    padding: 10px 15px;
+    max-width: 70%;
+    border-radius: 20px;
+    font-size: 14px;
+    word-wrap: break-word;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+}
+
+.worker {
+    align-self: flex-end;
+    background: #ec96b7;
+    color: #fff;
+    text-align: right;
+    border-bottom-right-radius: 5px;
+}
+
+.other {
+    align-self: flex-start;
+    background: #e9ecef;
+    color: #333;
+    text-align: left;
+    border-bottom-left-radius: 5px;
+}
+
+.message-input {
+    display: flex;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.message-input input {
+    flex-grow: 1;
     padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    max-width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.3s ease-in-out;
+}
+
+.message-input input:focus {
+    border-color: #a15485;
+    outline: none;
+}
+
+.message-input button {
+    background: #ff00e1;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.message-input button:hover {
+    background: #b300a4;
+}
+
+/* Scrollbar styling */
+.message-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message-box::-webkit-scrollbar-thumb {
+    background: #f200ff;
+    border-radius: 10px;
+}
+
+.message-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .worker-message-container {
+        max-width: 90%;
+    }
+
+    .message {
+        max-width: 80%;
+    }
 }
