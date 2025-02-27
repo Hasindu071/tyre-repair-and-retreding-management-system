@@ -27,6 +27,7 @@ const customerPaymentRoute = require('./routes/CustomerPayment');
 const workerMessagesRoute = require('./routes/workerMessages');
 const wokerProfileRoute = require('./routes/workerProfile');
 const ProductsRoute = require('./routes/Products');
+const paymentsRoute = require('./routes/payments');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -43,6 +44,7 @@ app.use('/CustomerPayment', customerPaymentRoute);
 app.use('/WorkerMessages', workerMessagesRoute);
 app.use('/WorkerProfile', wokerProfileRoute);
 app.use('/Products', ProductsRoute);
+app.use('/Payments', paymentsRoute);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', async (req, res) => {

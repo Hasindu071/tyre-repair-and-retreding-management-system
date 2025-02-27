@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/SeePayment.css"; // Import CSS file
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
 import OwnerSidebar from "../components/SideNav";
+import axios from 'axios'; // Import axios for HTTP requests
 
 const SeePayment = () => {
-  const [payments, setPayments] = useState([
-    { id: 1, customer: "John Doe", amount: 250, date: "2025-02-08", status: "Paid" },
-    { id: 2, customer: "Jane Smith", amount: 180, date: "2025-02-07", status: "Pending" },
-  ]);
+  const [payments, setPayments] = useState([]);
 
   const [formData, setFormData] = useState({
     customer: "",
@@ -16,23 +14,38 @@ const SeePayment = () => {
     status: "Pending",
   });
 
+  useEffect(() => {
+    fetchPayments();
+  }, []);
+
+  const fetchPayments = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/payments/getPayments');
+      setPayments(response.data);
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.customer || !formData.amount || !formData.date) {
       alert("Please fill in all fields!");
       return;
     }
-    const newPayment = {
-      id: payments.length + 1,
-      ...formData,
-    };
-    setPayments([...payments, newPayment]);
-    setFormData({ customer: "", amount: "", date: "", status: "Pending" });
+    try {
+      await axios.post('http://localhost:5000/payments/addPayment', formData);
+      fetchPayments(); // Refresh payment list
+      setFormData({ customer: "", amount: "", date: "", status: "Pending" });
+      alert("Payment added successfully");
+    } catch (error) {
+      console.error("Error adding payment:", error);
+    }
   };
 
   return (
