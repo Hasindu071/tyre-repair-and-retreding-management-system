@@ -1,98 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar'; // Import the Navbar component
+import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
-import "../styles/ApproveWorker.css"; // Import the CSS file
+import "../styles/ApproveWorker.css";
 
 const ApproveWorker = () => {
-  const [workers, setWorkers] = useState([
-    {
-      id: "000001",
-      name: "Hasindu Ihsanarsa",
-      address: "John Doe, 456 Elm Street, Suite 3, Los Angeles, CA 90001, USA",
-      date: "06 / 01 / 2021",
-      status: "Pending",
-    },
-    {
-      id: "000002",
-      name: "Malintha Prasan",
-      address: "Mr John Smith, 132, My Street, Brighton 5123, NY, England",
-      date: "08 / 04 / 2022",
-      status: "Pending",
-    },
-    {
-      id: "000003",
-      name: "Sashika Prakash",
-      address: "Mr Daniel Ituchukwu, Navajo, 7, My Street, Lagos Nigeria",
-      date: "08 / ?? / ????",
-      status: "Pending",
-    },
-    {
-      id: "000004",
-      name: "Navindu Akulpa",
-      address: "John Doe, 456 Elm Street, Suite 3, Los Angeles, CA 90001, USA",
-      date: "06 / 01 / 2021",
-      status: "Pending",
-    },
-  ]);
+  const [workers, setWorkers] = useState([]);
 
-  const handleApproval = (id, status) => {
-    const updatedWorkers = workers.map((worker) =>
-      worker.id === id ? { ...worker, status } : worker
-    );
-    setWorkers(updatedWorkers);
+  // Fetch pending workers from backend
+  useEffect(() => {
+    fetch("/workers/pending")
+      .then(res => res.json())
+      .then(data => setWorkers(data))
+      .catch(err => console.error("Error fetching workers:", err));
+  }, []);
+
+  // Handle worker approval/rejection
+  const handleApproval = async (id, status) => {
+    try {
+      const response = await fetch(`/workers/update-status/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+        setWorkers(workers.filter(worker => worker.id !== id));
+      }
+    } catch (error) {
+      console.error("Error updating worker status:", error);
+    }
   };
 
   return (
     <div>
-        <Navbar />
-        <OwnerSidebar />
-    <div className="approve-worker-container">
-      <h2 className="title">Approve Worker</h2>
-      <table className="worker-table">
-        <thead>
-          <tr>
-            <th>Worker ID</th>
-            <th>Worker Name</th>
-            <th>Address</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {workers.map((worker) => (
-            <tr key={worker.id}>
-              <td>{worker.id}</td>
-              <td>{worker.name}</td>
-              <td>{worker.address}</td>
-              <td>{worker.date}</td>
-              <td>
-                {worker.status === "Pending" ? (
-                  <>
-                    <button
-                      className="approve-button"
-                      onClick={() => handleApproval(worker.id, "Approved")}
-                    >
+      <Navbar />
+      <OwnerSidebar />
+      <div className="approve-worker-container">
+        <h2 className="title">Approve Workers</h2>
+        {workers.length === 0 ? (
+          <p>No pending workers.</p>
+        ) : (
+          <table className="worker-table">
+            <thead>
+              <tr>
+                <th>Worker ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {workers.map(worker => (
+                <tr key={worker.id}>
+                  <td>{worker.id}</td>
+                  <td>{worker.name}</td>
+                  <td>{worker.address}</td>
+                  <td>{worker.date}</td>
+                  <td>
+                    <button className="approve-button" onClick={() => handleApproval(worker.id, "Approved")}>
                       Approve
                     </button>
-                    <button
-                      className="cancel-button"
-                      onClick={() => handleApproval(worker.id, "Canceled")}
-                    >
-                      Cancel
+                    <button className="cancel-button" onClick={() => handleApproval(worker.id, "Rejected")}>
+                      Reject
                     </button>
-                  </>
-                ) : (
-                  <span className={`status-${worker.status.toLowerCase()}`}>
-                    {worker.status}
-                  </span>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };
