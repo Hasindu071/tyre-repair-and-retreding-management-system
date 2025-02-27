@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom'; // Using NavLink for active links
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome CSS
 import Logo from '../../assets/Logo.png';
 
 const Navbar = () => {
@@ -47,14 +48,14 @@ const Navbar = () => {
             {/* Profile */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/Inquiries" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
-              Inquiries
+                Inquiries
               </NavLink>
             </li>
 
-            {/* Your Services */}
+            {/* Notification */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/------" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
-                --------
+              <NavLink className="nav-link" to="/notification" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+                <i className="fas fa-bell"></i>
               </NavLink>
             </li>
 

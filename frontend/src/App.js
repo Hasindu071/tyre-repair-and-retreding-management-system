@@ -37,6 +37,7 @@ import CustomerSignup from './pages/CustomerSignup';
 import WorkerSignup from './pages/WorkerSignup';
 import CustomerNotice from './pages/CustomerNotice';
 import CustomerPayment from './pages/CustomerPayment';
+import Notification from './pages/notification';
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
             <Route path="/WorkerSignup" element={<WorkerSignup />} />
             <Route path="/notice" element={<CustomerNotice />} />
             <Route path="/Owner/SeeCustomerPayment" element={<CustomerPayment />} />
+            <Route path="/notification" element={<Notification />} />
           </Routes>
         </div>
       </Router>
