@@ -1,6 +1,7 @@
-body{
+body {
     background-image: url('../assets/background.png');
 }
+
 .worker-stocks-container {
     padding: 20px;
     min-height: 100vh;
@@ -10,7 +11,7 @@ body{
     text-align: center;
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #333;
+    color: #bc8d8d;
 }
 
 .stocks-grid {
@@ -37,4 +38,14 @@ body{
     text-align: center;
     font-size: 1.2rem;
     color: red;
+}
+
+.stock-card input {
+    width: 100px;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
 }
