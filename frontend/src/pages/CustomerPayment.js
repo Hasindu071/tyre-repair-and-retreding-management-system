@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Import the Navbar component
 import OwnerSidebar from "../components/SideNav"; // Import the Sidebar component
 import "../styles/CustomerPayment.css"; // Import CSS file
@@ -11,23 +11,54 @@ const CustomerPayment = () => {
     paymentMethod: "Credit Card",
   });
 
+  const [payments, setPayments] = useState([]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to save the payment record to the backend or database
-    console.log("Payment record submitted:", formData);
-    // Reset form
-    setFormData({
-      customerName: "",
-      amount: "",
-      paymentDate: "",
-      paymentMethod: "Credit Card",
-    });
+    try {
+      const response = await fetch("http://localhost:5000/CustomerPayment/savePayment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log("Payment record submitted:", formData);
+        // Reset form
+        setFormData({
+          customerName: "",
+          amount: "",
+          paymentDate: "",
+          paymentMethod: "Credit Card",
+        });
+        // Fetch updated payment records
+        fetchPayments();
+      } else {
+        console.error("Error submitting payment record");
+      }
+    } catch (error) {
+      console.error("Error submitting payment record:", error);
+    }
   };
+
+  const fetchPayments = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/CustomerPayment/getPayments");
+      const data = await response.json();
+      setPayments(data);
+    } catch (error) {
+      console.error("Error fetching payment records:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPayments();
+  }, []);
 
   return (
     <>
@@ -86,6 +117,31 @@ const CustomerPayment = () => {
           </div>
           <button type="submit" className="submit-btn">Submit Payment</button>
         </form>
+        <br />
+        <br />
+        <h2 className="title">Payment Records</h2>
+        <table className="payment-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer Name</th>
+              <th>Amount</th>
+              <th>Payment Date</th>
+              <th>Payment Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            {payments.map((payment) => (
+              <tr key={payment.id}>
+                <td>{payment.id}</td>
+                <td>{payment.customer_name}</td>
+                <td>{payment.amount}</td>
+                <td>{payment.payment_date}</td>
+                <td>{payment.payment_method}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );
