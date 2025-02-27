@@ -31,6 +31,10 @@ const OwnerDashboard = () => {
         navigate("/Owner/SeePayment"); // Redirect to WokerPayments page
     }
 
+    const CustomerPayments = () => {
+        navigate("/Owner/SeeCustomerPayment"); // Redirect to CustomerPayments page
+    }
+
     return (
         <div>
             <OwnerNavbar />
@@ -83,6 +87,14 @@ const OwnerDashboard = () => {
                     <div className="dashboard-section-owner">
                         <h3>Worker Payments</h3>
                         <button className="dashboard-button-owner" onClick={WokerPayments}>
+                            <FaDollarSign className="icon" /> Approve
+                        </button>
+                    </div>
+
+                    {/* Customer Payments */}
+                    <div className="dashboard-section-owner">
+                        <h3>Customer Payments</h3>
+                        <button className="dashboard-button-owner" onClick={CustomerPayments}>
                             <FaDollarSign className="icon" /> Approve
                         </button>
                     </div>

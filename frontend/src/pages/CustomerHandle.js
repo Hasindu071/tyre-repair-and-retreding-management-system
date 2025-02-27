@@ -48,8 +48,13 @@ const CustomerHandle = () => {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
+                <th>NIC</th>
+                <th>Phone Number 1</th>
+                <th>Phone Number 2</th>
+                <th>House Name</th>
+                <th>City</th>
+                <th>State</th>
+
               </tr>
             </thead>
             <tbody>
@@ -59,8 +64,12 @@ const CustomerHandle = () => {
                     <td>{customer.customer_id}</td>
                     <td>{customer.customer_name}</td>
                     <td>{customer.customer_email}</td>
-                    <td>{customer.customer_phone}</td>
-                    <td>{customer.customer_address}</td>
+                    <td>{customer.customer_nic}</td>
+                    <td>{customer.customer_phone1}</td>
+                    <td>{customer.customer_phone2}</td>
+                    <td>{customer.customer_address1}</td>
+                    <td>{customer.customer_address2}</td>
+                    <td>{customer.customer_address3}</td>
                   </tr>
                 ))
               ) : (
