@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/MyProfile.css"; // Import the CSS file
+import axios from 'axios'; // Import axios for HTTP requests
 
 const MyProfile = () => {
-    // Sample user data (Replace with API data in real implementation)
-    const [profile] = useState({
-        firstName: "John",
-        lastName: "Doe",
-        email: "johndoe@example.com",
-        phone: "+1234567890",
-        address: "123 Main Street, City, Country",
+    const [profile, setProfile] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
     });
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
+    const fetchProfile = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/CustomerProfile/getProfile/16'); // Replace '1' with the actual user ID
+            setProfile(response.data);
+        } catch (error) {
+            console.error("Error fetching profile:", error);
+        }
+    };
 
     return (
         <div>
@@ -21,8 +34,12 @@ const MyProfile = () => {
                     <p><strong>First Name:</strong> {profile.firstName}</p>
                     <p><strong>Last Name:</strong> {profile.lastName}</p>
                     <p><strong>Email:</strong> {profile.email}</p>
-                    <p><strong>Phone:</strong> {profile.phone}</p>
-                    <p><strong>Address:</strong> {profile.address}</p>
+                    <p><strong>NIC:</strong> {profile.nic}</p>
+                    <p><strong>Phone 1:</strong> {profile.phone1}</p>
+                    <p><strong>Phone 2:</strong> {profile.phone2}</p>
+                    <p><strong>house Name:</strong> {profile.houseName}</p>
+                    <p><strong>City:</strong> {profile.city}</p>
+                    <p><strong>State:</strong> {profile.state}</p>
                 </div>
             </div>
         </div>
