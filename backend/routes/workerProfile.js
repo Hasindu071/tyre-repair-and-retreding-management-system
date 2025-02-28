@@ -19,23 +19,4 @@ router.get('/getWorker/:id', async (req, res) => {
     }
 });
 
-// Route to update worker details
-router.put('/updateWorker/:id', async (req, res) => {
-    const workerId = req.params.id;
-    const { name, email, phone, address, role, assigned_tasks, work_history } = req.body;
-
-    try {
-        const query = `
-            UPDATE workers 
-            SET name = ?, email = ?, phone = ?, address = ?, role = ?, assigned_tasks = ?, work_history = ?
-            WHERE id = ?
-        `;
-        await db.promise().execute(query, [name, email, phone, address, role, assigned_tasks, work_history, workerId]);
-        res.status(200).json({ message: 'Worker details updated successfully' });
-    } catch (error) {
-        console.error('Database update error:', error);
-        res.status(500).json({ message: 'Failed to update worker details' });
-    }
-});
-
 module.exports = router;
