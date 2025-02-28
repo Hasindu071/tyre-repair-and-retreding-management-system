@@ -4,6 +4,7 @@ import { FaClipboardCheck, FaUsers, FaUserPlus, FaShoppingCart, FaBox, FaDollarS
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
 
+
 const OwnerDashboard = () => {
     const navigate = useNavigate();
 
@@ -33,6 +34,10 @@ const OwnerDashboard = () => {
 
     const CustomerPayments = () => {
         navigate("/Owner/SeeCustomerPayment"); // Redirect to CustomerPayments page
+    }
+
+    const CustomerNotice = () => {
+        navigate("/Owner/SendNotice"); // Redirect to CustomerNotice page
     }
 
     return (
@@ -95,6 +100,14 @@ const OwnerDashboard = () => {
                     <div className="dashboard-section-owner">
                         <h3>Customer Payments</h3>
                         <button className="dashboard-button-owner" onClick={CustomerPayments}>
+                            <FaDollarSign className="icon" /> Approve
+                        </button>
+                    </div>
+
+                    {/* Customer Notice */}
+                    <div className="dashboard-section-owner">
+                        <h3>Customer Notice</h3>
+                        <button className="dashboard-button-owner" onClick={CustomerNotice}>
                             <FaDollarSign className="icon" /> Approve
                         </button>
                     </div>

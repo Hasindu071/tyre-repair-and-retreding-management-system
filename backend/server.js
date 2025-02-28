@@ -31,6 +31,7 @@ const paymentsRoute = require('./routes/payments');
 const servicesRoute = require('./routes/services');
 const ordersRoute = require('./routes/orders');
 const customerProfileRoute = require('./routes/CustomerProfile');
+const noticesRouter = require('./routes/notices');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -51,6 +52,7 @@ app.use('/Payments', paymentsRoute);
 app.use('/Services', servicesRoute);
 app.use('/Orders', ordersRoute);
 app.use('/CustomerProfile', customerProfileRoute);
+app.use('/notices', noticesRouter);
 
 // ✅ Add Customer Registration Route
 app.post('/registerCustomer', async (req, res) => {
