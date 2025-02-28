@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
+import OwnerSidebar from "../components/SideNav"
+import "../styles/OwnerSendNotice.css"; // Import CSS file
 
 const OwnerSendNotice = () => {
     const [notice, setNotice] = useState('');
@@ -18,7 +21,11 @@ const OwnerSendNotice = () => {
 
     return (
         <div>
-            <div className="container">
+            <NewNavbar />
+            <OwnerSidebar />
+            <br />
+            <br />
+            <div className="container-send-notice">
                 <h2>Send Notice</h2>
                 <form onSubmit={handleSubmit}>
                     <textarea

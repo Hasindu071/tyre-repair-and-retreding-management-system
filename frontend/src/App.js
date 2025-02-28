@@ -39,6 +39,7 @@ import CustomerNotice from './pages/CustomerNotice';
 import CustomerPayment from './pages/CustomerPayment';
 import Notification from './pages/notification';
 import OwnerSendNotice from './pages/OwnerSendNotice';
+import YourService from './pages/YourService';
 
 function App() {
   return (
@@ -83,6 +84,7 @@ function App() {
             <Route path="/Owner/SeeCustomerPayment" element={<CustomerPayment />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/Owner/SendNotice" element={<OwnerSendNotice />} />
+            <Route path="/services" element={<YourService />} />
           </Routes>
         </div>
       </Router>

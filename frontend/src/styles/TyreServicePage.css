@@ -1,0 +1,43 @@
+/* General Page Styling */
+.service-container {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+.service-header {
+    background: #1e1e1e;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Sections */
+.repair-section, .retreading-section, .notice-board {
+    background: #f8f9fa;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Lists */
+ul, ol {
+    padding-left: 20px;
+}
+
+/* Notice Board */
+.notice-board {
+    background: #fffae6;
+    padding: 15px;
+}
+
+.notice-card {
+    background: #fffec2;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
