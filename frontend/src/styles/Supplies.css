@@ -1,0 +1,51 @@
+.supplies-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+}
+
+form input {
+    width: 45%;
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    padding: 8px 15px;
+    margin-top: 10px;
+    border: none;
+    background-color: #a72857;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+button:hover {
+    background-color: #882121;
+}

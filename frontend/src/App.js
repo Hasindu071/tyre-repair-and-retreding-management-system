@@ -40,6 +40,7 @@ import CustomerPayment from './pages/CustomerPayment';
 import Notification from './pages/notification';
 import OwnerSendNotice from './pages/OwnerSendNotice';
 import YourService from './pages/YourService';
+import Supplies from './pages/Supplies';
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
             <Route path="/notification" element={<Notification />} />
             <Route path="/Owner/SendNotice" element={<OwnerSendNotice />} />
             <Route path="/services" element={<YourService />} />
+            <Route path="/Owner/Supplies" element={<Supplies />} />
           </Routes>
         </div>
       </Router>

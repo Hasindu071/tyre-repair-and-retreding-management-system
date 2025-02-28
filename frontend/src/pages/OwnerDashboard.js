@@ -40,6 +40,10 @@ const OwnerDashboard = () => {
         navigate("/Owner/SendNotice"); // Redirect to CustomerNotice page
     }
 
+    const Supplies = () => {
+        navigate("/Owner/Supplies"); // Redirect to Supplies
+    }
+
     return (
         <div>
             <OwnerNavbar />
@@ -111,6 +115,13 @@ const OwnerDashboard = () => {
                             <FaDollarSign className="icon" /> Approve
                         </button>
                     </div>
+
+                    <div className="dashboard-section-owner">
+                        <h3>Supplies detalis</h3>
+                        <button className="dashboard-button-owner" onClick={Supplies}>
+                            <FaDollarSign className="icon" /> Approve
+                        </button>
+                    </div>    
                 </div>
             </div>
         </div>
