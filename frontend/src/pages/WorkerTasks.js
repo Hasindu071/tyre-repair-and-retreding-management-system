@@ -20,7 +20,9 @@ const WorkerTasks = () => {
       }
     };
 
-    fetchWorkerTasks();
+    if (workerName) {
+      fetchWorkerTasks();
+    }
   }, [workerName]);
 
   return (
