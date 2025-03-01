@@ -1,4 +1,3 @@
-// backend/routes/orders.js
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db'); // Import the database connection
@@ -17,7 +16,7 @@ router.get('/getOrders', async (req, res) => {
 // Route to fetch workers
 router.get('/getWorkers', async (req, res) => {
     try {
-        const [workers] = await db.promise().query('SELECT * FROM workers');
+        const [workers] = await db.promise().query('SELECT id, CONCAT(firstName, " ", lastName) AS name FROM worker_register');
         res.status(200).json(workers);
     } catch (error) {
         console.error('Database fetch error:', error);
