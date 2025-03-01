@@ -1,59 +1,110 @@
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Hero Section */
 .hero-section {
-    position: relative;
-    height: 90vh;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+
+
+/* Hero Title */
+.hero-title {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+/* Hero Subtitle */
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+/* Custom Button */
+.custom-btn {
+  background-color: #ff6f61;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+  background-color: #ff4f42;
+  transform: translateY(-3px);
+}
+
+/* Register Card */
+.register-card-home {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeInRight 1s ease-in-out;
+}
+
+.register-card-home h2 {
+  color: #333;
+  font-weight: bold;
+}
+
+.register-card-home p {
+  color: #666;
+  margin-top: 2px;
+  margin-bottom: 15px;
+}
+
+.register-card-home .btn {
+  width: 100%;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
   }
   
-  .hero-section h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-  
-  .hero-section p {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero-section .btn {
-    padding: 0.75rem 2rem;
+  .hero-subtitle {
     font-size: 1rem;
-    border-radius: 20px;
-  }
-  
-.text-content {
-    max-width: 50%;
-    margin: 0 auto;
-  }
-  
-  .text-content h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    line-height: 1.2;
-    color: white;
-  }
-  
-  .register-card-home {
-    background-color: white;
-    color: black;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.049);
-    max-width: 300px;
-    text-align: center;
   }
 
-  .register-card button{
-    color: rgb(255, 255, 255);
-    padding: 2rem;
-    border-radius: 2px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    text-align: center;
+  .register-card-home {
+    width: 100%;
   }
-  
+}
