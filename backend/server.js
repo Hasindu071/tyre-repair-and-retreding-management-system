@@ -33,7 +33,7 @@ const ordersRoute = require('./routes/orders');
 const customerProfileRoute = require('./routes/CustomerProfile');
 const noticesRouter = require('./routes/notices');
 const workerProfileRouter = require('./routes/workerProfile');
-const suppliesRouter = require('./routes/supplies');
+const suppliesRouter = require('./routes/Supplies');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
