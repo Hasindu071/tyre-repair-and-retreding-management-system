@@ -103,6 +103,7 @@ const AssignWorker = () => {
               <th>Customer Name</th>
               <th>Task</th>
               <th>Assign Worker</th>
+              <th>View Worker Tasks</th>
             </tr>
           </thead>
           <tbody>

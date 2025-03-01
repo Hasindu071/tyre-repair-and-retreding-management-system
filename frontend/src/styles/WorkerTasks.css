@@ -1,35 +1,45 @@
+/*frontend/src/styles/WorkerTasks.css */
+
 .worker-tasks-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .tasks-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-  }
-  
-  .tasks-table th, .tasks-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .tasks-table th {
-    background-color: #f2f2f2;
-    color: #333;
-  }
-  
-  .tasks-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .tasks-table tr:hover {
-    background-color: #ddd;
-  }
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  max-width: 1200px;
+  margin: 50px auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff;
+  font-size: 32px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.tasks-table th, .tasks-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.tasks-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.tasks-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tasks-table tr:hover {
+  background-color: #cce5ff;
+}

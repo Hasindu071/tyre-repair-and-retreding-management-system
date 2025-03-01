@@ -13,7 +13,7 @@ const WorkerTasks = () => {
   useEffect(() => {
     const fetchWorkerTasks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/orders/getWorkers/${workerName}`);
+        const response = await axios.get(`http://localhost:5000/orders/getWorkerTasks/${workerName}`);
         setTasks(response.data);
       } catch (error) {
         console.error("Error fetching worker tasks:", error);
