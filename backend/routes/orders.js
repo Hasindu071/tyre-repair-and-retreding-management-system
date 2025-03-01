@@ -1,13 +1,12 @@
+// backend/routes/orders.js
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db'); // Import the database connection
 
-// Route to fetch all orders
+// Route to fetch orders
 router.get('/getOrders', async (req, res) => {
     try {
-        const [repairs] = await db.promise().execute('SELECT * FROM repairing');
-        const [retreadings] = await db.promise().execute('SELECT * FROM retreading');
-        const orders = [...repairs, ...retreadings];
+        const [orders] = await db.promise().query('SELECT * FROM orders');
         res.status(200).json(orders);
     } catch (error) {
         console.error('Database fetch error:', error);
@@ -15,10 +14,10 @@ router.get('/getOrders', async (req, res) => {
     }
 });
 
-// Route to fetch all workers
+// Route to fetch workers
 router.get('/getWorkers', async (req, res) => {
     try {
-        const [workers] = await db.promise().execute('SELECT * FROM worker_register');
+        const [workers] = await db.promise().query('SELECT * FROM workers');
         res.status(200).json(workers);
     } catch (error) {
         console.error('Database fetch error:', error);
@@ -26,14 +25,25 @@ router.get('/getWorkers', async (req, res) => {
     }
 });
 
-// Route to update assigned worker for an order
+// Route to add a new order
+router.post('/addOrder', async (req, res) => {
+    const { customer, task } = req.body;
+    try {
+        const [result] = await db.promise().query('INSERT INTO orders (customer, task) VALUES (?, ?)', [customer, task]);
+        const newOrder = { id: result.insertId, customer, task };
+        res.status(201).json(newOrder);
+    } catch (error) {
+        console.error('Database insert error:', error);
+        res.status(500).json({ message: 'Failed to add order' });
+    }
+});
+
+// Route to assign a worker to an order
 router.put('/assignWorker/:id', async (req, res) => {
     const orderId = req.params.id;
     const { assignedWorker } = req.body;
-
     try {
-        const query = 'UPDATE orders SET assignedWorker = ? WHERE id = ?';
-        await db.promise().execute(query, [assignedWorker, orderId]);
+        await db.promise().query('UPDATE orders SET assignedWorker = ? WHERE id = ?', [assignedWorker, orderId]);
         res.status(200).json({ message: 'Worker assigned successfully' });
     } catch (error) {
         console.error('Database update error:', error);

@@ -1,6 +1,7 @@
-.body{
-    background-image: url('../assets/background.png');
+.body {
+  background-image: url('../assets/background.png');
 }
+
 /* General Styles */
 body {
   background-color: #f8f9fa;
@@ -42,6 +43,7 @@ body {
   background-color: #007bff;
   color: white;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .worker-table tr:nth-child(even) {
@@ -58,9 +60,67 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.worker-select:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 .assigned-worker {
   font-weight: bold;
   color: #28a745;
+}
+
+/* Button Styles */
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin: 10px; /* Add margin to buttons */
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(1);
+}
+
+/* Form Styles */
+.add-order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-order-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.add-order-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.add-order-form button {
+  align-self: flex-start;
+  background-color: #28a745;
+}
+
+.add-order-form button:hover {
+  background-color: #218838;
 }

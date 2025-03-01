@@ -41,6 +41,7 @@ import Notification from './pages/notification';
 import OwnerSendNotice from './pages/OwnerSendNotice';
 import YourService from './pages/YourService';
 import Supplies from './pages/Supplies';
+import WorkerTasks from './pages/WorkerTasks';
 
 function App() {
   return (
@@ -87,6 +88,7 @@ function App() {
             <Route path="/Owner/SendNotice" element={<OwnerSendNotice />} />
             <Route path="/services" element={<YourService />} />
             <Route path="/Owner/Supplies" element={<Supplies />} />
+            <Route path="/WorkerTasks/:workerName" element={<WorkerTasks />} />
           </Routes>
         </div>
       </Router>

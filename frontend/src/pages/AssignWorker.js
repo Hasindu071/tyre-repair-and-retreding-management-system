@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar'; // Import the Navbar component
+import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
-import "../styles/AssignWorker.css"; // Import the CSS file
-import axios from 'axios'; // Import axios for HTTP requests
+import "../styles/AssignWorker.css";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AssignWorker = () => {
   const [orders, setOrders] = useState([]);
   const [workers, setWorkers] = useState([]);
+  const [newOrder, setNewOrder] = useState({ customer: "", task: "" });
+  const [selectedWorker, setSelectedWorker] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchOrders();
@@ -32,7 +36,13 @@ const AssignWorker = () => {
     }
   };
 
-  const handleAssign = async (orderId, worker) => {
+  const handleAssign = async (orderId) => {
+    const worker = selectedWorker[orderId];
+    if (!worker) {
+      alert("Please select a worker");
+      return;
+    }
+
     const updatedOrders = orders.map((order) =>
       order.id === orderId ? { ...order, assignedWorker: worker } : order
     );
@@ -46,12 +56,46 @@ const AssignWorker = () => {
     }
   };
 
+  const handleAddOrder = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/orders/addOrder', newOrder);
+      setOrders([...orders, response.data]);
+      setNewOrder({ customer: "", task: "" });
+    } catch (error) {
+      console.error("Error adding order:", error);
+    }
+  };
+
+  const handleViewWorkerTasks = (workerName) => {
+    navigate(`/worker-tasks/${workerName}`);
+  };
+
   return (
     <div>
       <Navbar />
       <OwnerSidebar />
       <div className="assign-worker-container">
         <h2 className="title">Assign Workers</h2>
+
+        <form onSubmit={handleAddOrder} className="add-order-form">
+          <input
+            type="text"
+            placeholder="Customer Name"
+            value={newOrder.customer}
+            onChange={(e) => setNewOrder({ ...newOrder, customer: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Task"
+            value={newOrder.task}
+            onChange={(e) => setNewOrder({ ...newOrder, task: e.target.value })}
+            required
+          />
+          <button type="submit">Add Order</button>
+        </form>
+
         <table className="worker-table">
           <thead>
             <tr>
@@ -71,17 +115,26 @@ const AssignWorker = () => {
                   {order.assignedWorker ? (
                     <span className="assigned-worker">{order.assignedWorker}</span>
                   ) : (
-                    <select
-                      className="worker-select"
-                      onChange={(e) => handleAssign(order.id, e.target.value)}
-                    >
-                      <option value="">Select Worker</option>
-                      {workers.map((worker) => (
-                        <option key={worker.id} value={worker.name}>
-                          {worker.name}
-                        </option>
-                      ))}
-                    </select>
+                    <>
+                      <select
+                        className="worker-select"
+                        onChange={(e) => setSelectedWorker({ ...selectedWorker, [order.id]: e.target.value })}
+                      >
+                        <option value="">Select Worker</option>
+                        {workers.map((worker) => (
+                          <option key={worker.id} value={worker.name}>
+                            {worker.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button onClick={() => handleAssign(order.id)}>Assign</button>
+                      <button onClick={() => handleViewWorkerTasks(selectedWorker[order.id])}>View Tasks</button>
+                    </>
+                  )}
+                </td>
+                <td>
+                  {order.assignedWorker && (
+                    <button onClick={() => handleViewWorkerTasks(order.assignedWorker)}>View Worker Tasks</button>
                   )}
                 </td>
               </tr>
