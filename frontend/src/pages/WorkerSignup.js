@@ -40,7 +40,7 @@ const WorkerSignup = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/registerWorker', finalData, {
+            const response = await axios.post('http://localhost:5000/WorkerRegister', finalData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
