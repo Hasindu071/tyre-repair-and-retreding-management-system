@@ -99,6 +99,7 @@ const OwnerLogin = () => {
                     ) : (
                         <form onSubmit={handleSubmit}>
                             <div className="owner-input-group">
+                                <label htmlFor="email">Email:</label>
                                 <input
                                     type="email"
                                     name="email"
@@ -110,6 +111,7 @@ const OwnerLogin = () => {
                                 />
                             </div>
                             <div className="owner-input-group">
+                                <label htmlFor="password">Password:</label>
                                 <input
                                     type="password"
                                     name="password"

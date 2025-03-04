@@ -24,6 +24,10 @@ body {
     margin-bottom: 5px;
 }
 
+.worker-forgot-password {
+    text-align: center;
+}
+
 /* Card Design */
 .worker-login-card {
     background: rgba(255, 255, 255, 0.1);
