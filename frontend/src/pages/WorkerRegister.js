@@ -16,14 +16,22 @@ const WorkerRegister = () => {
         nic: '',
         address1: '',
         address2: '',
+        profilePicture: null, // Added profile picture state
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        const { name, value, files } = e.target;
+        if (name === 'profilePicture' && files.length > 0) {
+            setFormData({
+                ...formData,
+                profilePicture: files[0],
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
     };
 
     const handleSubmit = (e) => {
@@ -37,7 +45,9 @@ const WorkerRegister = () => {
             <Navbar />
             <div className="register-container-worker">
                 <div className="register-box-worker">
-                    <h2 className="register-title-worker">Worker <span>REGISTRATION</span></h2>
+                    <h2 className="register-title-worker">
+                        Worker <span>REGISTRATION</span>
+                    </h2>
                     <form onSubmit={handleSubmit} className="register-form-worker">
                         <div className="form-group-worker">
                             <label htmlFor="firstName">First Name:</label>
@@ -70,6 +80,10 @@ const WorkerRegister = () => {
                         <div className="form-group-worker">
                             <label htmlFor="address2">Address Line 2:</label>
                             <input type="text" id="address2" name="address2" placeholder="Enter address line 2 (optional)" value={formData.address2} onChange={handleChange} />
+                        </div>
+                        <div className="form-group-worker">
+                            <label htmlFor="profilePicture">Profile Picture:</label>
+                            <input type="file" id="profilePicture" name="profilePicture" onChange={handleChange} required />
                         </div>
                         <button type="submit" className="register-button-worker">Next</button>
                     </form>

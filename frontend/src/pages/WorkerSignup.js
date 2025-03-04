@@ -8,7 +8,7 @@ import '../styles/WorkerSignup.css';
 const WorkerSignup = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const previousFormData = location.state?.formData || {};  // Get previous form data
+    const previousFormData = location.state?.formData || {}; // Contains file object (profilePicture) and other fields
 
     const [signupData, setSignupData] = useState({
         email: '',
@@ -32,23 +32,25 @@ const WorkerSignup = () => {
             return;
         }
 
-        // Merge both formData and signupData
-        const finalData = {
-            ...previousFormData,
-            email: signupData.email,
-            password: signupData.password
-        };
+        // Create FormData and append both registration and signup data
+        const formData = new FormData();
+        // Append worker registration details from previousFormData
+        for (let key in previousFormData) {
+            formData.append(key, previousFormData[key]);
+        }
+        // Append email and password from signupData
+        formData.append('email', signupData.email);
+        formData.append('password', signupData.password);
 
         try {
-            const response = await axios.post('http://localhost:5000/WorkerRegister', finalData, {
+            const response = await axios.post('http://localhost:5000/WorkerRegister', formData, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
             });
-
             console.log('Worker registered:', response.data);
             alert('Registration successful!');
-            navigate('/login/worker'); // Redirect after success
+            navigate('/login/worker');
         } catch (error) {
             console.error('Error registering Worker:', error);
             alert('Registration failed! Please try again.');
@@ -58,11 +60,9 @@ const WorkerSignup = () => {
     return (
         <div>
             <Navbar />
-    
             <div className="worker-signup-container">
                 <div className="worker-signup-card">
                     <h2 className="worker-signup-title">Worker <span>SignUp</span></h2>
-    
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
@@ -114,5 +114,6 @@ const WorkerSignup = () => {
             </div>
         </div>
     );
-}    
+};
+
 export default WorkerSignup;
