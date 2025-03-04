@@ -10,6 +10,18 @@ body{
     padding: 20px;
 }
 
+.col-md-6  label {
+    font-size: 14px;
+    font-weight: 100;
+    color: #717272;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.col-md-6 ::placeholder {
+    color: #c1c2c4;
+}
+
 /* === Registration Card === */
 .card {
     background: white;
@@ -18,7 +30,6 @@ body{
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 100%;
-    text-align: center;
 }
 
 /* === Title & Subtitle === */
@@ -56,6 +67,18 @@ p {
 
 .btn-danger:hover {
     background: #b30000;
+}
+
+/* Title Styling */
+.register-customer-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: rgb(37, 37, 37);
+}
+
+.register-customer-title span {
+    color: rgb(192, 55, 87);
 }
 
 /* === Responsive Design === */

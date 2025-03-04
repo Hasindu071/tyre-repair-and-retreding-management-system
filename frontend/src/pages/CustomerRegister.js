@@ -29,25 +29,25 @@ const CustomerRegister = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
-        navigate('/CustomerSignup', { state: { formData } });    };
+        navigate('/CustomerSignup', { state: { formData } });
+    };
 
     return (
         <div>
-            {/* Include Navbar */}
             <Navbar />
-
             <div className="container-customer-register">
                 <div className="card p-4 shadow-sm">
-                    <h2 className="text-center mb-4">Sign Up</h2>
+                <h2 className="register-customer-title">Customer <span>REGISTRATION</span></h2>
                     <p className="text-center mb-4">Let's get started!</p>
-
                     <form onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="firstName">First Name:</label>
                                 <input
                                     type="text"
+                                    id="firstName"
                                     name="firstName"
-                                    placeholder="First Name"
+                                    placeholder="Enter your first name"
                                     value={formData.firstName}
                                     onChange={handleChange}
                                     className="form-control"
@@ -55,10 +55,12 @@ const CustomerRegister = () => {
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="lastName">Last Name:</label>
                                 <input
                                     type="text"
+                                    id="lastName"
                                     name="lastName"
-                                    placeholder="Last Name"
+                                    placeholder="Enter your last name"
                                     value={formData.lastName}
                                     onChange={handleChange}
                                     className="form-control"
@@ -66,10 +68,12 @@ const CustomerRegister = () => {
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="phone1">Phone Number 1:</label>
                                 <input
                                     type="text"
+                                    id="phone1"
                                     name="phone1"
-                                    placeholder="Phone Number 1"
+                                    placeholder="Enter phone number"
                                     value={formData.phone1}
                                     onChange={handleChange}
                                     className="form-control"
@@ -77,10 +81,12 @@ const CustomerRegister = () => {
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="nic">NIC:</label>
                                 <input
                                     type="text"
+                                    id="nic"
                                     name="nic"
-                                    placeholder="NIC"
+                                    placeholder="Enter NIC"
                                     value={formData.nic}
                                     onChange={handleChange}
                                     className="form-control"
@@ -88,20 +94,24 @@ const CustomerRegister = () => {
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="phone2">Phone Number 2 (Optional):</label>
                                 <input
                                     type="text"
+                                    id="phone2"
                                     name="phone2"
-                                    placeholder="Phone Number 2"
+                                    placeholder="Enter phone number"
                                     value={formData.phone2}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="houseName">House Name:</label>
                                 <input
                                     type="text"
+                                    id="houseName"
                                     name="houseName"
-                                    placeholder="House Name"
+                                    placeholder="Enter house name"
                                     value={formData.houseName}
                                     onChange={handleChange}
                                     className="form-control"
@@ -109,10 +119,12 @@ const CustomerRegister = () => {
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="state">State:</label>
                                 <input
                                     type="text"
+                                    id="state"
                                     name="state"
-                                    placeholder="State"
+                                    placeholder="Enter state"
                                     value={formData.state}
                                     onChange={handleChange}
                                     className="form-control"
@@ -120,10 +132,12 @@ const CustomerRegister = () => {
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
+                                <label htmlFor="city">City:</label>
                                 <input
                                     type="text"
+                                    id="city"
                                     name="city"
-                                    placeholder="City"
+                                    placeholder="Enter city"
                                     value={formData.city}
                                     onChange={handleChange}
                                     className="form-control"
