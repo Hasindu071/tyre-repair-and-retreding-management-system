@@ -44,7 +44,7 @@ const CustomerSignup = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/registerCustomer', finalData, {
+            const response = await axios.post('http://localhost:5000/CustomerRegister', finalData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
