@@ -22,7 +22,6 @@ body {
     border-radius: 12px;
     padding: 40px;
     width: 350px;
-    text-align: center;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -60,6 +59,14 @@ body {
 .customer-input:focus {
     border-color: #ff4b5c;
     background: rgba(255, 255, 255, 0.3);
+}
+
+.customer-input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #dedada;
+    margin-bottom: 5px;
 }
 
 /* Login Button */

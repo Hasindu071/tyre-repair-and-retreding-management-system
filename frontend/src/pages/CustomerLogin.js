@@ -62,6 +62,7 @@ const CustomerLogin = () => {
                     <h2 className="customer-login-title">Customer Login</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="customer-input-group">
+                            <label htmlFor="email">Email:</label>
                             <input
                                 type="email"
                                 name="email"
@@ -73,6 +74,7 @@ const CustomerLogin = () => {
                             />
                         </div>
                         <div className="customer-input-group">
+                            <label htmlFor="password">Password:</label>
                             <input
                                 type="password"
                                 name="password"
