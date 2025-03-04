@@ -114,6 +114,7 @@ const WorkerLogin = () => {
                     ) : (
                         <form onSubmit={handleSubmit}>
                             <div className="worker-input-group">
+                                <label htmlFor="email">Email:</label>
                                 <input
                                     type="email"
                                     name="email"
@@ -125,6 +126,7 @@ const WorkerLogin = () => {
                                 />
                             </div>
                             <div className="worker-input-group">
+                                <label htmlFor="password">Password:</label>
                                 <input
                                     type="password"
                                     name="password"
