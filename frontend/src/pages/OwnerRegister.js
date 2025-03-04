@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // You can still use Bootstrap for grid layout, if needed.
-import Navbar from '../components/NavBar';  // Assuming you have a NavBar component
-import '../styles/OwnerRegister.css'; // Assuming you have a CSS file for styling
-//import { registerOwner } from '../api'; // Import the registerOwner function
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../components/NavBar';
+import '../styles/OwnerRegister.css';
+
 const API_URL = "http://localhost:5000";
 
 export const registerOwner = async (ownerData) => {
@@ -25,7 +25,8 @@ const OwnerRegister = () => {
         lastName: '',
         email: '',
         password: '',
-        Confirm_Password: ''
+        Confirm_Password: '',
+        secretKey: ''
     });
 
     useEffect(() => {
@@ -75,8 +76,10 @@ const OwnerRegister = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="custom-row">
                             <div className="custom-col">
+                                <label htmlFor="firstName">First Name</label>
                                 <input
                                     type="text"
+                                    id="firstName"
                                     name="firstName"
                                     placeholder="First Name"
                                     value={formData.firstName}
@@ -86,8 +89,10 @@ const OwnerRegister = () => {
                                 />
                             </div>
                             <div className="custom-col">
+                                <label htmlFor="lastName">Last Name</label>
                                 <input
                                     type="text"
+                                    id="lastName"
                                     name="lastName"
                                     placeholder="Last Name"
                                     value={formData.lastName}
@@ -97,8 +102,10 @@ const OwnerRegister = () => {
                                 />
                             </div>
                             <div className="custom-col">
+                                <label htmlFor="email">Email</label>
                                 <input
                                     type="email"
+                                    id="email"
                                     name="email"
                                     placeholder="Email"
                                     value={formData.email}
@@ -108,8 +115,10 @@ const OwnerRegister = () => {
                                 />
                             </div>
                             <div className="custom-col">
+                                <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
+                                    id="password"
                                     name="password"
                                     placeholder="Password"
                                     value={formData.password}
@@ -119,8 +128,10 @@ const OwnerRegister = () => {
                                 />
                             </div>
                             <div className="custom-col">
+                                <label htmlFor="Confirm_Password">Confirm Password</label>
                                 <input
                                     type="password"
+                                    id="Confirm_Password"
                                     name="Confirm_Password"
                                     placeholder="Confirm Password"
                                     value={formData.Confirm_Password}
@@ -130,8 +141,10 @@ const OwnerRegister = () => {
                                 />
                             </div>
                             <div className="custom-col">
+                                <label htmlFor="secretKey">Secret Key</label>
                                 <input
                                     type="password"
+                                    id="secretKey"
                                     name="secretKey"
                                     placeholder="Secret Key"
                                     value={formData.secretKey}
