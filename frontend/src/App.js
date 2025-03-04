@@ -42,6 +42,7 @@ import OwnerSendNotice from './pages/OwnerSendNotice';
 import YourService from './pages/YourService';
 import Supplies from './pages/Supplies';
 import WorkerTasks from './pages/WorkerTasks';
+import WorkerProfileImage from './pages/WorkerProfileImage';
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
             <Route path="/services" element={<YourService />} />
             <Route path="/Owner/Supplies" element={<Supplies />} />
             <Route path="/WorkerTasks" element={<WorkerTasks />} />
+            <Route path="/WorkerProfileImage" element={<WorkerProfileImage />} />
           </Routes>
         </div>
       </Router>

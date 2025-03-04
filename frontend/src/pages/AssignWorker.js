@@ -68,7 +68,7 @@ const AssignWorker = () => {
   };
 
   const handleViewWorkerTasks = (workerName) => {
-    navigate(`/workerTasks`);
+    navigate(`/WorkerProfileImage`);
   };
 
   return (
