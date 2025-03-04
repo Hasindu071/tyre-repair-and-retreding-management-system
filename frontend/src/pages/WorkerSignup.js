@@ -58,39 +58,54 @@ const WorkerSignup = () => {
     return (
         <div>
             <Navbar />
-
+    
             <div className="worker-signup-container">
                 <div className="worker-signup-card">
                     <h2 className="worker-signup-title">Worker <span>SignUp</span></h2>
-
+    
                     <form onSubmit={handleSubmit}>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={signupData.email}
-                            onChange={handleChange}
-                            className="worker-signup-input"
-                            required
-                        />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={signupData.password}
-                            onChange={handleChange}
-                            className="worker-signup-input"
-                            required
-                        />
-                        <input
-                            type="password"
-                            name="rePassword"
-                            placeholder="Re-enter Password"
-                            value={signupData.rePassword}
-                            onChange={handleChange}
-                            className="worker-signup-input"
-                            required
-                        />
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder="Enter your email"
+                                value={signupData.email}
+                                onChange={handleChange}
+                                className="worker-signup-input"
+                                required
+                            />
+                        </div>
+    
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="Enter your password"
+                                value={signupData.password}
+                                onChange={handleChange}
+                                className="worker-signup-input"
+                                required
+                            />
+                        </div>
+    
+                        <div className="form-group">
+                            <label htmlFor="rePassword">Re-enter Password</label>
+                            <input
+                                type="password"
+                                name="rePassword"
+                                id="rePassword"
+                                placeholder="Re-enter your password"
+                                value={signupData.rePassword}
+                                onChange={handleChange}
+                                className="worker-signup-input"
+                                required
+                            />
+                        </div>
+    
                         <button type="submit" className="worker-signup-button">
                             Submit
                         </button>
@@ -99,6 +114,5 @@ const WorkerSignup = () => {
             </div>
         </div>
     );
-};
-
+}    
 export default WorkerSignup;

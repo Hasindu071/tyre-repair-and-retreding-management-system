@@ -1,92 +1,127 @@
-.register-container {
+/* Background Image Styling */
+.register-container-worker {
     background-image: url('../assets/background.png'); /* Ensure this path is correct */
     background-size: cover;
     background-position: center;
     min-height: 100vh;
-  }
-/* Register Page Container */
-.register-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #1a1a1a;
-    padding: 40px 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Adds slight overlay to enhance form visibility */
 }
 
 /* Form Box */
-.register-box {
+.register-box-worker {
     background-color: #2d2d2d;
-    padding: 30px;
+    padding: 40px;
     border-radius: 12px;
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 600px;
-    text-align: center;
+    margin-left: 10px;
     color: white;
+    backdrop-filter: blur(8px); /* Adds a subtle background blur effect */
 }
 
 /* Title Styling */
-.register-title {
-    font-size: 24px;
+.register-title-worker {
+    font-size: 28px;
     font-weight: bold;
     margin-bottom: 20px;
     color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.register-title span {
-    color: red;
+.register-title-worker span {
+    color: #e63946; /* Red shade for emphasis */
 }
 
 /* Form Styling */
-.register-form {
+.register-form-worker {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+    grid-template-rows: auto auto; /* Ensure it creates two rows */
 }
 
-.register-form input {
-    padding: 12px;
+/* Input Fields Styling */
+.register-form-worker input {
+    padding: 15px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: #3a3a3a;
     color: white;
     font-size: 16px;
     outline: none;
     transition: 0.3s ease;
+    width: 100%;
 }
 
-.register-form input:focus {
+/* Label Styling */
+.register-box-worker label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #d0d1d4;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Input Focus Effect */
+.register-form-worker input:focus {
     background-color: #4a4a4a;
+    box-shadow: 0px 0px 8px rgba(0, 150, 255, 0.8); /* Light blue glow on focus */
 }
 
 /* Full-width inputs */
-.register-form input[name="phone2"],
-.register-form input[name="address2"],
-.register-form input[name="secretKey"],
-.register-button {
+.register-form-worker input[name="phone2"],
+.register-form-worker input[name="address2"],
+.register-button-worker {
     grid-column: span 2;
 }
 
-/* Submit Button */
+/* Submit Button Styling */
 .register-button-worker {
-    background-color: red;
+    background-color: #e63946; /* Red for the button */
     color: white;
     border: none;
-    padding: 12px;
-    border-radius: 6px;
+    padding: 15px;
+    border-radius: 8px;
     font-size: 18px;
     cursor: pointer;
     transition: 0.3s ease;
+    width: 100%;
+    font-weight: bold;
 }
 
+/* Hover Effect for Button */
 .register-button-worker:hover {
-    background-color: darkred;
+    background-color: #d42a30; /* Darker shade of red */
 }
 
 /* Responsive Design */
+@media (max-width: 768px) {
+    .register-form-worker {
+        grid-template-columns: 1fr; /* Stack the form fields in one column on small screens */
+        gap: 15px;
+    }
+
+    .register-box-worker {
+        padding: 25px;
+    }
+
+    .register-title-worker {
+        font-size: 24px;
+    }
+
+    .register-button-worker {
+        padding: 14px;
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 600px) {
-    .register-form {
-        grid-template-columns: 1fr;
+    .register-container-worker {
+        padding: 0;
     }
 }
