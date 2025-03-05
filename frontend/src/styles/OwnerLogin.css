@@ -54,6 +54,19 @@
     margin-bottom: 18px;
 }
 
+.owner-signup-tage {
+    font-size: 14px;
+    color: #969798;
+    text-align: center;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.owner-signup-tage:hover {
+    color: #c9ccce;
+}
+
 .owner-input {
     width: 100%;
     padding: 14px;

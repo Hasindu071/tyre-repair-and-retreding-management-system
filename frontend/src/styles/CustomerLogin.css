@@ -50,6 +50,19 @@ body {
     transition: 0.3s;
 }
 
+.customer-signup-tage {
+    font-size: 14px;
+    color: #969798;
+    text-align: center;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.customer-signup-tage:hover {
+    color: #c9ccce;
+}
+
 /* Placeholder Styling */
 .customer-input::placeholder {
     color: rgba(255, 255, 255, 0.7);

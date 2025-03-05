@@ -28,6 +28,19 @@ body {
     text-align: center;
 }
 
+.worker-signup-tage {
+    font-size: 14px;
+    color: #969798;
+    text-align: center;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.worker-signup-tage:hover {
+    color: #c9ccce;
+}
+
 /* Card Design */
 .worker-login-card {
     background: rgba(255, 255, 255, 0.1);

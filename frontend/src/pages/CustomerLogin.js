@@ -93,6 +93,9 @@ const CustomerLogin = () => {
                         <button type="button" className="customer-google-login" onClick={handleGoogleLogin}>
                             Continue with Google
                         </button>
+                        <p className="customer-signup-tage" onClick={() => navigate('/register/customer')}>
+                         Don't have an account? Sign Up
+                        </p>
                     </form>
                 </div>
             </div>

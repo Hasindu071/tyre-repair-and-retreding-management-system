@@ -133,6 +133,9 @@ const OwnerLogin = () => {
                     <button type="button" className="owner-google-login" onClick={handleGoogleLogin}>
                             Continue with Google
                         </button>
+                        <p className="owner-signup-tage" onClick={() => navigate('/register/owner')}>
+                         Don't have an account? Sign Up
+                        </p>
                 </div>
             </div>
         </div>
