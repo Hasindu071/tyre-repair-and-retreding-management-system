@@ -89,7 +89,7 @@ function App() {
             <Route path="/Owner/SendNotice" element={<OwnerSendNotice />} />
             <Route path="/services" element={<YourService />} />
             <Route path="/Owner/Supplies" element={<Supplies />} />
-            <Route path="/WorkerTasks" element={<WorkerTasks />} />
+            <Route path="/workerTask/:workerId" element={<WorkerTasks />} />
             <Route path="/WorkerProfileImage" element={<WorkerProfileImage />} />
           </Routes>
         </div>

@@ -1,59 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar';
-import OwnerSidebar from "../components/SideNav";
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import "../styles/WorkerTasks.css";
+import { useParams, useNavigate } from 'react-router-dom';
+import NewNavbar from "../components/Navbars/OwnerRegiNavBar";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const WorkerTasks = () => {
-  const { workerName } = useParams();
-  const [tasks, setTasks] = useState([]);
+const WorkerTask = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [workerTask, setWorkerTask] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchWorkerTasks = async () => {
+    const fetchWorkerTask = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/orders/getWorkerTasks/${workerName}`);
-        setTasks(response.data);
-      } catch (error) {
-        console.error("Error fetching worker tasks:", error);
+        const response = await axios.get(`http://localhost:5000/workerTask/${id}`);
+        setWorkerTask(response.data);
+      } catch (err) {
+        console.error("Error fetching worker task:", err);
+        setError("Failed to fetch worker task");
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (workerName) {
-      fetchWorkerTasks();
-    }
-  }, [workerName]);
+    fetchWorkerTask();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div>
+        <NewNavbar />
+        <div className="container mt-5 text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p>Loading worker task...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <NewNavbar />
+        <div className="container mt-5 text-center">
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+          <button onClick={() => navigate(-1)} className="btn btn-secondary">Back</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <Navbar />
-      <OwnerSidebar />
-      <div className="worker-tasks-container">
-        <h2 className="title">Tasks for {workerName}</h2>
-        <table className="tasks-table">
-          <thead>
-            <tr>
-              <th>Task ID</th>
-              <th>Customer Name</th>
-              <th>Task</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task) => (
-              <tr key={task.id}>
-                <td>{task.id}</td>
-                <td>{task.customer}</td>
-                <td>{task.task}</td>
-                <td>{task.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <NewNavbar />
+      <div className="container mt-4">
+        <h2>Worker Task Details</h2>
+        <div className="card">
+          <div className="card-header">
+            Worker ID: {id}
+          </div>
+          <div className="card-body">
+            <h5 className="card-title">{workerTask.taskName || 'Task Name'}</h5>
+            <p className="card-text">{workerTask.description || 'No description available.'}</p>
+            {/* Add more details as necessary */}
+            <button onClick={() => navigate(-1)} className="btn btn-secondary">Back</button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default WorkerTasks;
+export default WorkerTask;
