@@ -47,7 +47,7 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
 
 // GET route – Retrieve all registered workers (including profile picture path)
 router.get('/', (req, res) => {
-    const query = "SELECT id, firstName, lastName, email, title, profilePicture FROM worker_register";
+    const query = "SELECT id, firstName, lastName, profilePicture FROM worker_register";
     db.query(query, (err, results) => {
       if (err) {
         console.error("Error fetching workers:", err);

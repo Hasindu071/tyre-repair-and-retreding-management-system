@@ -26,10 +26,7 @@ const WorkerRegisterTable = () => {
         <thead>
           <tr>
             <th>Profile Image</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Title</th>
+            <th>Name</th>
           </tr>
         </thead>
         <tbody>
@@ -46,10 +43,7 @@ const WorkerRegisterTable = () => {
                   'No Image'
                 )}
               </td>
-              <td>{worker.firstName}</td>
-              <td>{worker.lastName}</td>
-              <td>{worker.email}</td>
-              <td>{worker.title}</td>
+              <td>{worker.firstName} {worker.lastName}</td>
             </tr>
           ))}
         </tbody>

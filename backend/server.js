@@ -4,6 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const db = require('./config/db');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,6 +12,7 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Import routes
 const ownerRegisterRoute = require('./routes/OwnerRegister');
