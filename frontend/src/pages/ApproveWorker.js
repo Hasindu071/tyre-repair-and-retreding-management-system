@@ -7,25 +7,36 @@ import "../styles/ApproveWorker.css";
 const ApproveWorker = () => {
   const [workers, setWorkers] = useState([]);
 
-  // Fetch pending workers from backend
+  const fetchWorkers = async () => {
+    try {
+      // Updated endpoint to match the backend route that returns registered workers
+      const res = await fetch("http://localhost:5000/WorkerRegister");
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const data = await res.json();
+      setWorkers(data);
+    } catch (err) {
+      console.error("Error fetching workers:", err);
+    }
+  };
+
+  // Fetch workers when component mounts
   useEffect(() => {
-    fetch("/workers/pending")
-      .then(res => res.json())
-      .then(data => setWorkers(data))
-      .catch(err => console.error("Error fetching workers:", err));
+    fetchWorkers();
   }, []);
 
-  // Handle worker approval/rejection
+  // Handle worker approval/rejection and refresh the worker list after updating
   const handleApproval = async (id, status) => {
     try {
-      const response = await fetch(`/workers/update-status/${id}`, {
+      const response = await fetch(`http://localhost:5000/workers/update-status/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       });
-
       if (response.ok) {
-        setWorkers(workers.filter(worker => worker.id !== id));
+        // Re-fetch the worker list after successful update
+        fetchWorkers();
       }
     } catch (error) {
       console.error("Error updating worker status:", error);
@@ -36,18 +47,20 @@ const ApproveWorker = () => {
     <div>
       <Navbar />
       <OwnerSidebar />
-      <div className="approve-worker-container">
-        <h2 className="title">Approve Workers</h2>
+      <div className="approve-worker-container-worker">
+        <h2 className="title-worker">Approve Workers</h2>
         {workers.length === 0 ? (
           <p>No pending workers.</p>
         ) : (
-          <table className="worker-table">
+          <table className="worker-table-worker">
             <thead>
               <tr>
                 <th>Worker ID</th>
+                <th>Profile Photo</th>
                 <th>Name</th>
+                <th>Email</th>
+                <th>NIC</th>
                 <th>Address</th>
-                <th>Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -55,14 +68,28 @@ const ApproveWorker = () => {
               {workers.map(worker => (
                 <tr key={worker.id}>
                   <td>{worker.id}</td>
-                  <td>{worker.name}</td>
-                  <td>{worker.address}</td>
-                  <td>{worker.date}</td>
                   <td>
-                    <button className="approve-button" onClick={() => handleApproval(worker.id, "Approved")}>
+  <img
+    src={`http://localhost:5000${worker.profilePicture}`}
+    alt="Profile"
+    className="profile-photo"
+  />
+</td>
+                  <td>{worker.title} {worker.firstName} {worker.lastName}</td>
+                  <td>{worker.email}</td>
+                  <td>{worker.nic}</td>
+                  <td>{worker.address1} {worker.address2}</td>
+                  <td>
+                    <button
+                      className="approve-button-worker"
+                      onClick={() => handleApproval(worker.id, "Approved")}
+                    >
                       Approve
                     </button>
-                    <button className="cancel-button" onClick={() => handleApproval(worker.id, "Rejected")}>
+                    <button
+                      className="cancel-button-worker"
+                      onClick={() => handleApproval(worker.id, "Rejected")}
+                    >
                       Reject
                     </button>
                   </td>

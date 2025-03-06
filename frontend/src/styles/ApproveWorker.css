@@ -1,75 +1,108 @@
-.approve-worker-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+.approve-worker-container-worker {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title-worker {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.worker-table-worker {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.worker-table-worker th, 
+.worker-table-worker td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.worker-table-worker th {
+  background: #f4f4f4;
+  font-size: 16px;
+  color: #555;
+}
+
+.worker-table-worker tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.approve-button-worker,
+.cancel-button-worker {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  font-size: 14px;
+  color: #fff;
+  margin-right: 5px;
+}
+
+.approve-button-worker {
+  background: green;
+}
+
+.approve-button-worker:hover {
+  background: darkgreen;
+}
+
+.cancel-button-worker {
+  background: red;
+  margin-right: 0;
+}
+
+.cancel-button-worker:hover {
+  background: darkred;
+}
+
+.status-approved-worker {
+  color: green;
+  font-weight: bold;
+}
+
+.status-canceled-worker {
+  color: red;
+  font-weight: bold;
+}
+
+.profile-photo {
+  width: 4cm;
+  height: 4cm;
+  object-fit: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .approve-worker-container-worker {
+      margin: 20px;
+      padding: 15px;
   }
-  
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+
+  .title-worker {
+      font-size: 20px;
   }
-  
-  .worker-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+
+  .worker-table-worker th, 
+  .worker-table-worker td {
+      font-size: 12px;
+      padding: 8px;
   }
-  
-  .worker-table th, 
-  .worker-table td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
+
+  .approve-button-worker,
+  .cancel-button-worker {
+      font-size: 12px;
+      padding: 6px 10px;
   }
-  
-  .worker-table th {
-    background: #f4f4f4;
-    font-size: 16px;
-  }
-  
-  .worker-table tr:nth-child(even) {
-    background: #f9f9f9;
-  }
-  
-  .approve-button {
-    background: green;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: 5px;
-  }
-  
-  .approve-button:hover {
-    background: darkgreen;
-  }
-  
-  .cancel-button {
-    background: red;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .cancel-button:hover {
-    background: darkred;
-  }
-  
-  .status-approved {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .status-canceled {
-    color: red;
-    font-weight: bold;
-  }
-  
+}
