@@ -50,6 +50,7 @@ const ApproveOrder = () => {
               <th>Notes</th>
               <th>Inside Damage Photo</th>
               <th>Outside Damage Photo</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -80,6 +81,35 @@ const ApproveOrder = () => {
                     />
                   )}
                 </td>
+                <td>
+                  <button
+                    className="approve-btn"
+                    onClick={async () => {
+                      try {
+                        await axios.put(`http://localhost:5000/services/approveRepair/${repair.id}`);
+                        fetchRepairs();
+                      } catch (error) {
+                        console.error("Error approving repair:", error);
+                      }
+                    }}
+                  >
+                    Approve
+                  </button>
+                  
+                  <button
+                    className="reject-btn"
+                    onClick={async () => {
+                      try {
+                        await axios.put(`http://localhost:5000/services/rejectRepair/${repair.id}`);
+                        fetchRepairs();
+                      } catch (error) {
+                        console.error("Error rejecting repair:", error);
+                      }
+                    }}
+                  >
+                    Reject
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -100,6 +130,7 @@ const ApproveOrder = () => {
               <th>Notes</th>
               <th>insidePhoto</th>
               <th>outsidePhoto</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -131,6 +162,35 @@ const ApproveOrder = () => {
                       style={{ width: '4cm', height: '4cm' }}
                     />
                   )}
+                </td>
+                <td>
+                  <button
+                    className="approve-btn"
+                    onClick={async () => {
+                      try {
+                        await axios.put(`http://localhost:5000/services/approveRetreading/${retreading.id}`);
+                        fetchRetreadings();
+                      } catch (error) {
+                        console.error("Error approving retreading:", error);
+                      }
+                    }}
+                  >
+                    Approve
+                  </button>
+
+                  <button
+                    className="reject-btn"
+                    onClick={async () => {
+                      try {
+                        await axios.put(`http://localhost:5000/services/rejectRetreading/${retreading.id}`);
+                        fetchRetreadings();
+                      } catch (error) {
+                        console.error("Error rejecting retreading:", error);
+                      }
+                    }}
+                  >
+                    Reject
+                  </button>
                 </td>
               </tr>
             ))}
