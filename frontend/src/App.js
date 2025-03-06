@@ -43,6 +43,9 @@ import YourService from './pages/YourService';
 import Supplies from './pages/Supplies';
 import WorkerTasks from './pages/WorkerTasks';
 import WorkerProfileImage from './pages/WorkerProfileImage';
+import ViewTasks from './pages/ViewTasks';
+import UpdateProgress from './pages/UpdateProgress';
+import CompleteTask from './pages/CompleteTask';
 
 function App() {
   return (
@@ -91,6 +94,9 @@ function App() {
             <Route path="/Owner/Supplies" element={<Supplies />} />
             <Route path="/workerTask/:workerId" element={<WorkerTasks />} />
             <Route path="/WorkerProfileImage" element={<WorkerProfileImage />} />
+            <Route path="/view-tasks" element={<ViewTasks />} />
+            <Route path="/update-progress" element={<UpdateProgress />} />
+            <Route path="/complete-task" element={<CompleteTask />} />
           </Routes>
         </div>
       </Router>

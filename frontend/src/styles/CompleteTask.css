@@ -1,0 +1,50 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.complete-container {
+    margin: 40px auto;
+    padding: 30px;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.complete-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.complete-subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.complete-action {
+    margin-top: 20px;
+}
+
+.complete-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(45deg, #34d399, #10b981);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.4s ease;
+}
+
+.complete-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #10b981, #34d399);
+}
+
+.complete-button:active {
+    transform: scale(0.98);
+}
