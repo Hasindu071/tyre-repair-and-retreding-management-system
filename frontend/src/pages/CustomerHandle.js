@@ -54,6 +54,7 @@ const CustomerHandle = () => {
                 <th>House Name</th>
                 <th>City</th>
                 <th>State</th>
+                <th>Action</th>
 
               </tr>
             </thead>
@@ -70,6 +71,10 @@ const CustomerHandle = () => {
                     <td>{customer.customer_address1}</td>
                     <td>{customer.customer_address2}</td>
                     <td>{customer.customer_address3}</td>
+                    <td>
+                      <button className="approve-button">Edit</button>
+                      <button className="cancel-button">Delete</button>
+                    </td>
                   </tr>
                 ))
               ) : (
