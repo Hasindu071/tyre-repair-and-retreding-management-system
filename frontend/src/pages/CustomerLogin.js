@@ -89,7 +89,9 @@ const CustomerLogin = () => {
                             Login
                         </button>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
-                        <a href="/forgot-password" className="worker-forgot-password">Forgot Password?</a>
+                        <p className="customer-forgot-password" onClick={() => navigate('/customer/forgot-password')}>
+                            Forgot Password?
+                            </p>
                         <button type="button" className="customer-google-login" onClick={handleGoogleLogin}>
                             Continue with Google
                         </button>

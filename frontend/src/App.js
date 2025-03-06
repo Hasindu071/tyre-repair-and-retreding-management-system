@@ -48,6 +48,7 @@ import UpdateProgress from './pages/UpdateProgress';
 import CompleteTask from './pages/CompleteTask';
 import OwnerForgotPassword from './pages/OwnerForgotPassword';
 import WorkerForgotPassword from './pages/WorkerForgotPassword';
+import CustomerForgotPassword from './pages/CustomerForgotPassword';
 
 function App() {
   return (
@@ -101,6 +102,7 @@ function App() {
             <Route path="/complete-task" element={<CompleteTask />} />
             <Route path="/owner/forgot-password" element={<OwnerForgotPassword />} />
             <Route path="/worker/forgot-password" element={<WorkerForgotPassword />} />
+            <Route path="/customer/forgot-password" element={<CustomerForgotPassword />} />
           </Routes>
         </div>
       </Router>
