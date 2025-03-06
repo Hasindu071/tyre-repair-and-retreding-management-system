@@ -142,7 +142,9 @@ const WorkerLogin = () => {
                         </form>
                     )}
                     <div className="worker-login-options">
-                        <p className="worker-forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</p>
+                    <p className="worker-forgot-password" onClick={() => navigate('/worker/forgot-password')}>
+                            Forgot Password?
+                            </p>
                         <button className="worker-google-login" onClick={handleGoogleLogin}>Continue with Google</button>
                         <p className="worker-signup-tage" onClick={() => navigate('/register/worker')}>
                          Don't have an account? Sign Up
