@@ -46,6 +46,7 @@ import WorkerProfileImage from './pages/WorkerProfileImage';
 import ViewTasks from './pages/ViewTasks';
 import UpdateProgress from './pages/UpdateProgress';
 import CompleteTask from './pages/CompleteTask';
+import OwnerForgotPassword from './pages/OwnerForgotPassword';
 
 function App() {
   return (
@@ -97,6 +98,7 @@ function App() {
             <Route path="/view-tasks" element={<ViewTasks />} />
             <Route path="/update-progress" element={<UpdateProgress />} />
             <Route path="/complete-task" element={<CompleteTask />} />
+            <Route path="/owner/forgot-password" element={<OwnerForgotPassword />} />
           </Routes>
         </div>
       </Router>

@@ -126,7 +126,9 @@ const OwnerLogin = () => {
                                 Login
                             </button>
                             {errorMessage && <p className="error-message">{errorMessage}</p>}
-                            <p className="owner-forgot-password" onClick={() => setResetMode(true)}>Forgot Password?</p>
+                            <p className="owner-forgot-password" onClick={() => navigate('/owner/forgot-password')}>
+                            Forgot Password?
+                            </p>
                         </form>
                     )}
 
