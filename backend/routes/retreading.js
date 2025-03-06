@@ -30,25 +30,70 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Retreading form submission route
-router.post('/submit', upload.fields([{ name: 'insidePhoto' }, { name: 'outsidePhoto' }]), (req, res) => {
-    console.log("Received files:", req.files);  // Log the received files
+router.post(
+    '/submit',
+    upload.fields([{ name: 'insidePhoto' }, { name: 'outsidePhoto' }]),
+    (req, res) => {
+        console.log("Received files:", req.files);
+        const {
+            sizeCode,
+            wheelDiameter,
+            tireWidth,
+            tireBrand,
+            tirePattern,
+            completionDate,
+            tireStructure,
+            notes
+        } = req.body;
 
-    const { sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes } = req.body;
-    const insidePhoto = req.files.insidePhoto ? req.files.insidePhoto[0].filename : null;
-    const outsidePhoto = req.files.outsidePhoto ? req.files.outsidePhoto[0].filename : null;
+        // If files are uploaded, prefix the file name with "/uploads/"
+        const insidePhoto = req.files.insidePhoto 
+            ? `/uploads/${req.files.insidePhoto[0].filename}` 
+            : null;
+        const outsidePhoto = req.files.outsidePhoto 
+            ? `/uploads/${req.files.outsidePhoto[0].filename}` 
+            : null;
 
-    if (!sizeCode || !wheelDiameter || !tireWidth || !tireBrand || !tirePattern || !completionDate || !tireStructure) {
-        return res.status(400).json({ message: 'All fields are required.' });
-    }
-
-    const query = 'INSERT INTO retreading (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes, insidePhoto, outsidePhoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    db.query(query, [sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes, insidePhoto, outsidePhoto], (err, results) => {
-        if (err) {
-            console.error('Error inserting data:', err);
-            return res.status(500).json({ message: 'Server error.', error: err });
+        // Validate required fields
+        if (
+            !sizeCode || 
+            !wheelDiameter || 
+            !tireWidth || 
+            !tireBrand || 
+            !tirePattern || 
+            !completionDate || 
+            !tireStructure
+        ) {
+            return res.status(400).json({ message: 'All fields are required.' });
         }
-        res.status(200).json({ message: 'Form submitted successfully!' });
-    });
-});
+
+        const query = `INSERT INTO retreading 
+            (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes, insidePhoto, outsidePhoto) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+        db.query(
+            query,
+            [
+                sizeCode,
+                wheelDiameter,
+                tireWidth,
+                tireBrand,
+                tirePattern,
+                completionDate,
+                tireStructure,
+                notes,
+                insidePhoto,
+                outsidePhoto
+            ],
+            (err, results) => {
+                if (err) {
+                    console.error('Error inserting data:', err);
+                    return res.status(500).json({ message: 'Server error.', error: err });
+                }
+                res.status(200).json({ message: 'Form submitted successfully!' });
+            }
+        );
+    }
+);
 
 module.exports = router;

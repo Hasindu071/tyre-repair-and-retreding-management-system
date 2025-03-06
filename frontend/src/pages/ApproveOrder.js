@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar'; // Import the Navbar component
+import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
-import "../styles/ApproveOrder.css"; // Import the CSS file
-import axios from 'axios'; // Import axios for HTTP requests
+import "../styles/ApproveOrder.css";
+import axios from 'axios';
 
 const ApproveOrder = () => {
   const [repairs, setRepairs] = useState([]);
@@ -48,6 +48,8 @@ const ApproveOrder = () => {
               <th>Patches Applied</th>
               <th>Receive Date</th>
               <th>Notes</th>
+              <th>Inside Damage Photo</th>
+              <th>Outside Damage Photo</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +62,24 @@ const ApproveOrder = () => {
                 <td>{repair.internalStructure}</td>
                 <td>{repair.receiveDate}</td>
                 <td>{repair.notes}</td>
+                <td>
+                  {repair.insideDamagePhoto && (
+                    <img
+                      src={`http://localhost:5000${repair.insideDamagePhoto}`}
+                      alt="Damage"
+                      style={{ width: '4cm', height: '4cm' }}
+                    />
+                  )}
+                </td>
+                <td>
+                  {repair.outsideDamagePhoto && (
+                    <img
+                      src={`http://localhost:5000${repair.outsideDamagePhoto}`}
+                      alt="Damage"
+                      style={{ width: '4cm', height: '4cm' }}
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -78,6 +98,8 @@ const ApproveOrder = () => {
               <th>Completion Date</th>
               <th>Tire Structure</th>
               <th>Notes</th>
+              <th>insidePhoto</th>
+              <th>outsidePhoto</th>
             </tr>
           </thead>
           <tbody>
@@ -92,6 +114,24 @@ const ApproveOrder = () => {
                 <td>{retreading.completionDate}</td>
                 <td>{retreading.tireStructure}</td>
                 <td>{retreading.notes}</td>
+                <td>
+                  {retreading.insidePhoto && (
+                    <img
+                      src={`http://localhost:5000${retreading.insidePhoto}`}
+                      alt="Inside"
+                      style={{ width: '4cm', height: '4cm' }}
+                    />
+                  )}
+                </td>
+                <td>
+                  {retreading.outsidePhoto && (
+                    <img
+                      src={`http://localhost:5000${retreading.outsidePhoto}`}
+                      alt="Outside"
+                      style={{ width: '4cm', height: '4cm' }}
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
