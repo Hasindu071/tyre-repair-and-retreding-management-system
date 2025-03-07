@@ -1,5 +1,5 @@
 .ourproductowner-container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 50px auto;
     padding: 30px;
     background: #ffffff;
@@ -17,10 +17,10 @@
 .ourproductowner-form {
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
 .form-group {
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
 }
@@ -46,11 +46,6 @@
     border-color: #2193b0;
 }
 
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
 .submit-button {
     padding: 12px;
     font-size: 1rem;
@@ -64,4 +59,44 @@
 
 .submit-button:hover {
     background: linear-gradient(135deg, #2193b0, #6dd5ed);
+}
+
+.products-table {
+    margin-top: 50px;
+}
+
+.products-table h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.products-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.products-table th,
+.products-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+.products-table th {
+    background-color: #656566;
+    color: white;
+}
+
+.products-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.products-table tr:hover {
+    background-color: #ddd;
+}
+
+.products-table img {
+    border-radius: 4px;
 }

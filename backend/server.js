@@ -36,6 +36,7 @@ const customerProfileRoute = require('./routes/CustomerProfile');
 const noticesRouter = require('./routes/notices');
 const workerProfileRouter = require('./routes/workerProfile');
 const suppliesRouter = require('./routes/Supplies');
+const OurProductOwner = require('./routes/our_products');
 //const ownerForgotPasswordRoute = require('./routes/OwnerForgotPassword');
 
 // Use routes
@@ -60,6 +61,7 @@ app.use('/CustomerProfile', customerProfileRoute);
 app.use('/notices', noticesRouter);
 app.use('/workerProfile', workerProfileRouter);
 app.use('/supplies', suppliesRouter);
+app.use('/OurProductOwner', OurProductOwner);
 //app.use('/owner', ownerForgotPasswordRoute);
 
 
