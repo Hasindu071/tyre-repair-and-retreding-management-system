@@ -39,17 +39,28 @@ router.get('/getWorkers', async (req, res) => {
     }
 });
 
-// Route to add a new order with optional photo upload
 router.post('/addOrder', upload.single('orderImage'), async (req, res) => {
     const { customer, task } = req.body;
-    const orderImage = req.file ? `/uploads/${req.file.filename}` : null;
     try {
-        // Ensure your orders table has the "image" column if you plan to store the path.
-        const [result] = await db.promise().query(
-            'INSERT INTO orders (customer, task, image) VALUES (?, ?, ?)', 
-            [customer, task, orderImage]
-        );
-        const newOrder = { id: result.insertId, customer, task, image: orderImage };
+        let result;
+        if (req.file) {
+            const orderImage = `/uploads/${req.file.filename}`;
+            [result] = await db.promise().query(
+                'INSERT INTO orders (customer, task, image) VALUES (?, ?, ?)', 
+                [customer, task, orderImage]
+            );
+        } else {
+            [result] = await db.promise().query(
+                'INSERT INTO orders (customer, task) VALUES (?, ?)', 
+                [customer, task]
+            );
+        }
+        const newOrder = { 
+            id: result.insertId, 
+            customer, 
+            task, 
+            image: req.file ? `/uploads/${req.file.filename}` : undefined 
+        };
         res.status(201).json(newOrder);
     } catch (error) {
         console.error('Database insert error:', error);
