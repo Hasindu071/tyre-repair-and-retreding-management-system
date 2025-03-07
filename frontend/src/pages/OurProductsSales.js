@@ -3,14 +3,15 @@ import axios from 'axios';
 import Navbar from '../components/NavBar';
 import '../styles/OurProductsSales.css';
 
-const OurProducts = () => {
+const OurProductsSales = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/products/getProducts');
+                // Update the endpoint if needed
+                const response = await axios.get('http://localhost:5000/OurProductOwner/getProducts');
                 setProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -34,34 +35,56 @@ const OurProducts = () => {
 
     return (
         <div>
-        <Navbar />
-        <div className="ourproducts-container">
-
-            <header className="ourproducts-header">
-                <h1>Our Products</h1>
-                <p>Discover quality products that suit your style.</p>
-            </header>
-            <div className="products-grid">
-                {products.map(product => (
-                    <div key={product.id} className="product-card">
-                        <div className="product-image">
-                            <img
-                                src={product.imageUrl || 'https://via.placeholder.com/300'}
-                                alt={product.name}
-                            />
-                        </div>
-                        <div className="product-info">
-                            <h2>{product.name}</h2>
-                            <p className="product-description">{product.description}</p>
-                            <p className="product-price">${product.price}</p>
-                            <button className="buy-button">Buy Now</button>
-                        </div>
-                    </div>
-                ))}
+            <Navbar />
+            <div className="ourproducts-container">
+                <header className="ourproducts-header">
+                    <h1>Our Products</h1>
+                    <p>Discover quality products that suit your style.</p>
+                </header>
+                <div className="products-table">
+                    <h2>Products List</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Description</th>
+                                <th>Price ($)</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.length > 0 ? (
+                                products.map((product) => (
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
+                                        <td>{product.productName}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.price}</td>
+                                        <td>
+                                            {product.image ? (
+                                                <img
+                                                    src={`http://localhost:5000${product.image}`}
+                                                    alt={product.productName}
+                                                    style={{ width: '100px', height: 'auto' }}
+                                                />
+                                            ) : (
+                                                "No Image"
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="5">No products found.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
     );
 };
 
-export default OurProducts;
+export default OurProductsSales;

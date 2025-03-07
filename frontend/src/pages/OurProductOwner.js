@@ -50,12 +50,10 @@ const OurProductOwner = () => {
             const data = await response.json();
             if (data.success) {
                 toast.success('Product added successfully!');
-                // Clear the form after submission
                 setProductName('');
                 setDescription('');
                 setPrice('');
                 setImage(null);
-                // Refresh the product list
                 fetchProducts();
                 setTimeout(() => navigate('/owner/products'), 2000);
             } else {
@@ -64,6 +62,26 @@ const OurProductOwner = () => {
         } catch (error) {
             console.error("Error adding product:", error);
             toast.error("An error occurred. Please try again.");
+        }
+    };
+
+    // New function to handle deletion
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this product?")) return;
+        try {
+            const response = await fetch(`http://localhost:5000/OurProductOwner/delete/${id}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            if (data.success) {
+                toast.success(data.message);
+                fetchProducts(); // Refresh list after deletion
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            toast.error("An error occurred while deleting the product.");
         }
     };
 
@@ -113,7 +131,7 @@ const OurProductOwner = () => {
                             id="image"
                             accept="image/*"
                             onChange={(e) => {
-                                if(e.target.files.length > 0) {
+                                if (e.target.files.length > 0) {
                                     setImage(e.target.files[0]);
                                 }
                             }}
@@ -134,6 +152,7 @@ const OurProductOwner = () => {
                                 <th>Description</th>
                                 <th>Price ($)</th>
                                 <th>Image</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -155,11 +174,19 @@ const OurProductOwner = () => {
                                                 "No Image"
                                             )}
                                         </td>
+                                        <td>
+                                            <button
+                                                className="delete-button"
+                                                onClick={() => handleDelete(product.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5">No products found.</td>
+                                    <td colSpan="6">No products found.</td>
                                 </tr>
                             )}
                         </tbody>
