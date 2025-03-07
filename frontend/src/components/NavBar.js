@@ -37,6 +37,9 @@ const Navbar = () => {
               <NavLink className="nav-link" activeClassName="active" to="/HowItWorks" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>How It Works</NavLink>
             </li>
             <li className="nav-item">
+              <NavLink className="nav-link" activeClassName="active" to="/OurProductsSales" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>Our Products</NavLink>
+            </li>
+            <li className="nav-item">
               <NavLink className="btn btn-danger ms-3 px-4 py-2 fw-bold rounded" to="/RoleLoginSelection">Login</NavLink>
             </li>
           </ul>

@@ -49,6 +49,8 @@ import CompleteTask from './pages/CompleteTask';
 import OwnerForgotPassword from './pages/OwnerForgotPassword';
 import WorkerForgotPassword from './pages/WorkerForgotPassword';
 import CustomerForgotPassword from './pages/CustomerForgotPassword';
+import OurProductsSales from './pages/OurProductsSales';
+import OurProducts from './pages/OurProductOwner';
 
 function App() {
   return (
@@ -103,6 +105,8 @@ function App() {
             <Route path="/owner/forgot-password" element={<OwnerForgotPassword />} />
             <Route path="/worker/forgot-password" element={<WorkerForgotPassword />} />
             <Route path="/customer/forgot-password" element={<CustomerForgotPassword />} />
+            <Route path="/OurProductsSales" element={<OurProductsSales />} />
+            <Route path="/OurProducts" element={<OurProducts />} />
           </Routes>
         </div>
       </Router>

@@ -1,3 +1,4 @@
+/*
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -59,3 +60,5 @@ router.post('/forgot-password', async (req, res) => {
 });
 
 module.exports = router;
+*/
+// Compare this snippet from frontend/src/pages/OwnerResetPassword.js:

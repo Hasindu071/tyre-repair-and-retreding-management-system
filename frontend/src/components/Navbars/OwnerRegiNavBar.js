@@ -52,6 +52,14 @@ const Navbar = () => {
               </NavLink>
             </li>
 
+            {/* Our Products */}
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/OurProducts" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+                Our Products
+              </NavLink>
+            </li>
+
+
             {/* Notification */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/notification" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
