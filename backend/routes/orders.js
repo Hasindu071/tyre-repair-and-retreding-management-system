@@ -91,4 +91,26 @@ router.get("/orders", async (req, res) => {
     }
 });
 
+
+// GET /Orders/orders – Retrieve all orders (or filter by workerId if provided)
+router.get('/orders', async (req, res) => {
+    try {
+        // Optionally filter tasks by workerId (if sent as a query parameter)
+        const { workerId } = req.query;
+        let query = 'SELECT * FROM orders';
+        let params = [];
+
+        if(workerId) {
+            query += ' WHERE assignedWorkerId = ?';
+            params.push(workerId);
+        }
+
+        const [rows] = await db.promise().query(query, params);
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch orders' });
+    }
+});
+
 module.exports = router;

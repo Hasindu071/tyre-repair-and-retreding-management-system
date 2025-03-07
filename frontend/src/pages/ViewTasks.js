@@ -4,6 +4,9 @@ import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import "../styles/ViewTasks.css";
 
 const ViewTasks = () => {
+    // Replace this with the actual worker id from your authentication logic
+    const currentWorkerId = 1;
+
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,7 +14,8 @@ const ViewTasks = () => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/Orders/orders");
+                // Pass the workerId query parameter to the backend endpoint
+                const response = await axios.get(`http://localhost:5000/Orders/orders?workerId=${currentWorkerId}`);
                 setTasks(response.data);
             } catch (err) {
                 console.error("Error fetching tasks:", err);
@@ -22,7 +26,7 @@ const ViewTasks = () => {
         };
 
         fetchTasks();
-    }, []);
+    }, [currentWorkerId]);
 
     if (loading) {
         return (
