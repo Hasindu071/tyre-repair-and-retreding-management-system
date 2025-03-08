@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/RetreadingDetails.css";
 
 const RetreadingDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [retreading, setRetreading] = useState(null);
 
     useEffect(() => {
@@ -27,6 +28,9 @@ const RetreadingDetails = () => {
     return (
         <div>
             <div className="retreading-details-container">
+            <div className="cut-icon-retreading" onClick={() => navigate(-1)}>
+                ✖
+            </div>
                 <h2>Retreading Details - ID: {retreading.id}</h2>
                 <p><strong>Size Code:</strong> {retreading.sizeCode}</p>
                 <p><strong>Wheel Diameter:</strong> {retreading.wheelDiameter}</p>

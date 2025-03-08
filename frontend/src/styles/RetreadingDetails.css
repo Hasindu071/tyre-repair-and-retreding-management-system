@@ -57,6 +57,18 @@
   .retreading-images img:hover {
     transform: scale(1.05);
   }
+
+  .cut-icon-retreading {
+    font-size: 2rem;
+    color: #247ba0;
+    cursor: pointer;
+    z-index: 1000;
+    transition: color 0.3s ease;
+}
+
+.cut-icon-retreading:hover {
+    color: #247ba0;
+}
   
   /* Fade In Animation */
   @keyframes fadeIn {

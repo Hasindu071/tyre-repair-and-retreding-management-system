@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/RepairDetails.css";
 
 const RepairDetails = () => {
     const { id } = useParams();
     const [repair, setRepair] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRepairDetails = async () => {
@@ -25,8 +26,11 @@ const RepairDetails = () => {
     }
 
     return (
-        <div>
+        <div className="repair-page">
             <div className="repair-details-container">
+            <div className="cut-icon" onClick={() => navigate(-1)}>
+                ✖
+            </div>
                 <h2>Repair Details - ID: {repair.id}</h2>
                 <p><strong>Puncture Size:</strong> {repair.punctureSize}</p>
                 <p><strong>Tire Brand:</strong> {repair.tireBrand}</p>

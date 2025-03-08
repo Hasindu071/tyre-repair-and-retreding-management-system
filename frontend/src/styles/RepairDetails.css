@@ -57,6 +57,18 @@
   .repair-images img:hover {
     transform: scale(1.05);
   }
+
+  .cut-icon {
+    font-size: 2rem;
+    color: #ff4b5c;
+    cursor: pointer;
+    z-index: 1000;
+    transition: color 0.3s ease;
+}
+
+.cut-icon:hover {
+    color: #e63946;
+}
   
   /* Fade In Animation */
   @keyframes fadeIn {
