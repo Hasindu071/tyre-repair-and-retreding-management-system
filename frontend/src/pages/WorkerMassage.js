@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar"; // Assuming you have a Navbar component
+import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import '../styles/WorkerMessage.css';
 
 const WorkerMessage = () => {
+    // Get the worker ID from localStorage (set during login)
+    const workerId = localStorage.getItem('workerId') || 1;
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const workerId = 1;
 
-    const fetchMessages = async () => {
+    const fetchMessages = React.useCallback(async () => {
         try {
-            // Pass worker_id as query parameter so backend returns only relevant messages
             const response = await fetch(`http://localhost:5000/workerMessages/getMessages?worker_id=${workerId}`);
             const data = await response.json();
             if (Array.isArray(data)) {
@@ -21,7 +21,7 @@ const WorkerMessage = () => {
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
-    };
+    }, [workerId]);
 
     const handleSendMessage = async () => {
         if (newMessage.trim() !== '') {
@@ -34,7 +34,7 @@ const WorkerMessage = () => {
 
                 if (response.ok) {
                     setNewMessage('');
-                    fetchMessages(); // Refresh messages after successful send
+                    fetchMessages();
                 } else {
                     const errData = await response.json();
                     console.error("Error sending message:", errData);
@@ -47,7 +47,7 @@ const WorkerMessage = () => {
 
     useEffect(() => {
         fetchMessages();
-    }, []);
+    }, [workerId, fetchMessages]);
 
     return (
         <div>
@@ -56,7 +56,7 @@ const WorkerMessage = () => {
                 <h2>Worker Messages</h2>
                 <div className="message-box">
                     {messages.map((msg, index) => (
-                        <div key={index} className={`message ${msg.worker_id === workerId ? 'worker' : 'other'}`}>
+                        <div key={index} className={`message ${msg.worker_id === Number(workerId) ? 'worker' : 'other'}`}>
                             {msg.message}
                         </div>
                     ))}
