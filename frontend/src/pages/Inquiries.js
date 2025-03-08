@@ -8,7 +8,7 @@ const workerId = localStorage.getItem('workerId') || 'default-worker-id';
 
 const Inquiries = () => {
     const [inquiries, setInquiries] = useState([]);
-    const [selectedInquiry, setSelectedInquiry] = useState(null);
+    const [selectedInquiry] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
 
@@ -18,7 +18,7 @@ const Inquiries = () => {
 
     const fetchInquiries = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages?worker_id=${workerId}`);
+            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages`);
             setInquiries(response.data);
         } catch (error) {
             console.error('Error fetching inquiries:', error);
@@ -27,7 +27,7 @@ const Inquiries = () => {
 
     const fetchMessages = useCallback(async (email) => {
         try {
-            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages?worker_id=${workerId}`, {
+            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages`, {
                 params: { receiver: email }
             });
             setMessages(response.data);
@@ -35,11 +35,6 @@ const Inquiries = () => {
             console.error('Error fetching messages:', error);
         }
     }, []);
-
-    const handleReplyClick = (inquiry) => {
-        setSelectedInquiry(inquiry);
-        fetchMessages(inquiry.email);
-    };
 
     const handleSendMessage = async () => {
         if (newMessage.trim() !== '' && selectedInquiry) {
@@ -71,9 +66,6 @@ const Inquiries = () => {
                             <h3>{inquiry.name}</h3>
                             <p><strong>Worker ID:</strong> {inquiry.worker_id}</p>
                             <p><strong>Initial Message:</strong> {inquiry.message}</p>
-                            <button className="reply-button" onClick={() => handleReplyClick(inquiry)}>
-                                View Conversation / Reply
-                            </button>
                         </div>
                     ))}
                 </div>
