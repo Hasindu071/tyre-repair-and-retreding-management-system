@@ -4,7 +4,6 @@ import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar";
 import '../styles/Inquiries.css';
 
 // Define workerId (you could retrieve it from localStorage or your auth context)
-const workerId = localStorage.getItem('workerId') || 'default-worker-id';
 
 const Inquiries = () => {
     const [inquiries, setInquiries] = useState([]);
