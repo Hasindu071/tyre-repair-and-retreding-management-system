@@ -1,46 +1,88 @@
+/* Root variables for consistency */
+:root {
+    --primary-color: #007bff;
+    --primary-dark: #0056b3;
+    --bg-color: #ffffff;
+    --card-bg: #f9f9f9;
+    --text-color: #333;
+    --border-color: #ddd;
+    --transition-speed: 0.3s;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+}
+
+/* Inquiries Container */
 .inquiries-container {
     max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-speed);
 }
 
+.inquiries-container:hover {
+    transform: translateY(-5px);
+}
+
+/* Header Styling */
 h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    font-size: 2rem;
+    font-weight: 600;
 }
 
+/* Inquiries List */
 .inquiries-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
+/* Inquiry Card */
 .inquiry-card {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow var(--transition-speed);
 }
 
+.inquiry-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Inquiry Card Heading */
 .inquiry-card h3 {
-    margin: 0 0 10px;
-    color: #444;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 1.25rem;
+    font-weight: 500;
 }
 
+/* Reply Button */
 .reply-button {
-    padding: 8px 12px;
-    background: #007bff;
-    color: #fff;
+    display: inline-block;
+    padding: 10px 18px;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    color: var(--bg-color);
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background var(--transition-speed), transform var(--transition-speed);
+    font-size: 1rem;
+    text-align: center;
 }
 
 .reply-button:hover {
-    background: #0056b3;
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+    transform: scale(1.05);
 }
