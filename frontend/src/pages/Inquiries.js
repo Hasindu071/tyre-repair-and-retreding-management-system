@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
+import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar";
 import '../styles/Inquiries.css';
+
+// Define workerId (you could retrieve it from localStorage or your auth context)
+const workerId = localStorage.getItem('workerId') || 'default-worker-id';
 
 const Inquiries = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -10,70 +13,98 @@ const Inquiries = () => {
     const [newMessage, setNewMessage] = useState('');
 
     useEffect(() => {
-        // Fetch customer inquiries from an API or database
-        setInquiries([
-            { id: 1, name: 'John Doe', email: 'john@example.com', message: 'Need help with my order.' },
-            { id: 2, name: 'Jane Smith', email: 'jane@example.com', message: 'Inquiry about retreading services.' },
-            { id: 3, name: 'Robert Brown', email: 'robert@example.com', message: 'Do you offer bulk discounts?' }
-        ]);
+        fetchInquiries();
     }, []);
 
-    const fetchMessages = async (email) => {
+    const fetchInquiries = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/workerMessages/getMessages', {
+            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages?worker_id=${workerId}`);
+            setInquiries(response.data);
+        } catch (error) {
+            console.error('Error fetching inquiries:', error);
+        }
+    };
+
+    const fetchMessages = useCallback(async (email) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages?worker_id=${workerId}`, {
                 params: { receiver: email }
             });
             setMessages(response.data);
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
-    };
-
-    const handleSendMessage = async () => {
-        if (newMessage.trim() !== '' && selectedInquiry) {
-            try {
-                await axios.post('http://localhost:5000/workerMessages/sendMessage', {
-                    sender: 'owner', // Assuming the sender is the owner
-                    receiver: selectedInquiry.email,
-                    message: newMessage
-                });
-                setNewMessage('');
-                fetchMessages(selectedInquiry.email); // Refresh messages
-            } catch (error) {
-                console.error('Error sending message:', error);
-            }
-        }
-    };
+    }, []);
 
     const handleReplyClick = (inquiry) => {
         setSelectedInquiry(inquiry);
         fetchMessages(inquiry.email);
     };
 
+    const handleSendMessage = async () => {
+        if (newMessage.trim() !== '' && selectedInquiry) {
+            try {
+                const response = await axios.post('http://localhost:5000/workerMessages/sendMessage', {
+                    sender: 'owner', // owner is replying
+                    receiver: selectedInquiry.email,
+                    message: newMessage
+                });
+                if (response.status === 201) {
+                    setNewMessage('');
+                    // Refresh conversation after sending
+                    fetchMessages(selectedInquiry.email);
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+    };
+
     return (
         <div>
             <OwnerNavbar />
             <div className="inquiries-container">
-                <h2>Worker Inquiries</h2>
+                <h2>Customer Inquiries</h2>
                 <div className="inquiries-list">
                     {inquiries.map((inquiry) => (
                         <div key={inquiry.id} className="inquiry-card">
                             <h3>{inquiry.name}</h3>
-                            <p><strong>Email:</strong> {inquiry.email}</p>
-                            <p><strong>Message:</strong> {inquiry.message}</p>
-                            <button className="reply-button" onClick={() => handleReplyClick(inquiry)}>Reply</button>
+                            <p><strong>Worker ID:</strong> {inquiry.worker_id}</p>
+                            <p><strong>Initial Message:</strong> {inquiry.message}</p>
+                            <button className="reply-button" onClick={() => handleReplyClick(inquiry)}>
+                                View Conversation / Reply
+                            </button>
                         </div>
                     ))}
                 </div>
                 {selectedInquiry && (
                     <div className="chat-container">
-                        <h2>Chat with {selectedInquiry.name}</h2>
+                        <h2>Conversation with {selectedInquiry.name}</h2>
                         <div className="message-box">
-                            {messages.map((msg, index) => (
-                                <div key={index} className={`message ${msg.sender === 'owner' ? 'owner' : 'worker'}`}>
-                                    <strong>{msg.sender}:</strong> {msg.message}
-                                </div>
-                            ))}
+                            {messages.length > 0 ? (
+                                messages.map((msg, index) => (
+                                    <div
+                                        key={index}
+                                        className={`message ${
+                                            msg.sender === 'owner'
+                                                ? 'owner'
+                                                : msg.sender === 'worker'
+                                                ? 'worker'
+                                                : 'customer'
+                                        }`}
+                                    >
+                                        <strong>
+                                            {msg.sender === 'worker'
+                                                ? 'Worker'
+                                                : msg.sender.charAt(0).toUpperCase() + msg.sender.slice(1)}
+                                            :
+                                        </strong>{' '}
+                                        {msg.message}
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No messages yet.</p>
+                            )}
                         </div>
                         <div className="message-input">
                             <input
