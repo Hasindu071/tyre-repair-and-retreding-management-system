@@ -1,30 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Container styling with a subtle gradient and shadow */
 .worker-profile-container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f0f0f5);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.worker-title {
+/* Header styling */
+.worker-profile-container h2 {
     text-align: center;
-    color: #333;
+    font-size: 2rem;
+    color: #2c3e50;
     margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.worker-card {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Profile card styling with subtle animation and hover effect */
+.profile-card-worker {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease-in-out, transform 0.3s ease;
+    border: 2px solid transparent;
+    animation: fadeInUp 0.8s ease-in-out;
 }
 
-.worker-card p {
+.profile-card-worker:hover {
+    border-color: #ff7e5f;
+    transform: translateY(-5px);
+}
+
+/* Styling for the worker information within the card */
+.profile-info-worker {
+    line-height: 1.6;
+}
+
+.profile-info-worker p {
     margin: 10px 0;
-    font-size: 16px;
+    font-size: 1.1rem;
+    color: #333;
 }
 
-.worker-card strong {
+.profile-info-worker strong {
     color: #555;
+}
+
+.profile-picture {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+.profile-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #d6d6d6;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .worker-profile-container {
+        padding: 15px;
+        margin: 20px auto;
+    }
+    .profile-card-worker {
+        padding: 20px;
+    }
+    .profile-info-worker p {
+        font-size: 1rem;
+    }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar"; // Assuming you have a Navbar component
+import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import '../styles/WorkerProfile.css';
 
 const WorkerProfile = () => {
@@ -32,6 +32,15 @@ const WorkerProfile = () => {
             <div className="worker-profile-container">
                 <div className="profile-card-worker">
                     <h2>Worker Profile</h2>
+                    {worker.profilePicture ? (
+                        <img 
+                            src={`http://localhost:5000${worker.profilePicture}`} 
+                            alt="Worker Profile" 
+                            className="profile-picture" 
+                        />
+                    ) : (
+                        <div className="profile-placeholder">No Image Available</div>
+                    )}
                     <div className="profile-info-worker">
                         <p><strong>Title:</strong> {worker.title || "N/A"}</p>
                         <p><strong>First Name:</strong> {worker.firstName || "N/A"}</p>
