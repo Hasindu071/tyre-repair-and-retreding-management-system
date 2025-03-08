@@ -20,13 +20,13 @@ router.get("/", (req, res) => {
 
 // Add New Supply
 router.post("/", (req, res) => {
-    const { name, quantity } = req.body;
+    const { name, product_name, quantity } = req.body;
     console.log("Request body:", req.body); // Log the request body
-    if (!name || !quantity) {
+    if (!name || !product_name || !quantity) {
         return res.status(400).json({ error: "Name and quantity are required" });
     }
-    const sql = "INSERT INTO supplies (name, quantity) VALUES (?, ?)";
-    db.query(sql, [name, quantity], (err, result) => {
+    const sql = "INSERT INTO supplies (name, product_name, quantity) VALUES (?, ?, ?)";
+    db.query(sql, [name, product_name, quantity], (err, result) => {
         if (err) {
             return res.status(500).json({ error: "Failed to add supply" });
         }

@@ -6,7 +6,7 @@ import OwnerSidebar from "../components/SideNav";
 
 const Supplies = () => {
     const [supplies, setSupplies] = useState([]);
-    const [newSupply, setNewSupply] = useState({ name: "", quantity: "" });
+    const [newSupply, setNewSupply] = useState({ name: "", product_name: "", quantity: "" });
 
     useEffect(() => {
         fetchSupplies();
@@ -26,7 +26,7 @@ const Supplies = () => {
         try {
             await axios.post("http://localhost:5000/supplies", newSupply);
             fetchSupplies();
-            setNewSupply({ name: "", quantity: "" });
+            setNewSupply({ name: "", product_name: "", quantity: "" });
         } catch (error) {
             console.error("Error adding supply:", error);
         }
@@ -56,6 +56,13 @@ const Supplies = () => {
                     required
                 />
                 <input
+                    type="text"
+                    placeholder="Product Name"
+                    value={newSupply.product_name}
+                    onChange={(e) => setNewSupply({ ...newSupply, product_name: e.target.value })}
+                    required
+                />
+                <input
                     type="number"
                     placeholder="Quantity"
                     value={newSupply.quantity}
@@ -70,6 +77,7 @@ const Supplies = () => {
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Action</th>
                     </tr>
@@ -79,6 +87,7 @@ const Supplies = () => {
                         <tr key={supply.id}>
                             <td>{supply.id}</td>
                             <td>{supply.name}</td>
+                            <td>{supply.product_name}</td>
                             <td>{supply.quantity}</td>
                             <td>
                                 <button onClick={() => handleDeleteSupply(supply.id)}>Delete</button>
