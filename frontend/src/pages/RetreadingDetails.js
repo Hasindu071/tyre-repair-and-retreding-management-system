@@ -1,0 +1,60 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import "../styles/RetreadingDetails.css";
+
+const RetreadingDetails = () => {
+    const { id } = useParams();
+    const [retreading, setRetreading] = useState(null);
+
+    useEffect(() => {
+        const fetchRetreadingDetails = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/Retreading/getRetreading/${id}`);
+                setRetreading(response.data);
+            } catch (error) {
+                console.error("Error fetching retreading details:", error);
+            }
+        };
+
+        fetchRetreadingDetails();
+    }, [id]);
+
+    if (!retreading) {
+        return <div>Loading retreading details...</div>;
+    }
+
+    return (
+        <div>
+            <div className="retreading-details-container">
+                <h2>Retreading Details - ID: {retreading.id}</h2>
+                <p><strong>Size Code:</strong> {retreading.sizeCode}</p>
+                <p><strong>Wheel Diameter:</strong> {retreading.wheelDiameter}</p>
+                <p><strong>Tire Width:</strong> {retreading.tireWidth}</p>
+                <p><strong>Tire Brand:</strong> {retreading.tireBrand}</p>
+                <p><strong>Tire Pattern:</strong> {retreading.tirePattern}</p>
+                <p><strong>Completion Date:</strong> {retreading.completionDate}</p>
+                <p><strong>Tire Structure:</strong> {retreading.tireStructure}</p>
+                <p><strong>Notes:</strong> {retreading.notes}</p>
+                <div className="retreading-images">
+                    {retreading.insidePhoto && (
+                        <img
+                            src={`http://localhost:5000${retreading.insidePhoto}`}
+                            alt="Inside"
+                            style={{ width: '16cm', height: '16cm' }}
+                        />
+                    )}
+                    {retreading.outsidePhoto && (
+                        <img
+                            src={`http://localhost:5000${retreading.outsidePhoto}`}
+                            alt="Outside"
+                            style={{ width: '16cm', height: '16cm' }}
+                        />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default RetreadingDetails;

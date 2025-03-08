@@ -1,0 +1,89 @@
+/* Base & Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+  }
+  
+  /* Retreading Details Container */
+  .retreading-details-container {
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease;
+  }
+  
+  /* Title Styling */
+  .retreading-details-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #247ba0;
+  }
+  
+  /* Paragraph Styling */
+  .retreading-details-container p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  
+  .retreading-details-container p strong {
+    color: #247ba0;
+  }
+  
+  /* Retreading Images styling */
+  .retreading-images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .retreading-images img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .retreading-images img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 600px) {
+    .retreading-details-container {
+      margin: 20px;
+      padding: 20px;
+    }
+    .retreading-details-container h2 {
+      font-size: 1.5rem;
+    }
+    .retreading-details-container p {
+      font-size: 1rem;
+    }
+    .retreading-images {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }

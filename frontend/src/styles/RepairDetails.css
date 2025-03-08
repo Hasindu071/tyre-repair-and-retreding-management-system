@@ -1,0 +1,89 @@
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+  }
+  
+  /* Repair Details Container */
+  .repair-details-container {
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease;
+  }
+  
+  /* Title Styling */
+  .repair-details-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #ff4b5c;
+    text-align: center;
+  }
+  
+  /* Paragraph Styling */
+  .repair-details-container p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  
+  .repair-details-container p strong {
+    color: #ff4b5c;
+  }
+  
+  /* Repair Images */
+  .repair-images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .repair-images img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .repair-images img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .repair-details-container {
+      margin: 20px;
+      padding: 20px;
+    }
+    .repair-details-container h2 {
+      font-size: 1.5rem;
+    }
+    .repair-details-container p {
+      font-size: 1rem;
+    }
+    .repair-images {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }

@@ -51,6 +51,8 @@ import WorkerForgotPassword from './pages/WorkerForgotPassword';
 import CustomerForgotPassword from './pages/CustomerForgotPassword';
 import OurProductsSales from './pages/OurProductsSales';
 import OurProducts from './pages/OurProductOwner';
+import RepairDetails from './pages/RepairDetails';
+import RetreadingDetails from './pages/RetreadingDetails';
 
 function App() {
   return (
@@ -107,6 +109,8 @@ function App() {
             <Route path="/customer/forgot-password" element={<CustomerForgotPassword />} />
             <Route path="/OurProductsSales" element={<OurProductsSales />} />
             <Route path="/OurProducts" element={<OurProducts />} />
+            <Route path="/repairDetails/:id" element={<RepairDetails />} />
+        <Route path="/retreadingDetails/:id" element={<RetreadingDetails />} />
           </Routes>
         </div>
       </Router>
