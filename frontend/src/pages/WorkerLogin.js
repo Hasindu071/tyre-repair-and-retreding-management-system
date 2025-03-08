@@ -5,6 +5,7 @@ import Navbar from '../components/NavBar';
 import '../styles/WorkerLogin.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { jwtDecode } from 'jwt-decode'; // Import jwt-decode to extract workerId from token
 
 const API_URL = "http://localhost:5000";
 
@@ -47,7 +48,12 @@ const WorkerLogin = () => {
             const data = await response.json();
             if (data.success) {
                 toast.success('Login successful!');
-                setTimeout(() => navigate('/WorkerDashboard'), 2000); // 2 seconds
+                // Store the token locally for future requests
+                localStorage.setItem('token', data.token);
+                // Decode token to extract the worker ID and store it for later usage (e.g., in dashboard)
+                const decoded = jwtDecode(data.token);
+                localStorage.setItem('workerId', decoded.workerId);
+                setTimeout(() => navigate('/WorkerDashboard'), 2000); // 2 seconds delay before navigation
             } else {
                 setErrorMessage(data.message || 'Login failed! Please check your credentials.');
                 toast.error(data.message || 'Login failed! Please check your credentials.');
@@ -142,12 +148,12 @@ const WorkerLogin = () => {
                         </form>
                     )}
                     <div className="worker-login-options">
-                    <p className="worker-forgot-password" onClick={() => navigate('/worker/forgot-password')}>
+                        <p className="worker-forgot-password" onClick={() => navigate('/worker/forgot-password')}>
                             Forgot Password?
-                            </p>
+                        </p>
                         <button className="worker-google-login" onClick={handleGoogleLogin}>Continue with Google</button>
                         <p className="worker-signup-tage" onClick={() => navigate('/register/worker')}>
-                         Don't have an account? Sign Up
+                            Don't have an account? Sign Up
                         </p>
                     </div>
                 </div>

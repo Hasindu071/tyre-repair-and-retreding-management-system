@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/WorkerDashboard.css"; // Import the CSS file
 
 const WorkerDashboard = () => {
     const navigate = useNavigate();
+    const [workerId, setWorkerId] = useState("");
+
+    // Retrieve the worker ID from localStorage
+    useEffect(() => {
+        const id = localStorage.getItem("workerId");
+        if (id) {
+            setWorkerId(id);
+        }
+    }, []);
 
     return (
         <div>
@@ -12,7 +21,7 @@ const WorkerDashboard = () => {
             <div className="worker-dashboard-container">
                 <h2 className="worker-dashboard-title">Worker Dashboard</h2>
                 <p className="worker-dashboard-subtitle">
-                    Manage your assigned tasks efficiently
+                    {workerId ? `Welcome, Worker ${workerId}` : "Manage your assigned tasks efficiently"}
                 </p>
 
                 <div className="worker-dashboard-grid">

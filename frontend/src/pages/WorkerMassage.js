@@ -6,11 +6,12 @@ import '../styles/WorkerMessage.css';
 const WorkerMessage = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const workerId = 1; // Replace with actual worker ID
+    const workerId = 1;
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch("http://localhost:5000/workerMessages/getMessages");
+            // Pass worker_id as query parameter so backend returns only relevant messages
+            const response = await fetch(`http://localhost:5000/workerMessages/getMessages?worker_id=${workerId}`);
             const data = await response.json();
             if (Array.isArray(data)) {
                 setMessages(data);
@@ -33,9 +34,10 @@ const WorkerMessage = () => {
 
                 if (response.ok) {
                     setNewMessage('');
-                    fetchMessages(); // Refresh messages
+                    fetchMessages(); // Refresh messages after successful send
                 } else {
-                    console.error("Error sending message");
+                    const errData = await response.json();
+                    console.error("Error sending message:", errData);
                 }
             } catch (error) {
                 console.error("Error sending message:", error);

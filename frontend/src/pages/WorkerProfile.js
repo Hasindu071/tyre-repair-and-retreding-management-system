@@ -4,35 +4,26 @@ import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar"; // Assuming y
 import '../styles/WorkerProfile.css';
 
 const WorkerProfile = () => {
-    const [worker, setWorker] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        role: '',
-        assignedTasks: [],
-        workHistory: []
-    });
-
-    const workerId = 1; // Replace with actual worker ID
-
-    const fetchWorkerDetails = async () => {
-        try {
-            const response = await fetch(`http://localhost:5000/workerProfile/getWorker/${workerId}`);
-            const data = await response.json();
-            setWorker({
-                ...data,
-                assignedTasks: data.assigned_tasks ? data.assigned_tasks.split(',') : [],
-                workHistory: data.work_history ? data.work_history.split(',') : []
-            });
-        } catch (error) {
-            console.error("Error fetching worker details:", error);
-        }
-    };
+    // Retrieve the worker ID from localStorage (if not found, fallback to '1')
+    const storedWorkerId = localStorage.getItem("workerId") || 1;
+    const [worker, setWorker] = useState({});
 
     useEffect(() => {
+        const fetchWorkerDetails = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/workerProfile/getWorker/${storedWorkerId}`);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setWorker(data);
+            } catch (error) {
+                console.error("Error fetching worker details:", error);
+            }
+        };
+
         fetchWorkerDetails();
-    }, []);
+    }, [storedWorkerId]);
 
     return (
         <div>
@@ -42,15 +33,15 @@ const WorkerProfile = () => {
                 <div className="profile-card-worker">
                     <h2>Worker Profile</h2>
                     <div className="profile-info-worker">
-                        <p><strong>Mr/Miss:</strong> {worker.title}</p>
-                        <p><strong> First Name:</strong> {worker.firstName}</p>
-                        <p><strong>Last Name:</strong> {worker.lastName}</p>
-                        <p><strong>NIC:</strong> {worker.nic}</p>
-                        <p><strong>Email:</strong> {worker.email}</p>
-                        <p><strong>Phone 1:</strong> {worker.phone1}</p>
-                        <p><strong>Phone 2:</strong> {worker.phone2}</p>
-                        <p><strong>Address:</strong> {worker.address1}</p>
-                        <p><strong>City:</strong> {worker.address2}</p>
+                        <p><strong>Title:</strong> {worker.title || "N/A"}</p>
+                        <p><strong>First Name:</strong> {worker.firstName || "N/A"}</p>
+                        <p><strong>Last Name:</strong> {worker.lastName || "N/A"}</p>
+                        <p><strong>NIC:</strong> {worker.nic || "N/A"}</p>
+                        <p><strong>Email:</strong> {worker.email || "N/A"}</p>
+                        <p><strong>Phone 1:</strong> {worker.phone1 || "N/A"}</p>
+                        <p><strong>Phone 2:</strong> {worker.phone2 || "N/A"}</p>
+                        <p><strong>Address:</strong> {worker.address1 || "N/A"}</p>
+                        <p><strong>City:</strong> {worker.address2 || "N/A"}</p>
                     </div>
                 </div>
             </div>
