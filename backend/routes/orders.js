@@ -109,16 +109,36 @@ router.get('/orders', async (req, res) => {
     }
 });
 
-// PUT /Orders/updateProgress – Update the progress of an order (task)
-router.put('/updateProgress', async (req, res) => {
-    const { taskId, progress } = req.body;
+// PUT /Orders/startTask – Mark a task as started (In Progress)
+router.put('/startTask', async (req, res) => {
+    const { taskId } = req.body;
     try {
         const [result] = await db.promise().query(
-            'UPDATE orders SET progress = ? WHERE id = ?',
-            [progress, taskId]
+            'UPDATE orders SET status = ? WHERE id = ?',
+            ['In Progress', taskId]
         );
         if (result.affectedRows > 0) {
-            res.status(200).json({ message: "Order progress updated successfully" });
+            res.status(200).json({ message: "Task started successfully" });
+        } else {
+            res.status(404).json({ message: "Order not found" });
+        }
+    } catch (error) {
+        console.error("Error starting task:", error);
+        res.status(500).json({ message: "Error starting task", error: error.message });
+    }
+});
+
+// PUT /Orders/updateProgress – Update progress and complete task if progress reaches 100%
+router.put('/updateProgress', async (req, res) => {
+    const { taskId, progress } = req.body;
+    const status = progress >= 100 ? 'Completed' : 'In Progress';
+    try {
+        const [result] = await db.promise().query(
+            'UPDATE orders SET progress = ?, status = ? WHERE id = ?',
+            [progress, status, taskId]
+        );
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: "Order updated successfully", status });
         } else {
             res.status(404).json({ message: "Order not found" });
         }
