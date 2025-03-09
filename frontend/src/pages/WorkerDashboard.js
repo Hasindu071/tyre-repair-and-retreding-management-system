@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar"; // Assuming you have a Navbar component
-import "../styles/WorkerDashboard.css"; // Import the CSS file
+import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
+import "../styles/WorkerDashboard.css";
 
 const WorkerDashboard = () => {
     const navigate = useNavigate();
     const [workerId, setWorkerId] = useState("");
 
-    // Retrieve the worker ID from localStorage
     useEffect(() => {
         const id = localStorage.getItem("workerId");
         if (id) {
@@ -16,53 +15,47 @@ const WorkerDashboard = () => {
     }, []);
 
     return (
-        <div>
+        <div className="dashboard-wrapper">
             <WorkerNavbar />
             <div className="worker-dashboard-container">
-                <h2 className="worker-dashboard-title">Worker Dashboard</h2>
-                <p className="worker-dashboard-subtitle">
-                    {workerId ? `Welcome, Worker ${workerId}` : "Manage your assigned tasks efficiently"}
-                </p>
-
-                <div className="worker-dashboard-grid">
-                    {/* Task List */}
-                    <div className="dashboard-section">
-                        <h3>Assigned Tasks</h3>
-                        <div className="button-container">
-                            <button
-                                className="task-button"
-                                onClick={() => navigate("/view-tasks")}
-                            >
-                                View Tasks
-                            </button>
-                            <button
-                                className="task-button"
-                                onClick={() => navigate("/update-progress")}
-                            >
-                                Update Progress
-                            </button>
-                            <button
-                                className="task-button"
-                                onClick={() => navigate("/complete-task")}
-                            >
-                                Complete Task
-                            </button>
-                        </div>
+                <header className="dashboard-header">
+                    <h2 className="worker-dashboard-title">Worker Dashboard</h2>
+                    <p className="worker-dashboard-subtitle">
+                        {workerId ? `Welcome, Worker ${workerId}` : "Manage your assigned tasks efficiently"}
+                    </p>
+                </header>
+                <section className="dashboard-actions">
+                    <div className="dashboard-section creative-section">
+                        <button 
+                            className="task-button creative-button"
+                            onClick={() => navigate("/view-tasks")}
+                        >
+                            <span className="button-icon">📋</span>
+                            View Tasks
+                        </button>
+                        <button 
+                            className="task-button creative-button"
+                            onClick={() => navigate("/update-progress")}
+                        >
+                            <span className="button-icon">⏱️</span>
+                            Update Progress
+                        </button>
+                        <button 
+                            className="task-button creative-button"
+                            onClick={() => navigate("/complete-task")}
+                        >
+                            <span className="button-icon">✅</span>
+                            Complete Task
+                        </button>
+                        <button 
+                            className="profile-button creative-button"
+                            onClick={() => navigate("/history-of-works")}
+                        >
+                            <span className="button-icon">📝</span>
+                            History of Works
+                        </button>
                     </div>
-
-                    {/* Profile Overview */}
-                    <div className="dashboard-section">
-                        <h3>History of Our Works</h3>
-                        <div className="button-container">
-                            <button
-                                className="profile-button"
-                                onClick={() => navigate("/history-of-works")}
-                            >
-                                History of Our Works
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
     );

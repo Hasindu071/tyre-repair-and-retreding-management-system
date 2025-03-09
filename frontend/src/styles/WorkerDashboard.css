@@ -1,90 +1,75 @@
-/* Global Background */
-body {
-    background-size: cover;
-    font-family: 'Open Sans', sans-serif;
+.dashboard-wrapper {
+    min-height: 100vh;
+    padding: 20px;
 }
 
-/* Container Styling */
 .worker-dashboard-container {
-    margin: 40px auto;
-    padding: 30px;
-    max-width: 1200px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #ffffff;
     border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    text-align: center;
+    transition: transform 0.3s ease;
 }
 
-/* Titles Styling */
+.worker-dashboard-container:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-header {
+    margin-bottom: 30px;
+    animation: fadeInDown 0.8s;
+}
+
 .worker-dashboard-title {
     font-size: 2.5rem;
-    text-align: center;
     color: #333;
     margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .worker-dashboard-subtitle {
     font-size: 1.2rem;
-    text-align: center;
-    color: #555;
-    margin-bottom: 30px;
+    color: #777;
+    margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
 }
 
-/* Grid Layout */
-.worker-dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.dashboard-actions .creative-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
 }
 
-/* Section Styling */
-.dashboard-section {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.dashboard-section:hover {
-    transform: translateY(-5px);
-}
-
-.dashboard-section h3 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Button Container */
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-}
-
-/* Creative Button Styling */
-.task-button,
-.profile-button {
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff;
-    background: linear-gradient(45deg, #ff0044, #b72f54);
+.creative-button {
+    background: linear-gradient(45deg, #ff6b6b, #f06595);
     border: none;
-    border-radius: 50px;
+    border-radius: 15px;
+    color: #fff;
+    padding: 25px 35px;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: background 0.4s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.task-button:hover,
-.profile-button:hover {
-    background: linear-gradient(45deg, #ff003c, #ff0000);
-    transform: scale(1.05);
+.creative-button:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
 }
 
-.task-button:active,
-.profile-button:active {
-    transform: scale(0.98);
-    background: linear-gradient(45deg, #b50027, #b50000);
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
