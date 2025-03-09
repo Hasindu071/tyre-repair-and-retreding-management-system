@@ -1,48 +1,47 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaClipboardCheck, FaUsers, FaUserPlus, FaShoppingCart, FaBox, FaDollarSign } from 'react-icons/fa';
+import { FaRegClipboard, FaUserFriends, FaUserCheck, FaShoppingBag, FaBoxOpen, FaMoneyBillWave } from 'react-icons/fa';
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
-
 
 const OwnerDashboard = () => {
     const navigate = useNavigate();
 
-    const ApproveWorker = () => {
+    const approveWorker = () => {
         navigate("/ApproveWorker"); // Redirect to ApproveWorker page
     };
 
-    const ApproveOrder = () => {
+    const approveOrder = () => {
         navigate("/ApproveOrder"); // Redirect to ApproveOrder page
     };
 
-    const AssingWorker = () => {
+    const assignWorker = () => {
         navigate("/AssignWorker"); // Redirect to AssignWorker page
-    }
+    };
 
-    const HandleCustomer = () => {
+    const handleCustomer = () => {
         navigate("/CustomerHandle"); // Redirect to HandleCustomer page
-    }
+    };
 
     const productInquiries = () => {
         navigate("/OwnerProductInquiries"); // Redirect to productInquiries page
-    }
+    };
 
-    const WokerPayments = () => {
-        navigate("/Owner/SeePayment"); // Redirect to WokerPayments page
-    }
+    const workerPayments = () => {
+        navigate("/Owner/SeePayment"); // Redirect to WorkerPayments page
+    };
 
-    const CustomerPayments = () => {
+    const customerPayments = () => {
         navigate("/Owner/SeeCustomerPayment"); // Redirect to CustomerPayments page
-    }
+    };
 
-    const CustomerNotice = () => {
+    const customerNotice = () => {
         navigate("/Owner/SendNotice"); // Redirect to CustomerNotice page
-    }
+    };
 
-    const Supplies = () => {
-        navigate("/Owner/Supplies"); // Redirect to Supplies
-    }
+    const supplies = () => {
+        navigate("/Owner/Supplies"); // Redirect to Supplies page
+    };
 
     return (
         <div>
@@ -55,32 +54,32 @@ const OwnerDashboard = () => {
                     {/* Approve Customer Orders */}
                     <div className="dashboard-section-owner">
                         <h3>Approve Customer Orders</h3>
-                        <button className="dashboard-button-owner" onClick={ApproveOrder}>
-                            <FaClipboardCheck className="icon" /> View Orders
+                        <button className="dashboard-button-owner" onClick={approveOrder}>
+                            <FaRegClipboard className="icon" /> View Orders
                         </button>
                     </div>
 
                     {/* Assign Workers */}
                     <div className="dashboard-section-owner">
                         <h3>Assign Workers</h3>
-                        <button className="dashboard-button-owner" onClick={AssingWorker}>
-                            <FaUsers className="icon" /> Assign
+                        <button className="dashboard-button-owner" onClick={assignWorker}>
+                            <FaUserFriends className="icon" /> Assign
                         </button>
                     </div>
 
                     {/* Approve New Workers */}
                     <div className="dashboard-section-owner">
                         <h3>Approve New Workers</h3>
-                        <button className="dashboard-button-owner" onClick={ApproveWorker}>
-                            <FaUserPlus className="icon" /> Approve
+                        <button className="dashboard-button-owner" onClick={approveWorker}>
+                            <FaUserCheck className="icon" /> Approve
                         </button>
                     </div>
 
                     {/* Handle Customer */}
                     <div className="dashboard-section-owner">
                         <h3>Handle Customer</h3>
-                        <button className="dashboard-button-owner" onClick={HandleCustomer}>
-                            <FaShoppingCart className="icon" /> Approve
+                        <button className="dashboard-button-owner" onClick={handleCustomer}>
+                            <FaShoppingBag className="icon" /> Manage
                         </button>
                     </div>
 
@@ -88,40 +87,41 @@ const OwnerDashboard = () => {
                     <div className="dashboard-section-owner">
                         <h3>Product Inquiries</h3>
                         <button className="dashboard-button-owner" onClick={productInquiries}>
-                            <FaBox className="icon" /> Approve
+                            <FaBoxOpen className="icon" /> View
                         </button>
                     </div>
 
                     {/* Worker Payments */}
                     <div className="dashboard-section-owner">
                         <h3>Worker Payments</h3>
-                        <button className="dashboard-button-owner" onClick={WokerPayments}>
-                            <FaDollarSign className="icon" /> Approve
+                        <button className="dashboard-button-owner" onClick={workerPayments}>
+                            <FaMoneyBillWave className="icon" /> Manage
                         </button>
                     </div>
 
                     {/* Customer Payments */}
                     <div className="dashboard-section-owner">
                         <h3>Customer Payments</h3>
-                        <button className="dashboard-button-owner" onClick={CustomerPayments}>
-                            <FaDollarSign className="icon" /> Approve
+                        <button className="dashboard-button-owner" onClick={customerPayments}>
+                            <FaMoneyBillWave className="icon" /> Manage
                         </button>
                     </div>
 
                     {/* Customer Notice */}
                     <div className="dashboard-section-owner">
                         <h3>Customer Notice</h3>
-                        <button className="dashboard-button-owner" onClick={CustomerNotice}>
-                            <FaDollarSign className="icon" /> Approve
+                        <button className="dashboard-button-owner" onClick={customerNotice}>
+                            <FaMoneyBillWave className="icon" /> Send
                         </button>
                     </div>
 
+                    {/* Supplies Details */}
                     <div className="dashboard-section-owner">
-                        <h3>Supplies detalis</h3>
-                        <button className="dashboard-button-owner" onClick={Supplies}>
-                            <FaDollarSign className="icon" /> Approve
+                        <h3>Supplies Details</h3>
+                        <button className="dashboard-button-owner" onClick={supplies}>
+                            <FaMoneyBillWave className="icon" /> View
                         </button>
-                    </div>    
+                    </div>
                 </div>
             </div>
         </div>
