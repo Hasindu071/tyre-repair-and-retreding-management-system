@@ -148,4 +148,17 @@ router.put('/updateProgress', async (req, res) => {
     }
 });
 
+router.get('/getStartedTasks', async (req, res) => {
+    try {
+        // Assuming your orders table has a 'status' column where started tasks have status 'In Progress'
+        const [rows] = await db.promise().query(
+            "SELECT id, progress, status FROM orders WHERE status = 'In Progress'"
+        );
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error fetching started tasks:", error);
+        res.status(500).json({ message: "Failed to fetch started tasks", error: error.message });
+    }
+});
+
 module.exports = router;

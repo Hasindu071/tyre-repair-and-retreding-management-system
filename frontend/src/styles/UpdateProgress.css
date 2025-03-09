@@ -1,5 +1,7 @@
 body {
     font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .update-container {
@@ -45,12 +47,13 @@ body {
     margin-top: 5px;
     border: 2px solid #ddd;
     border-radius: 8px;
-    transition: border 0.3s;
+    transition: border 0.3s ease;
 }
 
 .form-label input[type="text"]:focus,
 .form-label input[type="range"]:focus {
-    border: 2px solid #0072ff;
+    border-color: #0072ff;
+    outline: none;
 }
 
 .update-button {
@@ -68,4 +71,56 @@ body {
 .update-button:hover {
     transform: scale(1.05);
     background: linear-gradient(45deg, #0072ff, #00c6ff);
+}
+
+.complete-message {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: green;
+    font-weight: bold;
+}
+
+.started-tasks-container {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 90%;
+    background: #e9a6a69d;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.task-container {
+    margin: 15px auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    max-width: 800px;
+    text-align: left;
+}
+
+.task-container h3 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+    color: #0072ff;
+}
+
+.task-container p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .update-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    .update-title {
+        font-size: 2rem;
+    }
+    .task-container {
+        padding: 10px;
+    }
 }
