@@ -39,7 +39,7 @@ body {
 }
 
 .order-table th {
-  background-color: #e95842;
+  background-color: #f8a79b;
   color: white;
   font-weight: bold;
 }
@@ -53,46 +53,39 @@ body {
 }
 
 /* Button Styles */
-.approve-button,
-.cancel-button {
-  padding: 8px 16px;
+button {
+  padding: 10px 18px;
   margin: 5px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: all 0.3s ease;
 }
 
-.approve-button {
+.view-btn-order {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.view-btn-order:hover {
+  background-color: #2980b9;
+}
+
+.approve-btn-order {
   background-color: #28a745;
-  color: white;
+  color: #fff;
 }
 
-.approve-button:hover {
+.approve-btn-order:hover {
   background-color: #218838;
 }
 
-.cancel-button {
-  background-color: #e95842;
-  color: white;
+.reject-btn-order {
+  background-color: #e74c3c;
+  color: #fff;
 }
 
-.cancel-button:hover {
+.reject-btn-order:hover {
   background-color: #c82333;
-}
-
-/* Status Styles */
-.status-approved {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.status-canceled {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-.status-pending {
-  color: #ffc107;
-  font-weight: bold;
 }

@@ -85,7 +85,7 @@ const ApproveOrder = () => {
                                 </td>
                                 <td>
                                     <button
-                                        className="view-btn"
+                                        className="view-btn-order"
                                         // Redirect to full screen repair details
                                         onClick={() => navigate(`/repairDetails/${repair.id}`)}
                                     >
@@ -93,7 +93,7 @@ const ApproveOrder = () => {
                                     </button> 
 
                                     <button
-                                        className="approve-btn"
+                                        className="approve-btn-order"
                                         onClick={async () => {
                                             try {
                                                 await axios.put(`http://localhost:5000/services/approveRepair/${repair.id}`);
@@ -107,7 +107,7 @@ const ApproveOrder = () => {
                                     </button>
 
                                     <button
-                                        className="reject-btn"
+                                        className="reject-btn-order"
                                         onClick={async () => {
                                             try {
                                                 await axios.put(`http://localhost:5000/services/rejectRepair/${repair.id}`);
@@ -175,7 +175,7 @@ const ApproveOrder = () => {
                                 </td>
                                 <td>
                                     <button
-                                        className="view-btn"
+                                        className="view-btn-order"
                                         // Redirect to full screen retreading details
                                         onClick={() => navigate(`/retreadingDetails/${retreading.id}`)}
                                     >
@@ -183,7 +183,7 @@ const ApproveOrder = () => {
                                     </button>
 
                                     <button
-                                        className="approve-btn"
+                                        className="approve-btn-order"
                                         onClick={async () => {
                                             try {
                                                 await axios.put(`http://localhost:5000/services/approveRetreading/${retreading.id}`);
@@ -197,7 +197,7 @@ const ApproveOrder = () => {
                                     </button>
 
                                     <button
-                                        className="reject-btn"
+                                        className="reject-btn-order"
                                         onClick={async () => {
                                             try {
                                                 await axios.put(`http://localhost:5000/services/rejectRetreading/${retreading.id}`);
