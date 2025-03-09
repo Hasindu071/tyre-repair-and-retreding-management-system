@@ -50,6 +50,7 @@
     object-fit: contain;
     border-radius: 8px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 /* Product Details */
@@ -76,10 +77,9 @@
 .product-price-sale {
     color: #d32f2f;
     font-weight: bold;
-    padding: 1px 60px;
+    padding: 5px 10px;
     text-align: center;
 }
-
 
 /* Loader */
 .loading-container-sale {
@@ -92,4 +92,36 @@
 .loading-spinner-sale {
     font-size: 18px;
     color: #555;
+}
+
+/* Modal Custom Styles */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-body {
+    width: 400px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.modal-footer {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    text-align: right;
 }
