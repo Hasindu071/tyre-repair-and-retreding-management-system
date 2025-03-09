@@ -1,12 +1,14 @@
 body {
     font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .complete-container {
     margin: 40px auto;
     padding: 30px;
     max-width: 600px;
-    background: #fff;
+    background: #edbfbf;
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
@@ -15,13 +17,34 @@ body {
 .complete-title {
     font-size: 2.5rem;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .complete-subtitle {
     font-size: 1.1rem;
     color: #555;
     margin-bottom: 25px;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    text-align: left;
+    background: #fafafa;
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.task-item p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #444;
 }
 
 .complete-action {
@@ -38,6 +61,7 @@ body {
     border-radius: 50px;
     cursor: pointer;
     transition: transform 0.3s ease, background 0.4s ease;
+    outline: none;
 }
 
 .complete-button:hover {

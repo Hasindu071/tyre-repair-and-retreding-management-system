@@ -195,4 +195,15 @@ router.put('/completeOrder/:id', async (req, res) => {
     }
   });
 
+  // Example backend endpoint in orders.js
+router.get('/getCompletedTasks', async (req, res) => {
+    try {
+      const [tasks] = await db.promise().query("SELECT id, task, customer FROM orders WHERE status = 'Completed'");
+      res.status(200).json(tasks);
+    } catch (error) {
+      console.error("Error fetching completed tasks:", error);
+      res.status(500).json({ message: "Failed to fetch completed tasks", error: error.message });
+    }
+  });
+
 module.exports = router;
