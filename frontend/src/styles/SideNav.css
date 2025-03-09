@@ -2,7 +2,7 @@
 .sidebar {
     width: 150px;
     height: 100vh;
-    background-color: #2d1e1e;
+    background-color: #ffffff;
     color: white;
     transition: width 0.3s ease-in-out;
     overflow: hidden;
@@ -22,7 +22,7 @@
     font-size: 2px;
     padding: 5px;
     cursor: pointer;
-    color: white;
+    color: rgb(47, 35, 35);
     text-align: center;
   }
   
@@ -42,9 +42,9 @@
     text-align: center;
   }
   
-  .nav-link {
+  .nav-link-side {
     text-decoration: none;
-    color: white;
+    color: rgb(33, 31, 31);
     display: flex;
     align-items: center;
     gap: 15px;
@@ -53,15 +53,15 @@
     transition: background 0.3s ease-in-out;
   }
   
-  .sidebar.closed .nav-link {
+  .sidebar.closed .nav-link-side {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5px;
   }
   
-  .nav-link:hover {
-    background-color: #4a3434;
+  .nav-link-side:hover {
+    background-color: #f4a9a9;
   }
   
   /* Icon Styling */
