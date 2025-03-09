@@ -1,4 +1,6 @@
+// filepath: c:\Users\Hasindu Thirasara\Desktop\tyre-repair-and-retreding-management-system\frontend\src\pages\UpdateProgress.js
 import React, { useState } from "react";
+import axios from "axios";
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import "../styles/UpdateProgress.css";
 
@@ -6,10 +8,15 @@ const UpdateProgress = () => {
     const [taskId, setTaskId] = useState("");
     const [progress, setProgress] = useState(0);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add update progress logic here
-        alert(`Task ${taskId} updated to ${progress}% progress!`);
+        try {
+            await axios.put("http://localhost:5000/Orders/updateProgress", { taskId, progress });
+            alert(`Task ${taskId} updated to ${progress}% progress!`);
+        } catch (err) {
+            console.error("Error updating progress:", err);
+            alert("Failed to update progress");
+        }
     };
 
     return (

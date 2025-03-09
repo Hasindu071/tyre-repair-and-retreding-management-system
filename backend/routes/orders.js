@@ -109,4 +109,23 @@ router.get('/orders', async (req, res) => {
     }
 });
 
+// PUT /Orders/updateProgress – Update the progress of an order (task)
+router.put('/updateProgress', async (req, res) => {
+    const { taskId, progress } = req.body;
+    try {
+        const [result] = await db.promise().query(
+            'UPDATE orders SET progress = ? WHERE id = ?',
+            [progress, taskId]
+        );
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: "Order progress updated successfully" });
+        } else {
+            res.status(404).json({ message: "Order not found" });
+        }
+    } catch (error) {
+        console.error("Error updating order progress:", error);
+        res.status(500).json({ message: "Error updating order progress", error: error.message });
+    }
+});
+
 module.exports = router;
