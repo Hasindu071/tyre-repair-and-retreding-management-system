@@ -161,4 +161,38 @@ router.get('/getStartedTasks', async (req, res) => {
     }
 });
 
+
+// GET /orders/getMyOrders – Retrieve all orders (or filter by customer if needed)
+router.get('/getMyOrders', async (req, res) => {
+    try {
+      // Optionally, you can filter by customer id if provided as a query parameter
+      // For now, we return all orders.
+      const [orders] = await db.promise().query("SELECT * FROM orders");
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Failed to fetch orders", error: error.message });
+    }
+  });
+
+  // PUT /orders/completeOrder/:id – Mark a specific order as complete
+router.put('/completeOrder/:id', async (req, res) => {
+    const orderId = req.params.id;
+    try {
+      // Update the order status to "Completed" and set progress to 100 (if using progress)
+      const [result] = await db.promise().query(
+        "UPDATE orders SET status = ?, progress = ? WHERE id = ?",
+        ["Completed", 100, orderId]
+      );
+      if (result.affectedRows > 0) {
+        res.status(200).json({ message: "Order updated successfully" });
+      } else {
+        res.status(404).json({ message: "Order not found" });
+      }
+    } catch (error) {
+      console.error("Error updating order:", error);
+      res.status(500).json({ message: "Error updating order", error: error.message });
+    }
+  });
+
 module.exports = router;
