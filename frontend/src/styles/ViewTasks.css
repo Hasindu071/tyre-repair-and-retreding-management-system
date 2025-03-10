@@ -42,3 +42,17 @@ body {
 .tasks-list li:hover {
     transform: translateY(-3px);
 }
+
+.modal-dialog {
+    position: relative;
+    z-index: 1050; /* Ensure it's above the backdrop */
+}
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* Lower than modal dialog */
+}
