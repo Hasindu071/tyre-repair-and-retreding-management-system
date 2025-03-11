@@ -68,8 +68,8 @@ router.post(
         }
 
         const query = `INSERT INTO retreading 
-            (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes, insidePhoto, outsidePhoto) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes, insidePhoto, outsidePhoto, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')`;
 
         db.query(
             query,

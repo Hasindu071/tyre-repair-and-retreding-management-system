@@ -49,8 +49,8 @@ router.post(
             // Insert the repair details into the database
             const query = `
                 INSERT INTO repairing 
-                (patchesApplied, punctureSize, tireBrand, internalStructure, receiveDate, notes, insideDamagePhoto, outsideDamagePhoto) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                (patchesApplied, punctureSize, tireBrand, internalStructure, receiveDate, notes, insideDamagePhoto, outsideDamagePhoto, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
             `;
 
             const [result] = await db.promise().query(query, [
