@@ -29,8 +29,8 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const query = `INSERT INTO worker_register 
-            (firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password, profilePicture) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            (firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password, profilePicture, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')`;
 
         db.query(query, [firstName, lastName, email, title, phone1, phone2, nic, address1, address2, hashedPassword, profilePicture], (err, results) => {
             if (err) {
@@ -47,7 +47,7 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
 
 // GET route – Retrieve all registered workers (including profile picture path)
 router.get('/', (req, res) => {
-    const query = "SELECT id, title, firstName, lastName, email, nic, address1, address2, profilePicture FROM worker_register";
+    const query = "SELECT id, title, firstName, lastName, email, nic, address1, address2, profilePicture, status FROM worker_register";
     db.query(query, (err, results) => {
       if (err) {
         console.error("Error fetching workers:", err);
@@ -59,6 +59,23 @@ router.get('/', (req, res) => {
 
  // Add this after your GET routes
 router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    const query = "UPDATE worker_register SET status = ? WHERE id = ?";
+    db.query(query, [status, id], (err, results) => {
+      if (err) {
+        console.error("Error updating worker status:", err);
+        return res.status(500).json({ success: false, message: 'Server error.' });
+      }
+      if (results.affectedRows === 0) {
+        return res.status(404).json({ success: false, message: 'Worker not found.' });
+      }
+      res.status(200).json({ success: true, message: 'Worker status updated successfully.' });
+    });
+  });
+
+  // Add this after your PUT route
+  router.put('/update-status/:id', (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     const query = "UPDATE worker_register SET status = ? WHERE id = ?";

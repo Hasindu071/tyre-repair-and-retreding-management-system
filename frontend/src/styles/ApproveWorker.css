@@ -2,7 +2,7 @@
   max-width: 1000px;
   margin: 40px auto;
   padding: 20px;
-  background: white;
+  background: #fff;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -21,11 +21,12 @@
   margin-top: 20px;
 }
 
-.worker-table-worker th, 
+.worker-table-worker th,
 .worker-table-worker td {
   padding: 12px;
   border: 1px solid #ddd;
   text-align: center;
+  font-size: 16px;
 }
 
 .worker-table-worker th {
@@ -38,6 +39,7 @@
   background: #f9f9f9;
 }
 
+/* Button Styles */
 .approve-button-worker,
 .cancel-button-worker {
   padding: 8px 12px;
@@ -67,6 +69,7 @@
   background: darkred;
 }
 
+/* Optional status styling (apply class in your JSX if needed) */
 .status-approved-worker {
   color: green;
   font-weight: bold;
@@ -77,6 +80,7 @@
   font-weight: bold;
 }
 
+/* Profile image */
 .profile-photo {
   width: 4cm;
   height: 4cm;
@@ -86,23 +90,23 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .approve-worker-container-worker {
-      margin: 20px;
-      padding: 15px;
+    margin: 20px;
+    padding: 15px;
   }
 
   .title-worker {
-      font-size: 20px;
+    font-size: 20px;
   }
 
-  .worker-table-worker th, 
+  .worker-table-worker th,
   .worker-table-worker td {
-      font-size: 12px;
-      padding: 8px;
+    font-size: 12px;
+    padding: 8px;
   }
 
   .approve-button-worker,
   .cancel-button-worker {
-      font-size: 12px;
-      padding: 6px 10px;
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }

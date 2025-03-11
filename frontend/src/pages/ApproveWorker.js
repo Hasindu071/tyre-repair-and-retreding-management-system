@@ -29,7 +29,7 @@ const ApproveWorker = () => {
   // Handle worker approval/rejection and refresh the worker list after updating
   const handleApproval = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/workers/update-status/${id}`, {
+      const response = await fetch(`http://localhost:5000/WorkerRegister/update-status/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
@@ -61,6 +61,7 @@ const ApproveWorker = () => {
                 <th>Email</th>
                 <th>NIC</th>
                 <th>Address</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -69,29 +70,32 @@ const ApproveWorker = () => {
                 <tr key={worker.id}>
                   <td>{worker.id}</td>
                   <td>
-  <img
-    src={`http://localhost:5000${worker.profilePicture}`}
-    alt="Profile"
-    className="profile-photo"
-  />
-</td>
+                    <img
+                      src={`http://localhost:5000${worker.profilePicture}`}
+                      alt="Profile"
+                      className="profile-photo"
+                    />
+                  </td>
                   <td>{worker.title} {worker.firstName} {worker.lastName}</td>
                   <td>{worker.email}</td>
                   <td>{worker.nic}</td>
                   <td>{worker.address1} {worker.address2}</td>
+                  <td>{worker.status}</td>
                   <td>
-                    <button
-                      className="approve-button-worker"
-                      onClick={() => handleApproval(worker.id, "Approved")}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="cancel-button-worker"
-                      onClick={() => handleApproval(worker.id, "Rejected")}
-                    >
-                      Reject
-                    </button>
+                  <button
+                    className="approve-button-worker"
+                    onClick={() => handleApproval(worker.id, "Approved")}
+                    disabled={worker.status === "Approved"}
+                  >
+                  Approve
+                  </button>
+                  <button
+                  className="cancel-button-worker"
+                  onClick={() => handleApproval(worker.id, "Rejected")}
+                  disabled={worker.status === "Rejected"}
+                  >
+                  Reject
+                  </button>
                   </td>
                 </tr>
               ))}
