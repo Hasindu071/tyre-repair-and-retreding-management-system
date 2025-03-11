@@ -1,76 +1,92 @@
 /* Main container */
 .customer-handle-container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Title */
-  .title {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Search Box */
-  .search-box {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  /* Table */
-  .table-wrapper {
-    overflow-x: auto;
-  }
-  
-  .customer-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-  }
-  
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.customer-handle-container:hover {
+  transform: translateY(-3px);
+}
+
+/* Title */
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Search Box */
+.search-box {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.customer-table th,
+.customer-table td {
+  border: 1px solid #ddd;
+  padding: 3px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.customer-table th {
+  background-color: #656566;
+  color: #fff;
+}
+
+.customer-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.customer-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+/* No results */
+.no-results {
+  text-align: center;
+  font-size: 16px;
+  color: red;
+  font-weight: bold;
+  padding: 15px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
   .customer-table th,
   .customer-table td {
-    border: 1px solid #ddd;
-    padding: 2px;
-    text-align: center;
-    font-size: 16px;
-  }
-  
-  .customer-table th {
-    background-color: #656566;
-    color: white;
-  }
-  
-  .customer-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  /* No results */
-  .no-results {
-    text-align: center;
-    font-size: 16px;
-    color: red;
-    font-weight: bold;
-    padding: 15px;
-  }
-  
-  /* Responsive Design */
-  @media screen and (max-width: 768px) {
-    .customer-table th, .customer-table td {
       font-size: 14px;
       padding: 8px;
-    }
-  
-    .search-box {
-      font-size: 14px;
-    }
   }
-  
+  .search-box {
+      font-size: 14px;
+  }
+}
