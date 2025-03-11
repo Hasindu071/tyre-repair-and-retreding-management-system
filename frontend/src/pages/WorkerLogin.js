@@ -50,10 +50,22 @@ const WorkerLogin = () => {
                 toast.success('Login successful!');
                 // Store the token locally for future requests
                 localStorage.setItem('token', data.token);
-                // Decode token to extract the worker ID and store it for later usage (e.g., in dashboard)
+                // Decode token to extract the worker ID
                 const decoded = jwtDecode(data.token);
                 localStorage.setItem('workerId', decoded.workerId);
-                setTimeout(() => navigate('/WorkerDashboard'), 2000); // 2 seconds delay before navigation
+                // Fetch worker details to check status
+                const workerRes = await fetch(`${API_URL}/workerProfile/getWorker/${decoded.workerId}`);
+                if (!workerRes.ok) {
+                    throw new Error("Failed to fetch worker profile");
+                }
+                const workerData = await workerRes.json();
+                if (workerData.status === "Approved") {
+                    setTimeout(() => navigate('/WorkerDashboard'), 2000); // Navigate after delay
+                } else if (workerData.status === "Pending") {
+                    toast.info("Wait a minute, Owner Approve");
+                } else if (workerData.status === "Rejected") {
+                    toast.error("You are rejected person");
+                }
             } else {
                 setErrorMessage(data.message || 'Login failed! Please check your credentials.');
                 toast.error(data.message || 'Login failed! Please check your credentials.');
