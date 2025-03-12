@@ -90,4 +90,53 @@ router.get('/getRepair/:id', async (req, res) => {
     }
 });
 
+// Helper function to update repair status (allows changes regardless of current status)
+const updateRepairStatus = async (req, res, newStatus, successMessage, errorMessage) => {
+    const repairId = req.params.id;
+    let query, params;
+    
+    if (newStatus === 'Rejected' && req.body.note) {
+        // Update special_note column with the provided rejection note
+        query = "UPDATE repairing SET status = ?, special_note = ? WHERE id = ?";
+        params = [newStatus, req.body.note, repairId];
+    } else {
+        query = "UPDATE repairing SET status = ? WHERE id = ?";
+        params = [newStatus, repairId];
+    }
+    
+    try {
+        const [result] = await db.promise().query(query, params);
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: successMessage });
+        } else {
+            res.status(404).json({ message: "Repair service not found" });
+        }
+    } catch (error) {
+        console.error(`Error updating repair status to ${newStatus}:`, error);
+        res.status(500).json({ message: errorMessage, error: error.message });
+    }
+};
+
+// Approve a repair service
+router.put('/approveRepair/:id', async (req, res) => {
+    updateRepairStatus(
+        req,
+        res,
+        'Approved',
+        "Repair service approved successfully",
+        "Error approving repair service"
+    );
+});
+
+// Reject a repair service (updates special_note if provided)
+router.put('/rejectRepair/:id', async (req, res) => {
+    updateRepairStatus(
+        req,
+        res,
+        'Rejected',
+        "Repair service rejected successfully",
+        "Error rejecting repair service"
+    );
+});
+
 module.exports = router;

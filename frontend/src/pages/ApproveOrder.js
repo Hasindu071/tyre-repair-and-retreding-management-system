@@ -11,10 +11,11 @@ const ApproveOrder = () => {
     const [retreadings, setRetreadings] = useState([]);
     const navigate = useNavigate();
 
-    // New state for reject modal
+    // State for rejection modal (common for repair or retreading)
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [rejectionNote, setRejectionNote] = useState("");
-    const [selectedRetreading, setSelectedRetreading] = useState(null);
+    const [selectedRejectItem, setSelectedRejectItem] = useState(null);
+    const [rejectType, setRejectType] = useState(""); // "repair" or "retreading"
 
     useEffect(() => {
         fetchRepairs();
@@ -39,25 +40,34 @@ const ApproveOrder = () => {
         }
     };
 
-    // Called when clicking Reject on a retreading row
-    const handleRejectClick = (retreading) => {
-        setSelectedRetreading(retreading);
-        setRejectionNote(""); // Reset the note
+    // Called when clicking Reject on either a repair or retreading row
+    const handleRejectClick = (item, type) => {
+        setSelectedRejectItem(item);
+        setRejectType(type);
+        setRejectionNote(""); // Reset note
         setShowRejectModal(true);
     };
 
     // Called when confirming the rejection with a note
     const handleConfirmRejection = async () => {
-        if (!selectedRetreading) return;
+        if (!selectedRejectItem) return;
         try {
-            await axios.put(`http://localhost:5000/Retreading/rejectRetreading/${selectedRetreading.id}`, {
-                note: rejectionNote
-            });
-            fetchRetreadings();
+            let url = "";
+            if (rejectType === "repair") {
+                url = `http://localhost:5000/Repairing/rejectRepair/${selectedRejectItem.id}`;
+            } else if (rejectType === "retreading") {
+                url = `http://localhost:5000/Retreading/rejectRetreading/${selectedRejectItem.id}`;
+            }
+            await axios.put(url, { note: rejectionNote });
+            if (rejectType === "repair") {
+                fetchRepairs();
+            } else if (rejectType === "retreading") {
+                fetchRetreadings();
+            }
             setShowRejectModal(false);
-            setSelectedRetreading(null);
+            setSelectedRejectItem(null);
         } catch (error) {
-            console.error("Error rejecting retreading:", error);
+            console.error("Error rejecting item:", error);
         }
     };
 
@@ -118,12 +128,12 @@ const ApproveOrder = () => {
                                         onClick={() => navigate(`/repairDetails/${repair.id}`)}
                                     >
                                         View
-                                    </button> 
+                                    </button>
                                     <button
                                         className="approve-btn-order"
                                         onClick={async () => {
                                             try {
-                                                await axios.put(`http://localhost:5000/services/approveRepair/${repair.id}`);
+                                                await axios.put(`http://localhost:5000/Repairing/approveRepair/${repair.id}`);
                                                 fetchRepairs();
                                             } catch (error) {
                                                 console.error("Error approving repair:", error);
@@ -134,14 +144,7 @@ const ApproveOrder = () => {
                                     </button>
                                     <button
                                         className="reject-btn-order"
-                                        onClick={async () => {
-                                            try {
-                                                await axios.put(`http://localhost:5000/services/rejectRepair/${repair.id}`);
-                                                fetchRepairs();
-                                            } catch (error) {
-                                                console.error("Error rejecting repair:", error);
-                                            }
-                                        }}
+                                        onClick={() => handleRejectClick(repair, "repair")}
                                     >
                                         Reject
                                     </button>
@@ -223,8 +226,7 @@ const ApproveOrder = () => {
                                     </button>
                                     <button
                                         className="reject-btn-order"
-                                        // Instead of directly calling the API, open the modal for note input
-                                        onClick={() => handleRejectClick(retreading)}
+                                        onClick={() => handleRejectClick(retreading, "retreading")}
                                     >
                                         Reject
                                     </button>
@@ -235,7 +237,7 @@ const ApproveOrder = () => {
                 </table>
             </div>
 
-            {/* Reject Modal */}
+            {/* Rejection Modal */}
             {showRejectModal && (
                 <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
                     <div className="modal-dialog" role="document" onClick={(e) => e.stopPropagation()}>
