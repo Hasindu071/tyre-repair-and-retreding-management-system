@@ -5,6 +5,8 @@ import OwnerSidebar from "../components/SideNav";
 import "../styles/AssignWorker.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AssignWorker = () => {
   const [orders, setOrders] = useState([]);
@@ -24,6 +26,7 @@ const AssignWorker = () => {
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
+      toast.error("Error fetching orders");
     }
   };
 
@@ -33,13 +36,14 @@ const AssignWorker = () => {
       setWorkers(response.data);
     } catch (error) {
       console.error("Error fetching workers:", error);
+      toast.error("Error fetching workers");
     }
   };
 
   const handleAssign = async (orderId) => {
     const worker = selectedWorker[orderId];
     if (!worker) {
-      alert("Please select a worker");
+      toast.error("Please select a worker");
       return;
     }
 
@@ -50,9 +54,10 @@ const AssignWorker = () => {
 
     try {
       await axios.put(`http://localhost:5000/orders/assignWorker/${orderId}`, { assignedWorker: worker });
-      alert("Worker assigned successfully");
+      toast.success("Worker assigned successfully");
     } catch (error) {
       console.error("Error assigning worker:", error);
+      toast.error("Error assigning worker");
     }
   };
 
@@ -62,8 +67,10 @@ const AssignWorker = () => {
       const response = await axios.post('http://localhost:5000/orders/addOrder', newOrder);
       setOrders([...orders, response.data]);
       setNewOrder({ customer: "", task: "" });
+      toast.success("Order added successfully");
     } catch (error) {
       console.error("Error adding order:", error);
+      toast.error("Error adding order");
     }
   };
 
@@ -143,6 +150,8 @@ const AssignWorker = () => {
           </tbody>
         </table>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };
