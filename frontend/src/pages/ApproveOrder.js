@@ -5,6 +5,8 @@ import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveOrder.css";
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ApproveOrder = () => {
     const [repairs, setRepairs] = useState([]);
@@ -28,6 +30,7 @@ const ApproveOrder = () => {
             setRepairs(response.data);
         } catch (error) {
             console.error("Error fetching repairs:", error);
+            toast.error("Failed to fetch repair services");
         }
     };
 
@@ -37,6 +40,7 @@ const ApproveOrder = () => {
             setRetreadings(response.data);
         } catch (error) {
             console.error("Error fetching retreadings:", error);
+            toast.error("Failed to fetch retreading services");
         }
     };
 
@@ -59,6 +63,7 @@ const ApproveOrder = () => {
                 url = `http://localhost:5000/Retreading/rejectRetreading/${selectedRejectItem.id}`;
             }
             await axios.put(url, { note: rejectionNote });
+            toast.success("Rejection processed successfully");
             if (rejectType === "repair") {
                 fetchRepairs();
             } else if (rejectType === "retreading") {
@@ -68,6 +73,7 @@ const ApproveOrder = () => {
             setSelectedRejectItem(null);
         } catch (error) {
             console.error("Error rejecting item:", error);
+            toast.error("Error processing rejection");
         }
     };
 
@@ -134,9 +140,11 @@ const ApproveOrder = () => {
                                         onClick={async () => {
                                             try {
                                                 await axios.put(`http://localhost:5000/Repairing/approveRepair/${repair.id}`);
+                                                toast.success("Repair approved successfully");
                                                 fetchRepairs();
                                             } catch (error) {
                                                 console.error("Error approving repair:", error);
+                                                toast.error("Error approving repair");
                                             }
                                         }}
                                     >
@@ -216,9 +224,11 @@ const ApproveOrder = () => {
                                         onClick={async () => {
                                             try {
                                                 await axios.put(`http://localhost:5000/Retreading/approveRetreading/${retreading.id}`);
+                                                toast.success("Retreading approved successfully");
                                                 fetchRetreadings();
                                             } catch (error) {
                                                 console.error("Error approving retreading:", error);
+                                                toast.error("Error approving retreading");
                                             }
                                         }}
                                     >
@@ -266,6 +276,8 @@ const ApproveOrder = () => {
                     </div>
                 </div>
             )}
+
+            <ToastContainer />
         </div>
     );
 };
