@@ -190,7 +190,7 @@ const ApproveOrder = () => {
                                         className="approve-btn-order"
                                         onClick={async () => {
                                             try {
-                                                await axios.put(`http://localhost:5000/services/approveRetreading/${retreading.id}`);
+                                                await axios.put(`http://localhost:5000/Retreading/approveRetreading/${retreading.id}`);
                                                 fetchRetreadings();
                                             } catch (error) {
                                                 console.error("Error approving retreading:", error);
@@ -204,7 +204,7 @@ const ApproveOrder = () => {
                                         className="reject-btn-order"
                                         onClick={async () => {
                                             try {
-                                                await axios.put(`http://localhost:5000/services/rejectRetreading/${retreading.id}`);
+                                                await axios.put(`http://localhost:5000/Retreading/rejectRetreading/${retreading.id}`);
                                                 fetchRetreadings();
                                             } catch (error) {
                                                 console.error("Error rejecting retreading:", error);

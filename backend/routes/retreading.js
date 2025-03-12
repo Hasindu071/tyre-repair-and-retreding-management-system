@@ -111,4 +111,46 @@ router.get('/getRetreading/:id', async (req, res) => {
     }
 });
 
+// Helper function to update retreading status (allowing changes regardless of current status)
+const updateRetreadingStatus = async (req, res, newStatus, successMessage, errorMessage) => {
+    const retreadingId = req.params.id;
+    const query = "UPDATE retreading SET status = ? WHERE id = ?";
+    const params = [newStatus, retreadingId];
+
+    try {
+        const [result] = await db.promise().query(query, params);
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: successMessage });
+        } else {
+            res.status(404).json({ message: "Retreading order not found" });
+        }
+    } catch (error) {
+        console.error(`Error updating retreading status to ${newStatus}:`, error);
+        res.status(500).json({ message: errorMessage, error: error.message });
+    }
+};
+
+// Approve a retreading order (can approve regardless of current status)
+router.put('/approveRetreading/:id', async (req, res) => {
+    updateRetreadingStatus(
+        req,
+        res,
+        'Approved',
+        "Retreading order approved successfully",
+        "Error approving retreading"
+    );
+});
+
+// Reject a retreading order (can reject regardless of current status)
+router.put('/rejectRetreading/:id', async (req, res) => {
+    updateRetreadingStatus(
+        req,
+        res,
+        'Rejected',
+        "Retreading order rejected successfully",
+        "Error rejecting retreading"
+    );
+});
+
+
 module.exports = router;
