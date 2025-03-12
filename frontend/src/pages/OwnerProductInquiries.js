@@ -4,6 +4,8 @@ import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
 import OwnerSidebar from "../components/SideNav";
 import "../styles/OnwerproductInquiries.css"; // Import the CSS file
 import axios from 'axios'; // Import axios for HTTP requests
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OwnerProductInquiries = () => {
     const [products, setProducts] = useState([]);
@@ -19,11 +21,12 @@ const OwnerProductInquiries = () => {
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
+            toast.error("Error fetching products");
         }
     };
 
     const handleStockChange = (id, value) => {
-        setProducts(products.map(product => 
+        setProducts(products.map(product =>
             product.id === id ? { ...product, stock: value } : product
         ));
     };
@@ -33,9 +36,10 @@ const OwnerProductInquiries = () => {
             for (const product of products) {
                 await axios.put(`http://localhost:5000/products/updateProduct/${product.id}`, { stock: product.stock });
             }
-            alert("Stock updates saved successfully");
+            toast.success("Stock updates saved successfully");
         } catch (error) {
             console.error("Error saving stock updates:", error);
+            toast.error("Error saving stock updates");
         }
     };
 
@@ -50,9 +54,10 @@ const OwnerProductInquiries = () => {
                 await axios.post('http://localhost:5000/products/addProduct', newProduct);
                 fetchProducts(); // Refresh product list
                 setNewProduct({ name: "", stock: 0 });
-                alert("Product added successfully");
+                toast.success("Product added successfully");
             } catch (error) {
                 console.error("Error adding product:", error);
+                toast.error("Error adding product");
             }
         }
     };
@@ -111,6 +116,7 @@ const OwnerProductInquiries = () => {
                     <button onClick={handleAddProduct} className="add-product-btn">Add Product</button>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
