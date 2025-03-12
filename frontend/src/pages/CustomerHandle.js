@@ -3,6 +3,8 @@ import axios from "axios";
 import "../styles/CustomerHandle.css";
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar";
 import OwnerSidebar from "../components/SideNav";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CustomerHandle = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,6 +21,7 @@ const CustomerHandle = () => {
       })
       .catch((error) => {
         console.error("Error fetching customers:", error);
+        toast.error("Error fetching customers");
       });
   }, []);
 
@@ -52,14 +55,14 @@ const CustomerHandle = () => {
         )
       );
       setShowEditModal(false);
-      alert("Customer updated successfully!");
+      toast.success("Customer updated successfully!");
     } catch (error) {
       console.error("Error updating customer:", error);
-      alert("Failed to update customer profile");
+      toast.error("Failed to update customer profile");
     }
   };
 
-  // Delete customer handler remains unchanged
+  // Delete customer handler remains unchanged except for toast alerts
   const handleDelete = async (customerId) => {
     if (window.confirm("Are you sure you want to delete this customer?")) {
       try {
@@ -67,8 +70,10 @@ const CustomerHandle = () => {
         setCustomers((prev) =>
           prev.filter((cust) => cust.customer_id !== customerId)
         );
+        toast.success("Customer deleted successfully!");
       } catch (error) {
         console.error("Error deleting customer:", error);
+        toast.error("Error deleting customer");
       }
     }
   };
@@ -295,6 +300,7 @@ const CustomerHandle = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
