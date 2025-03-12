@@ -52,6 +52,7 @@ const ApproveOrder = () => {
                             <th>Notes</th>
                             <th>Inside Damage Photo</th>
                             <th>Outside Damage Photo</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -83,6 +84,7 @@ const ApproveOrder = () => {
                                         />
                                     )}
                                 </td>
+                                <td>{repair.status}</td>
                                 <td>
                                     <button
                                         className="view-btn-order"
@@ -140,6 +142,7 @@ const ApproveOrder = () => {
                             <th>Notes</th>
                             <th>insidePhoto</th>
                             <th>outsidePhoto</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -173,6 +176,7 @@ const ApproveOrder = () => {
                                         />
                                     )}
                                 </td>
+                                <td>{retreading.status}</td>
                                 <td>
                                     <button
                                         className="view-btn-order"
