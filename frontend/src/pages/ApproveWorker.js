@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveWorker.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ApproveWorker = () => {
   const [workers, setWorkers] = useState([]);
@@ -18,6 +20,7 @@ const ApproveWorker = () => {
       setWorkers(data);
     } catch (err) {
       console.error("Error fetching workers:", err);
+      toast.error("Error fetching workers");
     }
   };
 
@@ -35,11 +38,15 @@ const ApproveWorker = () => {
         body: JSON.stringify({ status }),
       });
       if (response.ok) {
+        toast.success(`Worker ${status.toLowerCase()} successfully`);
         // Re-fetch the worker list after successful update
         fetchWorkers();
+      } else {
+        toast.error("Failed to update worker status");
       }
     } catch (error) {
       console.error("Error updating worker status:", error);
+      toast.error("Error updating worker status");
     }
   };
 
@@ -82,20 +89,20 @@ const ApproveWorker = () => {
                   <td>{worker.address1} {worker.address2}</td>
                   <td>{worker.status}</td>
                   <td>
-                  <button
-                    className="approve-button-worker"
-                    onClick={() => handleApproval(worker.id, "Approved")}
-                    disabled={worker.status === "Approved"}
-                  >
-                  Approve
-                  </button>
-                  <button
-                  className="cancel-button-worker"
-                  onClick={() => handleApproval(worker.id, "Rejected")}
-                  disabled={worker.status === "Rejected"}
-                  >
-                  Reject
-                  </button>
+                    <button
+                      className="approve-button-worker"
+                      onClick={() => handleApproval(worker.id, "Approved")}
+                      disabled={worker.status === "Approved"}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="cancel-button-worker"
+                      onClick={() => handleApproval(worker.id, "Rejected")}
+                      disabled={worker.status === "Rejected"}
+                    >
+                      Reject
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -103,6 +110,7 @@ const ApproveWorker = () => {
           </table>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
