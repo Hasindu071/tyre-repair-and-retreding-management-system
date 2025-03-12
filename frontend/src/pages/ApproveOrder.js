@@ -11,6 +11,11 @@ const ApproveOrder = () => {
     const [retreadings, setRetreadings] = useState([]);
     const navigate = useNavigate();
 
+    // New state for reject modal
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [rejectionNote, setRejectionNote] = useState("");
+    const [selectedRetreading, setSelectedRetreading] = useState(null);
+
     useEffect(() => {
         fetchRepairs();
         fetchRetreadings();
@@ -31,6 +36,28 @@ const ApproveOrder = () => {
             setRetreadings(response.data);
         } catch (error) {
             console.error("Error fetching retreadings:", error);
+        }
+    };
+
+    // Called when clicking Reject on a retreading row
+    const handleRejectClick = (retreading) => {
+        setSelectedRetreading(retreading);
+        setRejectionNote(""); // Reset the note
+        setShowRejectModal(true);
+    };
+
+    // Called when confirming the rejection with a note
+    const handleConfirmRejection = async () => {
+        if (!selectedRetreading) return;
+        try {
+            await axios.put(`http://localhost:5000/Retreading/rejectRetreading/${selectedRetreading.id}`, {
+                note: rejectionNote
+            });
+            fetchRetreadings();
+            setShowRejectModal(false);
+            setSelectedRetreading(null);
+        } catch (error) {
+            console.error("Error rejecting retreading:", error);
         }
     };
 
@@ -88,12 +115,10 @@ const ApproveOrder = () => {
                                 <td>
                                     <button
                                         className="view-btn-order"
-                                        // Redirect to full screen repair details
                                         onClick={() => navigate(`/repairDetails/${repair.id}`)}
                                     >
                                         View
                                     </button> 
-
                                     <button
                                         className="approve-btn-order"
                                         onClick={async () => {
@@ -107,7 +132,6 @@ const ApproveOrder = () => {
                                     >
                                         Approve
                                     </button>
-
                                     <button
                                         className="reject-btn-order"
                                         onClick={async () => {
@@ -140,8 +164,8 @@ const ApproveOrder = () => {
                             <th>Completion Date</th>
                             <th>Tire Structure</th>
                             <th>Notes</th>
-                            <th>insidePhoto</th>
-                            <th>outsidePhoto</th>
+                            <th>Inside Photo</th>
+                            <th>Outside Photo</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -180,12 +204,10 @@ const ApproveOrder = () => {
                                 <td>
                                     <button
                                         className="view-btn-order"
-                                        // Redirect to full screen retreading details
                                         onClick={() => navigate(`/retreadingDetails/${retreading.id}`)}
                                     >
                                         View
                                     </button>
-
                                     <button
                                         className="approve-btn-order"
                                         onClick={async () => {
@@ -199,17 +221,10 @@ const ApproveOrder = () => {
                                     >
                                         Approve
                                     </button>
-
                                     <button
                                         className="reject-btn-order"
-                                        onClick={async () => {
-                                            try {
-                                                await axios.put(`http://localhost:5000/Retreading/rejectRetreading/${retreading.id}`);
-                                                fetchRetreadings();
-                                            } catch (error) {
-                                                console.error("Error rejecting retreading:", error);
-                                            }
-                                        }}
+                                        // Instead of directly calling the API, open the modal for note input
+                                        onClick={() => handleRejectClick(retreading)}
                                     >
                                         Reject
                                     </button>
@@ -219,6 +234,36 @@ const ApproveOrder = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Reject Modal */}
+            {showRejectModal && (
+                <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                    <div className="modal-dialog" role="document" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Enter Rejection Note</h5>
+                                <button type="button" className="btn-close" onClick={() => setShowRejectModal(false)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <textarea
+                                    className="form-control"
+                                    placeholder="Enter special note for rejection..."
+                                    value={rejectionNote}
+                                    onChange={(e) => setRejectionNote(e.target.value)}
+                                ></textarea>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={() => setShowRejectModal(false)}>
+                                    Cancel
+                                </button>
+                                <button type="button" className="btn btn-danger" onClick={handleConfirmRejection}>
+                                    Confirm Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

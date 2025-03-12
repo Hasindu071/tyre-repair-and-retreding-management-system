@@ -114,9 +114,17 @@ router.get('/getRetreading/:id', async (req, res) => {
 // Helper function to update retreading status (allowing changes regardless of current status)
 const updateRetreadingStatus = async (req, res, newStatus, successMessage, errorMessage) => {
     const retreadingId = req.params.id;
-    const query = "UPDATE retreading SET status = ? WHERE id = ?";
-    const params = [newStatus, retreadingId];
-
+    let query, params;
+    
+    if (newStatus === 'Rejected' && req.body.note) {
+        // Update special_note column with the provided rejection note
+        query = "UPDATE retreading SET status = ?, special_note = ? WHERE id = ?";
+        params = [newStatus, req.body.note, retreadingId];
+    } else {
+        query = "UPDATE retreading SET status = ? WHERE id = ?";
+        params = [newStatus, retreadingId];
+    }
+    
     try {
         const [result] = await db.promise().query(query, params);
         if (result.affectedRows > 0) {
@@ -141,7 +149,7 @@ router.put('/approveRetreading/:id', async (req, res) => {
     );
 });
 
-// Reject a retreading order (can reject regardless of current status)
+// Reject a retreading order (can reject regardless of current status with a special note if provided)
 router.put('/rejectRetreading/:id', async (req, res) => {
     updateRetreadingStatus(
         req,
