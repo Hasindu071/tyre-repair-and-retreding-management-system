@@ -27,4 +27,22 @@ router.post('/addPayment', async (req, res) => {
     }
 });
 
+// Route to update an existing payment
+router.put('/updatePayment/:id', async (req, res) => {
+    const { id } = req.params;
+    const { customer, amount, date, status } = req.body;
+    try {
+        const query = 'UPDATE worker_payments SET customer = ?, amount = ?, date = ?, status = ? WHERE id = ?';
+        const [result] = await db.promise().execute(query, [customer, amount, date, status, id]);
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Payment updated successfully' });
+        } else {
+            res.status(404).json({ message: 'Payment not found' });
+        }
+    } catch (error) {
+        console.error('Database update error:', error);
+        res.status(500).json({ message: 'Failed to update payment' });
+    }
+});
+
 module.exports = router;
