@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Import the Navbar component
 import OwnerSidebar from "../components/SideNav"; // Import the Sidebar component
 import "../styles/CustomerPayment.css"; // Import CSS file
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CustomerPayment = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +30,7 @@ const CustomerPayment = () => {
       });
 
       if (response.ok) {
-        console.log("Payment record submitted:", formData);
+        toast.success("Payment record submitted successfully.");
         // Reset form
         setFormData({
           customerName: "",
@@ -39,10 +41,12 @@ const CustomerPayment = () => {
         // Fetch updated payment records
         fetchPayments();
       } else {
+        toast.error("Error submitting payment record.");
         console.error("Error submitting payment record");
       }
     } catch (error) {
       console.error("Error submitting payment record:", error);
+      toast.error("Error submitting payment record.");
     }
   };
 
@@ -53,6 +57,7 @@ const CustomerPayment = () => {
       setPayments(data);
     } catch (error) {
       console.error("Error fetching payment records:", error);
+      toast.error("Error fetching payment records.");
     }
   };
 
@@ -143,6 +148,7 @@ const CustomerPayment = () => {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </>
   );
 };
