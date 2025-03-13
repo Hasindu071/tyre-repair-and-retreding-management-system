@@ -1,0 +1,40 @@
+.payment-billing-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.payment-billing-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.payment-billing-description {
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.payment-billing-details {
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.payment-billing-back-button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff4b5c, #ff0000);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.payment-billing-back-button:hover {
+    transform: scale(1.05);
+}
