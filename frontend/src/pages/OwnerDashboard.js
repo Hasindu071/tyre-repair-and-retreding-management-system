@@ -43,6 +43,10 @@ const OwnerDashboard = () => {
         navigate("/Owner/Supplies"); // Redirect to Supplies page
     };
 
+    const UpdateTirePatterns = () => {
+        navigate("/UpdateTirePatterns"); // Redirect to Supplies page
+    };
+
     return (
         <div>
             <OwnerNavbar />
@@ -120,6 +124,14 @@ const OwnerDashboard = () => {
                         <h3>Supplies Details</h3>
                         <button className="dashboard-button-owner" onClick={supplies}>
                             <FaMoneyBillWave className="icon" /> View
+                        </button>
+                    </div>
+
+                    {/* Pattern update */}
+                    <div className="dashboard-section-owner">
+                        <h3>Pattern Update</h3>
+                        <button className="dashboard-button-owner" onClick={UpdateTirePatterns}>
+                            <FaRegClipboard className="icon" /> update
                         </button>
                     </div>
                 </div>

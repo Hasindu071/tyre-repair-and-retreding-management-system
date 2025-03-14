@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Navbar component
 import { FaUpload, FaCheckCircle } from "react-icons/fa"; // Importing icons
 import "../styles/Retreading.css";
-import axios from 'axios'; // Import axios for HTTP requests
+import axios from 'axios';
 
 const RetreadingService = () => {
     const [formData, setFormData] = useState({
@@ -18,47 +18,69 @@ const RetreadingService = () => {
         insidePhoto: null,
         outsidePhoto: null
     });
-
+    const [patterns, setPatterns] = useState([]); // Tire patterns from the DB
     const [loading, setLoading] = useState(false);
-    const [responseMessage, setResponseMessage] = useState(null); // For feedback
+    const [responseMessage, setResponseMessage] = useState(null);
+
+    // Fetch tire pattern data from backend on mount
+    useEffect(() => {
+        const fetchPatterns = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/patterns/getAll");
+                // Expected response format: [{ id: 1, imageUrl: "http://localhost:5000/assets/pattern/pattern1.jpg" }, ...]
+                if (res.data && res.data.length > 0) {
+                    setPatterns(res.data);
+                } else {
+                    setPatterns([]);
+                }
+            } catch (error) {
+                console.error("Error fetching patterns:", error);
+                // Fallback: use default pattern numbers if needed.
+                setPatterns([]);
+            }
+        };
+        fetchPatterns();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-        // File validation for image uploads
         if (type === "file" && files[0]) {
             const file = files[0];
-            const fileType = file.type.split("/")[0];
-            if (fileType !== "image") {
+            if (!file.type.startsWith("image/")) {
                 alert("Please upload a valid image file.");
                 return;
             }
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: files[0]
+            }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
         }
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: type === "file" ? files[0] : value,
-        }));
     };
 
-    const handlePatternSelect = (pattern) => {
-        setFormData((prevData) => ({
+    const handlePatternSelect = (patternId) => {
+        // Save selected pattern as a string
+        setFormData(prevData => ({
             ...prevData,
-            tirePattern: pattern.toString(), // Ensure pattern is stored as a string
+            tirePattern: patternId.toString()
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
-        Object.keys(formData).forEach((key) => {
+        Object.keys(formData).forEach(key => {
             data.append(key, formData[key]);
         });
-
-        setLoading(true);  // Set loading to true during submission
-
+        setLoading(true);
         try {
             await axios.post('http://localhost:5000/Retreading/submit', data);
             setResponseMessage({ type: 'success', message: 'Form submitted successfully!' });
-            // Reset form here if needed
+            // Reset form fields
             setFormData({
                 sizeCode: "",
                 wheelDiameter: "",
@@ -72,9 +94,10 @@ const RetreadingService = () => {
                 outsidePhoto: null
             });
         } catch (error) {
+            console.error("Error submitting form:", error);
             setResponseMessage({ type: 'error', message: 'Error submitting form. Please try again.' });
         } finally {
-            setLoading(false);  // Reset loading state after submission
+            setLoading(false);
         }
     };
 
@@ -132,22 +155,41 @@ const RetreadingService = () => {
 
                         <h3>Select Your Tire Pattern</h3>
                         <div className="tire-patterns">
-                            {[1, 2, 3, 4, 5, 6].map((num) => (
-                                <div key={num} className="pattern-item">
-                                    <img 
-                                        src={require(`../assets/pattern/pattern${num}.jpg`)} 
-                                        alt={`Tire Pattern ${num}`} 
-                                        className="pattern-image" 
-                                    />
-                                    <button 
-                                        type="button" 
-                                        className={`pattern-btn ${formData.tirePattern === num.toString() ? 'selected' : ''}`} 
-                                        onClick={() => handlePatternSelect(num)}
-                                    >
-                                        {num}
-                                    </button>
-                                </div>
-                            ))}
+                            {patterns.length > 0 
+                                ? patterns.map(pattern => (
+                                    <div key={pattern.id} className="pattern-item">
+                                        <img 
+                                            src={pattern.imageUrl} 
+                                            alt={`Tire Pattern ${pattern.id}`} 
+                                            className="pattern-image" 
+                                        />
+                                        <button 
+                                            type="button" 
+                                            className={`pattern-btn ${formData.tirePattern === pattern.id.toString() ? 'selected' : ''}`} 
+                                            onClick={() => handlePatternSelect(pattern.id)}
+                                        >
+                                            {pattern.id}
+                                        </button>
+                                    </div>
+                                ))
+                                : // Fallback to default hardcoded pattern images
+                                [1, 2, 3, 4, 5, 6].map(num => (
+                                    <div key={num} className="pattern-item">
+                                        <img 
+                                            src={require(`../assets/pattern/pattern${num}.jpg`)} 
+                                            alt={`Tire Pattern ${num}`} 
+                                            className="pattern-image" 
+                                        />
+                                        <button 
+                                            type="button" 
+                                            className={`pattern-btn ${formData.tirePattern === num.toString() ? 'selected' : ''}`} 
+                                            onClick={() => handlePatternSelect(num)}
+                                        >
+                                            {num}
+                                        </button>
+                                    </div>
+                                ))
+                            }
                         </div>
 
                         <h3>Add Photos of Your Tire</h3>
@@ -188,7 +230,7 @@ const RetreadingService = () => {
 
                         <h3>Tire Structure Information</h3>
                         <div className="radio-group">
-                            {["Nylon", "Iron Wire", "Not Sure"].map((option) => (
+                            {["Nylon", "Iron Wire", "Not Sure"].map(option => (
                                 <label key={option} className="radio-option">
                                     <input 
                                         type="radio" 

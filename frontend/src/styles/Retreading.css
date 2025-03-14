@@ -73,8 +73,8 @@ body {
 
 /* Pattern Image */
 .pattern-image {
-    width: 100px; /* Adjust size */
-    height: 100px;
+    width: 30px; /* Adjust size */
+    height: 30px;
     object-fit: cover;
     border-radius: 10px;
     border: 2px solid white;

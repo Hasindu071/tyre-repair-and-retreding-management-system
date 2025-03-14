@@ -55,6 +55,7 @@ import RepairDetails from './pages/RepairDetails';
 import RetreadingDetails from './pages/RetreadingDetails';
 import CustomerSeePaymentBilling from './pages/CustomerSeePaymentBilling';
 import WorkerSeePaymentBilling from './pages/WorkerSeePaymentBilling';
+import UpdateTirePatterns from './pages/UpdateTirePatterns';
 
 function App() {
   return (
@@ -115,6 +116,7 @@ function App() {
             <Route path="/retreadingDetails/:id" element={<RetreadingDetails />} />
             <Route path="/CustomerSeePaymentBilling" element={<CustomerSeePaymentBilling />} />
             <Route path="/WorkerSeePaymentBilling" element={<WorkerSeePaymentBilling />} />
+            <Route path="/UpdateTirePatterns" element={<UpdateTirePatterns />} />
           </Routes>
         </div>
       </Router>

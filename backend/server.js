@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve static files from the assets directory
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
 // Import routes
 const ownerRegisterRoute = require('./routes/OwnerRegister');
 const customerRegisterRoute = require('./routes/CustomerRegister');
@@ -37,6 +40,7 @@ const noticesRouter = require('./routes/notices');
 const workerProfileRouter = require('./routes/workerProfile');
 const suppliesRouter = require('./routes/Supplies');
 const OurProductOwner = require('./routes/our_products');
+const patternsRoute = require('./routes/updatingpattern');
 //const ownerForgotPasswordRoute = require('./routes/OwnerForgotPassword');
 
 // Use routes
@@ -62,6 +66,7 @@ app.use('/notices', noticesRouter);
 app.use('/workerProfile', workerProfileRouter);
 app.use('/supplies', suppliesRouter);
 app.use('/OurProductOwner', OurProductOwner);
+app.use('/patterns', patternsRoute);
 //app.use('/owner', ownerForgotPasswordRoute);
 
 
