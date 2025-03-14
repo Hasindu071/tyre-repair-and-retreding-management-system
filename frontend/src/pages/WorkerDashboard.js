@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
+import { FaMoneyBillAlt } from "react-icons/fa"; // Added Payment & Billing icon
 import "../styles/WorkerDashboard.css";
 
+// ...existing code...
 const WorkerDashboard = () => {
     const navigate = useNavigate();
     const [workerId, setWorkerId] = useState("");
@@ -53,6 +55,13 @@ const WorkerDashboard = () => {
                         >
                             <span className="button-icon">📝</span>
                             History of Works
+                        </button>
+                        <button 
+                            className="profile-button creative-button"
+                            onClick={() => navigate("/WorkerSeePaymentBilling")}
+                        >
+                            <FaMoneyBillAlt size={28} className="button-icon" /> {/* Updated icon */}
+                            Payment & Billing
                         </button>
                     </div>
                 </section>

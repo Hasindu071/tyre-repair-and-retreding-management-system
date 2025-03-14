@@ -54,6 +54,7 @@ import OurProducts from './pages/OurProductOwner';
 import RepairDetails from './pages/RepairDetails';
 import RetreadingDetails from './pages/RetreadingDetails';
 import CustomerSeePaymentBilling from './pages/CustomerSeePaymentBilling';
+import WorkerSeePaymentBilling from './pages/WorkerSeePaymentBilling';
 
 function App() {
   return (
@@ -113,6 +114,7 @@ function App() {
             <Route path="/repairDetails/:id" element={<RepairDetails />} />
             <Route path="/retreadingDetails/:id" element={<RetreadingDetails />} />
             <Route path="/CustomerSeePaymentBilling" element={<CustomerSeePaymentBilling />} />
+            <Route path="/WorkerSeePaymentBilling" element={<WorkerSeePaymentBilling />} />
           </Routes>
         </div>
       </Router>

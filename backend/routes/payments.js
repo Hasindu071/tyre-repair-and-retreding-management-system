@@ -18,8 +18,9 @@ router.post('/addPayment', async (req, res) => {
     const { customer, amount, date, status } = req.body;
 
     try {
-        const query = 'INSERT INTO worker_payments (customer, amount, date, status) VALUES (?, ?, ?, ?)';
-        await db.promise().execute(query, [customer, amount, date, status]);
+        const worker_id = "22";
+        const query = 'INSERT INTO worker_payments (customer, amount, date, status, worker_id ) VALUES (?, ?, ?, ?, ?)';
+        await db.promise().execute(query, [customer, amount, date, status, worker_id]);
         res.status(201).json({ message: 'Payment added successfully' });
     } catch (error) {
         console.error('Database insert error:', error);
