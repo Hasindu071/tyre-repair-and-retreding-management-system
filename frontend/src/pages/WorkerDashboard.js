@@ -58,6 +58,13 @@ const WorkerDashboard = () => {
                         </button>
                         <button 
                             className="profile-button creative-button"
+                            onClick={() => navigate("/WokerAttendance")}
+                        >
+                            <span className="button-icon">📅</span>
+                            My Attendance
+                        </button>
+                        <button 
+                            className="profile-button creative-button"
                             onClick={() => navigate("/WorkerSeePaymentBilling")}
                         >
                             <FaMoneyBillAlt size={28} className="button-icon" /> {/* Updated icon */}

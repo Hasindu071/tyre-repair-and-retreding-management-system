@@ -57,6 +57,7 @@ import CustomerSeePaymentBilling from './pages/CustomerSeePaymentBilling';
 import WorkerSeePaymentBilling from './pages/WorkerSeePaymentBilling';
 import UpdateTirePatterns from './pages/UpdateTirePatterns';
 import WorkerAttendance from './pages/WorkerAttendance';
+import MyAttendance from './pages/MyAttendance';
 
 function App() {
   return (
@@ -119,6 +120,7 @@ function App() {
             <Route path="/WorkerSeePaymentBilling" element={<WorkerSeePaymentBilling />} />
             <Route path="/UpdateTirePatterns" element={<UpdateTirePatterns />} />
             <Route path="/OwnerDashboard/WorkerAttendance" element={<WorkerAttendance />} />
+            <Route path="/WokerAttendance" element={<MyAttendance />} />
           </Routes>
         </div>
       </Router>
