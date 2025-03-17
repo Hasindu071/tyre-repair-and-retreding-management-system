@@ -175,7 +175,7 @@ const OwnerMarksWorkerAttendance = () => {
                   className="form-control"
                   onChange={(e) => {
                     const workerId = e.target.value;
-                    const worker = workers.find((w) => w.id === workerId);
+                    const worker = workers.find((w) => w.id == workerId);
                     setSelectedWorker(worker);
                   }}
                 >
