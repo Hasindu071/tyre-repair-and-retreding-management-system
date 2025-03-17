@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db'); // ensure this connects to your database
+const db = require('../config/db'); // Ensure this connects to your database
 
+// POST endpoint to mark attendance
 router.post('/mark', (req, res) => {
     const { worker_id } = req.body;
     if (!worker_id) {
@@ -11,7 +12,7 @@ router.post('/mark', (req, res) => {
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().slice(0, 10);
     
-    // Check if attendance is already marked
+    // Check if attendance is already marked for today
     const checkQuery = "SELECT * FROM worker_attendance WHERE worker_id = ? AND date = ?";
     db.query(checkQuery, [worker_id, today], (err, results) => {
         if (err) {
@@ -31,6 +32,21 @@ router.post('/mark', (req, res) => {
             }
             return res.status(200).json({ message: "Attendance marked successfully!" });
         });
+    });
+});
+
+// GET endpoint to fetch a worker's attendance history
+router.get('/worker/:id', (req, res) => {
+    const worker_id = req.params.id;
+    const getQuery = "SELECT date FROM worker_attendance WHERE worker_id = ? ORDER BY date ASC";
+    db.query(getQuery, [worker_id], (err, results) => {
+        if (err) {
+            console.error("Error fetching attendance:", err);
+            return res.status(500).json({ message: "Server error." });
+        }
+        // Map results to an array of date strings
+        const attendances = results.map(row => row.date);
+        return res.status(200).json({ attendances });
     });
 });
 
