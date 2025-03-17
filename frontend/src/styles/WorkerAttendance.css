@@ -1,0 +1,79 @@
+.worker-attendance-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    text-align: center;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.worker-attendance-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.worker-attendance-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.worker-attendance-container button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.worker-attendance-container button:hover {
+    background-color: #0056b3;
+}
+
+.worker-attendance-container button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.attendance-message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #d9534f;
+}
+
+.today-display {
+    margin-bottom: 30px;
+}
+
+/* Calendar Grid Styles */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin: 20px auto;
+}
+
+.calendar-cell {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.empty-cell {
+    background: transparent;
+}
+
+.attended-cell {
+    background-color: green;
+}
+
+.not-attended-cell {
+    background-color: red;
+}

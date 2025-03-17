@@ -56,6 +56,7 @@ import RetreadingDetails from './pages/RetreadingDetails';
 import CustomerSeePaymentBilling from './pages/CustomerSeePaymentBilling';
 import WorkerSeePaymentBilling from './pages/WorkerSeePaymentBilling';
 import UpdateTirePatterns from './pages/UpdateTirePatterns';
+import WorkerAttendance from './pages/WorkerAttendance';
 
 function App() {
   return (
@@ -117,6 +118,7 @@ function App() {
             <Route path="/CustomerSeePaymentBilling" element={<CustomerSeePaymentBilling />} />
             <Route path="/WorkerSeePaymentBilling" element={<WorkerSeePaymentBilling />} />
             <Route path="/UpdateTirePatterns" element={<UpdateTirePatterns />} />
+            <Route path="/OwnerDashboard/WorkerAttendance" element={<WorkerAttendance />} />
           </Routes>
         </div>
       </Router>

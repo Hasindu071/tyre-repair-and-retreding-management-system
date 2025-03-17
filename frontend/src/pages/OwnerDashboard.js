@@ -1,6 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRegClipboard, FaUserFriends, FaUserCheck, FaShoppingBag, FaBoxOpen, FaMoneyBillWave } from 'react-icons/fa';
+import { 
+    FaRegClipboard, 
+    FaUserFriends, 
+    FaUserCheck, 
+    FaShoppingBag, 
+    FaBoxOpen, 
+    FaMoneyBillWave,
+    FaUserClock,
+    FaChartBar
+} from 'react-icons/fa';
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
 
@@ -45,6 +54,14 @@ const OwnerDashboard = () => {
 
     const UpdateTirePatterns = () => {
         navigate("/UpdateTirePatterns"); // Redirect to Supplies page
+    };
+
+    const UpdateWorkerAttendence = () => {
+        navigate("./WorkerAttendance"); // Redirect to Supplies page
+    };
+
+    const UpdateReports = () => {
+        navigate("/Owner/Reports"); // Redirect to Supplies page
     };
 
     return (
@@ -132,6 +149,22 @@ const OwnerDashboard = () => {
                         <h3>Pattern Update</h3>
                         <button className="dashboard-button-owner" onClick={UpdateTirePatterns}>
                             <FaRegClipboard className="icon" /> update
+                        </button>
+                    </div>
+
+                     {/* worker attendence */}
+                     <div className="dashboard-section-owner">
+                        <h3>Worker Attendence</h3>
+                        <button className="dashboard-button-owner" onClick={UpdateWorkerAttendence}>
+                            <FaUserClock className="icon" /> Check
+                        </button>
+                    </div>
+
+                    {/* Reports */}
+                    <div className="dashboard-section-owner">
+                        <h3>Reports</h3>
+                        <button className="dashboard-button-owner" onClick={UpdateReports}>
+                            <FaChartBar className="icon" /> See
                         </button>
                     </div>
                 </div>
