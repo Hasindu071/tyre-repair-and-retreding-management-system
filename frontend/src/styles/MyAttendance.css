@@ -80,7 +80,7 @@
 }
 
 .not-attended-cell {
-    background-color: red;
+    background-color: rgb(231, 147, 147);
 }
 
 /* Modal Styles (if applicable on other pages) */
