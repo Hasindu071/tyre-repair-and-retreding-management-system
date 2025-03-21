@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Navbar component
-import { FaUpload, FaCheckCircle } from "react-icons/fa"; // Importing icons
+import NewNavbar from "../components/Navbars/CustomerRegiNavBar";
+import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import "../styles/Retreading.css";
-import axios from 'axios';
+import axios from "axios";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const RetreadingService = () => {
     const [formData, setFormData] = useState({
@@ -12,22 +14,21 @@ const RetreadingService = () => {
         tireWidth: "",
         tireBrand: "",
         tirePattern: "",
-        completionDate: "",
+        completionDate: null, // Date object for date picker
         tireStructure: "",
         notes: "",
         insidePhoto: null,
         outsidePhoto: null
     });
-    const [patterns, setPatterns] = useState([]); // Tire patterns from the DB
+    const [patterns, setPatterns] = useState([]);
     const [loading, setLoading] = useState(false);
     const [responseMessage, setResponseMessage] = useState(null);
 
-    // Fetch tire pattern data from backend on mount
+    // Fetch tire patterns on mount
     useEffect(() => {
         const fetchPatterns = async () => {
             try {
                 const res = await axios.get("http://localhost:5000/patterns/getAll");
-                // Expected response format: [{ id: 1, imageUrl: "http://localhost:5000/assets/pattern/pattern1.jpg" }, ...]
                 if (res.data && res.data.length > 0) {
                     setPatterns(res.data);
                 } else {
@@ -35,7 +36,6 @@ const RetreadingService = () => {
                 }
             } catch (error) {
                 console.error("Error fetching patterns:", error);
-                // Fallback: use default pattern numbers if needed.
                 setPatterns([]);
             }
         };
@@ -52,7 +52,7 @@ const RetreadingService = () => {
             }
             setFormData(prevData => ({
                 ...prevData,
-                [name]: files[0]
+                [name]: file
             }));
         } else {
             setFormData(prevData => ({
@@ -62,8 +62,14 @@ const RetreadingService = () => {
         }
     };
 
+    const handleCompletionDateChange = (date) => {
+        setFormData(prev => ({
+            ...prev,
+            completionDate: date
+        }));
+    };
+
     const handlePatternSelect = (patternId) => {
-        // Save selected pattern as a string
         setFormData(prevData => ({
             ...prevData,
             tirePattern: patternId.toString()
@@ -74,20 +80,23 @@ const RetreadingService = () => {
         e.preventDefault();
         const data = new FormData();
         Object.keys(formData).forEach(key => {
-            data.append(key, formData[key]);
+            if (key === "completionDate" && formData.completionDate) {
+                data.append(key, formData.completionDate.toISOString().split("T")[0]);
+            } else {
+                data.append(key, formData[key]);
+            }
         });
         setLoading(true);
         try {
             await axios.post('http://localhost:5000/Retreading/submit', data);
             setResponseMessage({ type: 'success', message: 'Form submitted successfully!' });
-            // Reset form fields
             setFormData({
                 sizeCode: "",
                 wheelDiameter: "",
                 tireWidth: "",
                 tireBrand: "",
                 tirePattern: "",
-                completionDate: "",
+                completionDate: null,
                 tireStructure: "",
                 notes: "",
                 insidePhoto: null,
@@ -107,7 +116,7 @@ const RetreadingService = () => {
             <div className="retreading-container-body">
                 <div className="retreading-container">
                     <form onSubmit={handleSubmit} className="retreading-form">
-                        <h2 className="title">Retreading Service</h2>
+                        <h2 className="title-retreading">Retreading Service</h2>
                         
                         {responseMessage && (
                             <div className={`alert alert-${responseMessage.type === 'success' ? 'success' : 'danger'}`}>
@@ -116,41 +125,57 @@ const RetreadingService = () => {
                         )}
 
                         <div className="input-group">
-                            <input 
-                                type="text" 
-                                name="sizeCode" 
-                                placeholder="Size Code" 
-                                value={formData.sizeCode} 
-                                onChange={handleChange} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                name="wheelDiameter" 
-                                placeholder="Wheel Diameter (inches)" 
-                                value={formData.wheelDiameter} 
-                                onChange={handleChange} 
-                                required 
-                            />
+                            <div className="form-group">
+                                <label htmlFor="sizeCode">Size Code</label>
+                                <input 
+                                    id="sizeCode"
+                                    type="number" 
+                                    name="sizeCode" 
+                                    placeholder="Size Code" 
+                                    value={formData.sizeCode} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="wheelDiameter">Wheel Diameter (cm)</label>
+                                <input 
+                                    id="wheelDiameter"
+                                    type="number" 
+                                    name="wheelDiameter" 
+                                    placeholder="Wheel Diameter (cm)" 
+                                    value={formData.wheelDiameter} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            </div>
                         </div>
 
                         <div className="input-group">
-                            <input 
-                                type="text" 
-                                name="tireWidth" 
-                                placeholder="Tire Width (mm)" 
-                                value={formData.tireWidth} 
-                                onChange={handleChange} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                name="tireBrand" 
-                                placeholder="Tire Brand Name" 
-                                value={formData.tireBrand} 
-                                onChange={handleChange} 
-                                required 
-                            />
+                            <div className="form-group">
+                                <label htmlFor="tireWidth">Tire Width (mm)</label>
+                                <input 
+                                    id="tireWidth"
+                                    type="number" 
+                                    name="tireWidth" 
+                                    placeholder="Tire Width (mm)" 
+                                    value={formData.tireWidth} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="tireBrand">Tire Brand Name</label>
+                                <input 
+                                    id="tireBrand"
+                                    type="text" 
+                                    name="tireBrand" 
+                                    placeholder="Tire Brand Name" 
+                                    value={formData.tireBrand} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            </div>
                         </div>
 
                         <h3>Select Your Tire Pattern</h3>
@@ -172,11 +197,10 @@ const RetreadingService = () => {
                                         </button>
                                     </div>
                                 ))
-                                : // Fallback to default hardcoded pattern images
-                                [1, 2, 3, 4, 5, 6].map(num => (
+                                : [1, 2, 3, 4, 5, 6].map(num => (
                                     <div key={num} className="pattern-item">
                                         <img 
-                                            src={require(`../assets/pattern/pattern${num}.jpg`)} 
+                                            src={require(`../assets/pattern/pattern${num}.jpg`)}
                                             alt={`Tire Pattern ${num}`} 
                                             className="pattern-image" 
                                         />
@@ -191,46 +215,72 @@ const RetreadingService = () => {
                                 ))
                             }
                         </div>
-
+                        <hr />
                         <h3>Add Photos of Your Tire</h3>
                         <div className="upload-section">
-                            <label className="upload-box">
-                                <FaUpload className="upload-icon" />
-                                Upload Inside Photo
-                                <input 
-                                    type="file" 
-                                    name="insidePhoto" 
-                                    accept="image/*" 
-                                    onChange={handleChange} 
-                                    hidden 
-                                />
-                            </label>
-                            <label className="upload-box">
-                                <FaUpload className="upload-icon" />
-                                Upload Outside Photo
-                                <input 
-                                    type="file" 
-                                    name="outsidePhoto" 
-                                    accept="image/*" 
-                                    onChange={handleChange} 
-                                    hidden 
-                                />
-                            </label>
-                        </div>
-
+    <label className="upload-box">
+        {formData.insidePhoto ? (
+            <img 
+                src={URL.createObjectURL(formData.insidePhoto)} 
+                alt="Inside Preview" 
+                className="photo-preview" 
+            />
+        ) : (
+            <>
+                <FaUpload className="upload-icon" />
+                Upload Inside Photo
+            </>
+        )}
+        <input 
+            type="file" 
+            name="insidePhoto" 
+            accept="image/*" 
+            onChange={handleChange} 
+            hidden 
+        />
+    </label>
+    <label className="upload-box">
+        {formData.outsidePhoto ? (
+            <img 
+                src={URL.createObjectURL(formData.outsidePhoto)} 
+                alt="Outside Preview" 
+                className="photo-preview" 
+            />
+        ) : (
+            <>
+                <FaUpload className="upload-icon" />
+                Upload Outside Photo
+            </>
+        )}
+        <input 
+            type="file" 
+            name="outsidePhoto" 
+            accept="image/*" 
+            onChange={handleChange} 
+            hidden 
+        />
+    </label>
+</div>
+                        <hr />
                         <h3>Preferred Completion Date</h3>
-                        <input 
-                            type="date" 
-                            name="completionDate" 
-                            value={formData.completionDate} 
-                            onChange={handleChange} 
-                            required 
-                            className="date-picker" 
-                        />
+                        <div className="form-group">
+                            <label htmlFor="completionDate">Completion Date</label>
+                            <ReactDatePicker
+                                id="completionDate"
+                                selected={formData.completionDate}
+                                onChange={handleCompletionDateChange}
+                                dateFormat="yyyy-MM-dd"
+                                placeholderText="Select a date"
+                                className="date-picker-retreading"
+                                required
+                                minDate={new Date()}
+                            />
+                        </div>
+                        <hr />
 
                         <h3>Tire Structure Information</h3>
                         <div className="radio-group">
-                            {["Nylon", "Iron Wire", "Not Sure"].map(option => (
+                            {["Nylon", "IronWire", "NotSure"].map(option => (
                                 <label key={option} className="radio-option">
                                     <input 
                                         type="radio" 
@@ -242,15 +292,19 @@ const RetreadingService = () => {
                                 </label>
                             ))}
                         </div>
-
+                        <hr />
                         <h3>Additional Notes</h3>
-                        <textarea 
-                            name="notes" 
-                            placeholder="Tell us what you need" 
-                            value={formData.notes} 
-                            onChange={handleChange} 
-                            className="notes-box"
-                        ></textarea>
+                        <div className="form-group">
+                            <label htmlFor="notes">Notes</label>
+                            <textarea 
+                                id="notes"
+                                name="notes" 
+                                placeholder="Tell us what you need" 
+                                value={formData.notes} 
+                                onChange={handleChange} 
+                                className="notes-box"
+                            ></textarea>
+                        </div>
 
                         <button 
                             type="submit" 
