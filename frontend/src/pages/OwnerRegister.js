@@ -34,7 +34,7 @@ const OwnerRegister = () => {
           .get("http://localhost:5000/users")
           .then((response) => setUsers(response.data))
           .catch((error) => console.error("Error fetching users:", error));
-      }, [setUsers]);
+    }, [setUsers]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -46,10 +46,23 @@ const OwnerRegister = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate email
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            alert("Please enter a valid email address!");
+            return;
+        }
+        
+        // Validate password length (minimum 6 characters)
+        if(formData.password.length < 6){
+            alert("Password must be at least 6 characters long!");
+            return;
+        }
+        
         if (formData.password !== formData.Confirm_Password) {
             alert("Passwords do not match!");
             return;
-        }
+        } 
         else if (formData.secretKey !== "123456") {
             alert("Invalid secret key!");
             return;
@@ -65,7 +78,6 @@ const OwnerRegister = () => {
 
     return (
         <div>
-            {/* Include Navbar */}
             <Navbar />
 
             <div className="custom-container">
