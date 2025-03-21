@@ -11,11 +11,16 @@ const CustomerForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const trimmedEmail = email.trim();
+        if (!trimmedEmail) {
+            toast.error("Email field cannot be empty.");
+            return;
+        }
         try {
-            const response = await fetch('http://localhost:5000/customer/forgot-password', {
+            const response = await fetch('http://localhost:5000/CustomerForgotPassword/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ email: trimmedEmail })
             });
             const data = await response.json();
 

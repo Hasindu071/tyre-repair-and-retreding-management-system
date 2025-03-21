@@ -43,6 +43,8 @@ const OurProductOwner = require('./routes/our_products');
 const patternsRoute = require('./routes/updatingpattern');
 const attendanceMarkRoute = require('./routes/attendanceMark');
 const ownerForgotPasswordRouter = require('./routes/OwnerForgotPassword');
+const workerForgotPasswordRouter = require('./routes/WorkerForgotPassword');
+const CustomerForgotPassword = require('./routes/CustomerForgotPassword');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -70,6 +72,10 @@ app.use('/OurProductOwner', OurProductOwner);
 app.use('/patterns', patternsRoute);
 app.use('/attendance', attendanceMarkRoute);
 app.use('/ownerForgotPassword', ownerForgotPasswordRouter);
+app.use('/workerForgotPassword', workerForgotPasswordRouter);
+app.use('/CustomerForgotPassword', CustomerForgotPassword);
+
+
 
 
 // Start server

@@ -12,7 +12,7 @@ const WorkerForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/worker/forgot-password', {
+            const response = await fetch('http://localhost:5000/workerForgotPassword/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -50,7 +50,9 @@ const WorkerForgotPassword = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="submit-button-worker">Send Reset Link</button>
+                    <button type="submit" className="submit-button-worker">
+                        Send Reset Link
+                    </button>
                     <p className="back-to-login-worker" onClick={() => navigate('/worker/login')}>
                         Back to Login
                     </p>
