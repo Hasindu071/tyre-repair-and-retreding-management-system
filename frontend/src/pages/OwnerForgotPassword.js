@@ -7,28 +7,41 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const OwnerForgotPassword = () => {
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         try {
-            const response = await fetch('http://localhost:5000/owner/forgot-password', {
+            const trimmedEmail = email.trim();
+            if (!trimmedEmail) {
+                toast.error('Email field cannot be empty.');
+                setLoading(false);
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/ownerForgotPassword/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
+                body: JSON.stringify({ email: trimmedEmail })
+              });
+
             const data = await response.json();
 
             if (data.success) {
-                toast.success('Reset link sent to your email!');
-                setTimeout(() => navigate('/owner/login'), 2000);
+                toast.success('Reset link sent! Check your email.');
+                setTimeout(() => navigate('/owner/login'), 2500);
             } else {
-                toast.error(data.message || 'Failed to send reset link. Please try again.');
+                toast.error(data.message || 'Failed to send reset link.');
             }
         } catch (error) {
             console.error('Error sending reset link:', error);
             toast.error('An error occurred. Please try again.');
         }
+
+        setLoading(false);
     };
 
     return (
@@ -48,10 +61,15 @@ const OwnerForgotPassword = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
+                            aria-label="Email Address"
                         />
                     </div>
-                    <button type="submit" className="submit-button">Send Reset Link</button>
-                    <p className="back-to-login" onClick={() => navigate('/owner/login')}>Back to Login</p>
+                    <button type="submit" className="submit-button" disabled={loading}>
+                        {loading ? 'Sending...' : 'Send Reset Link'}
+                    </button>
+                    <p className="back-to-login" onClick={() => navigate('/owner/login')} role="button" tabIndex="0">
+                        Back to Login
+                    </p>
                 </form>
             </div>
         </div>

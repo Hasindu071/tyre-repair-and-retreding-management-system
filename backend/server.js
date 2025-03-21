@@ -42,7 +42,7 @@ const suppliesRouter = require('./routes/Supplies');
 const OurProductOwner = require('./routes/our_products');
 const patternsRoute = require('./routes/updatingpattern');
 const attendanceMarkRoute = require('./routes/attendanceMark');
-//const ownerForgotPasswordRoute = require('./routes/OwnerForgotPassword');
+const ownerForgotPasswordRouter = require('./routes/OwnerForgotPassword');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -69,7 +69,7 @@ app.use('/supplies', suppliesRouter);
 app.use('/OurProductOwner', OurProductOwner);
 app.use('/patterns', patternsRoute);
 app.use('/attendance', attendanceMarkRoute);
-//app.use('/owner', ownerForgotPasswordRoute);
+app.use('/ownerForgotPassword', ownerForgotPasswordRouter);
 
 
 // Start server
