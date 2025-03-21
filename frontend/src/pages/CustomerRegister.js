@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/NavBar';  // Assuming you have a NavBar component
-import '../styles/customerRegister.css';  // Import the CSS file for styling
+import Navbar from '../components/NavBar';
+import '../styles/customerRegister.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CustomerRegister = () => {
     const navigate = useNavigate();
@@ -22,22 +24,44 @@ const CustomerRegister = () => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Validate NIC number (either legacy: 9 digits + V/v/X/x OR new: exactly 12 digits)
+        const nicRegex = /^(?:[0-9]{9}[VvXx]|\d{12})$/;
+        if (!nicRegex.test(formData.nic)) {
+            toast.error("Please enter a valid NIC number!");
+            return;
+        }
+
+        // Validate Phone Number 1 (exactly 10 digits)
+        const phoneRegex = /^\d{10}$/;
+        if (!phoneRegex.test(formData.phone1)) {
+            toast.error("Please enter a valid 10-digit phone number for Phone Number 1!");
+            return;
+        }
+
+        // Validate Phone Number 2 if provided (exactly 10 digits)
+        if (formData.phone2 && formData.phone2.trim() !== "" && !phoneRegex.test(formData.phone2)) {
+            toast.error("Please enter a valid 10-digit phone number for Phone Number 2!");
+            return;
+        }
+
         console.log('Form submitted:', formData);
-        navigate('/CustomerSignup', { state: { formData } });
+        navigate('/CustomerSignup', { state: { formData, registrationSuccess: true } });
     };
 
     return (
         <div>
             <Navbar />
+            <ToastContainer />
             <div className="container-customer-register">
                 <div className="card p-4 shadow-sm">
-                <h2 className="register-customer-title">Customer <span>REGISTRATION</span></h2>
+                    <h2 className="register-customer-title">Customer <span>REGISTRATION</span></h2>
                     <p className="text-center mb-4">Let's get started!</p>
                     <form onSubmit={handleSubmit}>
                         <div className="row">
