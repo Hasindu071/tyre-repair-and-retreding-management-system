@@ -27,6 +27,19 @@ const WorkerSignup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Check email validity
+        if (!/\S+@\S+\.\S+/.test(signupData.email)) {
+            alert("Please enter a valid email address!");
+            return;
+        }
+
+        // Check password length (minimum 6 characters)
+        if (signupData.password.length < 6) {
+            alert("Password must be at least 6 characters long!");
+            return;
+        }
+
+        // Check if passwords match
         if (signupData.password !== signupData.rePassword) {
             alert("Passwords do not match!");
             return;
