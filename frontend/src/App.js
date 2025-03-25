@@ -60,6 +60,7 @@ import WorkerAttendance from './pages/WorkerAttendance';
 import MyAttendance from './pages/MyAttendance';
 import ResetPassword from './pages/reset-password';
 import WorkerResetPassword from './pages/Worker-reset-password';
+import CustomerResetPassword from './pages/Customer-reset-password';
 
 function App() {
   return (
@@ -124,7 +125,8 @@ function App() {
             <Route path="/OwnerDashboard/WorkerAttendance" element={<WorkerAttendance />} />
             <Route path="/WokerAttendance" element={<MyAttendance />} />
             <Route path="/owner/reset-password" element={<ResetPassword/>} />  
-            <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />    
+            <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />  
+            <Route path="/customer/reset-password" element={<CustomerResetPassword/>} />  
           </Routes>
         </div>
       </Router>

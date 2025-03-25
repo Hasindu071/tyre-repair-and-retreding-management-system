@@ -26,7 +26,7 @@ const CustomerForgotPassword = () => {
 
             if (data.success) {
                 toast.success('Reset link sent to your email!');
-                setTimeout(() => navigate('/customer/login'), 2000);
+                setTimeout(() => navigate('/login/customer'), 2000);
             } else {
                 toast.error(data.message || 'Failed to send reset link. Please try again.');
             }
