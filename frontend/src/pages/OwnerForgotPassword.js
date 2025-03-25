@@ -8,7 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const OwnerForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);  // New state for modal visibility
     const navigate = useNavigate();
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        navigate('/login/owner');
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,8 +33,8 @@ const OwnerForgotPassword = () => {
             });
             const data = await response.json();
             if (data.success) {
-                toast.success('Reset link sent! Check your email.');
-                setTimeout(() => navigate('/owner/login'), 2500);
+                // Instead of timeout, show a bootstrap modal
+                setShowModal(true);
             } else {
                 toast.error(data.message || 'Failed to send reset link.');
             }
@@ -59,7 +65,7 @@ const OwnerForgotPassword = () => {
                             aria-label="Email Address"
                         />
                     </div>
-                    <button type="submit" className="submit-button" disabled={loading}>
+                    <button type="submit" className="submit-button-owner" disabled={loading}>
                         {loading ? 'Sending...' : 'Send Reset Link'}
                     </button>
                     <p className="back-to-login" onClick={() => navigate('/owner/login')} role="button" tabIndex="0">
@@ -67,6 +73,29 @@ const OwnerForgotPassword = () => {
                     </p>
                 </form>
             </div>
+
+            {showModal && (
+                <>
+                    <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Reset Link Sent</h5>
+                                </div>
+                                <div className="modal-body">
+                                    <p>Please check your email for the reset link.</p>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-primary" onClick={handleModalClose}>
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="modal-backdrop fade show"></div>
+                </>
+            )}
         </div>
     );
 };
