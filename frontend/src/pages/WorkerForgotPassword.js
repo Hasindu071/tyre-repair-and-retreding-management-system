@@ -7,21 +7,29 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const WorkerForgotPassword = () => {
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const trimmedEmail = email.trim();
+        if (!trimmedEmail) {
+            toast.error("Email field cannot be empty.");
+            return;
+        }
+        setLoading(true);
         try {
             const response = await fetch('http://localhost:5000/workerForgotPassword/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ email: trimmedEmail })
             });
             const data = await response.json();
 
             if (data.success) {
-                toast.success('Reset link sent to your email!');
-                setTimeout(() => navigate('/worker/login'), 2000);
+                // Show the Bootstrap modal instead of a toast
+                setShowModal(true);
             } else {
                 toast.error(data.message || 'Failed to send reset link. Please try again.');
             }
@@ -29,6 +37,7 @@ const WorkerForgotPassword = () => {
             console.error('Error sending reset link:', error);
             toast.error('An error occurred. Please try again.');
         }
+        setLoading(false);
     };
 
     return (
@@ -50,14 +59,51 @@ const WorkerForgotPassword = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="submit-button-worker">
-                        Send Reset Link
+                    <button type="submit" className="submit-button-worker" disabled={loading}>
+                        {loading ? 'Sending...' : 'Send Reset Link'}
                     </button>
                     <p className="back-to-login-worker" onClick={() => navigate('/worker/login')}>
                         Back to Login
                     </p>
                 </form>
             </div>
+
+            {/* Bootstrap Modal */}
+            {showModal && (
+                <>
+                    <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Reset Link Sent</h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        aria-label="Close"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+                                <div className="modal-body">
+                                    <p>Please check your email for the reset link.</p>
+                                </div>
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        onClick={() => {
+                                            setShowModal(false);
+                                            navigate('/worker/login');
+                                        }}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="modal-backdrop fade show"></div>
+                </>
+            )}
         </div>
     );
 };
