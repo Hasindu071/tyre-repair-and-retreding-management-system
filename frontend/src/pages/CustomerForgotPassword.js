@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const CustomerForgotPassword = () => {
     const [email, setEmail] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -16,6 +18,7 @@ const CustomerForgotPassword = () => {
             toast.error("Email field cannot be empty.");
             return;
         }
+        setLoading(true);
         try {
             const response = await fetch('http://localhost:5000/CustomerForgotPassword/forgot-password', {
                 method: 'POST',
@@ -25,8 +28,8 @@ const CustomerForgotPassword = () => {
             const data = await response.json();
 
             if (data.success) {
-                toast.success('Reset link sent to your email!');
-                setTimeout(() => navigate('/login/customer'), 2000);
+                // Instead of a toast, show the Bootstrap modal
+                setShowModal(true);
             } else {
                 toast.error(data.message || 'Failed to send reset link. Please try again.');
             }
@@ -34,6 +37,7 @@ const CustomerForgotPassword = () => {
             console.error('Error sending reset link:', error);
             toast.error('An error occurred. Please try again.');
         }
+        setLoading(false);
     };
 
     return (
@@ -55,12 +59,39 @@ const CustomerForgotPassword = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="submit-button-customer">Send Reset Link</button>
+                    <button type="submit" className="submit-button-customer" disabled={loading}>
+                        {loading ? 'Sending...' : 'Send Reset Link'}
+                    </button>
                     <p className="back-to-login-customer" onClick={() => navigate('/customer/login')}>
                         Back to Login
                     </p>
                 </form>
             </div>
+
+            {/* Bootstrap Modal */}
+            {showModal && (
+                <>
+                    <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Reset Link Sent</h5>
+                                    <button type="button" className="btn-close" aria-label="Close" onClick={() => setShowModal(false)}></button>
+                                </div>
+                                <div className="modal-body">
+                                    <p>Please check your email for the reset link.</p>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-primary" onClick={() => { setShowModal(false); navigate('/login/customer'); }}>
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="modal-backdrop fade show"></div>
+                </>
+            )}
         </div>
     );
 };
