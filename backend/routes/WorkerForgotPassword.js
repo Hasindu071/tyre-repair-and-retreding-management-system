@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs'); // <-- add if not already imported
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -56,6 +57,37 @@ router.post('/forgot-password', async (req, res) => {
     } catch (error) {
         console.error("Error sending reset link:", error);
         res.status(500).json({ success: false, message: 'Server error.' });
+    }
+});
+
+// POST /workerForgotPassword/reset-password/:token
+// This endpoint handles updating the password using the provided reset token.
+router.post('/reset-password/:token', async (req, res) => {
+    try {
+      const { newPassword } = req.body;
+      const token = req.params.token;
+      
+      if (!token || !newPassword) {
+        return res.status(400).json({ success: false, message: 'Token and new password are required.' });
+      }
+  
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
+      } catch (err) {
+        return res.status(400).json({ success: false, message: 'Invalid or expired token.' });
+      }
+  
+      const workerId = decoded.id;
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+      const updateQuery = 'UPDATE worker_register SET password = ? WHERE id = ?';
+      await db.promise().query(updateQuery, [hashedPassword, workerId]);
+  
+      return res.json({ success: true, message: 'Password reset successful.' });
+    } catch (error) {
+      console.error("Error in reset-password route:", error);
+      return res.status(500).json({ success: false, message: 'Server error.' });
     }
 });
 

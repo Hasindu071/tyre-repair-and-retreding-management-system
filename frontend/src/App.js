@@ -59,6 +59,7 @@ import UpdateTirePatterns from './pages/UpdateTirePatterns';
 import WorkerAttendance from './pages/WorkerAttendance';
 import MyAttendance from './pages/MyAttendance';
 import ResetPassword from './pages/reset-password';
+import WorkerResetPassword from './pages/Worker-reset-password';
 
 function App() {
   return (
@@ -122,7 +123,8 @@ function App() {
             <Route path="/UpdateTirePatterns" element={<UpdateTirePatterns />} />
             <Route path="/OwnerDashboard/WorkerAttendance" element={<WorkerAttendance />} />
             <Route path="/WokerAttendance" element={<MyAttendance />} />
-            <Route path="/owner/reset-password" element={<ResetPassword/>} />      
+            <Route path="/owner/reset-password" element={<ResetPassword/>} />  
+            <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />    
           </Routes>
         </div>
       </Router>
