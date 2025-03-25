@@ -13,23 +13,19 @@ const OwnerForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
+        const trimmedEmail = email.trim();
+        if (!trimmedEmail) {
+            toast.error('Email field cannot be empty.');
+            setLoading(false);
+            return;
+        }
         try {
-            const trimmedEmail = email.trim();
-            if (!trimmedEmail) {
-                toast.error('Email field cannot be empty.');
-                setLoading(false);
-                return;
-            }
-
             const response = await fetch('http://localhost:5000/ownerForgotPassword/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: trimmedEmail })
-              });
-
+            });
             const data = await response.json();
-
             if (data.success) {
                 toast.success('Reset link sent! Check your email.');
                 setTimeout(() => navigate('/owner/login'), 2500);
@@ -40,7 +36,6 @@ const OwnerForgotPassword = () => {
             console.error('Error sending reset link:', error);
             toast.error('An error occurred. Please try again.');
         }
-
         setLoading(false);
     };
 
@@ -51,7 +46,7 @@ const OwnerForgotPassword = () => {
             <div className="forgot-password-container">
                 <h2 className="title">Forgot Password</h2>
                 <form onSubmit={handleSubmit} className="forgot-password-form">
-                    <div className="input-group">
+                    <div className="input-group-owner">
                         <label htmlFor="email">Email Address:</label>
                         <input
                             type="email"

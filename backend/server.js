@@ -45,6 +45,7 @@ const attendanceMarkRoute = require('./routes/attendanceMark');
 const ownerForgotPasswordRouter = require('./routes/OwnerForgotPassword');
 const workerForgotPasswordRouter = require('./routes/WorkerForgotPassword');
 const CustomerForgotPassword = require('./routes/CustomerForgotPassword');
+const ownerResetPasswordRouter = require('./routes/OwnerResetPassword');
 
 // Use routes
 app.use('/OwnerRegister', ownerRegisterRoute);
@@ -74,6 +75,7 @@ app.use('/attendance', attendanceMarkRoute);
 app.use('/ownerForgotPassword', ownerForgotPasswordRouter);
 app.use('/workerForgotPassword', workerForgotPasswordRouter);
 app.use('/CustomerForgotPassword', CustomerForgotPassword);
+app.use('/owner', ownerResetPasswordRouter);
 
 
 

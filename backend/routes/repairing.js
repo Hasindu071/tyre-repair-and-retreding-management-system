@@ -139,4 +139,15 @@ router.put('/rejectRepair/:id', async (req, res) => {
     );
 });
 
+// GET Approved Repair Details
+router.get('/approvedRepairs', async (req, res) => {
+    try {
+        const [rows] = await db.promise().query('SELECT * FROM repairing WHERE status = ?', ['Approved']);
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error fetching approved repairs:", error);
+        res.status(500).json({ message: 'Server error fetching approved repairs' });
+    }
+});
+
 module.exports = router;
