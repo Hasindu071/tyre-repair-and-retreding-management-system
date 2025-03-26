@@ -1,0 +1,68 @@
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.profile-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #8a8989;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.profile-title::after {
+    content: "";
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff4b5c, #ff0000);
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.profile-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-card p {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 15px 0;
+}
+
+.profile-card strong {
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .profile-container {
+        padding: 10px;
+        margin: 20px auto;
+    }
+    .profile-title {
+        font-size: 2rem;
+    }
+    .profile-card {
+        padding: 20px;
+    }
+}
