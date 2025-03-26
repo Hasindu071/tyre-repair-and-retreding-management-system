@@ -65,11 +65,6 @@ const OwnerLogin = () => {
         setResetMode(false);
     };
 
-    const handleGoogleLogin = () => {
-        console.log("Google login clicked");
-        // Add Google authentication logic here
-    };
-
     return (
         <div>
             <Navbar />
@@ -132,9 +127,6 @@ const OwnerLogin = () => {
                         </form>
                     )}
 
-                    <button type="button" className="owner-google-login" onClick={handleGoogleLogin}>
-                            Continue with Google
-                        </button>
                         <p className="owner-signup-tage" onClick={() => navigate('/register/owner')}>
                          Don't have an account? Sign Up
                         </p>

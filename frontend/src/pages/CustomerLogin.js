@@ -49,11 +49,6 @@ const CustomerLogin = () => {
         }
     };
 
-    const handleGoogleLogin = () => {
-        console.log("Continue with Google clicked");
-        // Add Google authentication logic here
-    };
-
     return (
         <div>
             <Navbar />
@@ -92,9 +87,6 @@ const CustomerLogin = () => {
                         <p className="customer-forgot-password" onClick={() => navigate('/customer/forgot-password')}>
                             Forgot Password?
                             </p>
-                        <button type="button" className="customer-google-login" onClick={handleGoogleLogin}>
-                            Continue with Google
-                        </button>
                         <p className="customer-signup-tage" onClick={() => navigate('/register/customer')}>
                          Don't have an account? Sign Up
                         </p>
