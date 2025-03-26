@@ -28,20 +28,21 @@ const MyOrders = () => {
     if (!status) return "";
     return status.toLowerCase().replace(" ", "-");
   };
- 
-  // Group orders by status
-  const pendingCount = orders.filter((order) => order.status === "Pending").length;
-  const progressCount = orders.filter((order) => order.status === "In Progress").length;
-  const completedCount = orders.filter((order) => order.status === "Completed").length;
+
+  // Filter to only orders that are "In Progress"
+  const inProgressOrders = orders.filter((order) => order.status === "In Progress");
+
+  // For progress display, you can also setup a pie chart using the progress orders count.
+  const progressCount = inProgressOrders.length;
 
   const pieData = {
-    labels: ["Pending", "In Progress", "Completed"],
+    labels: ["In Progress"],
     datasets: [
       {
-        label: "Order Status",
-        data: [pendingCount, progressCount, completedCount],
-        backgroundColor: ["#ffcc00", "#0072ff", "#28a745"],
-        borderColor: ["#ffa000", "#0056b3", "#1e7e34"],
+        label: "Orders In Progress",
+        data: [progressCount],
+        backgroundColor: ["#0072ff"],
+        borderColor: ["#0056b3"],
         borderWidth: 1,
       },
     ],
@@ -63,16 +64,16 @@ const MyOrders = () => {
     <div>
       <NewNavbar />
       <div className="my-orders-container">
-        <h2 className="my-orders-title">My Orders</h2>
-        <p className="my-orders-subtitle">Track your past and current orders</p>
+        <h2 className="my-orders-title">My Orders (In Progress)</h2>
+        <p className="my-orders-subtitle">Track the progress of your orders in progress</p>
 
         <div className="chart-container">
           <Pie data={pieData} />
         </div>
 
         <div className="orders-list">
-          {orders.length > 0 ? (
-            orders.map((order) => (
+          {inProgressOrders.length > 0 ? (
+            inProgressOrders.map((order) => (
               <div key={order.id} className="order-card">
                 <p>
                   <strong>Item:</strong> {order.item}
@@ -86,15 +87,13 @@ const MyOrders = () => {
                 <p>
                   <strong>Price:</strong> ${order.price}
                 </p>
-                {order.status === "In Progress" && (
-                  <button className="complete-button" onClick={() => handleCompleteOrder(order.id)}>
-                    Complete Order
-                  </button>
-                )}
+                <button className="complete-button" onClick={() => handleCompleteOrder(order.id)}>
+                  Complete Order
+                </button>
               </div>
             ))
           ) : (
-            <p className="no-orders">No orders found.</p>
+            <p className="no-orders">No orders in progress found.</p>
           )}
         </div>
       </div>
