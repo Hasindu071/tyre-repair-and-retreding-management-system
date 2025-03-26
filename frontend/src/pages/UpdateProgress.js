@@ -9,12 +9,35 @@ const UpdateProgress = () => {
     const [taskStarted, setTaskStarted] = useState(false);
     const [completeMessage, setCompleteMessage] = useState("");
     const [startedTasks, setStartedTasks] = useState([]);
-    // Stores updated progress values for individual tasks
     const [progressUpdates, setProgressUpdates] = useState({});
+    // New state for the list of tasks assigned to this worker
+    const [tasks, setTasks] = useState([]);
+
+    // Fetch tasks for the logged in worker
+    useEffect(() => {
+        const workerId = localStorage.getItem("workerId");
+        const fetchTasks = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/Orders/orders`, {
+                    params: { workerId }
+                });
+                setTasks(res.data);
+            } catch (err) {
+                console.error("Error fetching tasks:", err);
+            }
+        };
+        fetchTasks();
+    }, []);
+
+    const handleViewClick = (task) => {
+        // When a task is selected, fill the Task ID input so the worker can update its progress.
+        setTaskId(task.id);
+        alert(`Task ${task.id} selected!`);
+    };
 
     const handleStartTask = async () => {
         if (!taskId) {
-            alert("Please enter Task ID to start the task!");
+            alert("Please select a task to start!");
             return;
         }
         try {
@@ -42,7 +65,6 @@ const UpdateProgress = () => {
             } else {
                 setCompleteMessage("");
             }
-            // Refresh the list of started tasks after progress update
             fetchStartedTasks();
         } catch (err) {
             console.error("Error updating progress:", err);
@@ -59,7 +81,6 @@ const UpdateProgress = () => {
         }
     };
 
-    // Function to update an individual task's progress
     const handleIndividualUpdate = async (id) => {
         const updatedProgress = progressUpdates[id];
         if (updatedProgress === undefined) {
@@ -69,7 +90,6 @@ const UpdateProgress = () => {
         try {
             await axios.put("http://localhost:5000/Orders/updateProgress", { taskId: id, progress: updatedProgress });
             alert(`Task ${id} updated to ${updatedProgress}% progress!`);
-            // Refresh the list after update
             fetchStartedTasks();
         } catch (err) {
             console.error(`Error updating progress for task ${id}:`, err);
@@ -94,9 +114,42 @@ const UpdateProgress = () => {
                             type="text"
                             value={taskId}
                             onChange={(e) => setTaskId(e.target.value)}
-                            placeholder="Enter Task ID"
+                            placeholder="Enter Task ID or select from below"
                         />
                     </label>
+                    <p className="tasks-subtitle">Here are your assigned tasks:</p>
+                    {tasks.length ? (
+                        <table className="tasks-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Task</th>
+                                    <th>Customer Name</th>
+                                    <th>Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tasks.map(task => (
+                                    <tr key={task.id}>
+                                        <td>{task.id}</td>
+                                        <td>{task.task}</td>
+                                        <td>{task.customer}</td>
+                                        <td>
+                                            <button 
+                                                type="button"
+                                                className="view-button" 
+                                                onClick={() => handleViewClick(task)}
+                                            >
+                                                Select
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>No tasks assigned.</p>
+                    )}
                     {!taskStarted && (
                         <button type="button" className="update-button" onClick={handleStartTask}>
                             Start Task
