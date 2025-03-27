@@ -19,18 +19,17 @@ const WorkerProfile = () => {
     const workerId = localStorage.getItem("workerId");
 
     useEffect(() => {
-        fetchProfile();
-    }, []);
+        const fetchProfile = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/workerProfile/getWorker/${workerId}`);
+                setProfile(response.data);
+            } catch (error) {
+                console.error("Error fetching worker profile:", error);
+            }
+        };
 
-    // Fetch worker profile using the workerId
-    const fetchProfile = async () => {
-        try {
-            const response = await axios.get(`http://localhost:5000/workerProfile/getWorker/${workerId}`);
-            setProfile(response.data);
-        } catch (error) {
-            console.error("Error fetching worker profile:", error);
-        }
-    };
+        fetchProfile();
+    }, [workerId]);
 
     return (
         <div>
