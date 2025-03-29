@@ -43,13 +43,13 @@
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #2193b0;
+    border-color: #b03621;
 }
 
 .submit-button {
     padding: 12px;
     font-size: 1rem;
-    background: linear-gradient(135deg, #6dd5ed, #2193b0);
+    background: linear-gradient(135deg, #ed916d, #b02121);
     color: white;
     border: none;
     border-radius: 4px;
@@ -58,7 +58,7 @@
 }
 
 .submit-button:hover {
-    background: linear-gradient(135deg, #2193b0, #6dd5ed);
+    background: linear-gradient(135deg, #b02121, #ed6d6d);
 }
 
 .products-table {

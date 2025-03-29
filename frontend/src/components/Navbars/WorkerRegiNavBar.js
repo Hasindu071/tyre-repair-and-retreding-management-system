@@ -10,14 +10,14 @@ const Navbar = () => {
   const handleLogout = () => {
     // Add logout functionality here (e.g., clear user session, redirect)
     console.log("User logged out");
-    navigate("/login/worker");
+    navigate("/RoleLoginSelection");
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
       <div className="container">
         {/* Logo */}
-        <NavLink className="navbar-brand">
+        <NavLink className="navbar-brand" to="/WorkerDashboard">
           <img src={Logo} alt="Ryak Tires Logo" style={{ height: '45px' }} />
         </NavLink>
 
