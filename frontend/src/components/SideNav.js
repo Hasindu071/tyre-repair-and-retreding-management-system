@@ -1,6 +1,20 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { NavLink } from "react-router-dom";
+import {
+  AppBar,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   FiHome,
   FiCheckCircle,
@@ -11,63 +25,135 @@ import {
   FiDollarSign,
   FiTrendingUp,
   FiBell,
-  FiPackage,
-} from "react-icons/fi";
-import "../styles/SideNav.css";
+  FiPackage
+} from 'react-icons/fi';
+import MenuIcon from '@mui/icons-material/Menu';
+import '../styles/SideNav.css';
 
-const SideNav = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleSidebar = () => setIsOpen((prev) => !prev);
+const Sidebar = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = () => {
+      setOpen(!open);
+  };
 
   return (
-    <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      {/* Sidebar Toggle Button */}
-      <div className="toggle-btn" onClick={toggleSidebar}>
-      </div>
+      <Box className="custom-sidebar-wrapper">
+          {isMobile && (
+              <AppBar position="sticky" sx={{ bgcolor:  "#00000090" }}>
+                  <Toolbar>
+                      <IconButton
+                          color="inherit"
+                          edge="start"
+                          onClick={toggleDrawer}
+                          aria-label="menu"
+                          sx={{ mr: 2 }}
+                      >
+                          <MenuIcon />
+                      </IconButton>
+                      <Typography variant="h6">Menu</Typography>
+                  </Toolbar>
+              </AppBar>
+          )}
 
-      {/* Sidebar Navigation Links */}
-      <ul className="nav-list">
-        <NavItem to="/OwnerDashboard" icon={<FiHome />} text="Dashboard" isOpen={isOpen} />
-        <NavItem to="/ApproveOrder" icon={<FiCheckCircle />} text="Approve Orders" isOpen={isOpen} />
-        <NavItem to="/AssignWorker" icon={<FiUsers />} text="Assign Workers" isOpen={isOpen} />
-        <NavItem to="/ApproveWorker" icon={<FiUserPlus />} text="Approve Workers" isOpen={isOpen} />
-        <NavItem to="/CustomerHandle" icon={<FiShoppingCart />} text="Handle Customers" isOpen={isOpen} />
-        <NavItem to="/OwnerProductInquiries" icon={<FiBox />} text="Product Inquiries" isOpen={isOpen} />
-        <NavItem to="/Owner/SeePayment" icon={<FiDollarSign />} text="Worker Payments" isOpen={isOpen} />
-        <NavItem to="/Owner/SeeCustomerPayment" icon={<FiDollarSign />} text="Customer Payments" isOpen={isOpen} />
-        <NavItem to="/Owner/SendNotice" icon={<FiBell />} text="Customer Notice" isOpen={isOpen} />
-        <NavItem to="/Owner/Supplies" icon={<FiPackage />} text="Supplies" isOpen={isOpen} />
-        <NavItem to="/Owner/SeeSales" icon={<FiTrendingUp />} text="Sales" isOpen={isOpen} />
-        <NavItem to="/Owner/SeeCustomerSales" icon={<FiTrendingUp />} text="Customer Sales" isOpen={isOpen} />
-      </ul>
-    </div>
+          <Drawer
+              className="custom-sidebar-drawer"
+              sx={{
+                  width: 240,
+                  flexShrink: 0,
+                  '& .MuiDrawer-paper': {
+                      width: 220,
+                      boxSizing: 'border-box',
+                      paddingTop: '20px'
+                  }
+              }}
+              variant={isMobile ? 'temporary' : 'permanent'}
+              anchor="left"
+              open={open}
+              onClose={toggleDrawer}
+              ModalProps={{ keepMounted: true }}
+          >
+              <List className="custom-sidebar-nav">
+                  <ListItem button component={NavLink} to="/OwnerDashboard" className="custom-nav-item-dashboard">
+                      <ListItemIcon className="custom-nav-icon-dashboard"><FiHome /></ListItemIcon>
+                      <ListItemText primary="Dashboard" className="custom-nav-text-dashboard" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/ApproveOrder" className="custom-nav-item-approve-order">
+                      <ListItemIcon className="custom-nav-icon-approve-order"><FiCheckCircle /></ListItemIcon>
+                      <ListItemText primary="Approve Orders" className="custom-nav-text-approve-order" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/AssignWorker" className="custom-nav-item-assign-worker">
+                      <ListItemIcon className="custom-nav-icon-assign-worker"><FiUsers /></ListItemIcon>
+                      <ListItemText primary="Assign Workers" className="custom-nav-text-assign-worker" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/ApproveWorker" className="custom-nav-item-approve-worker">
+                      <ListItemIcon className="custom-nav-icon-approve-worker"><FiUserPlus /></ListItemIcon>
+                      <ListItemText primary="Approve Workers" className="custom-nav-text-approve-worker" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/CustomerHandle" className="custom-nav-item-handle-customer">
+                      <ListItemIcon className="custom-nav-icon-handle-customer"><FiShoppingCart /></ListItemIcon>
+                      <ListItemText primary="Handle Customers" className="custom-nav-text-handle-customer" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/OwnerProductInquiries" className="custom-nav-item-product-inquiries">
+                      <ListItemIcon className="custom-nav-icon-product-inquiries"><FiBox /></ListItemIcon>
+                      <ListItemText primary="Product Inquiries" className="custom-nav-text-product-inquiries" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/Owner/SeePayment" className="custom-nav-item-worker-payments">
+                      <ListItemIcon className="custom-nav-icon-worker-payments"><FiDollarSign /></ListItemIcon>
+                      <ListItemText primary="Worker Payments" className="custom-nav-text-worker-payments" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/Owner/SeeCustomerPayment" className="custom-nav-item-customer-payments">
+                      <ListItemIcon className="custom-nav-icon-customer-payments"><FiDollarSign /></ListItemIcon>
+                      <ListItemText primary="Customer Payments" className="custom-nav-text-customer-payments" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/Owner/SendNotice" className="custom-nav-item-customer-notice">
+                      <ListItemIcon className="custom-nav-icon-customer-notice"><FiBell /></ListItemIcon>
+                      <ListItemText primary="Customer Notice" className="custom-nav-text-customer-notice" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/Owner/Supplies" className="custom-nav-item-supplies">
+                      <ListItemIcon className="custom-nav-icon-supplies"><FiPackage /></ListItemIcon>
+                      <ListItemText primary="Supplies" className="custom-nav-text-supplies" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/Owner/SeeSales" className="custom-nav-item-sales">
+                      <ListItemIcon className="custom-nav-icon-sales"><FiTrendingUp /></ListItemIcon>
+                      <ListItemText primary="Sales" className="custom-nav-text-sales" />
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem button component={NavLink} to="/Owner/SeeCustomerSales" className="custom-nav-item-customer-sales">
+                      <ListItemIcon className="custom-nav-icon-customer-sales"><FiTrendingUp /></ListItemIcon>
+                      <ListItemText primary="Customer Sales" className="custom-nav-text-customer-sales" />
+                  </ListItem>
+              </List>
+          </Drawer>
+
+          <Box sx={{ marginLeft: isMobile ? 0 : 240, transition: 'margin 0.3s' }}>
+              {/* Main content here */}
+          </Box>
+      </Box>
   );
 };
 
-const NavItem = ({ to, icon, text, isOpen }) => (
-  <li className="nav-item">
-      <NavLink to={to} className="nav-link-side">
-          {({ isActive }) => (
-              <>
-                  <span className="icon" style={{ color: isActive ? "red" : "inherit" }}>
-                      {icon}
-                  </span>
-                  {isOpen && (
-                      <span
-                          className="nav-text"
-                          style={{
-                              fontWeight: isActive ? "bold" : "normal",
-                              color: isActive ? "red" : "inherit",
-                              backgroundColor: isActive ? "rgba(0, 0, 0, 0.1)" : "transparent",
-                          }}
-                      >
-                          {text}
-                      </span>
-                  )}
-              </>
-          )}
-      </NavLink>
-  </li>
-);
-
-export default SideNav;
+export default Sidebar;
