@@ -20,7 +20,7 @@
   }
   
   .worker-attendance-container button {
-    background-color: #007bff;
+    background-color: #3e1c1c;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -32,7 +32,7 @@
   }
   
   .worker-attendance-container button:hover {
-    background-color: #0056b3;
+    background-color: #3e1c1c;
   }
   
   .worker-attendance-container button:disabled {
@@ -43,7 +43,7 @@
   .attendance-message {
     margin-top: 20px;
     font-size: 16px;
-    color: #d9534f;
+    color: #8a3734;
   }
   
   /* Calendar Grid Styles */
