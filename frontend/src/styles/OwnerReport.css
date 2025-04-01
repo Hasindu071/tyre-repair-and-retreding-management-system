@@ -1,5 +1,4 @@
 .owner-report-container {
-    display: flex;
     flex-direction: row;
     max-width: 1200px;
     margin: 20px auto;
