@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/WorkerAttendance.css";
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Use owner's navbar
+import OwnerSidebar from "../components/SideNav";
 
 const OwnerMarksWorkerAttendance = () => {
   const [attendanceMarked, setAttendanceMarked] = useState(false);
@@ -114,6 +115,7 @@ const OwnerMarksWorkerAttendance = () => {
   return (
     <div>
       <OwnerNavbar />
+      <OwnerSidebar />
       <div className="worker-attendance-container">
         <h2>Worker Attendance</h2>
         <p>Today: {todayDisplay}</p>
@@ -175,7 +177,7 @@ const OwnerMarksWorkerAttendance = () => {
                   className="form-control"
                   onChange={(e) => {
                     const workerId = e.target.value;
-                    const worker = workers.find((w) => w.id == workerId);
+                    const worker = workers.find((w) => w.id === workerId);
                     setSelectedWorker(worker);
                   }}
                 >

@@ -1,0 +1,46 @@
+.owner-report-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+  
+  .owner-report-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-left: 20px;
+  }
+  
+  .owner-report-content h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .report-table th,
+  .report-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .report-table th {
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  
+  .report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .report-table tr:hover {
+    background-color: #e9e9e9;
+  }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
 import "../styles/UpdateTirePatterns.css";
+import OwnerSidebar from "../components/SideNav";
 
 const UpdateTirePatterns = () => {
     // State to hold the files selected by the owner for each pattern number
@@ -69,6 +70,7 @@ const UpdateTirePatterns = () => {
     return (
         <div>
             <NewNavbar />
+            <OwnerSidebar />
             <div className="update-patterns-container">
                 <h2>Update Tire Pattern Images</h2>
                 {[1, 2, 3, 4, 5, 6].map((num) => (

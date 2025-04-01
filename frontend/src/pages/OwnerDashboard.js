@@ -61,7 +61,7 @@ const OwnerDashboard = () => {
     };
 
     const UpdateReports = () => {
-        navigate("/Owner/Reports"); // Redirect to Supplies page
+        navigate("/OwnerReport"); // Redirect to Supplies page
     };
 
     return (
