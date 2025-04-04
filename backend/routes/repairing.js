@@ -32,6 +32,7 @@ router.post(
                 receiveDate,
                 notes,
                 userId
+                
             } = req.body;
             
             // Retrieve file names if uploaded and include "/uploads/" prefix
@@ -50,7 +51,7 @@ router.post(
             // Insert the repair details into the database
             const query = `
                 INSERT INTO repairing 
-                (patchesApplied, punctureSize, tireBrand, internalStructure, receiveDate, notes, insideDamagePhoto, outsideDamagePhoto, status ,customer_ID) 
+                (patchesApplied, punctureSize, tireBrand, internalStructure, receiveDate, special_note, insideDamagePhoto, outsideDamagePhoto, status ,customer_ID) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending',?)
             `;
 

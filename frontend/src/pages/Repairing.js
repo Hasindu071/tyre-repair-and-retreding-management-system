@@ -99,6 +99,7 @@ const RepairServiceForm = () => {
                 ? formData.receiveDate.toISOString().split("T")[0]
                 : formData[key]);
         });
+        console.log("Form Data:", formData);
 
         if (userId) {
             data.append("userId", userId); // Append user ID
@@ -146,6 +147,7 @@ const RepairServiceForm = () => {
                                     id="patchesApplied"
                                     type="number"
                                     name="patchesApplied"
+                                    placeholder="Enter number of patches"
                                     value={formData.patchesApplied}
                                     onChange={handleChange}
                                     required
@@ -157,6 +159,7 @@ const RepairServiceForm = () => {
                                     id="punctureSize"
                                     type="number"
                                     name="punctureSize"
+                                    placeholder="Enter puncture size"
                                     value={formData.punctureSize}
                                     onChange={handleChange}
                                     required
@@ -168,6 +171,7 @@ const RepairServiceForm = () => {
                                     id="tireBrand"
                                     type="text"
                                     name="tireBrand"
+                                    placeholder="Enter tire brand name"
                                     value={formData.tireBrand}
                                     onChange={handleChange}
                                     required
@@ -191,17 +195,97 @@ const RepairServiceForm = () => {
                                 ))}
                             </div>
                         </div>
+                        
+                        {/* Image Upload Section */}
+                        <div className="repair-section">
+                            <h3>Upload Tire Damage Photos</h3>
+                            <div className="repair-image-upload">
+                                {/* Inside Damage Photo Upload */}
+                                <label
+                                    className="repair-upload-box"
+                                    style={
+                                        previewImages.insideDamagePhoto
+                                            ? {
+                                                  backgroundImage: `url(${previewImages.insideDamagePhoto})`,
+                                                  backgroundSize: "cover",
+                                                  backgroundPosition: "center"
+                                              }
+                                            : {}
+                                    }
+                                >
+                                    {!previewImages.insideDamagePhoto && (
+                                        <>
+                                            <FaUpload className="upload-icon" />
+                                            <span>Inside Damage Photo</span>
+                                        </>
+                                    )}
+                                    <input
+                                        type="file"
+                                        name="insideDamagePhoto"
+                                        accept="image/*"
+                                        onChange={handleChange}
+                                        hidden
+                                    />
+                                </label>
+
+                                {/* Outside Damage Photo Upload */}
+                                <label
+                                    className="repair-upload-box"
+                                    style={
+                                        previewImages.outsideDamagePhoto
+                                            ? {
+                                                  backgroundImage: `url(${previewImages.outsideDamagePhoto})`,
+                                                  backgroundSize: "cover",
+                                                  backgroundPosition: "center"
+                                              }
+                                            : {}
+                                    }
+                                >
+                                    {!previewImages.outsideDamagePhoto && (
+                                        <>
+                                            <FaUpload className="upload-icon" />
+                                            <span>Outside Damage Photo</span>
+                                        </>
+                                    )}
+                                    <input
+                                        type="file"
+                                        name="outsideDamagePhoto"
+                                        accept="image/*"
+                                        onChange={handleChange}
+                                        hidden
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
                         <div className="repair-section">
                             <h3>Expected Receive Date</h3>
                             <ReactDatePicker
                                 selected={formData.receiveDate}
                                 onChange={handleDateChange}
                                 dateFormat="yyyy-MM-dd"
+                                placeholderText="Select a date"
                                 className="repair-date-picker"
                                 required
                                 minDate={new Date()}
                             />
                         </div>
+                        
+                        {/* Notes Section */}
+                        <div className="repair-section">
+                            <label htmlFor="notes">
+                                <h3>Additional Notes</h3>
+                            </label>
+                            <textarea
+                                id="notes"
+                                name="notes"
+                                placeholder="Tell us what you need"
+                                value={formData.notes}
+                                onChange={handleChange}
+                                className="repair-notes-box"
+                            ></textarea>
+                        </div>
+
                         <button type="submit" className="repair-submit-button" disabled={loading}>
                         <FaUpload className="repair-upload-icon" /> &nbsp;
                             {loading ? "Submitting..." : "Submit"}
