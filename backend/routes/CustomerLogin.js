@@ -32,8 +32,21 @@ router.post('/login', (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ success: true, token });
+
+        // Send user ID, first name, last name, and email along with the token
+        res.json({ 
+            success: true, 
+            token, 
+            user: { 
+                id: user.id, 
+                email: user.email, 
+                firstName: user.firstName, 
+                lastName: user.lastName 
+            } 
+        });
     });
 });
+
+
 
 module.exports = router;

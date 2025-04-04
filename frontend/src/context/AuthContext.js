@@ -1,9 +1,9 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // Will hold the user ID or full user object
+    const [user, setUser] = useState(null);
 
     const login = (userData) => {
         setUser(userData);
@@ -20,4 +20,6 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    return useContext(AuthContext);
+};

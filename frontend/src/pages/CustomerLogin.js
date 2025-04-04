@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
-import '../styles/CustomerLogin.css'; // Import the CSS file
+import Navbar from '../components/NavBar';
+import '../styles/CustomerLogin.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../context/AuthContext'; // adjust path
+import { useAuth } from '../context/AuthContext'; // Import auth context
 
 const API_URL = "http://localhost:5000";
 
@@ -15,6 +15,7 @@ const CustomerLogin = () => {
         password: ''
     });
 
+    const { login } = useAuth(); // Use auth context
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -37,9 +38,24 @@ const CustomerLogin = () => {
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
+
             if (data.success) {
                 toast.success('Login successful!');
-                setTimeout(() => navigate('/customerDashboard'), 2000); // 2 seconds
+                
+                // Construct full name
+                const fullName = `${data.user.firstName} ${data.user.lastName}`;
+
+                // Save user data in context
+                login({ 
+                    id: data.user.id, 
+                    email: data.user.email, 
+                    fullName: fullName, 
+                    token: data.token 
+                });
+
+                console.log('User logged in:', data.user.id, fullName);
+
+                setTimeout(() => navigate('/customerDashboard'), 2000);
             } else {
                 setErrorMessage('Login failed! Please check your credentials.');
                 toast.error('Login failed! Please check your credentials.');
@@ -87,9 +103,9 @@ const CustomerLogin = () => {
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <p className="customer-forgot-password" onClick={() => navigate('/customer/forgot-password')}>
                             Forgot Password?
-                            </p>
+                        </p>
                         <p className="customer-signup-tage" onClick={() => navigate('/register/customer')}>
-                         Don't have an account? Sign Up
+                            Don't have an account? Sign Up
                         </p>
                     </form>
                 </div>
