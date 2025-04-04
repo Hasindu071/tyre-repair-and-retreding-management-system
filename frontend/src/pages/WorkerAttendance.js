@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Use owner's navbar
+//import Navbar from "../components/Navbars/OwnerRegiNavBar"; // Use owner's navbar
 import OwnerSidebar from "../components/SideNav";
 import "../styles/WorkerAttendance.css";
 
@@ -114,7 +114,7 @@ const OwnerMarksWorkerAttendance = () => {
 
   return (
     <div>
-      <OwnerNavbar />
+            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="worker-attendance-container">
         <h2>Worker Attendance</h2>

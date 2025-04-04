@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Supplies.css"; // Import CSS file
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
+//import Navbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,7 +50,7 @@ const Supplies = () => {
 
     return (
         <div>
-            <NewNavbar />
+            {/*<Navbar />*/}
             <OwnerSidebar />
             <div className="supplies-container">
                 <h2>Supplies Management</h2>

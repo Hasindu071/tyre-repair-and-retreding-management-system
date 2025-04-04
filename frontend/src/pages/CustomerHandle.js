@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/CustomerHandle.css";
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar";
+//import Navbar from "../components/Navbars/OwnerRegiNavBar";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -80,7 +80,7 @@ const CustomerHandle = () => {
 
   return (
     <div>
-      <NewNavbar />
+            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="customer-handle-container">
         <h2 className="title">Customer Details</h2>

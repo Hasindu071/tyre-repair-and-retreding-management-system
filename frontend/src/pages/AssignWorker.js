@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar';
+//import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/AssignWorker.css";
 import axios from 'axios';
@@ -122,7 +122,7 @@ const AssignWorker = () => {
 
   return (
     <div>
-      <Navbar />
+            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="assign-worker-container">
         <h2 className="title">Assign Workers</h2>

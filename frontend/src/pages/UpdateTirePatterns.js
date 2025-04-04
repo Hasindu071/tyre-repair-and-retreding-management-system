@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
+//import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
 import "../styles/UpdateTirePatterns.css";
 import OwnerSidebar from "../components/SideNav";
 
@@ -69,7 +69,7 @@ const UpdateTirePatterns = () => {
 
     return (
         <div>
-            <NewNavbar />
+            {/*<Navbar />*/}
             <OwnerSidebar />
             <div className="update-patterns-container">
                 <h2>Update Tire Pattern Images</h2>

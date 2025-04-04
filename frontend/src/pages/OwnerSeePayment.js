@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/SeePayment.css"; // Import CSS file
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
+//import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
 import OwnerSidebar from "../components/SideNav";
 import axios from 'axios'; // Import axios for HTTP requests
 import { ToastContainer, toast } from "react-toastify";
@@ -85,7 +85,7 @@ const SeePayment = () => {
 
   return (
     <div>
-      <NewNavbar />
+            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="see-owner-payment-container">
         <h2 className="title">Payment Records</h2>

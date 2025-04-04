@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Import the Navbar component
+//import Navbar from "../components/Navbars/OwnerRegiNavBar"; // Import the Navbar component
 import OwnerSidebar from "../components/SideNav"; // Import the Sidebar component
 import "../styles/CustomerPayment.css"; // Import CSS file
 import { ToastContainer, toast } from "react-toastify";
@@ -67,7 +67,7 @@ const CustomerPayment = () => {
 
   return (
     <>
-      <OwnerNavbar />
+            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="customer-payment-container">
         <h2 className="title">Customer Payment</h2>

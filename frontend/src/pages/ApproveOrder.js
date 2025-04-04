@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar';
+//import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveOrder.css";
 import axios from 'axios';
@@ -79,7 +79,7 @@ const ApproveOrder = () => {
 
     return (
         <div>
-            <Navbar />
+            {/*<Navbar />*/}
             <OwnerSidebar />
             <div className="approve-order-container">
                 <h2 className="title">Repair Services</h2>

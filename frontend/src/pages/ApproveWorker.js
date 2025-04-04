@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbars/OwnerRegiNavBar';
+//import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveWorker.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -52,7 +52,7 @@ const ApproveWorker = () => {
 
   return (
     <div>
-      <Navbar />
+            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="approve-worker-container-worker">
         <h2 className="title-worker">Approve Workers</h2>

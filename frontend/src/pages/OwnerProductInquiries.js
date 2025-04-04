@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
+//import Navbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
 import OwnerSidebar from "../components/SideNav";
 import "../styles/OnwerproductInquiries.css"; // Import the CSS file
 import axios from 'axios'; // Import axios for HTTP requests
@@ -64,7 +64,7 @@ const OwnerProductInquiries = () => {
 
     return (
         <div>
-            <NewNavbar />
+            {/*<Navbar />*/}
             <OwnerSidebar />
             <div className="owner-stock-container">
                 <h2 className="title">Product Stock Levels</h2>

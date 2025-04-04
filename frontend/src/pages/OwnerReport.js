@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import OwnerNavbar from "../components/NavBar"; // Adjust import if needed
+//import Navbar from "../components/NavBar"; // Adjust import if needed
 import OwnerSidebar from "../components/SideNav"; // Adjust import if needed
 import '../styles/OwnerReport.css';
 import { ToastContainer, toast } from "react-toastify";
@@ -26,7 +26,7 @@ const OwnerReport = () => {
 
   return (
     <div>
-      <OwnerNavbar />
+            {/*<Navbar />*/}
       <div className="owner-report-container">
         <OwnerSidebar />
         <div className="owner-report-content">

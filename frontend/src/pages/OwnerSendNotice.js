@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
+//import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
 import OwnerSidebar from "../components/SideNav";
 import "../styles/OwnerSendNotice.css"; // Import CSS file
 import { ToastContainer, toast } from 'react-toastify';
@@ -52,7 +52,7 @@ const OwnerSendNotice = () => {
 
     return (
         <div className="owner-send-notice-page">
-            <NewNavbar />
+            {/*<Navbar />*/}
             <OwnerSidebar />
             <br></br>
             <div className="content-send-wrapper">
