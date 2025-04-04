@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Import the Navbar component
-import OwnerSidebar from "../components/SideNav"; // Import the Sidebar component
 import "../styles/Notification.css"; // Import CSS file
 
 const Notification = () => {
@@ -23,7 +22,6 @@ const Notification = () => {
   return (
     <>
       <OwnerNavbar />
-      <OwnerSidebar />
       <div className="notification-container">
         <h2 className="title">Notifications</h2>
         <table className="notification-table">
