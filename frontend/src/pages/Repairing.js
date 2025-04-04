@@ -6,16 +6,20 @@ import "../styles/Repairing.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactDatePicker from "react-datepicker";  // <-- import react-datepicker
-import "react-datepicker/dist/react-datepicker.css";  // <-- import its CSS
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useAuth } from "../context/AuthContext"; // Import useAuth hook
 
 const RepairServiceForm = () => {
+    const { user } = useAuth(); // Get user details from context
+    const userId = user?.id; // Extract user ID from context
+
     const [formData, setFormData] = useState({
         patchesApplied: "",
         punctureSize: "",
         tireBrand: "",
         internalStructure: "",
-        receiveDate: null, // now a Date or null
+        receiveDate: null,
         notes: "",
         insideDamagePhoto: null,
         outsideDamagePhoto: null
@@ -29,7 +33,6 @@ const RepairServiceForm = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // Cleanup any created object URLs on unmount or if images change
         return () => {
             if (previewImages.insideDamagePhoto)
                 URL.revokeObjectURL(previewImages.insideDamagePhoto);
@@ -40,7 +43,7 @@ const RepairServiceForm = () => {
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-        if (type === "file" && files && files.length > 0) {
+        if (type === "file" && files.length > 0) {
             const file = files[0];
             setFormData((prev) => ({ ...prev, [name]: file }));
             setPreviewImages((prev) => ({
@@ -56,7 +59,6 @@ const RepairServiceForm = () => {
         setFormData((prev) => ({ ...prev, internalStructure: e.target.value }));
     };
 
-    // Custom handler for date change from the calendar
     const handleDateChange = (date) => {
         setFormData((prev) => ({ ...prev, receiveDate: date }));
     };
@@ -64,59 +66,50 @@ const RepairServiceForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Client-side validations
-        if (
-            !formData.patchesApplied.trim() ||
+        if (!formData.patchesApplied.trim() ||
             !formData.punctureSize.toString().trim() ||
             !formData.tireBrand.trim() ||
             !formData.internalStructure.trim() ||
-            !formData.receiveDate
-        ) {
+            !formData.receiveDate) {
             toast.error("Please fill in all required fields.");
             return;
         }
 
-        // Ensure patchesApplied is a whole number
         const patches = Number(formData.patchesApplied);
         if (!Number.isInteger(patches)) {
             toast.error("Number of patches applied must be a whole number.");
             return;
         }
 
-        // Optional: Validate uploaded file types if provided
         const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
-        if (
-            formData.insideDamagePhoto &&
-            !validImageTypes.includes(formData.insideDamagePhoto.type)
-        ) {
+        if (formData.insideDamagePhoto && !validImageTypes.includes(formData.insideDamagePhoto.type)) {
             toast.error("Inside Damage Photo must be a valid image file (jpeg, png, or gif).");
             return;
         }
-        if (
-            formData.outsideDamagePhoto &&
-            !validImageTypes.includes(formData.outsideDamagePhoto.type)
-        ) {
+        if (formData.outsideDamagePhoto && !validImageTypes.includes(formData.outsideDamagePhoto.type)) {
             toast.error("Outside Damage Photo must be a valid image file (jpeg, png, or gif).");
             return;
         }
 
         setLoading(true);
 
-        // Prepare a FormData instance – format the date as ISO string if needed.
         const data = new FormData();
         Object.keys(formData).forEach((key) => {
-            // For date use formatted string if formData.receiveDate is a Date object.
-            data.append(key, key === "receiveDate" && formData.receiveDate ? formData.receiveDate.toISOString().split("T")[0] : formData[key]);
+            data.append(key, key === "receiveDate" && formData.receiveDate
+                ? formData.receiveDate.toISOString().split("T")[0]
+                : formData[key]);
         });
 
+        if (userId) {
+            data.append("userId", userId); // Append user ID
+            console.log("User ID:", userId);
+        }
+
         try {
-            const response = await axios.post(
-                "http://localhost:5000/Repairing/submit",
-                data
-            );
+            const response = await axios.post("http://localhost:5000/Repairing/submit", data);
             toast.success("Form submitted successfully!");
             console.log("Response:", response.data);
-            // Reset form data and preview images
+
             setFormData({
                 patchesApplied: "",
                 punctureSize: "",
@@ -144,23 +137,15 @@ const RepairServiceForm = () => {
             <NewNavbar />
             <div className="repair-service-container-body">
                 <div className="repair-service-container">
-                    <h3 className="repair-title">
-                        Repair Service (Fixing Punctures / Patches)
-                    </h3>
-
+                    <h3 className="repair-title">Repair Service (Fixing Punctures / Patches)</h3>
                     <form onSubmit={handleSubmit} className="repair-form">
-                        {/* Tire Details */}
                         <div className="repair-input-group">
                             <div className="form-group">
-                                <label htmlFor="patchesApplied">
-                                    Number of Patches Applied
-                                </label>
+                                <label htmlFor="patchesApplied">Number of Patches Applied</label>
                                 <input
                                     id="patchesApplied"
                                     type="number"
-                                    step="1"
                                     name="patchesApplied"
-                                    placeholder="Number of Patches Applied"
                                     value={formData.patchesApplied}
                                     onChange={handleChange}
                                     required
@@ -172,7 +157,6 @@ const RepairServiceForm = () => {
                                     id="punctureSize"
                                     type="number"
                                     name="punctureSize"
-                                    placeholder="Puncture Size"
                                     value={formData.punctureSize}
                                     onChange={handleChange}
                                     required
@@ -184,14 +168,12 @@ const RepairServiceForm = () => {
                                     id="tireBrand"
                                     type="text"
                                     name="tireBrand"
-                                    placeholder="Tire Brand Name"
                                     value={formData.tireBrand}
                                     onChange={handleChange}
                                     required
                                 />
                             </div>
                         </div>
-                        {/* Tire Structure Information */}
                         <div className="repair-section">
                             <h3>Tire Structure Information</h3>
                             <div className="repair-radio-group">
@@ -209,105 +191,19 @@ const RepairServiceForm = () => {
                                 ))}
                             </div>
                         </div>
-
-                        {/* Image Upload Section */}
                         <div className="repair-section">
-                            <h3>Upload Tire Damage Photos</h3>
-                            <div className="repair-image-upload">
-                                {/* Inside Damage Photo Upload */}
-                                <label
-                                    className="repair-upload-box"
-                                    style={
-                                        previewImages.insideDamagePhoto
-                                            ? {
-                                                  backgroundImage: `url(${previewImages.insideDamagePhoto})`,
-                                                  backgroundSize: "cover",
-                                                  backgroundPosition: "center"
-                                              }
-                                            : {}
-                                    }
-                                >
-                                    {!previewImages.insideDamagePhoto && (
-                                        <>
-                                            <FaUpload className="upload-icon" />
-                                            <span>Inside Damage Photo</span>
-                                        </>
-                                    )}
-                                    <input
-                                        type="file"
-                                        name="insideDamagePhoto"
-                                        accept="image/*"
-                                        onChange={handleChange}
-                                        hidden
-                                    />
-                                </label>
-
-                                {/* Outside Damage Photo Upload */}
-                                <label
-                                    className="repair-upload-box"
-                                    style={
-                                        previewImages.outsideDamagePhoto
-                                            ? {
-                                                  backgroundImage: `url(${previewImages.outsideDamagePhoto})`,
-                                                  backgroundSize: "cover",
-                                                  backgroundPosition: "center"
-                                              }
-                                            : {}
-                                    }
-                                >
-                                    {!previewImages.outsideDamagePhoto && (
-                                        <>
-                                            <FaUpload className="upload-icon" />
-                                            <span>Outside Damage Photo</span>
-                                        </>
-                                    )}
-                                    <input
-                                        type="file"
-                                        name="outsideDamagePhoto"
-                                        accept="image/*"
-                                        onChange={handleChange}
-                                        hidden
-                                    />
-                                </label>
-                            </div>
-                        </div>
-
-                        {/* Calendar Selection with creative calendar */}
-                        <div className="repair-section">
-                            <label htmlFor="receiveDate">
-                                <h3>Expected Receive Date</h3>
-                            </label>
+                            <h3>Expected Receive Date</h3>
                             <ReactDatePicker
-                            selected={formData.receiveDate}
-                            onChange={handleDateChange}
-                            dateFormat="yyyy-MM-dd"
-                            placeholderText="Select a date"
-                            className="repair-date-picker"
-                            required
-                            minDate={new Date()}
+                                selected={formData.receiveDate}
+                                onChange={handleDateChange}
+                                dateFormat="yyyy-MM-dd"
+                                className="repair-date-picker"
+                                required
+                                minDate={new Date()}
                             />
                         </div>
-
-                        {/* Notes Section */}
-                        <div className="repair-section">
-                            <label htmlFor="notes">
-                                <h3>Additional Notes</h3>
-                            </label>
-                            <textarea
-                                id="notes"
-                                name="notes"
-                                placeholder="Tell us what you need"
-                                value={formData.notes}
-                                onChange={handleChange}
-                                className="repair-notes-box"
-                            ></textarea>
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="repair-submit-button"
-                            disabled={loading}
-                        >
+                        <button type="submit" className="repair-submit-button" disabled={loading}>
+                        <FaUpload className="repair-upload-icon" /> &nbsp;
                             {loading ? "Submitting..." : "Submit"}
                         </button>
                     </form>

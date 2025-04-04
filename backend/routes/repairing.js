@@ -30,7 +30,8 @@ router.post(
                 tireBrand,
                 internalStructure,
                 receiveDate,
-                notes
+                notes,
+                userId
             } = req.body;
             
             // Retrieve file names if uploaded and include "/uploads/" prefix
@@ -49,8 +50,8 @@ router.post(
             // Insert the repair details into the database
             const query = `
                 INSERT INTO repairing 
-                (patchesApplied, punctureSize, tireBrand, internalStructure, receiveDate, notes, insideDamagePhoto, outsideDamagePhoto, status) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+                (patchesApplied, punctureSize, tireBrand, internalStructure, receiveDate, notes, insideDamagePhoto, outsideDamagePhoto, status ,customer_ID) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending',?)
             `;
 
             const [result] = await db.promise().query(query, [
@@ -61,7 +62,8 @@ router.post(
                 receiveDate,
                 notes,
                 insideDamagePhoto,
-                outsideDamagePhoto
+                outsideDamagePhoto,
+                userId
             ]);
 
             return res.status(200).json({
