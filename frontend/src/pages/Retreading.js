@@ -6,8 +6,12 @@ import "../styles/Retreading.css";
 import axios from "axios";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useAuth } from "../context/AuthContext"; 
 
 const RetreadingService = () => {
+        const { user } = useAuth(); // Get user details from context
+        const userId = user?.id; // Extract user ID from context
+
     const [formData, setFormData] = useState({
         sizeCode: "",
         wheelDiameter: "",
@@ -87,6 +91,12 @@ const RetreadingService = () => {
             }
         });
         setLoading(true);
+
+        if (userId) {
+            data.append("userId", userId); // Append user ID
+            console.log("User ID:", userId);
+        }
+        
         try {
             await axios.post('http://localhost:5000/Retreading/submit', data);
             setResponseMessage({ type: 'success', message: 'Form submitted successfully!' });

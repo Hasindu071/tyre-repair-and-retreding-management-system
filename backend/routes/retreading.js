@@ -43,7 +43,8 @@ router.post(
             tirePattern,
             completionDate,
             tireStructure,
-            notes
+            notes,
+            userId // Assuming userId is passed in the request body
         } = req.body;
 
         // If files are uploaded, prefix the file name with "/uploads/"
@@ -68,8 +69,8 @@ router.post(
         }
 
         const query = `INSERT INTO retreading 
-            (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, notes, insidePhoto, outsidePhoto, status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')`;
+            (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, special_note, insidePhoto, outsidePhoto, status, customer_ID) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', ?)`;
 
         db.query(
             query,
@@ -83,7 +84,8 @@ router.post(
                 tireStructure,
                 notes,
                 insidePhoto,
-                outsidePhoto
+                outsidePhoto,
+                userId
             ],
             (err, results) => {
                 if (err) {
