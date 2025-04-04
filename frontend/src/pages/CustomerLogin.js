@@ -5,6 +5,7 @@ import Navbar from '../components/NavBar'; // Assuming you have a Navbar compone
 import '../styles/CustomerLogin.css'; // Import the CSS file
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../context/AuthContext'; // adjust path
 
 const API_URL = "http://localhost:5000";
 

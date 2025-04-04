@@ -4,7 +4,7 @@ import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import { FaMoneyBillAlt } from "react-icons/fa"; // Added Payment & Billing icon
 import "../styles/WorkerDashboard.css";
 
-// ...existing code...
+
 const WorkerDashboard = () => {
     const navigate = useNavigate();
     const [workerId, setWorkerId] = useState("");
