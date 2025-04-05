@@ -2,39 +2,31 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const db = require('../config/db'); // Import the db connection
+const db = require('../config/db');
 
 const router = express.Router();
 
-// Set up multer for file uploads
 const uploadDir = path.join(__dirname, '../uploads');
-
-// Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-console.log("Uploads directory: ", uploadDir);
-
-// Multer disk storage configuration
+// Multer setup
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log(`Saving file to: ${uploadDir}`);
         cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
-
 const upload = multer({ storage });
 
-// Retreading form submission route
+// Submit Retreading Form (updated to match repairing structure)
 router.post(
     '/submit',
     upload.fields([{ name: 'insidePhoto' }, { name: 'outsidePhoto' }]),
-    (req, res) => {
-        console.log("Received files:", req.files);
+    async (req, res) => {
         const {
             sizeCode,
             wheelDiameter,
@@ -44,134 +36,119 @@ router.post(
             completionDate,
             tireStructure,
             notes,
-            userId // Assuming userId is passed in the request body
+            userId
         } = req.body;
 
-        // If files are uploaded, prefix the file name with "/uploads/"
-        const insidePhoto = req.files.insidePhoto 
-            ? `/uploads/${req.files.insidePhoto[0].filename}` 
+        const internalStructure = tireStructure;
+        const receiveDate = new Date().toISOString().split('T')[0];
+
+        const insidePhoto = req.files?.insidePhoto
+            ? `/uploads/${req.files.insidePhoto[0].filename}`
             : null;
-        const outsidePhoto = req.files.outsidePhoto 
-            ? `/uploads/${req.files.outsidePhoto[0].filename}` 
+        const outsidePhoto = req.files?.outsidePhoto
+            ? `/uploads/${req.files.outsidePhoto[0].filename}`
             : null;
 
-        // Validate required fields
-        if (
-            !sizeCode || 
-            !wheelDiameter || 
-            !tireWidth || 
-            !tireBrand || 
-            !tirePattern || 
-            !completionDate || 
-            !tireStructure
-        ) {
-            return res.status(400).json({ message: 'All fields are required.' });
+        if (!sizeCode || !wheelDiameter || !tireWidth || !tireBrand || !tirePattern || !completionDate || !tireStructure) {
+            return res.status(400).json({ message: 'All required fields must be filled.' });
         }
 
-        const query = `INSERT INTO retreading 
-            (sizeCode, wheelDiameter, tireWidth, tireBrand, tirePattern, completionDate, tireStructure, special_note, insidePhoto, outsidePhoto, status, customer_ID) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', ?)`;
+        try {
+            // Generate new service ID for retreading (similar to repairing)
+            const [rows] = await db.promise().query(
+                'SELECT service_id FROM services WHERE service_id LIKE "RD_%" ORDER BY service_id DESC LIMIT 1'
+            );
 
-        db.query(
-            query,
-            [
-                sizeCode,
-                wheelDiameter,
-                tireWidth,
-                tireBrand,
-                tirePattern,
-                completionDate,
-                tireStructure,
-                notes,
-                insidePhoto,
-                outsidePhoto,
-                userId
-            ],
-            (err, results) => {
-                if (err) {
-                    console.error('Error inserting data:', err);
-                    return res.status(500).json({ message: 'Server error.', error: err });
+            let newServiceId = 'RD_00001';
+            if (rows.length > 0 && rows[0].service_id) {
+                const lastIdNumber = parseInt(rows[0].service_id.split('_')[1]);
+                if (!isNaN(lastIdNumber)) {
+                    newServiceId = `RD_${(lastIdNumber + 1).toString().padStart(5, '0')}`;
                 }
-                res.status(200).json({ message: 'Form submitted successfully!' });
             }
-        );
+
+            // Insert into services table
+            await db.promise().query(
+                `INSERT INTO services (service_id, tireBrand, internalStructure, receiveDate, notes, status, customer_ID, total_amount)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                [newServiceId, tireBrand, internalStructure, receiveDate, notes, 'Pending', userId, 0]
+            );
+
+            // Insert into retreading table (similar to repairing structure)
+            await db.promise().query(
+                `INSERT INTO retreading 
+                 (id, sizeCode, wheelDiameter, tireWidth, tirePattern, insidePhoto, outsidePhoto)
+                 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                [newServiceId, sizeCode, wheelDiameter, tireWidth, tirePattern, insidePhoto, outsidePhoto]
+            );
+
+            res.status(200).json({ message: 'Retreading form submitted successfully!' });
+        } catch (err) {
+            console.error('Error submitting retreading:', err);
+            res.status(500).json({ message: 'Server error submitting retreading.', error: err.message });
+        }
     }
 );
 
-// GET Retreading Details by ID
+// Get Retreading by ID (similar to repair fetching)
 router.get('/getRetreading/:id', async (req, res) => {
-    const retreadingId = req.params.id;
     try {
-        const [rows] = await db.promise().query('SELECT * FROM retreading WHERE id = ?', [retreadingId]);
+        const [rows] = await db.promise().query('SELECT * FROM retreading WHERE id = ?', [req.params.id]);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Retreading not found' });
         }
         res.status(200).json(rows[0]);
     } catch (error) {
-        console.error("Error fetching retreading details:", error);
-        res.status(500).json({ message: 'Server error retrieving retreading details' });
+        console.error("Error fetching retreading:", error);
+        res.status(500).json({ message: 'Server error fetching retreading.', error: error.message });
     }
 });
 
-// Helper function to update retreading status (allowing changes regardless of current status)
+// Helper function to update retreading status (similar to repairing)
 const updateRetreadingStatus = async (req, res, newStatus, successMessage, errorMessage) => {
-    const retreadingId = req.params.id;
-    let query, params;
-    
-    if (newStatus === 'Rejected' && req.body.note) {
-        // Update special_note column with the provided rejection note
-        query = "UPDATE retreading SET status = ?, special_note = ? WHERE id = ?";
-        params = [newStatus, req.body.note, retreadingId];
-    } else {
-        query = "UPDATE retreading SET status = ? WHERE id = ?";
-        params = [newStatus, retreadingId];
+    const id = req.params.id;
+    const note = req.body.note;
+
+    let query = 'UPDATE retreading SET status = ? WHERE id = ?';
+    let params = [newStatus, id];
+
+    if (newStatus === 'Rejected' && note) {
+        query = 'UPDATE retreading SET status = ?, special_note = ? WHERE id = ?';
+        params = [newStatus, note, id];
     }
-    
+
     try {
         const [result] = await db.promise().query(query, params);
         if (result.affectedRows > 0) {
             res.status(200).json({ message: successMessage });
         } else {
-            res.status(404).json({ message: "Retreading order not found" });
+            res.status(404).json({ message: 'Retreading not found' });
         }
     } catch (error) {
-        console.error(`Error updating retreading status to ${newStatus}:`, error);
+        console.error(`Error updating retreading to ${newStatus}:`, error);
         res.status(500).json({ message: errorMessage, error: error.message });
     }
 };
 
-// Approve a retreading order (can approve regardless of current status)
-router.put('/approveRetreading/:id', async (req, res) => {
-    updateRetreadingStatus(
-        req,
-        res,
-        'Approved',
-        "Retreading order approved successfully",
-        "Error approving retreading"
-    );
-});
+// Approve Retreading (similar to repair approval)
+router.put('/approveRetreading/:id', (req, res) =>
+    updateRetreadingStatus(req, res, 'Approved', 'Retreading approved successfully.', 'Error approving retreading')
+);
 
-// Reject a retreading order (can reject regardless of current status with a special note if provided)
-router.put('/rejectRetreading/:id', async (req, res) => {
-    updateRetreadingStatus(
-        req,
-        res,
-        'Rejected',
-        "Retreading order rejected successfully",
-        "Error rejecting retreading"
-    );
-});
+// Reject Retreading (similar to repair rejection)
+router.put('/rejectRetreading/:id', (req, res) =>
+    updateRetreadingStatus(req, res, 'Rejected', 'Retreading rejected successfully.', 'Error rejecting retreading')
+);
 
-// GET Approved Retreading Details
+// Get all Approved Retreadings (similar to fetching approved repairs)
 router.get('/approvedRetreadings', async (req, res) => {
     try {
-        const [rows] = await db.promise().query('SELECT * FROM retreading WHERE status = ?', ['Approved']);
+        const [rows] = await db.promise().query('SELECT * FROM retreading WHERE status = "Approved"');
         res.status(200).json(rows);
     } catch (error) {
         console.error("Error fetching approved retreadings:", error);
-        res.status(500).json({ message: 'Server error fetching approved retreadings' });
+        res.status(500).json({ message: 'Server error fetching approved retreadings.' });
     }
 });
-
 
 module.exports = router;
