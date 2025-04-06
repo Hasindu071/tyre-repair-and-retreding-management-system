@@ -172,7 +172,7 @@ const ApproveOrder = () => {
                             <th>Tire Width</th>
                             <th>Tire Brand</th>
                             <th>Tire Pattern</th>
-                            <th>Completion Date</th>
+                            <th>Receive Date</th>
                             <th>Tire Structure</th>
                             <th>Notes</th>
                             <th>Inside Photo</th>
@@ -190,8 +190,8 @@ const ApproveOrder = () => {
                                 <td>{retreading.tireWidth}</td>
                                 <td>{retreading.tireBrand}</td>
                                 <td>{retreading.tirePattern}</td>
-                                <td>{retreading.completionDate}</td>
-                                <td>{retreading.tireStructure}</td>
+                                <td>{retreading.receiveDate}</td>
+                                <td>{retreading.internalStructure}</td>
                                 <td>{retreading.notes}</td>
                                 <td>
                                     {retreading.insidePhoto && (

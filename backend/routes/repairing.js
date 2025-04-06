@@ -120,11 +120,17 @@ console.log("New service_id:", newServiceId);
     }
 );
 
-// GET Repair Details by ID
+// GET Repair Details by ID (with service details)
 router.get('/getRepair/:id', async (req, res) => {
     const repairId = req.params.id;
     try {
-        const [rows] = await db.promise().query('SELECT * FROM repairing WHERE id = ?', [repairId]);
+        const [rows] = await db.promise().query(
+            `SELECT r.*, s.tireBrand, s.internalStructure, s.receiveDate, s.notes, s.status AS serviceStatus, s.customer_ID, s.total_amount 
+             FROM repairing r 
+             JOIN services s ON r.id = s.service_id 
+             WHERE r.id = ?`,
+            [repairId]
+        );
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Repair not found' });
         }
@@ -184,10 +190,16 @@ router.put('/rejectRepair/:id', async (req, res) => {
     );
 });
 
-// GET Approved Repair Details
+// GET Approved Repair Details (with service details)
 router.get('/approvedRepairs', async (req, res) => {
     try {
-        const [rows] = await db.promise().query('SELECT * FROM repairing WHERE status = ?', ['Approved']);
+        const [rows] = await db.promise().query(
+            `SELECT r.*, s.tireBrand, s.internalStructure, s.receiveDate, s.notes, s.status AS serviceStatus, s.customer_ID, s.total_amount
+             FROM repairing r
+             JOIN services s ON r.id = s.service_id
+             WHERE r.status = ?`,
+            ['Approved']
+        );
         res.status(200).json(rows);
     } catch (error) {
         console.error("Error fetching approved repairs:", error);
