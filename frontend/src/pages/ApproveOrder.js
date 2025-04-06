@@ -211,7 +211,7 @@ const ApproveOrder = () => {
                                         />
                                     )}
                                 </td>
-                                <td>{retreading.status}</td>
+                                <td>{retreading.serviceStatus}</td>
                                 <td>
                                     <button
                                         className="view-btn-order"

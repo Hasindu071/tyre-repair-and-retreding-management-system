@@ -106,26 +106,27 @@ router.get('/getRetreading/:id', async (req, res) => {
 
 // Helper function to update retreading status (similar to repairing)
 const updateRetreadingStatus = async (req, res, newStatus, successMessage, errorMessage) => {
-    const id = req.params.id;
+    const serviceId = req.params.id; // Use the service_id that was generated during retreading submission
     const note = req.body.note;
-
-    let query = 'UPDATE retreading SET status = ? WHERE id = ?';
-    let params = [newStatus, id];
-
+    let query, params;
+    
     if (newStatus === 'Rejected' && note) {
-        query = 'UPDATE retreading SET status = ?, special_note = ? WHERE id = ?';
-        params = [newStatus, note, id];
+        query = 'UPDATE services SET status = ?, special_note = ? WHERE service_id = ?';
+        params = [newStatus, note, serviceId];
+    } else {
+        query = 'UPDATE services SET status = ? WHERE service_id = ?';
+        params = [newStatus, serviceId];
     }
-
+    
     try {
         const [result] = await db.promise().query(query, params);
         if (result.affectedRows > 0) {
             res.status(200).json({ message: successMessage });
         } else {
-            res.status(404).json({ message: 'Retreading not found' });
+            res.status(404).json({ message: 'Retreading service not found' });
         }
     } catch (error) {
-        console.error(`Error updating retreading to ${newStatus}:`, error);
+        console.error(`Error updating retreading service to ${newStatus}:`, error);
         res.status(500).json({ message: errorMessage, error: error.message });
     }
 };
