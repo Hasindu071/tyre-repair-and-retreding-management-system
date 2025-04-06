@@ -141,17 +141,17 @@ router.get('/getRepair/:id', async (req, res) => {
     }
 });
 
-// Helper function to update repair status (allows changes regardless of current status)
+// Replace the updateRepairStatus function with the following:
 const updateRepairStatus = async (req, res, newStatus, successMessage, errorMessage) => {
-    const repairId = req.params.id;
+    const repairId = req.params.id; // This is the service_id value
     let query, params;
     
     if (newStatus === 'Rejected' && req.body.note) {
-        // Update special_note column with the provided rejection note
-        query = "UPDATE repairing SET status = ?, special_note = ? WHERE id = ?";
+        // Update the status and special_note (if exists) in the services table
+        query = "UPDATE services SET status = ?, special_note = ? WHERE service_id = ?";
         params = [newStatus, req.body.note, repairId];
     } else {
-        query = "UPDATE repairing SET status = ? WHERE id = ?";
+        query = "UPDATE services SET status = ? WHERE service_id = ?";
         params = [newStatus, repairId];
     }
     
