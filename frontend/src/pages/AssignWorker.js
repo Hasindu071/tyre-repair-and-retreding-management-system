@@ -13,19 +13,16 @@ const AssignWorker = () => {
   const [workers, setWorkers] = useState([]);
   const [newOrder, setNewOrder] = useState({ customer: "", task: "" });
   const [selectedWorker, setSelectedWorker] = useState({});
-  const [selectedOrder, setSelectedOrder] = useState(""); // For selecting a pending order
 
   // New state for approved orders
-  const [approvedRepairs, setApprovedRepairs] = useState([]);
-  const [approvedRetreadings, setApprovedRetreadings] = useState([]);
+  const [approvedOrders, setApprovedOrders] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchOrders();
     fetchWorkers();
-    fetchApprovedRepairs();
-    fetchApprovedRetreadings();
+    fetchApprovedOrders();
   }, []);
 
   const fetchOrders = async () => {
@@ -48,23 +45,14 @@ const AssignWorker = () => {
     }
   };
 
-  const fetchApprovedRepairs = async () => {
+  const fetchApprovedOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Repairing/approvedRepairs');
-      setApprovedRepairs(response.data);
+      const response = await axios.get('http://localhost:5000/services/approvedOrders');
+      console.log("Approved Repairs:", response.data); // Debug log
+      setApprovedOrders(response.data);
     } catch (error) {
       console.error("Error fetching approved repairs:", error);
       toast.error("Error fetching approved repairs");
-    }
-  };
-
-  const fetchApprovedRetreadings = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/Retreading/approvedRetreadings');
-      setApprovedRetreadings(response.data);
-    } catch (error) {
-      console.error("Error fetching approved retreadings:", error);
-      toast.error("Error fetching approved retreadings");
     }
   };
 
@@ -107,18 +95,7 @@ const AssignWorker = () => {
     navigate(`/WorkerProfileImage`);
   };
 
-  // Filter pending orders (assuming orders with status "Pending")
-  const pendingOrders = orders.filter((order) => order.status === "Pending");
 
-  const handleSelectPendingOrder = () => {
-    if (!selectedOrder) {
-      toast.error("Please select an order from pending orders");
-      return;
-    }
-    toast.success(`Order ${selectedOrder} selected`);
-    // Optionally navigate to a detailed order page:
-    // navigate(`/orderDetails/${selectedOrder}`);
-  };
 
   return (
     <div>
@@ -129,16 +106,18 @@ const AssignWorker = () => {
 
         {/* New Order Form */}
         <form onSubmit={handleAddOrder} className="add-order-form">
+          <label>Order ID</label>
           <input
             type="text"
-            placeholder="Customer Name"
+            placeholder="ID"
             value={newOrder.customer}
             onChange={(e) => setNewOrder({ ...newOrder, customer: e.target.value })}
             required
           />
+          <label>Service amount</label>
           <input
             type="text"
-            placeholder="Task"
+            placeholder="Service amount"
             value={newOrder.task}
             onChange={(e) => setNewOrder({ ...newOrder, task: e.target.value })}
             required
@@ -146,25 +125,6 @@ const AssignWorker = () => {
           <button type="submit">Add Order</button>
         </form>
 
-        {/* Pending Orders Dropdown */}
-        <div className="pending-orders-section">
-          <h3>Select a Pending Order</h3>
-          <select
-            value={selectedOrder}
-            onChange={(e) => setSelectedOrder(e.target.value)}
-            required
-          >
-            <option value="">-- Select Order --</option>
-            {pendingOrders.map((order) => (
-              <option key={order.id} value={order.id}>
-                {order.customer} - {order.task}
-              </option>
-            ))}
-          </select>
-          <button type="button" onClick={handleSelectPendingOrder}>
-            Select Order
-          </button>
-        </div>
 
         {/* Orders Table */}
         <table className="worker-table">
@@ -223,51 +183,28 @@ const AssignWorker = () => {
           </tbody>
         </table>
 
-        {/* Display Approved Repair Orders */}
-        <h3>Approved Repair Orders</h3>
-        <table className="worker-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Customer</th>
-              <th>Task</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {approvedRepairs.map((repair) => (
-              <tr key={repair.id}>
-                <td>{repair.id}</td>
-                <td>{repair.customer}</td>
-                <td>{repair.task}</td>
-                <td>{repair.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Display Approved Retreading Orders */}
-        <h3>Approved Retreading Orders</h3>
-        <table className="worker-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Customer</th>
-              <th>Task</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {approvedRetreadings.map((retreading) => (
-              <tr key={retreading.id}>
-                <td>{retreading.id}</td>
-                <td>{retreading.customer}</td>
-                <td>{retreading.task}</td>
-                <td>{retreading.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+       {/* Display Approved Repair Orders */}
+<h3>Approved Orders</h3>
+<table className="worker-table">
+  <thead>
+    <tr>
+      <th>Service ID</th>
+      <th>Tire Brand</th>
+      <th>Notes</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {approvedOrders.map((order) => (
+      <tr key={order.service_id}>
+        <td>{order.service_id}</td>
+        <td>{order.tireBrand}</td>
+        <td>{order.notes}</td>
+        <td>{order.status}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       </div>
       <ToastContainer />
     </div>

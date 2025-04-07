@@ -40,4 +40,19 @@ router.get('/getRetreadings', async (req, res) => {
     }
 });
 
+// Endpoint to fetch approved repair orders from the services table
+router.get('/approvedOrders', async (req, res) => {
+    try {
+      const [rows] = await db.promise().query(`
+        SELECT * FROM services 
+        WHERE status = 'Approved'
+      `);
+      res.status(200).json(rows);
+    } catch (error) {
+      console.error("Error fetching approved repairs:", error);
+      res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
+    }
+  });
+
+  
 module.exports = router;
