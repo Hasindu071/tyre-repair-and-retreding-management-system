@@ -97,7 +97,7 @@ import {
                 <ListItem
                   button
                   component={NavLink}
-                  to="/Orders/Pending"
+                  to="/Orders/PendingOrders"
                   className="custom-nav-subitem-pending"
                   sx={{ pl: 4 }}
                 >

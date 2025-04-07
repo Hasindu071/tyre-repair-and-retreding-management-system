@@ -1,0 +1,91 @@
+.body{
+    background-image: url('../assets/background.png');
+}
+/* General Styles */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+}
+
+.approve-order-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Table Styles */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid #ddd;
+  padding: 2px;
+  text-align: left;
+}
+
+.order-table th {
+  background-color: #f8a79b;
+  color: white;
+  font-weight: bold;
+}
+
+.order-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.order-table tr:hover {
+  background-color: #ddd;
+}
+
+/* Button Styles */
+button {
+  padding: 10px 18px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.view-btn-order {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.view-btn-order:hover {
+  background-color: #2980b9;
+}
+
+.approve-btn-order {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.approve-btn-order:hover {
+  background-color: #218838;
+}
+
+.reject-btn-order {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.reject-btn-order:hover {
+  background-color: #c82333;
+}

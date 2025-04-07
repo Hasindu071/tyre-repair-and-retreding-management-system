@@ -63,6 +63,7 @@ import WorkerResetPassword from './pages/Worker-reset-password';
 import CustomerResetPassword from './pages/Customer-reset-password';
 import OwnerReport from './pages/OwnerReport';
 import ApprovedOrders from './pages/ApproveOrder';
+import PendingOrders from './pages/PendingOrder';
 
 function App() {
   return (
@@ -130,10 +131,8 @@ function App() {
             <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />  
             <Route path="/customer/reset-password" element={<CustomerResetPassword/>} />  
             <Route path="/OwnerReport" element={<OwnerReport />} />
-            <Route path="/Orders/Pending" element={<ApproveOrder />} /> {/* Existing component */}
             <Route path="/Orders/Approved" element={<ApprovedOrders />} /> {/* New component you create */}
-
-            {/* Add more routes as needed */}
+            <Route path="/Orders/PendingOrders" element={<PendingOrders />} /> {/* New component you create */}
           </Routes>
         </div>
       </Router>

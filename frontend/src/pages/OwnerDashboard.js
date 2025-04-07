@@ -21,7 +21,7 @@ const OwnerDashboard = () => {
     };
 
     const approveOrder = () => {
-        navigate("/ApproveOrder"); // Redirect to ApproveOrder page
+        navigate("/Orders/PendingOrders"); // Redirect to ApproveOrder page
     };
 
     const assignWorker = () => {
