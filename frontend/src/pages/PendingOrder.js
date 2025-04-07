@@ -26,7 +26,7 @@ const PendingOrder = () => {
 
     const fetchRepairs = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/services/getRepairs');
+            const response = await axios.get('http://localhost:5000/services/getPendingRepairs');
             setRepairs(response.data);
         } catch (error) {
             console.error("Error fetching repairs:", error);
@@ -36,7 +36,7 @@ const PendingOrder = () => {
 
     const fetchRetreadings = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/services/getRetreadings');
+            const response = await axios.get('http://localhost:5000/services/getPendingRetreadings');
             setRetreadings(response.data);
         } catch (error) {
             console.error("Error fetching retreadings:", error);
