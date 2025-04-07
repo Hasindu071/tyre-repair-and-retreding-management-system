@@ -62,6 +62,7 @@ import ResetPassword from './pages/reset-password';
 import WorkerResetPassword from './pages/Worker-reset-password';
 import CustomerResetPassword from './pages/Customer-reset-password';
 import OwnerReport from './pages/OwnerReport';
+import ApprovedOrders from './pages/ApproveOrder';
 
 function App() {
   return (
@@ -129,6 +130,9 @@ function App() {
             <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />  
             <Route path="/customer/reset-password" element={<CustomerResetPassword/>} />  
             <Route path="/OwnerReport" element={<OwnerReport />} />
+            <Route path="/Orders/Pending" element={<ApproveOrder />} /> {/* Existing component */}
+            <Route path="/Orders/Approved" element={<ApprovedOrders />} /> {/* New component you create */}
+
             {/* Add more routes as needed */}
           </Routes>
         </div>

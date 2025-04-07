@@ -82,7 +82,7 @@ const ApproveOrder = () => {
             {/*<Navbar />*/}
             <OwnerSidebar />
             <div className="approve-order-container">
-                <h2 className="title">Repair Services</h2>
+                <h2 className="title">Pending Repair Services</h2>
                 <table className="order-table">
                     <thead>
                         <tr>
@@ -162,7 +162,7 @@ const ApproveOrder = () => {
                     </tbody>
                 </table>
 
-                <h2 className="title">Retreading Services</h2>
+                <h2 className="title">Pending Retreading Services</h2>
                 <table className="order-table">
                     <thead>
                         <tr>

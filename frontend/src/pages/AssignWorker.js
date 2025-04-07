@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify"; // toast container
 import "react-toastify/dist/ReactToastify.css"; // import toast css
+import { FaEye } from "react-icons/fa";
+
 
 const AssignWorker = () => {
   const [orders, setOrders] = useState([]);
@@ -54,6 +56,19 @@ const AssignWorker = () => {
       console.error("Error fetching approved repairs:", error);
       toast.error("Error fetching approved repairs");
     }
+  };
+
+  // Function to handle viewing service details
+  const handleViewService = (serviceId) => {
+    let type = "";
+  
+    if (serviceId.startsWith("RD")) {
+      type = "Retreading";
+    } else if (serviceId.startsWith("RP")) {
+      type = "Repair";
+    }
+  
+    setNewOrder({ customer: serviceId, task: "" });
   };
 
   const handleAddOrder = async (e) => {
@@ -105,106 +120,109 @@ const AssignWorker = () => {
         <h2 className="title">Assign Workers</h2>
 
         {/* New Order Form */}
-        <form onSubmit={handleAddOrder} className="add-order-form">
-          <label>Order ID</label>
-          <input
-            type="text"
-            placeholder="ID"
-            value={newOrder.customer}
-            onChange={(e) => setNewOrder({ ...newOrder, customer: e.target.value })}
-            required
-          />
-          <label>Service amount</label>
-          <input
-            type="text"
-            placeholder="Service amount"
-            value={newOrder.task}
-            onChange={(e) => setNewOrder({ ...newOrder, task: e.target.value })}
-            required
-          />
-          <button type="submit">Add Order</button>
-        </form>
+              <form onSubmit={handleAddOrder} className="add-order-form row">
+        {/* Left Column */}
+        <div className="col-md-6">
+          <div className="form-group mb-3">
+            <label>Order ID</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="ID"
+              value={newOrder.customer}
+              onChange={(e) =>
+                setNewOrder({ ...newOrder, customer: e.target.value })
+              }
+              readOnly={
+                newOrder.customer.startsWith("RD") ||
+                newOrder.customer.startsWith("RP")
+              }
+            />
+          </div>
 
+          <div className="form-group mb-3">
+            <label>Service Amount</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Service amount"
+              value={newOrder.task}
+              onChange={(e) => setNewOrder({ ...newOrder, task: e.target.value })}
+              required
+            />
+          </div>
+        </div>
 
-        {/* Orders Table */}
-        <table className="worker-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Customer Name</th>
-              <th>Task</th>
-              <th>Assign Worker</th>
-              <th>View Worker Tasks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.customer}</td>
-                <td>{order.task}</td>
-                <td>
-                  {order.assignedWorker ? (
-                    <span className="assigned-worker">{order.assignedWorker}</span>
-                  ) : (
-                    <>
-                      <select
-                        className="worker-select"
-                        onChange={(e) =>
-                          setSelectedWorker({
-                            ...selectedWorker,
-                            [order.id]: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="">Select Worker</option>
-                        {workers.map((worker) => (
-                          <option key={worker.id} value={worker.name}>
-                            {worker.name}
-                          </option>
-                        ))}
-                      </select>
-                      <button onClick={() => handleAssign(order.id)}>Assign</button>
-                      <button onClick={() => handleViewWorkerTasks(selectedWorker[order.id])}>
-                        View Tasks
-                      </button>
-                    </>
-                  )}
-                </td>
-                <td>
-                  {order.assignedWorker && (
-                    <button onClick={() => handleViewWorkerTasks(order.assignedWorker)}>
-                      View Worker Tasks
-                    </button>
-                  )}
-                </td>
-              </tr>
+        {/* Right Column */}
+        <div className="col-md-6 d-flex flex-column justify-content-start">
+          <div className="form-group mb-3">
+            <label>Assign Worker</label>
+            <select
+            className="form-select"
+            value={newOrder.assignedWorker || ""}
+            onChange={(e) =>
+              setNewOrder({ ...newOrder, assignedWorker: e.target.value })
+            }
+            required
+          >
+            <option value="">Select Worker</option>
+            {workers.map((worker) => (
+              <option key={worker.id} value={worker.id}>
+                {worker.id} - {worker.name}
+              </option>
             ))}
-          </tbody>
-        </table>
+          </select>
+
+          </div>
+
+          <div className="d-flex gap-2">
+            <button
+              type="button"
+              className="btn btn-outline-info"
+              onClick={() => handleViewWorkerTasks(newOrder.assignedWorker)}
+            >
+              View Tasks
+            </button>
+            <button type="submit" className="btn btn-primary">
+              Add Order
+            </button>
+          </div>
+        </div>
+      </form>
 
        {/* Display Approved Repair Orders */}
-<h3>Approved Orders</h3>
+       <h3>Approved Orders</h3>
 <table className="worker-table">
   <thead>
     <tr>
       <th>Service ID</th>
-      <th>Tire Brand</th>
-      <th>Notes</th>
-      <th>Status</th>
+      <th>Type</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
-    {approvedOrders.map((order) => (
-      <tr key={order.service_id}>
-        <td>{order.service_id}</td>
-        <td>{order.tireBrand}</td>
-        <td>{order.notes}</td>
-        <td>{order.status}</td>
-      </tr>
-    ))}
+    {approvedOrders.map((order) => {
+      const type =
+        order.service_id.startsWith("RD")
+          ? "Retreading"
+          : order.service_id.startsWith("RP")
+          ? "Repair"
+          : "Unknown";
+      return (
+        <tr key={order.service_id}>
+          <td>{order.service_id}</td>
+          <td>{type}</td>
+          <td>
+            <button onClick={() => handleViewService(order.service_id)}>
+              <FaEye />
+            </button>
+          </td>
+        </tr>
+      );
+    })}
   </tbody>
 </table>
+
       </div>
       <ToastContainer />
     </div>

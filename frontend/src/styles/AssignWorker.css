@@ -124,3 +124,19 @@ button:active {
 .add-order-form button:hover {
   background-color: #218838;
 }
+
+.add-order-form {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.add-order-form .form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.add-order-form .btn {
+  min-width: 120px;
+}

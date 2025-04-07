@@ -206,4 +206,34 @@ router.get('/getCompletedTasks', async (req, res) => {
     }
   });
 
+  router.post("/getOrders", async (req, res) => {
+    const { customer, task, assignedWorker } = req.body;
+  
+    try {
+      const emp_id = assignedWorker;
+      const order_date = new Date();
+      const progress = "0%";
+      const total_amount = task;
+      const service_id = customer;
+  
+      const [result] = await db.promise().query(
+        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date)
+         VALUES (?, ?, ?, ?, ?)`,
+        [service_id, emp_id, total_amount, progress, order_date]
+      );
+  
+      const newOrder = {
+        id: result.insertId,
+        customer: service_id,
+        task: total_amount,
+        assignedWorker: emp_id,
+      };
+  
+      res.status(201).json(newOrder);
+    } catch (error) {
+      console.error("Error adding new order:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
 module.exports = router;
