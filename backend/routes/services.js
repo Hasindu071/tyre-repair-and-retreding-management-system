@@ -59,9 +59,11 @@ router.get('/approvedOrders', async (req, res) => {
 router.get('/getAssignedOrders', async (req, res) => {
   try {
     const [orders] = await db.promise().query(`
-      SELECT o.*, s.service_id, s.status AS service_status, s.receiveDate, s.notes, s.tireBrand, s.internalStructure 
+      SELECT o.*, s.service_id, s.status AS service_status, s.receiveDate, s.notes, s.tireBrand, s.internalStructure, 
+                   e.firstName, e.lastName
       FROM orders o
       JOIN services s ON o.service_id = s.service_id
+            LEFT JOIN worker_register e ON o.emp_id = e.id
       WHERE s.status = 'Approved'
     `);
 

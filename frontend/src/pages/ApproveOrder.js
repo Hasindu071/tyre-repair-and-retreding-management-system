@@ -79,7 +79,11 @@ const ApproveOrder = () => {
                     />
                   )}
                 </td>
-                <td>{order.emp_id || "No worker assigned"}</td>
+                <td>
+  {order.firstName 
+    ? `${order.firstName} ${order.lastName}` 
+    : "No worker assigned"}
+</td>
                 <td>{order.total_amount || 0}</td>
               </tr>
             ))}
