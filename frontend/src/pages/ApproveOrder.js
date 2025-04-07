@@ -105,8 +105,8 @@ const ApproveOrder = () => {
                                 <td>{repair.id}</td>
                                 <td>{repair.patchesApplied}</td>
                                 <td>{repair.punctureSize}</td>
-                                <td>{repair.tireBrand}</td>
                                 <td>{repair.internalStructure}</td>
+                                <td>{repair.tireBrand}</td>
                                 <td>{repair.receiveDate}</td>
                                 <td>{repair.notes}</td>
                                 <td>
