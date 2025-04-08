@@ -10,15 +10,16 @@ const UpdateProgress = () => {
     const [completeMessage, setCompleteMessage] = useState("");
     const [startedTasks, setStartedTasks] = useState([]);
     const [progressUpdates, setProgressUpdates] = useState({});
-    // New state for the list of tasks assigned to this worker
+    // New state for the list of tasks assigned to this worker and the selected task
     const [tasks, setTasks] = useState([]);
+    const [selectedTask, setSelectedTask] = useState(null);
 
     // Fetch tasks for the logged in worker
     useEffect(() => {
         const workerId = localStorage.getItem("workerId");
         const fetchTasks = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/Orders/orders`, {
+                const res = await axios.get(`http://localhost:5000/Orders/UpdateOrders`, {
                     params: { workerId }
                 });
                 setTasks(res.data);
@@ -29,10 +30,13 @@ const UpdateProgress = () => {
         fetchTasks();
     }, []);
 
+    // When a task's select button is clicked, fill the Task ID and store the selected task.
     const handleViewClick = (task) => {
-        // When a task is selected, fill the Task ID input so the worker can update its progress.
-        setTaskId(task.id);
-        alert(`Task ${task.id} selected!`);
+        setSelectedTask(task);
+        // Use order_id if that's the displayed identifier (adjust as needed)
+        setTaskId(task.order_id);
+        // Optionally, you can remove the alert.
+        // alert(`Task ${task.order_id} selected!`);
     };
 
     const handleStartTask = async () => {
@@ -122,23 +126,24 @@ const UpdateProgress = () => {
                         <table className="tasks-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Task</th>
-                                    <th>Customer Name</th>
-                                    <th>Orders</th>
+                                    <th>Service ID</th>
+                                    <th>Service Details</th>
+                                    <th>Receive Date</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {tasks.map(task => (
+                                {tasks.map((task) => (
                                     <tr key={task.id}>
-                                        <td>{task.id}</td>
-                                        <td>{task.task}</td>
-                                        <td>{task.customer}</td>
+                                        <td>{task.order_id}</td>
+                                        <td>{task.tireBrand} {task.internalStructure}</td>
+                                        <td>{task.receiveDate}</td>
                                         <td>
                                             <button 
                                                 type="button"
-                                                className="view-button" 
+                                                className="view-button"
                                                 onClick={() => handleViewClick(task)}
+                                                disabled={selectedTask && selectedTask.id === task.id} // disable if already selected
                                             >
                                                 Select
                                             </button>

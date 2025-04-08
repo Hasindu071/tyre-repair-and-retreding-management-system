@@ -81,31 +81,19 @@ router.put('/assignWorker/:id', async (req, res) => {
     }
 });
 
-router.get("/orders", async (req, res) => {
+// Endpoint to fetch approved repair orders from the services table with corresponding order details
+router.get('/UpdateOrders', async (req, res) => {
     try {
-        const [rows] = await db.promise().query("SELECT * FROM orders");
-        res.status(200).json(rows);
+      const [rows] = await db.promise().query(`
+        SELECT s.*, o.*
+        FROM services s
+        JOIN orders o ON s.service_id = o.service_id
+        WHERE s.status = 'Approved'
+      `);
+      res.status(200).json(rows);
     } catch (error) {
-        console.error("Error fetching orders:", error);
-        res.status(500).json({ message: "Failed to fetch orders", error: error });
-    }
-});
-
-
-// GET /Orders/orders – Retrieve tasks assigned to a specific worker
-router.get('/orders', async (req, res) => {
-    try {
-        const { workerId } = req.query;
-        if (!workerId) {
-            return res.status(400).json({ message: "workerId query parameter is required." });
-        }
-        // Adjust the column name "assignedWorker" if different in your database schema
-        const query = "SELECT id, task, customer FROM orders WHERE assignedWorker = ?";
-        const [rows] = await db.promise().execute(query, [workerId]);
-        res.status(200).json(rows);
-    } catch (error) {
-        console.error("Error fetching tasks:", error);
-        res.status(500).json({ message: "Failed to fetch tasks", error: error.message });
+      console.error("Error fetching approved repairs:", error);
+      res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
     }
 });
 
