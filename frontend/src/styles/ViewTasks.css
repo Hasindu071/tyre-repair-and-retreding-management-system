@@ -1,58 +1,161 @@
-body {
-    font-family: 'Open Sans', sans-serif;
-}
-
+/* General container */
 .tasks-container {
-    margin: 40px auto;
-    padding: 30px;
-    max-width: 900px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
+    max-width: 95%;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
+/* Heading styles */
 .tasks-title {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 10px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .tasks-subtitle {
     font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 30px;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.tasks-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.tasks-list li {
-    background: #fff;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-.tasks-list li:hover {
-    transform: translateY(-3px);
-}
-
-.modal-dialog {
-    position: relative;
-    z-index: 1050; /* Ensure it's above the backdrop */
-}
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* Table styles */
+.tasks-table {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1040; /* Lower than modal dialog */
+    border-collapse: collapse;
+    overflow-x: auto;
+}
+
+.tasks-table th, .tasks-table td {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tasks-table th {
+    background-color: #474849;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.tasks-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tasks-table img {
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.tasks-table img:hover {
+    transform: scale(1.05);
+}
+
+/* Buttons */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #495057;
+}
+
+/* Modal styles */
+.modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: #343a40;
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f1f1f1;
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    color: white;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .tasks-table thead {
+        display: none;
+    }
+
+    .tasks-table, .tasks-table tbody, .tasks-table tr, .tasks-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .tasks-table tr {
+        margin-bottom: 1rem;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .tasks-table td {
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .tasks-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: 45%;
+        padding-right: 1rem;
+        font-weight: bold;
+        color: #6c757d;
+        text-align: left;
+    }
 }
