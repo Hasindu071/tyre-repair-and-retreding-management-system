@@ -22,11 +22,12 @@ const AssignWorker = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchOrders();
+    //fetchOrders();
     fetchWorkers();
     fetchApprovedOrders();
   }, []);
 
+  /*
   const fetchOrders = async () => {
     try {
       const response = await axios.get('http://localhost:5000/orders/getOrders');
@@ -35,7 +36,7 @@ const AssignWorker = () => {
       console.error("Error fetching orders:", error);
       toast.error("Error fetching orders");
     }
-  };
+  };*/
 
   const fetchWorkers = async () => {
     try {

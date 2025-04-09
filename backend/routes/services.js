@@ -44,13 +44,16 @@ router.get('/getRetreadings', async (req, res) => {
 router.get('/approvedOrders', async (req, res) => {
   try {
     const [rows] = await db.promise().query(`
-      SELECT * FROM services 
-      WHERE status = 'Approved'
+      SELECT s.*, o.*
+      FROM services s
+      JOIN orders o ON s.service_id = o.service_id
+      WHERE s.status = 'Approved'
+        AND o.status = 'Pending'
     `);
     res.status(200).json(rows);
   } catch (error) {
-    console.error("Error fetching approved repairs:", error);
-    res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
+    console.error("Error fetching approved services with pending orders:", error);
+    res.status(500).json({ message: 'Server error fetching data', error: error.message });
   }
 });
 

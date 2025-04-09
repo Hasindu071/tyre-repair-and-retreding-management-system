@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Route to fetch orders
+/*// Route to fetch orders
 router.get('/getOrders', (req, res) => {
     const query = "SELECT * FROM orders";
     db.query(query, (err, results) => {
@@ -25,7 +25,7 @@ router.get('/getOrders', (req, res) => {
         }
         res.status(200).json(results);
     });
-});
+});*/
 
 
 // Route to fetch workers
@@ -67,19 +67,23 @@ router.post('/addOrder', upload.single('orderImage'), async (req, res) => {
         res.status(500).json({ message: 'Failed to add order' });
     }
 });
-
-// Route to assign a worker to an order
+/*
+// Route to assign a worker to an order and update status to "in pending"
 router.put('/assignWorker/:id', async (req, res) => {
     const orderId = req.params.id;
     const { assignedWorker } = req.body;
     try {
-        await db.promise().query('UPDATE orders SET assignedWorker = ? WHERE id = ?', [assignedWorker, orderId]);
-        res.status(200).json({ message: 'Worker assigned successfully' });
+        await db.promise().query(
+            'UPDATE orders SET assignedWorker = ?, status = ? WHERE order_id = ?',
+            [assignedWorker, 'in pending', orderId]
+        );
+        res.status(200).json({ message: 'Worker assigned and status updated to "in pending" successfully' });
     } catch (error) {
         console.error('Database update error:', error);
         res.status(500).json({ message: 'Failed to assign worker' });
     }
-});
+}); */
+
 
 // Endpoint to fetch approved repair orders from the services table with corresponding order details
 router.get('/UpdateOrders', async (req, res) => {
@@ -102,7 +106,7 @@ router.put('/startTask', async (req, res) => {
     const { taskId } = req.body;
     try {
         const [result] = await db.promise().query(
-            'UPDATE orders SET status = ? WHERE id = ?',
+            'UPDATE orders SET status = ? WHERE order_id = ?',
             ['In Progress', taskId]
         );
         if (result.affectedRows > 0) {
@@ -122,7 +126,7 @@ router.put('/updateProgress', async (req, res) => {
     const status = progress >= 100 ? 'Completed' : 'In Progress';
     try {
         const [result] = await db.promise().query(
-            'UPDATE orders SET progress = ?, status = ? WHERE id = ?',
+            'UPDATE orders SET progress = ?, status = ? WHERE order_id = ?',
             [progress, status, taskId]
         );
         if (result.affectedRows > 0) {
@@ -140,7 +144,7 @@ router.get('/getStartedTasks', async (req, res) => {
     try {
         // Assuming your orders table has a 'status' column where started tasks have status 'In Progress'
         const [rows] = await db.promise().query(
-            "SELECT id, progress, status FROM orders WHERE status = 'In Progress'"
+            "SELECT order_id, progress, status FROM orders WHERE status = 'In Progress'"
         );
         res.status(200).json(rows);
     } catch (error) {
@@ -169,7 +173,7 @@ router.put('/completeOrder/:id', async (req, res) => {
     try {
       // Update the order status to "Completed" and set progress to 100 (if using progress)
       const [result] = await db.promise().query(
-        "UPDATE orders SET status = ?, progress = ? WHERE id = ?",
+        "UPDATE orders SET status = ?, progress = ? WHERE order_id = ?",
         ["Completed", 100, orderId]
       );
       if (result.affectedRows > 0) {
@@ -186,7 +190,7 @@ router.put('/completeOrder/:id', async (req, res) => {
   // Example backend endpoint in orders.js
 router.get('/getCompletedTasks', async (req, res) => {
     try {
-      const [tasks] = await db.promise().query("SELECT id, task, customer FROM orders WHERE status = 'Completed'");
+      const [tasks] = await db.promise().query("SELECT order_id, task, customer FROM orders WHERE status = 'Completed'");
       res.status(200).json(tasks);
     } catch (error) {
       console.error("Error fetching completed tasks:", error);
@@ -205,9 +209,9 @@ router.get('/getCompletedTasks', async (req, res) => {
       const service_id = customer;
   
       const [result] = await db.promise().query(
-        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date)
-         VALUES (?, ?, ?, ?, ?)`,
-        [service_id, emp_id, total_amount, progress, order_date]
+        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date, status)
+         VALUES (?, ?, ?, ?, ?, "Pending")`,
+        [service_id, emp_id, total_amount, progress, order_date, "Pending"]
       );
   
       const newOrder = {
