@@ -49,13 +49,14 @@ const WorkerDashboard = () => {
                             <span className="button-icon">✅</span>
                             Complete Task
                         </button>
+                        {/*
                         <button 
                             className="profile-button creative-button"
                             onClick={() => navigate("/history-of-works")}
                         >
                             <span className="button-icon">📝</span>
                             History of Works
-                        </button>
+                        </button> */}
                         <button 
                             className="profile-button creative-button"
                             onClick={() => navigate("/WokerAttendance")}
