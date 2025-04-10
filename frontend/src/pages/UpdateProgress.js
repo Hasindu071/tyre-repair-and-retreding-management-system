@@ -10,11 +10,9 @@ const UpdateProgress = () => {
     const [completeMessage, setCompleteMessage] = useState("");
     const [startedTasks, setStartedTasks] = useState([]);
     const [progressUpdates, setProgressUpdates] = useState({});
-    // New state for the list of tasks assigned to this worker and the selected task
     const [tasks, setTasks] = useState([]);
     const [selectedTask, setSelectedTask] = useState(null);
 
-    // Fetch tasks for the logged in worker
     useEffect(() => {
         const workerId = localStorage.getItem("workerId");
         const fetchTasks = async () => {
@@ -30,13 +28,26 @@ const UpdateProgress = () => {
         fetchTasks();
     }, []);
 
-    // When a task's select button is clicked, fill the Task ID and store the selected task.
+    useEffect(() => {
+        fetchStartedTasks();
+    }, []);
+
+    useEffect(() => {
+        fetchStartedTasks();
+    }, [taskStarted]);
+
+    const fetchStartedTasks = async () => {
+        try {
+            const res = await axios.get("http://localhost:5000/Orders/getStartedTasks");
+            setStartedTasks(res.data);
+        } catch (err) {
+            console.error("Error fetching started tasks:", err);
+        }
+    };
+
     const handleViewClick = (task) => {
         setSelectedTask(task);
-        // Use order_id if that's the displayed identifier (adjust as needed)
         setTaskId(task.order_id);
-        // Optionally, you can remove the alert.
-        // alert(`Task ${task.order_id} selected!`);
     };
 
     const handleStartTask = async () => {
@@ -48,7 +59,6 @@ const UpdateProgress = () => {
             await axios.put("http://localhost:5000/Orders/startTask", { taskId });
             alert("Task started!");
             setTaskStarted(true);
-            fetchStartedTasks();
         } catch (err) {
             console.error("Error starting task:", err);
             alert("Failed to start task");
@@ -76,15 +86,6 @@ const UpdateProgress = () => {
         }
     };
 
-    const fetchStartedTasks = async () => {
-        try {
-            const res = await axios.get("http://localhost:5000/Orders/getStartedTasks");
-            setStartedTasks(res.data);
-        } catch (err) {
-            console.error("Error fetching started tasks:", err);
-        }
-    };
-
     const handleIndividualUpdate = async (id) => {
         const updatedProgress = progressUpdates[id];
         if (updatedProgress === undefined) {
@@ -100,10 +101,6 @@ const UpdateProgress = () => {
             alert("Failed to update progress for this task");
         }
     };
-
-    useEffect(() => {
-        fetchStartedTasks();
-    }, [taskStarted]);
 
     return (
         <div>
@@ -134,7 +131,7 @@ const UpdateProgress = () => {
                             </thead>
                             <tbody>
                                 {tasks.map((task) => (
-                                    <tr key={task.id}>
+                                    <tr key={task.order_id}>
                                         <td>{task.order_id}</td>
                                         <td>{task.tireBrand} {task.internalStructure}</td>
                                         <td>{task.receiveDate}</td>
@@ -143,7 +140,7 @@ const UpdateProgress = () => {
                                                 type="button"
                                                 className="view-button"
                                                 onClick={() => handleViewClick(task)}
-                                                disabled={selectedTask && selectedTask.id === task.id} // disable if already selected
+                                                disabled={selectedTask && selectedTask.order_id === task.order_id}
                                             >
                                                 Select
                                             </button>
@@ -169,7 +166,7 @@ const UpdateProgress = () => {
                                     min="0"
                                     max="100"
                                     value={progress}
-                                    onChange={(e) => setProgress(e.target.value)}
+                                    onChange={(e) => setProgress(Number(e.target.value))}
                                 />
                             </label>
                             <button type="submit" className="update-button">
@@ -185,8 +182,8 @@ const UpdateProgress = () => {
                 <h2>Started Tasks</h2>
                 {startedTasks.length ? (
                     startedTasks.map((task) => (
-                        <div key={task.id} className="task-container">
-                            <h3>Task ID: {task.id}</h3>
+                        <div key={task.order_id} className="task-container">
+                            <h3>Task ID: {task.order_id}</h3>
                             <p>Current Progress: {task.progress}%</p>
                             <p>Status: {task.status}</p>
                             <label className="form-label">
@@ -195,22 +192,22 @@ const UpdateProgress = () => {
                                     type="range"
                                     min="0"
                                     max="100"
-                                    value={progressUpdates[task.id] !== undefined ? progressUpdates[task.id] : task.progress}
+                                    value={progressUpdates[task.order_id] !== undefined ? progressUpdates[task.order_id] : task.progress}
                                     onChange={(e) =>
                                         setProgressUpdates({
                                             ...progressUpdates,
-                                            [task.id]: e.target.value,
+                                            [task.order_id]: Number(e.target.value),
                                         })
                                     }
                                 />
                                 <span>
-                                    {progressUpdates[task.id] !== undefined ? progressUpdates[task.id] : task.progress}%
+                                    {progressUpdates[task.order_id] !== undefined ? progressUpdates[task.order_id] : task.progress}%
                                 </span>
                             </label>
                             <button
                                 type="button"
                                 className="update-button"
-                                onClick={() => handleIndividualUpdate(task.id)}
+                                onClick={() => handleIndividualUpdate(task.order_id)}
                             >
                                 Update This Task
                             </button>

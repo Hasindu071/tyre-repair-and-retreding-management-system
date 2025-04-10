@@ -92,7 +92,7 @@ router.get('/UpdateOrders', async (req, res) => {
         SELECT s.*, o.*
         FROM services s
         JOIN orders o ON s.service_id = o.service_id
-        WHERE s.status = 'Approved'
+        WHERE o.status = 'Pending'
       `);
       res.status(200).json(rows);
     } catch (error) {
@@ -103,21 +103,18 @@ router.get('/UpdateOrders', async (req, res) => {
 
 // PUT /Orders/startTask – Mark a task as started (In Progress)
 router.put('/startTask', async (req, res) => {
-    const { taskId } = req.body;
-    try {
-        const [result] = await db.promise().query(
-            'UPDATE orders SET status = ? WHERE order_id = ?',
-            ['In Progress', taskId]
-        );
-        if (result.affectedRows > 0) {
-            res.status(200).json({ message: "Task started successfully" });
-        } else {
-            res.status(404).json({ message: "Order not found" });
-        }
-    } catch (error) {
-        console.error("Error starting task:", error);
-        res.status(500).json({ message: "Error starting task", error: error.message });
-    }
+  try {
+    const [rows] = await db.promise().query(`
+      SELECT s.*, o.*
+      FROM services s
+      JOIN orders o ON s.service_id = o.service_id
+      WHERE o.status = 'Pending'
+    `);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching approved repairs:", error);
+    res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
+  }
 });
 
 // PUT /Orders/updateProgress – Update progress and complete task if progress reaches 100%
@@ -141,16 +138,18 @@ router.put('/updateProgress', async (req, res) => {
 });
 
 router.get('/getStartedTasks', async (req, res) => {
-    try {
-        // Assuming your orders table has a 'status' column where started tasks have status 'In Progress'
-        const [rows] = await db.promise().query(
-            "SELECT order_id, progress, status FROM orders WHERE status = 'In Progress'"
-        );
-        res.status(200).json(rows);
-    } catch (error) {
-        console.error("Error fetching started tasks:", error);
-        res.status(500).json({ message: "Failed to fetch started tasks", error: error.message });
-    }
+  try {
+    const [rows] = await db.promise().query(`
+      SELECT s.*, o.*
+      FROM services s
+      JOIN orders o ON s.service_id = o.service_id
+      WHERE o.status = 'In Progres'
+    `);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching approved repairs:", error);
+    res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
+  }
 });
 
 
@@ -189,14 +188,19 @@ router.put('/completeOrder/:id', async (req, res) => {
 
   // Example backend endpoint in orders.js
 router.get('/getCompletedTasks', async (req, res) => {
-    try {
-      const [tasks] = await db.promise().query("SELECT order_id, task, customer FROM orders WHERE status = 'Completed'");
-      res.status(200).json(tasks);
-    } catch (error) {
-      console.error("Error fetching completed tasks:", error);
-      res.status(500).json({ message: "Failed to fetch completed tasks", error: error.message });
-    }
-  });
+  try {
+    const [rows] = await db.promise().query(`
+      SELECT s.*, o.*
+      FROM services s
+      JOIN orders o ON s.service_id = o.service_id
+      WHERE o.status = 'Completed'
+    `);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching approved repairs:", error);
+    res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
+  }
+});
 
   router.post("/getOrders", async (req, res) => {
     const { customer, task, assignedWorker } = req.body;

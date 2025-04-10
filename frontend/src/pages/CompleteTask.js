@@ -24,21 +24,24 @@ const CompleteTask = () => {
     <div>
       <WorkerNavbar />
       <div className="complete-container">
-        <h2 className="complete-title">Completed Tasks</h2>
-        {completedTasks.length > 0 ? (
-          <ul className="task-list">
-            {completedTasks.map((task) => (
-              <li key={task.id} className="task-item">
-                <p><strong>ID:</strong> {task.id}</p>
-                <p><strong>Task:</strong> {task.task}</p>
-                <p><strong>Customer:</strong> {task.customer}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="complete-subtitle">No completed tasks found.</p>
-        )}
-      </div>
+  <h2 className="complete-title">Completed Tasks</h2>
+  {completedTasks.length > 0 ? (
+    <ul className="task-list">
+      {completedTasks.map((task) => (
+        <li key={task.id} className="task-item">
+          <p><strong>ID:</strong> {task.order_id}</p>
+          <p><strong>Customer:</strong> {task.emp_id}</p>
+          <p><strong>Completed Date:</strong> {task.order_date || "N/A"}</p>
+          <p><strong>Status:</strong> {task.status}</p>
+          <p><strong>Worker:</strong> {task.assignedWorker ? task.assignedWorker : "N/A"}</p>
+          <p><strong>Total Amount:</strong> {task.total_amount || 0}</p>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="complete-subtitle">No completed tasks found.</p>
+  )}
+</div>
     </div>
   );
 };
