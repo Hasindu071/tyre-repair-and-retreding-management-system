@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/MyAttendance.css";
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
+import WorkerSideBar from "../components/WorkerSideBar";
 
 const MyAttendance = () => {
     const workerId = 21;
@@ -58,7 +58,7 @@ const MyAttendance = () => {
 
     return (
         <div>
-            <WorkerNavbar />
+            <WorkerSideBar />
             <div className="worker-attendance-container">
                 <h2>My Attendance</h2>
                 <p>Today: {todayDisplay}</p>

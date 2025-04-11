@@ -1,12 +1,13 @@
-/* General container */
 .tasks-container {
     max-width: 95%;
     margin: 2rem auto;
     padding: 2rem;
+    padding-left: 200px; 
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
+
 
 /* Heading styles */
 .tasks-title {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/ViewTasks.css";
 import QRCode from "react-qr-code";
+import WorkerSideBar from "../components/WorkerSideBar";
 
 const ViewTasks = () => {
     const currentWorkerId = localStorage.getItem("workerId");
@@ -74,7 +74,6 @@ const ViewTasks = () => {
     if (loading) {
         return (
             <div>
-                <WorkerNavbar />
                 <div className="tasks-container">
                     <p>Loading tasks...</p>
                 </div>
@@ -85,7 +84,6 @@ const ViewTasks = () => {
     if (error) {
         return (
             <div>
-                <WorkerNavbar />
                 <div className="tasks-container">
                     <p>{error}</p>
                 </div>
@@ -95,7 +93,7 @@ const ViewTasks = () => {
 
     return (
         <div>
-            <WorkerNavbar />
+            <WorkerSideBar />
             <div className="tasks-container">
                 <h2 className="tasks-title">View Tasks</h2>
                 <p className="tasks-subtitle">Here are your assigned tasks:</p>

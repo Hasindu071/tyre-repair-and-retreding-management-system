@@ -1,0 +1,49 @@
+.sidebar-container {
+  display: flex;
+}
+
+.sidebar-title {
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: #d1d1d1;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sidebar-link .MuiListItem-root {
+  padding-left: 20px;
+  transition: background 0.3s ease;
+}
+
+.sidebar-link:hover .MuiListItem-root {
+  background-color: #adadb2;
+  color: #ffffff;
+}
+
+.sidebar-link.active .MuiListItem-root {
+  background-color: #7171c2;
+  color: #00d4ff;
+  font-weight: 500;
+}
+
+.gradient-bar {
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #00d4ff, #0083ff);
+  border-radius: 2px;
+  margin-right: 12px;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.sidebar-link.active .gradient-bar,
+.sidebar-link:hover .gradient-bar {
+  visibility: visible;
+}

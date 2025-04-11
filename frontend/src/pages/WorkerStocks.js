@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/WorkerStocks.css";
-import NewNavbar from "../components/Navbars/WorkerRegiNavBar";
+import WorkerSideBar from "../components/WorkerSideBar";
 import axios from 'axios'; // Import axios for HTTP requests
 
 const WorkerStocks = () => {
@@ -35,7 +35,7 @@ const WorkerStocks = () => {
 
     return (
         <div>
-            <NewNavbar />
+            <WorkerSideBar />
             <div className="worker-stocks-container">
                 <h2 className="stocks-title">Current Stock Levels</h2>
                 <div className="stocks-grid">

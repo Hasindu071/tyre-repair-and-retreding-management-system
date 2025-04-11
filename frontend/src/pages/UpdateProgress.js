@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import "../styles/UpdateProgress.css";
+import WorkerSideBar from "../components/WorkerSideBar";
 
 const UpdateProgress = () => {
     const [taskId, setTaskId] = useState("");
@@ -104,7 +104,7 @@ const UpdateProgress = () => {
 
     return (
         <div>
-            <WorkerNavbar />
+            <WorkerSideBar />
             <div className="update-container">
                 <h2 className="update-title">Update Progress</h2>
                 <p className="update-subtitle">Update the progress of your tasks:</p>

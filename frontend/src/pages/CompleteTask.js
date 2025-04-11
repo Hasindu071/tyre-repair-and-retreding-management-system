@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
+import WorkerSideBar from "../components/WorkerSideBar";
 import "../styles/CompleteTask.css";
 
 const CompleteTask = () => {
@@ -22,7 +22,7 @@ const CompleteTask = () => {
 
   return (
     <div>
-      <WorkerNavbar />
+      <WorkerSideBar />
       <div className="complete-container">
   <h2 className="complete-title">Completed Tasks</h2>
   {completedTasks.length > 0 ? (
