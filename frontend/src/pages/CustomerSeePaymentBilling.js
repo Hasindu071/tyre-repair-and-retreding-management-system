@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar";
+import CustomerSidebar from "../components/CustomerSidebar"; // Assuming you have a sidebar component
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/CustomerSeePaymentBilling.css"; // Create and update this file for custom styling
@@ -14,7 +14,7 @@ const CustomerSeePaymentBilling = () => {
 
     return (
         <div>
-            <NewNavbar />
+            <CustomerSidebar />
             <div className="payment-billing-container">
                 <h2 className="payment-billing-title">Payment & Billing Information</h2>
                 <p className="payment-billing-description">

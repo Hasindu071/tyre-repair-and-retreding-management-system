@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar"; // Navbar component
+import CustomerSidebar from "../components/CustomerSidebar"; // Sidebar component
 import { FaTools, FaRecycle } from "react-icons/fa"; // Importing icons
 import '../styles/ChooseService.css'; // Import CSS file
 
@@ -13,7 +13,7 @@ const ChooseService = () => {
 
   return (
     <div>
-      <NewNavbar />
+      <CustomerSidebar />
       <div className="role-service-selection-container">
       <div className="select-service-container-back">
         <h1 className="title-service">Select Your Service</h1>

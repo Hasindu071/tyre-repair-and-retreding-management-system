@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaUpload } from "react-icons/fa";
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar";
+import CustomerSidebar from "../components/CustomerSidebar"; // Assuming you have a sidebar component
 import "../styles/Repairing.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -135,7 +135,7 @@ const RepairServiceForm = () => {
 
     return (
         <div>
-            <NewNavbar />
+            <CustomerSidebar />
             <div className="repair-service-container-body">
                 <div className="repair-service-container">
                     <h3 className="repair-title">Repair Service (Fixing Punctures / Patches)</h3>

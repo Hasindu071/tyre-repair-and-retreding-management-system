@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar";
+import CustomerSidebar from "../components/CustomerSidebar"; // Sidebar component
 import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import "../styles/Retreading.css";
 import axios from "axios";
@@ -122,7 +122,7 @@ const RetreadingService = () => {
 
     return (
         <div>
-            <NewNavbar />
+            <CustomerSidebar />
             <div className="retreading-container-body">
                 <div className="retreading-container">
                     <form onSubmit={handleSubmit} className="retreading-form">

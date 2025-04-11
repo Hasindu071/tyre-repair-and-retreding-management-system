@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import NewNavbar from "../components/Navbars/CustomerRegiNavBar";
+import CustomerSidebar from "../components/CustomerSidebar";
 import "../styles/MyOrders.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -62,7 +62,7 @@ const MyOrders = () => {
 
   return (
     <div>
-      <NewNavbar />
+      <CustomerSidebar />
       <div className="my-orders-container">
         <h2 className="my-orders-title">My Orders (In Progress)</h2>
         <p className="my-orders-subtitle">Track the progress of your orders in progress</p>
