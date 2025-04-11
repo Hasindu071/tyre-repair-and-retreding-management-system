@@ -1,35 +1,34 @@
-body {
-    font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-}
+
 
 .update-container {
     margin: 40px auto;
-    padding: 30px;
-    max-width: 600px;
+    padding: 40px;
+    max-width: 650px;
     background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
 
 .update-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 700;
 }
 
 .update-subtitle {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 25px;
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 30px;
+    font-weight: 500;
 }
 
 .progress-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
     align-items: center;
 }
 
@@ -43,65 +42,81 @@ body {
 .form-label input[type="text"],
 .form-label input[type="range"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-top: 5px;
     border: 2px solid #ddd;
-    border-radius: 8px;
-    transition: border 0.3s ease;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-label input[type="text"]:focus,
 .form-label input[type="range"]:focus {
-    border-color: #0072ff;
+    border-color: #00c6ff;
+    box-shadow: 0 0 8px rgba(0, 198, 255, 0.3);
     outline: none;
 }
 
 .update-button {
-    padding: 12px 25px;
-    font-size: 1rem;
+    padding: 15px 30px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #fff;
     background: linear-gradient(45deg, #00c6ff, #0072ff);
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .update-button:hover {
     transform: scale(1.05);
     background: linear-gradient(45deg, #0072ff, #00c6ff);
+    box-shadow: 0 5px 20px rgba(0, 123, 255, 0.3);
+}
+
+.update-button:disabled {
+    background: #ddd;
+    cursor: not-allowed;
 }
 
 .complete-message {
-    margin-top: 15px;
-    font-size: 1.2rem;
+    margin-top: 20px;
+    font-size: 1.3rem;
     color: green;
     font-weight: bold;
 }
 
 .started-tasks-container {
-    margin: 40px auto;
-    padding: 20px;
+    margin: 50px auto;
+    padding: 25px;
     max-width: 90%;
-    background: #e9a6a69d;
-    border-radius: 10px;
+    background: #f5f7fa;
+    border-radius: 15px;
     text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.started-tasks-container h2 {
+    font-size: 2rem;
+    color: #0072ff;
+    margin-bottom: 20px;
 }
 
 .task-container {
-    margin: 15px auto;
-    padding: 15px;
+    margin: 20px auto;
+    padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 12px;
     background: #fff;
     max-width: 800px;
     text-align: left;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .task-container h3 {
-    margin: 0 0 10px;
-    font-size: 1.4rem;
+    margin: 0 0 15px;
+    font-size: 1.6rem;
     color: #0072ff;
 }
 
@@ -111,16 +126,59 @@ body {
     color: #555;
 }
 
+.task-container label {
+    display: block;
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.task-container span {
+    font-size: 1.1rem;
+    color: #0072ff;
+    font-weight: bold;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .update-container {
-        margin: 20px;
+        margin: 15px;
+        padding: 25px;
+    }
+
+    .update-title {
+        font-size: 2.2rem;
+    }
+
+    .task-container {
+        padding: 15px;
+    }
+
+    .started-tasks-container {
         padding: 20px;
     }
+}
+
+@media (max-width: 480px) {
     .update-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
-    .task-container {
-        padding: 10px;
+
+    .form-label input[type="text"],
+    .form-label input[type="range"] {
+        font-size: 0.9rem;
+    }
+
+    .update-button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+    .task-container h3 {
+        font-size: 1.4rem;
+    }
+
+    .task-container p {
+        font-size: 0.9rem;
     }
 }
