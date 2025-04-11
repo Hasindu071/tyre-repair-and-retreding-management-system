@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
+import WorkerSideBar from "../components/WorkerSideBar";
 import axios from "axios";
 import "../styles/WorkerSeePaymentBilling.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -35,7 +35,7 @@ const WorkerSeePaymentBilling = () => {
 
     return (
         <div>
-            <WorkerNavbar />
+            <WorkerSideBar />
             <div className="worker-payment-container">
                 <h2 className="title">Payment History</h2>
                 {payments.length > 0 ? (

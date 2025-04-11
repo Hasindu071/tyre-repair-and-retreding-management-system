@@ -31,6 +31,7 @@ const navItems = [
   { text: 'Update Progress', icon: <FiUser />, path: '/update-progress' },
   { text: 'Complete Task', icon: <FiUser />, path: '/complete-task' },
   { text: 'Attendance', icon: <FiCalendar />, path: '/WokerAttendance' },
+  { text: 'Payment & Billing', icon: <FiCalendar />, path: '/WorkerSeePaymentBilling' },
   { text: 'Stocks', icon: <FiPackage />, path: '/Worker/Stocks' }
 ];
 
