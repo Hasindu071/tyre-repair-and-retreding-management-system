@@ -64,6 +64,7 @@ import CustomerResetPassword from './pages/Customer-reset-password';
 import OwnerReport from './pages/OwnerReport';
 import ApprovedOrders from './pages/ApproveOrder';
 import PendingOrders from './pages/PendingOrder';
+import OwnerSeeCompleteOrders from './pages/OWNER/OwnerSeeCompleteOrders';
 
 
 function App() {
@@ -132,8 +133,9 @@ function App() {
             <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />  
             <Route path="/customer/reset-password" element={<CustomerResetPassword/>} />  
             <Route path="/OwnerReport" element={<OwnerReport />} />
-            <Route path="/Orders/Approved" element={<ApprovedOrders />} /> {/* New component you create */}
-            <Route path="/Orders/PendingOrders" element={<PendingOrders />} /> {/* New component you create */}
+            <Route path="/Orders/Approved" element={<ApprovedOrders />} />
+            <Route path="/Orders/PendingOrders" element={<PendingOrders />} /> 
+            <Route path="/Orders/CompleteOrders" element={<OwnerSeeCompleteOrders />} /> 
           </Routes>
         </div>
       </Router>
