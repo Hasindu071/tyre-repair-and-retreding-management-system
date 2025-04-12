@@ -50,4 +50,34 @@ router.get('/worker/:id', (req, res) => {
     });
 });
 
+
+// GET endpoint to fetch a worker's attendance records for a specific month and year
+router.get('/workerAttend/:id', (req, res) => {
+    const workerId = req.params.id;
+    const { year, month } = req.query;
+    
+    if (!year || !month) {
+      return res.status(400).json({ message: "Year and month are required as query parameters." });
+    }
+    
+    const query = `
+      SELECT date 
+      FROM worker_attendance 
+      WHERE worker_id = ? 
+        AND YEAR(date) = ? 
+        AND MONTH(date) = ?
+      ORDER BY date ASC
+    `;
+    
+    db.query(query, [workerId, year, month], (err, results) => {
+      if (err) {
+        console.error("Error fetching attendance:", err);
+        return res.status(500).json({ message: "Server error." });
+      }
+      
+      const attendances = results.map(row => row.date.toISOString().slice(0, 10));
+      return res.status(200).json({ attendances });
+    });
+  });
+
 module.exports = router;

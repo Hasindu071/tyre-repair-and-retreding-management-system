@@ -13,6 +13,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/attendanceMark", require("./routes/attendanceMark"));
 
 // Serve static files from the assets directory
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -76,6 +77,7 @@ app.use('/ownerForgotPassword', ownerForgotPasswordRouter);
 app.use('/workerForgotPassword', workerForgotPasswordRouter);
 app.use('/CustomerForgotPassword', CustomerForgotPassword);
 app.use('/owner', ownerResetPasswordRouter);
+
 
 
 
