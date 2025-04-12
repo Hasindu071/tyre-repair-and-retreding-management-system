@@ -202,7 +202,12 @@ const SeePayment = () => {
                   <td className={payment.status === "Paid" ? "paid" : "pending"}>
                     {payment.status}
                   </td>
-                  <td>{payment.assignedWorker || "N/A"}</td>
+                  <td>
+  {(() => {
+    const worker = workers.find(w => String(w.id) === String(payment.assignedWorker));
+    return worker ? worker.name : "N/A";
+  })()}
+</td>
                   <td>
                     <button onClick={() => handleEdit(payment)} className="edit-btn">
                       Edit
