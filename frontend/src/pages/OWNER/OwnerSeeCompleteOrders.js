@@ -32,30 +32,28 @@ const OwnerSeeCompleteOrders = () => {
             <thead>
               <tr>
                 <th>Service ID</th>
+                <th>Customer</th>
                 <th>Order Date</th>
                 <th>Status</th>
-                <th>Total Amount</th>
                 <th>Worker</th>
               </tr>
             </thead>
             <tbody>
-              {orders.length > 0 ? (
-                orders.map((order) => (
-                  <tr key={order.order_id || order.id}>
-                    <td>{order.service_id}</td>
-                    <td>{order.order_date}</td>
-                    <td>{order.status}</td>
-                    <td>${order.total_amount}</td>
-                    <td>
-                      {order.firstName ? `${order.firstName} ${order.lastName}` : "No worker assigned"}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5">No completed orders found.</td>
-                </tr>
-              )}
+        {orders.length > 0 ? (
+          orders.map((task) => (
+            <tr key={task.id}>
+              <td>{task.order_id}</td>
+              <td>{task.customerFirstName ? `${task.customerFirstName} ${task.customerLastName}` : "N/A"}</td>
+              <td>{task.order_date || "N/A"}</td>
+              <td>{task.status}</td>
+              <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="5">No completed orders found.</td>
+          </tr>
+        )}
             </tbody>
           </table>
         </div>
