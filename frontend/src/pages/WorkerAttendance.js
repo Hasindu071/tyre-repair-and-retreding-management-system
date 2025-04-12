@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-//import Navbar from "../components/Navbars/OwnerRegiNavBar"; // Use owner's navbar
 import OwnerSidebar from "../components/SideNav";
 import "../styles/WorkerAttendance.css";
 
@@ -17,76 +16,48 @@ const OwnerMarksWorkerAttendance = () => {
   const todayDisplay = today.toLocaleDateString();
   const todayISO = today.toISOString().slice(0, 10);
 
-  // When a worker is selected, fetch that worker's attendance
+  // Fetch all workers once
   useEffect(() => {
-    if (selectedWorker) {
-      axios
-        .get(`http://localhost:5000/attendance/worker/${selectedWorker.id}`)
-        .then((res) => {
-          // Expected response: { attendances: ["2025-03-01", "2025-03-15", ...] }
-          // Ensure each date is in YYYY-MM-DD format
-          const formattedAttendances = res.data.attendances.map(date => date.slice(0, 10));
-          setAttendanceDates(formattedAttendances);
-          setAttendanceMarked(formattedAttendances.includes(todayISO));
-        })
-        .catch((err) => {
-          console.error("Error fetching attendance:", err);
-        });
-    }
-  }, [todayISO, selectedWorker]);
-
-  // Fetch list of workers for owner's selection
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/WorkerRegister")
-      .then((res) => {
-        setWorkers(res.data); // Expecting each worker to have firstName and lastName fields
-      })
-      .catch((err) => {
-        console.error("Error fetching workers:", err);
-      });
+    axios.get("http://localhost:5000/WorkerRegister")
+      .then(res => setWorkers(res.data))
+      .catch(err => console.error("Error fetching workers:", err));
   }, []);
 
-  // Function to mark attendance and update calendar data
+  // Fetch selected worker’s attendance
+  useEffect(() => {
+    if (selectedWorker) {
+      fetchWorkerAttendance(selectedWorker.id);
+    }
+  }, [selectedWorker, todayISO]);
+
+  const fetchWorkerAttendance = async (workerId) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/attendance/worker/${workerId}`);
+      const dates = res.data.attendances.map(date => date.slice(0, 10));
+      setAttendanceDates(dates);
+      setAttendanceMarked(dates.includes(todayISO));
+    } catch (error) {
+      console.error("Error fetching attendance:", error);
+    }
+  };
+
   const markAttendance = async () => {
     if (!selectedWorker) return;
     try {
       const res = await axios.post("http://localhost:5000/attendance/mark", {
         worker_id: selectedWorker.id,
       });
+
       if (res.status === 200) {
         setMessage("Attendance marked successfully!");
-        const attendanceRes = await axios.get(
-          `http://localhost:5000/attendance/worker/${selectedWorker.id}`
-        );
-        const formattedAttendances = attendanceRes.data.attendances.map(
-          (date) => date.slice(0, 10)
-        );
-        setAttendanceDates(formattedAttendances);
-        setAttendanceMarked(formattedAttendances.includes(todayISO));
+        await fetchWorkerAttendance(selectedWorker.id);
         setShowCalendarModal(false);
       }
     } catch (error) {
-      // If attendance was already marked, still update state with the full data
-      if (
-        error.response &&
-        error.response.status === 400 &&
-        error.response.data.message === "Attendance already marked for today."
-      ) {
-        try {
-          const attendanceRes = await axios.get(
-            `http://localhost:5000/attendance/worker/${selectedWorker.id}`
-          );
-          const formattedAttendances = attendanceRes.data.attendances.map(
-            (date) => date.slice(0, 10)
-          );
-          setAttendanceDates(formattedAttendances);
-          setAttendanceMarked(true);
-          setMessage(error.response.data.message);
-        } catch (err) {
-          console.error("Error re-fetching attendance:", err);
-          setMessage("Attendance already marked but failed to update calendar.");
-        }
+      if (error.response?.status === 400 &&
+          error.response.data.message === "Attendance already marked for today.") {
+        setMessage(error.response.data.message);
+        await fetchWorkerAttendance(selectedWorker.id);
       } else {
         console.error("Error marking attendance:", error);
         setMessage("Failed to mark attendance. Please try again.");
@@ -94,7 +65,6 @@ const OwnerMarksWorkerAttendance = () => {
     }
   };
 
-  // Generate an array of Date objects and empty cells for the current month's calendar
   const generateCalendar = () => {
     const year = today.getFullYear();
     const month = today.getMonth();
@@ -103,31 +73,36 @@ const OwnerMarksWorkerAttendance = () => {
     const daysInMonth = lastDay.getDate();
     const startDay = firstDay.getDay();
     let daysArray = [];
-    for (let i = 0; i < startDay; i++) {
-      daysArray.push(null);
-    }
+
+    for (let i = 0; i < startDay; i++) daysArray.push(null);
     for (let d = 1; d <= daysInMonth; d++) {
       daysArray.push(new Date(year, month, d));
     }
+
     return daysArray;
   };
 
   return (
     <div>
-            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="worker-attendance-container">
         <h2>Worker Attendance</h2>
         <p>Today: {todayDisplay}</p>
+
         {!selectedWorker ? (
-          <button onClick={() => setShowWorkerModal(true)}>Select Worker</button>
+          <button onClick={() => setShowWorkerModal(true)}>
+            Select Worker
+          </button>
         ) : (
           <div>
             <p>
-              Selected Worker:{" "}
-              {selectedWorker.firstName + " " + selectedWorker.lastName}
+              Selected Worker: {selectedWorker.firstName} {selectedWorker.lastName}
             </p>
-            <button onClick={markAttendance} disabled={attendanceMarked}>
+            <button
+              onClick={markAttendance}
+              disabled={attendanceMarked}
+              className={attendanceMarked ? "btn-disabled" : ""}
+            >
               {attendanceMarked ? "Attendance Marked" : "Mark Attendance"}
             </button>
             <button onClick={() => setShowCalendarModal(true)}>
@@ -145,118 +120,76 @@ const OwnerMarksWorkerAttendance = () => {
             </button>
           </div>
         )}
+
         {message && <p className="attendance-message">{message}</p>}
       </div>
 
-      {/* Modal for Worker Selection */}
+      {/* Worker Selection Modal */}
       {showWorkerModal && (
-        <div
-          className="modal show fade d-block"
-          tabIndex="-1"
-          role="dialog"
-          onClick={() => setShowWorkerModal(false)}
-        >
-          <div
-            className="modal-dialog"
-            role="document"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Select Worker</h5>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={() => setShowWorkerModal(false)}
-                >
-                  <span>&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <select
-                  className="form-control"
-                  onChange={(e) => {
-                    const workerId = e.target.value;
-                    const worker = workers.find((w) => w.id == workerId);
-                    setSelectedWorker(worker);
-                  }}
-                >
-                  <option value="">-- Select a Worker --</option>
-                  {workers.map((worker) => (
-                    <option key={worker.id} value={worker.id}>
-                      {worker.firstName + " " + worker.lastName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowWorkerModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => setShowWorkerModal(false)}
-                >
-                  Confirm
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            className="modal-backdrop fade show"
-            onClick={() => setShowWorkerModal(false)}
-          ></div>
+  <div className="modal show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+    <div className="modal-dialog modal-dialog-centered" role="document">
+      <div className="modal-content shadow-lg rounded">
+        <div className="modal-header bg-primary text-white">
+          <h5 className="modal-title">Select a Worker</h5>
+          <button type="button" className="close text-white" onClick={() => setShowWorkerModal(false)}>
+            <span>&times;</span>
+          </button>
         </div>
-      )}
-
-      {/* Modal for Attendance Calendar View */}
-      {showCalendarModal && selectedWorker && (
-        <div
-          className="modal show fade d-block"
-          tabIndex="-1"
-          role="dialog"
-          onClick={() => setShowCalendarModal(false)}
-        >
-          <div
-            className="modal-dialog"
-            role="document"
-            onClick={(e) => e.stopPropagation()}
+        <div className="modal-body">
+          <label htmlFor="workerSelect" className="form-label">Choose from the list:</label>
+          <select
+            id="workerSelect"
+            className="form-control"
+            onChange={(e) => {
+              const selectedId = e.target.value;
+              const worker = workers.find(w => w.id == selectedId);
+              setSelectedWorker(worker || null);
+              setShowWorkerModal(false); // Close modal after selection (optional)
+            }}
           >
+            <option value="">-- Select a Worker --</option>
+            {workers.map(worker => (
+              <option key={worker.id} value={worker.id}>
+                {worker.firstName} {worker.lastName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" onClick={() => setShowWorkerModal(false)}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+      {/* Calendar Modal */}
+      {showCalendarModal && selectedWorker && (
+        <div className="modal show fade d-block" onClick={() => setShowCalendarModal(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">
-                  Attendance Calendar for{" "}
-                  {selectedWorker.firstName + " " + selectedWorker.lastName}
+                <h5>
+                  Attendance Calendar for {selectedWorker.firstName} {selectedWorker.lastName}
                 </h5>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={() => setShowCalendarModal(false)}
-                >
-                  <span>&times;</span>
+                <button className="close" onClick={() => setShowCalendarModal(false)}>
+                  &times;
                 </button>
               </div>
               <div className="modal-body">
                 <div className="calendar-grid">
-                  {generateCalendar().map((date, index) => {
+                  {generateCalendar().map((date, idx) => {
                     if (!date) {
-                      return (
-                        <div key={index} className="calendar-cell empty-cell"></div>
-                      );
+                      return <div key={idx} className="calendar-cell empty-cell"></div>;
                     }
-                    const dateISO = date.toISOString().slice(0, 10);
-                    const attended = attendanceDates.includes(dateISO);
+                    const isoDate = date.toISOString().slice(0, 10);
+                    const isMarked = attendanceDates.includes(isoDate);
                     return (
                       <div
-                        key={index}
-                        className={`calendar-cell ${
-                          attended ? "attended-cell" : "not-attended-cell"
-                        }`}
+                        key={idx}
+                        className={`calendar-cell ${isMarked ? "attended-cell" : "not-attended-cell"}`}
                       >
                         {date.getDate()}
                       </div>
@@ -266,28 +199,16 @@ const OwnerMarksWorkerAttendance = () => {
               </div>
               <div className="modal-footer">
                 {!attendanceMarked && (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={markAttendance}
-                  >
+                  <button className="btn btn-primary" onClick={markAttendance}>
                     Mark Attendance for Today
                   </button>
                 )}
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowCalendarModal(false)}
-                >
+                <button className="btn btn-secondary" onClick={() => setShowCalendarModal(false)}>
                   Close
                 </button>
               </div>
             </div>
           </div>
-          <div
-            className="modal-backdrop fade show"
-            onClick={() => setShowCalendarModal(false)}
-          ></div>
         </div>
       )}
     </div>
