@@ -18,7 +18,6 @@ import {
   import { NavLink } from 'react-router-dom';
   import {
     FiHome,
-    FiCheckCircle,
     FiUsers,
     FiUserPlus,
     FiShoppingCart,
@@ -28,7 +27,9 @@ import {
     FiPackage,
     FiLayers,
     FiCalendar,
-    FiFileText
+    FiFileText,
+    FiClock,
+    FiThumbsUp
   } from 'react-icons/fi';
   import MenuIcon from '@mui/icons-material/Menu';
   import { ExpandLess, ExpandMore } from '@mui/icons-material';
@@ -86,37 +87,51 @@ import {
             </ListItem>
             <Divider />
   
-            {/* Orders Menu with Collapse */}
-            <ListItem button onClick={handleOrdersMenuClick} className="custom-nav-item-orders">
-              <ListItemIcon className="custom-nav-icon-orders"><FiCheckCircle /></ListItemIcon>
-              <ListItemText primary="Orders" className="custom-nav-text-orders" />
-              {openOrdersMenu ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={openOrdersMenu} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem
-                  button
-                  component={NavLink}
-                  to="/Orders/PendingOrders"
-                  className="custom-nav-subitem-pending"
-                  sx={{ pl: 4 }}
-                >
-                  <ListItemIcon><FiFileText /></ListItemIcon>
-                  <ListItemText primary="Pending Orders" />
-                </ListItem>
-                <ListItem
-                  button
-                  component={NavLink}
-                  to="/Orders/Approved"
-                  className="custom-nav-subitem-approved"
-                  sx={{ pl: 4 }}
-                >
-                  <ListItemIcon><FiCheckCircle /></ListItemIcon>
-                  <ListItemText primary="Approved Orders" />
-                </ListItem>
-              </List>
-            </Collapse>
-            <Divider />
+                          {/* Orders Menu with Collapse */}
+              <ListItem button onClick={handleOrdersMenuClick} className="custom-nav-item-orders">
+                <ListItemIcon className="custom-nav-icon-orders"><FiShoppingCart /></ListItemIcon>
+                <ListItemText primary="Orders" className="custom-nav-text-orders" />
+                {openOrdersMenu ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+
+              <Collapse in={openOrdersMenu} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem
+                    button
+                    component={NavLink}
+                    to="/Orders/PendingOrders"
+                    className="custom-nav-subitem-pending"
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon><FiClock /></ListItemIcon>
+                    <ListItemText primary="Pending Orders" />
+                  </ListItem>
+
+                  <ListItem
+                    button
+                    component={NavLink}
+                    to="/Orders/Approved"
+                    className="custom-nav-subitem-approved"
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon><FiThumbsUp /></ListItemIcon>
+                    <ListItemText primary="Approved Orders" />
+                  </ListItem>
+
+                  <ListItem
+                    button
+                    component={NavLink}
+                    to="/Orders/CompleteOrders"
+                    className="custom-nav-subitem-complete"
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon><FiPackage /></ListItemIcon>
+                    <ListItemText primary="Complete Orders" />
+                  </ListItem>
+                </List>
+              </Collapse>
+              <Divider />
+
   
             <ListItem button component={NavLink} to="/AssignWorker" className="custom-nav-item-assign-worker">
               <ListItemIcon className="custom-nav-icon-assign-worker"><FiUsers /></ListItemIcon>
