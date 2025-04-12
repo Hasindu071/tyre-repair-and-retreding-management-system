@@ -1,119 +1,134 @@
-
 /* Container */
 .see-owner-payment-container {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 30px;
-    background: linear-gradient(135deg, #ffffff, #f3f4f6);
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    transition: 0.3s;
-  }
-  
-  /* Title */
-  .title {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Table */
-  .table-wrapper {
-    overflow-x: auto;
-  }
-  
-  .payment-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .payment-table th,
-  .payment-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-  }
-  
-  .payment-table th {
-    background-color: #575455;
-    color: white;
-  }
-  
-  .payment-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  /* Status Colors */
-  .paid {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .pending {
-    color: red;
-    font-weight: bold;
-  }
-  
-  /* Add Payment Form */
-  .add-payment-section {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .add-payment-section h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #ff0000;
-  }
-  
-  /* Form */
-  .payment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .payment-form input,
-  .payment-form select {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .submit-btn {
-    background-color: #ff0040;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .submit-btn:hover {
-    background-color: #b30000;
-  }
-  
-  /* Responsive */
-  @media screen and (max-width: 768px) {
-    .payment-table th, .payment-table td {
-      font-size: 14px;
-      padding: 8px;
-    }
-  
-    .payment-form input,
-    .payment-form select {
-      font-size: 14px;
-    }
-  
-    .submit-btn {
-      font-size: 14px;
-    }
-  }
-  
+  padding: 30px;
+  margin-left: 250px; /* assuming sidebar width */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+/* Title */
+.title-payment {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+/* Table Styling */
+.table-wrapper-payment {
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  padding: 20px;
+}
+
+.payment-table-payment {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payment-table-payment th,
+.payment-table-payment td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.payment-table-payment thead {
+  background-color: #000000;
+  color: rgb(7, 7, 7);
+}
+
+.payment-table-payment tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.payment-table-payment tr:hover {
+  background-color: #e6f0ff;
+}
+
+.payment-table-payment .paid {
+  color: green;
+  font-weight: bold;
+}
+
+.payment-table-payment .pending {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+/* Button Styles */
+.add-payment-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-payment-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.edit-btn {
+  padding: 6px 14px;
+  background-color: #ffc107;
+  border: none;
+  color: #343a40;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Modal Overrides */
+.modal-content {
+  border-radius: 10px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  background-color: #0d6efd;
+  color: white;
+  border-bottom: none;
+  padding: 16px 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+}
+
+.btn-close {
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-body .form-control,
+.modal-body .form-select {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  box-shadow: none;
+}
+
+.modal-footer {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Toast overrides if needed */
+.Toastify__toast {
+  border-radius: 8px;
+  font-size: 0.95rem;
+}

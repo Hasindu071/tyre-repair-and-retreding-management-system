@@ -173,10 +173,10 @@ const SeePayment = () => {
       {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="see-owner-payment-container">
-        <h2 className="title">Payment Records</h2>
+        <h2 className="title-payment">Payment Records</h2>
         {/* Payment Table */}
-        <div className="table-wrapper">
-          <table className="payment-table">
+        <div className="table-wrapper-payment">
+          <table className="payment-table-payment">
             <thead>
               <tr>
                 <th>ID</th>
