@@ -36,6 +36,7 @@ const OwnerSeeCompleteOrders = () => {
                 <th>Order Date</th>
                 <th>Status</th>
                 <th>Worker</th>
+                <th>Total Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -47,6 +48,7 @@ const OwnerSeeCompleteOrders = () => {
               <td>{task.order_date || "N/A"}</td>
               <td>{task.status}</td>
               <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
+              <td>{task.TotalAmount}</td>
             </tr>
           ))
         ) : (
