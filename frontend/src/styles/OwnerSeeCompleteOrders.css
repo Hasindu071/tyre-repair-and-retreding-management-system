@@ -34,7 +34,7 @@
 }
 
 .orders-table th {
-    background-color: #007bff;
+    background-color: #090909;
     color: #fff;
     font-weight: 600;
 }
@@ -46,3 +46,20 @@
 .orders-table tr:hover {
     background-color: #f1f1f1;
 }
+
+.action-label {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .zero-amount {
+    background-color: #f44336; /* Red background for zero amount */
+    color: #fff;
+  }
+  
+  .nonzero-amount {
+    background-color: #4caf50; /* Green background for nonzero amount */
+    color: #fff;
+  }
