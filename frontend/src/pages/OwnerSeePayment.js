@@ -182,6 +182,8 @@ const SeePayment = () => {
                 <th>ID</th>
                 <th>Month Attendance Dates</th>
                 <th>Amount ($)</th>
+                <th>Bonus ($)</th>
+                <th>Note</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Worker</th>
@@ -194,6 +196,8 @@ const SeePayment = () => {
                   <td>{payment.id}</td>
                   <td>{payment.MonthAttendDates}</td>
                   <td>${payment.amount}</td>
+                  <td>${payment.bonus}</td>
+                  <td>{payment.note}</td>
                   <td>{payment.date}</td>
                   <td className={payment.status === "Paid" ? "paid" : "pending"}>
                     {payment.status}
