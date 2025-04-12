@@ -68,7 +68,7 @@ import {
             width: 240,
             flexShrink: 0,
             '& .MuiDrawer-paper': {
-              width: 220,
+              width: 260,
               boxSizing: 'border-box',
               paddingTop: '20px'
             }
