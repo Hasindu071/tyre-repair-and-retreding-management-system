@@ -4,16 +4,22 @@ const db = require('../config/db'); // Import the database connection
 
 // Route to save customer payment
 router.post('/savePayment', async (req, res) => {
-    const { customerName, amount, paymentDate, paymentMethod } = req.body;
+    const { customerName, amount, paymentDate, paymentMethod, serviceId } = req.body;
 
-    if (!customerName || !amount || !paymentDate || !paymentMethod) {
+    if (!customerName || !amount || !paymentDate || !paymentMethod || !serviceId) {
         return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
 
     try {
+        // Save the payment record in customer_payments table
         const query = 'INSERT INTO customer_payments (customer_name, amount, payment_date, payment_method) VALUES (?, ?, ?, ?)';
         await db.promise().execute(query, [customerName, amount, paymentDate, paymentMethod]);
-        res.status(201).json({ success: true, message: 'Payment record saved successfully.' });
+
+        // Update the corresponding service record's total_amount column
+        const updateQuery = 'UPDATE services SET total_amount = ? WHERE service_id = ?';
+        await db.promise().execute(updateQuery, [amount, serviceId]);
+
+        res.status(201).json({ success: true, message: 'Payment record saved and service updated successfully.' });
     } catch (error) {
         console.error('Error saving payment record:', error);
         res.status(500).json({ success: false, message: 'Server error.' });

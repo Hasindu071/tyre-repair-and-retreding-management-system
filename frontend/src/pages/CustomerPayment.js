@@ -5,26 +5,28 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CustomerPayment = () => {
+  // Initialize formData with today's date and an empty serviceId
   const [formData, setFormData] = useState({
     customerName: "",
     amount: "",
-    paymentDate: new Date().toISOString().split("T")[0], // initialize with today's date
+    paymentDate: new Date().toISOString().split("T")[0],
     paymentMethod: "Credit Card",
+    serviceId: "",
   });
 
   const [payments, setPayments] = useState([]);
   const [incompleteOrders, setIncompleteOrders] = useState([]);
 
-  // Fetch all data on load
+  // Fetch the lists on mount
   useEffect(() => {
     fetchPayments();
     fetchIncompleteOrders();
   }, []);
 
-  // Fetch orders with total amount = 0
+  // Fetch orders with total amount = 0 (pending orders)
   const fetchIncompleteOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/orders/getCompletedTasks");
+      const response = await fetch("http://localhost:5000/orders//getCompletedTotalAmount0Tasks");
       const data = await response.json();
       setIncompleteOrders(data);
     } catch (error) {
@@ -33,7 +35,7 @@ const CustomerPayment = () => {
     }
   };
 
-  // Fetch submitted payments
+  // Fetch submitted payment records
   const fetchPayments = async () => {
     try {
       const response = await fetch("http://localhost:5000/CustomerPayment/getPayments");
@@ -45,7 +47,7 @@ const CustomerPayment = () => {
     }
   };
 
-  // Handle input change
+  // Handle input change for the payment form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -54,19 +56,28 @@ const CustomerPayment = () => {
     }));
   };
 
-  // Handle auto-filling from an incomplete order (total amount = 0)
+  // Auto-fill the payment form when an incomplete order is selected.
+  // Note: serviceId is set using the order_id from the selected order.
   const handleAutoFill = (order) => {
     setFormData({
       customerName: order.customerFirstName ? `${order.customerFirstName} ${order.customerLastName}` : "",
-      amount: order.TotalAmount, // this will be 0 initially but can be updated by owner
+      amount: order.TotalAmount, // Typically 0; owner can update this field
       paymentDate: new Date().toISOString().split("T")[0],
       paymentMethod: "Credit Card",
+      serviceId: order.service_id, // Use order_id to update the related service's total_amount
     });
   };
 
-  // Handle form submit for customer payment
+  // Submit the payment form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate that serviceId is present (auto-fill must have been used)
+    if (!formData.serviceId) {
+      toast.error("Please select a pending payment record using the eye button.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:5000/CustomerPayment/savePayment", {
         method: "POST",
@@ -76,14 +87,16 @@ const CustomerPayment = () => {
 
       if (response.ok) {
         toast.success("Payment record submitted successfully.");
+        // Reset form after submission – note the paymentDate is re-initialized
         setFormData({
           customerName: "",
           amount: "",
-          paymentDate: "",
+          paymentDate: new Date().toISOString().split("T")[0],
           paymentMethod: "Credit Card",
+          serviceId: "",
         });
         fetchPayments();
-        fetchIncompleteOrders(); // Refresh pending orders in case payment is now updated
+        fetchIncompleteOrders(); // Refresh pending orders in case the service was updated
       } else {
         toast.error("Error submitting payment record.");
       }
@@ -100,43 +113,43 @@ const CustomerPayment = () => {
         <h2 className="title">Pending Payments (Total = 0)</h2>
         <table className="payment-table">
           <thead>
-              <tr>
-                <th>Service ID</th>
-                <th>Customer</th>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Worker</th>
-                <th>Total Amount</th>
-                <th>Actions</th>
-              </tr>
+            <tr>
+              <th>Service ID</th>
+              <th>Customer</th>
+              <th>Order Date</th>
+              <th>Status</th>
+              <th>Worker</th>
+              <th>Total Amount</th>
+              <th>Actions</th>
+            </tr>
           </thead>
           <tbody>
-              {incompleteOrders.length > 0 ? (
-                incompleteOrders.map((task) => (
-                  <tr key={task.id}>
-                    <td>{task.order_id}</td>
-                    <td>{task.customerFirstName ? `${task.customerFirstName} ${task.customerLastName}` : "N/A"}</td>
-                    <td>{task.order_date || "N/A"}</td>
-                    <td>{task.status}</td>
-                    <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
-                    <td>{task.TotalAmount}</td>
-                    <td>
-                      <button
-                        onClick={() => handleAutoFill(task)}
-                        className="eye-btn"
-                        title="View and Pay"
-                      >
-                        👁
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7">No pending payments found.</td>
+            {incompleteOrders.length > 0 ? (
+              incompleteOrders.map((task) => (
+                <tr key={task.id}>
+                  <td>{task.order_id}</td>
+                  <td>{task.customerFirstName ? `${task.customerFirstName} ${task.customerLastName}` : "N/A"}</td>
+                  <td>{task.order_date || "N/A"}</td>
+                  <td>{task.status}</td>
+                  <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
+                  <td>{task.TotalAmount}</td>
+                  <td>
+                    <button
+                      onClick={() => handleAutoFill(task)}
+                      className="eye-btn"
+                      title="View and Pay"
+                    >
+                      👁
+                    </button>
+                  </td>
                 </tr>
-              )}
-            </tbody>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">No pending payments found.</td>
+              </tr>
+            )}
+          </tbody>
         </table>
 
         <br />
@@ -194,7 +207,9 @@ const CustomerPayment = () => {
             </select>
           </div>
 
-          <button type="submit" className="submit-btn">Submit Payment</button>
+          <button type="submit" className="submit-btn">
+            Submit Payment
+          </button>
         </form>
 
         <br />
