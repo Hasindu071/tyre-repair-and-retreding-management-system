@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-//import Navbar from "../components/Navbars/OwnerRegiNavBar"; // Import the Navbar component
-import OwnerSidebar from "../components/SideNav"; // Import the Sidebar component
-import "../styles/CustomerPayment.css"; // Import CSS file
+import OwnerSidebar from "../components/SideNav"; // Your sidebar component
+import "../styles/CustomerPayment.css"; // Custom CSS
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,47 +8,32 @@ const CustomerPayment = () => {
   const [formData, setFormData] = useState({
     customerName: "",
     amount: "",
-    paymentDate: "",
+    paymentDate: new Date().toISOString().split("T")[0], // initialize with today's date
     paymentMethod: "Credit Card",
   });
 
   const [payments, setPayments] = useState([]);
+  const [incompleteOrders, setIncompleteOrders] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  // Fetch all data on load
+  useEffect(() => {
+    fetchPayments();
+    fetchIncompleteOrders();
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Fetch orders with total amount = 0
+  const fetchIncompleteOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/CustomerPayment/savePayment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        toast.success("Payment record submitted successfully.");
-        // Reset form
-        setFormData({
-          customerName: "",
-          amount: "",
-          paymentDate: "",
-          paymentMethod: "Credit Card",
-        });
-        // Fetch updated payment records
-        fetchPayments();
-      } else {
-        toast.error("Error submitting payment record.");
-        console.error("Error submitting payment record");
-      }
+      const response = await fetch("http://localhost:5000/orders/getCompletedTasks");
+      const data = await response.json();
+      setIncompleteOrders(data);
     } catch (error) {
-      console.error("Error submitting payment record:", error);
-      toast.error("Error submitting payment record.");
+      console.error("Error fetching incomplete orders:", error);
+      toast.error("Error fetching incomplete orders.");
     }
   };
 
+  // Fetch submitted payments
   const fetchPayments = async () => {
     try {
       const response = await fetch("http://localhost:5000/CustomerPayment/getPayments");
@@ -61,16 +45,102 @@ const CustomerPayment = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPayments();
-  }, []);
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handle auto-filling from an incomplete order (total amount = 0)
+  const handleAutoFill = (order) => {
+    setFormData({
+      customerName: order.customerFirstName ? `${order.customerFirstName} ${order.customerLastName}` : "",
+      amount: order.TotalAmount, // this will be 0 initially but can be updated by owner
+      paymentDate: new Date().toISOString().split("T")[0],
+      paymentMethod: "Credit Card",
+    });
+  };
+
+  // Handle form submit for customer payment
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/CustomerPayment/savePayment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast.success("Payment record submitted successfully.");
+        setFormData({
+          customerName: "",
+          amount: "",
+          paymentDate: "",
+          paymentMethod: "Credit Card",
+        });
+        fetchPayments();
+        fetchIncompleteOrders(); // Refresh pending orders in case payment is now updated
+      } else {
+        toast.error("Error submitting payment record.");
+      }
+    } catch (error) {
+      console.error("Error submitting payment record:", error);
+      toast.error("Error submitting payment record.");
+    }
+  };
 
   return (
-    <>
-            {/*<Navbar />*/}
+    <React.Fragment>
       <OwnerSidebar />
       <div className="customer-payment-container">
-        <h2 className="title">Customer Payment</h2>
+        <h2 className="title">Pending Payments (Total = 0)</h2>
+        <table className="payment-table">
+          <thead>
+              <tr>
+                <th>Service ID</th>
+                <th>Customer</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Worker</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              {incompleteOrders.length > 0 ? (
+                incompleteOrders.map((task) => (
+                  <tr key={task.id}>
+                    <td>{task.order_id}</td>
+                    <td>{task.customerFirstName ? `${task.customerFirstName} ${task.customerLastName}` : "N/A"}</td>
+                    <td>{task.order_date || "N/A"}</td>
+                    <td>{task.status}</td>
+                    <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
+                    <td>{task.TotalAmount}</td>
+                    <td>
+                      <button
+                        onClick={() => handleAutoFill(task)}
+                        className="eye-btn"
+                        title="View and Pay"
+                      >
+                        👁
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7">No pending payments found.</td>
+                </tr>
+              )}
+            </tbody>
+        </table>
+
+        <br />
+        <h2 className="title">Submit Customer Payment</h2>
         <form onSubmit={handleSubmit} className="payment-form">
           <div className="form-group">
             <label htmlFor="customerName">Customer Name</label>
@@ -83,6 +153,7 @@ const CustomerPayment = () => {
               required
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="amount">Amount</label>
             <input
@@ -94,6 +165,7 @@ const CustomerPayment = () => {
               required
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="paymentDate">Payment Date</label>
             <input
@@ -105,6 +177,7 @@ const CustomerPayment = () => {
               required
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="paymentMethod">Payment Method</label>
             <select
@@ -120,11 +193,13 @@ const CustomerPayment = () => {
               <option value="Bank Transfer">Bank Transfer</option>
             </select>
           </div>
+
           <button type="submit" className="submit-btn">Submit Payment</button>
         </form>
+
         <br />
         <br />
-        <h2 className="title">Payment Records</h2>
+        <h2 className="title">All Payment Records</h2>
         <table className="payment-table">
           <thead>
             <tr>
@@ -147,9 +222,9 @@ const CustomerPayment = () => {
             ))}
           </tbody>
         </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </>
+    </React.Fragment>
   );
 };
 
