@@ -1,144 +1,74 @@
-/* General container styling */
 .owner-stock-container {
-    max-width: 900px;
-    margin: 50px auto;
+    margin-left: 250px;
     padding: 30px;
-    background: linear-gradient(135deg, #ffffff, #f3f4f6);
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    transition: 0.3s;
-}
-
-.owner-stock-container:hover {
-    transform: scale(1.02);
-}
-
-/* Title Styling */
-.title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #2c3e50;
+    background-color: #f4f6f8;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .title {
+    font-size: 26px;
+    font-weight: 600;
     margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Table Styling */
-.stock-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.stock-table th {
-    background-color: #545455;
-    color: white;
-    padding: 12px;
-    text-transform: uppercase;
-}
-
-.stock-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
-    color: #555;
-}
-
-.stock-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.stock-table tr:hover {
-    background-color: #e3f2fd;
-    transition: 0.3s;
-}
-
-/* Input Styling */
-.stock-table input {
-    width: 70px;
-    padding: 8px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-.stock-table input:focus {
-    border-color: #202021;
-    outline: none;
-    transform: scale(1.1);
-}
-
-/* Button Styling */
-.update-stock-btn {
-    margin-top: 25px;
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #a72828, #882121);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-}
-
-.update-stock-btn:hover {
-    background: linear-gradient(135deg, #882121, #7e311e);
-    transform: scale(1.05);
-}
-
-.update-stock-btn,
-.add-product-btn {
-    padding: 10px 20px;
-    background-color: #ed2e81;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-.update-stock-btn:hover,
-.add-product-btn:hover {
-    background-color: #d8459d;
-}
-
-.add-product-form {
+    color: #333;
+  }
+  
+  .product-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .product-info {
+    font-size: 18px;
+    color: #444;
+  }
+  
+  .product-card input[type="number"] {
+    width: 100px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+  }
+  
+  .update-stock-btn,
+  .add-product-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .update-stock-btn:hover,
+  .add-product-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .add-product-form {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
     margin-top: 20px;
-}
-.add-product-form input {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    display: flex;
+    gap: 10px;
+  }
+  
+  .add-product-form input {
+    flex: 1;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .owner-stock-container {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .stock-table th,
-    .stock-table td {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .update-stock-btn {
-        font-size: 16px;
-        padding: 10px 20px;
-    }
-}
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
