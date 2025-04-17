@@ -230,18 +230,31 @@ router.put('/completeOrder/:id', async (req, res) => {
   router.post("/getOrders", async (req, res) => {
     const { customer, task, assignedWorker } = req.body;
   
-    try {
-      const emp_id = assignedWorker;
-      const order_date = new Date();
-      const progress = "0%";
-      const total_amount = task;
-      const service_id = customer;
+    const emp_id = assignedWorker;
+    const order_date = new Date();
+    const progress = "0%";
+    const total_amount = task;
+    const service_id = customer;
   
+    try {
+      // Start transaction
+      await db.promise().query("START TRANSACTION");
+  
+      // Insert into orders table
       const [result] = await db.promise().query(
         `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date, status)
          VALUES (?, ?, ?, ?, ?, "Pending")`,
-        [service_id, emp_id, total_amount, progress, order_date, "Pending"]
+        [service_id, emp_id, total_amount, progress, order_date]
       );
+  
+      // Update the services table
+      await db.promise().query(
+        `UPDATE services SET status = "Approved" WHERE service_id = ?`,
+        [service_id]
+      );
+  
+      // Commit the transaction
+      await db.promise().query("COMMIT");
   
       const newOrder = {
         id: result.insertId,
@@ -252,9 +265,13 @@ router.put('/completeOrder/:id', async (req, res) => {
   
       res.status(201).json(newOrder);
     } catch (error) {
+      // Rollback on any error
+      await db.promise().query("ROLLBACK");
       console.error("Error adding new order:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   });
+  
+  
   
 module.exports = router;

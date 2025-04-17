@@ -173,7 +173,7 @@ router.put('/approveRepair/:id', async (req, res) => {
     updateRepairStatus(
         req,
         res,
-        'Approved',
+        'Checking',
         "Repair service approved successfully",
         "Error approving repair service"
     );

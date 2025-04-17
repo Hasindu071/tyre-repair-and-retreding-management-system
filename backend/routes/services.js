@@ -44,11 +44,8 @@ router.get('/getRetreadings', async (req, res) => {
 router.get('/approvedOrders', async (req, res) => {
   try {
     const [rows] = await db.promise().query(`
-      SELECT s.*, o.*
-      FROM services s
-      JOIN orders o ON s.service_id = o.service_id
-      WHERE s.status = 'Approved'
-        AND o.status = 'Pending'
+      SELECT * FROM services 
+      where status = 'Checking'
     `);
     res.status(200).json(rows);
   } catch (error) {
