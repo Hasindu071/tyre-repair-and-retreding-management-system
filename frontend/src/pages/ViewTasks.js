@@ -24,7 +24,9 @@ const ViewTasks = () => {
                 return;
             }
             try {
-                const response = await axios.get("http://localhost:5000/services/getAssignedOrders");
+                const response = await axios.get("http://localhost:5000/services/getAssignedOrders", {
+                    params: { workerId: currentWorkerId }  // Only get tasks for this worker
+                });
                 setTasks(response.data);
             } catch (err) {
                 console.error("Error fetching tasks:", err);
@@ -33,7 +35,7 @@ const ViewTasks = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchTasks();
     }, [currentWorkerId]);
 

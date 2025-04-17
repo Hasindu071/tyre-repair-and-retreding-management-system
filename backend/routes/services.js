@@ -61,14 +61,24 @@ router.get('/approvedOrders', async (req, res) => {
 // Endpoint to fetch all service details for the approved orders
 router.get('/getAssignedOrders', async (req, res) => {
   try {
-    const [orders] = await db.promise().query(`
+    const { workerId } = req.query; // Optional: filter by assigned worker
+
+    let query = `
       SELECT o.*, s.service_id, s.status AS service_status, s.receiveDate, s.notes, s.tireBrand, s.internalStructure, 
-                   e.firstName, e.lastName
+             e.firstName, e.lastName
       FROM orders o
       JOIN services s ON o.service_id = s.service_id
-            LEFT JOIN worker_register e ON o.emp_id = e.id
+      LEFT JOIN worker_register e ON o.emp_id = e.id
       WHERE s.status = 'Approved'
-    `);
+    `;
+    const params = [];
+
+    if (workerId) {
+      query += " AND o.emp_id = ?";
+      params.push(workerId);
+    }
+
+    const [orders] = await db.promise().query(query, params);
 
     // Fetch corresponding repair or retreading details based on service_id
     const detailedOrders = await Promise.all(orders.map(async (order) => {
