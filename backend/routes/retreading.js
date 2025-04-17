@@ -133,7 +133,7 @@ const updateRetreadingStatus = async (req, res, newStatus, successMessage, error
 
 // Approve Retreading (similar to repair approval)
 router.put('/approveRetreading/:id', (req, res) =>
-    updateRetreadingStatus(req, res, 'Approved', 'Retreading approved successfully.', 'Error approving retreading')
+    updateRetreadingStatus(req, res, 'Checking', 'Retreading approved successfully.', 'Error approving retreading')
 );
 
 // Reject Retreading (similar to repair rejection)
