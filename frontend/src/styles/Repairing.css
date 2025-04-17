@@ -21,7 +21,7 @@
   color: #ff7700;
 }
 
-/* Input Groups */
+/* Repair Input Group Styles */
 .repair-input-group {
   display: flex;
   flex-direction: column;
@@ -29,7 +29,20 @@
   margin-bottom: 20px;
 }
 
-.repair-input-group input {
+.repair-input-group .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label Styling */
+.repair-input-group .form-group label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Input Field Styling */
+.repair-input-group .form-group input {
   padding: 12px;
   font-size: 16px;
   border-radius: 8px;
@@ -37,6 +50,13 @@
   background: #f0efef;
   color: rgb(21, 21, 21);
   outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus Effect */
+.repair-input-group .form-group input:focus {
+  border-color: #ff5500;
+  box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
 }
 
 /* Radio Group */
@@ -199,4 +219,45 @@
 .react-datepicker__day--selected {
     background-color: #ff5500;
     color: #fff;
+}
+
+/* Creative styling for the repair-radio-group */
+.repair-radio-group {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #fff5f0;
+  border: 2px dashed #ff7700;
+  border-radius: 8px;
+  padding: 10px;
+  gap: 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.repair-radio-group:hover {
+  background: #ffece6;
+}
+
+.repair-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+  color: #333;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.repair-radio-group label:hover {
+  transform: scale(1.05);
+  color: #ff8a76;
+}
+
+.repair-radio-group input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #ff5d57; /* Modern browser support */
+  margin-right: 5px;
 }
