@@ -187,7 +187,7 @@ import {
             </ListItem>
             <Divider />
   
-            <ListItem button component={NavLink} to="/OwnerDashboard/WorkerAttendance" className="custom-nav-item-attendance">
+            <ListItem button component={NavLink} to="/Owner/WorkerAttendance" className="custom-nav-item-attendance">
               <ListItemIcon className="custom-nav-icon-attendance"><FiCalendar /></ListItemIcon>
               <ListItemText primary="Attendance" className="custom-nav-text-attendance" />
             </ListItem>

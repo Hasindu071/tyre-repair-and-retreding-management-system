@@ -127,7 +127,7 @@ function App() {
             <Route path="/CustomerSeePaymentBilling" element={<CustomerSeePaymentBilling />} />
             <Route path="/WorkerSeePaymentBilling" element={<WorkerSeePaymentBilling />} />
             <Route path="/UpdateTirePatterns" element={<UpdateTirePatterns />} />
-            <Route path="/OwnerDashboard/WorkerAttendance" element={<WorkerAttendance />} />
+            <Route path="/Owner/WorkerAttendance" element={<WorkerAttendance />} />
             <Route path="/WokerAttendance" element={<MyAttendance />} />
             <Route path="/owner/reset-password" element={<ResetPassword/>} />  
             <Route path="/worker/reset-password" element={<WorkerResetPassword/>} />  

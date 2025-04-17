@@ -35,8 +35,7 @@
 }
 
 .payment-table-payment thead {
-  background-color: #000000;
-  color: rgb(7, 7, 7);
+  color: rgb(255, 252, 252);
 }
 
 .payment-table-payment tr:nth-child(even) {
