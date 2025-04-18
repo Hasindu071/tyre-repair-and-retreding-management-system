@@ -5,24 +5,25 @@ import "../styles/MyOrders.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext"; // ✅ Using the correct Auth hook
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyOrders = () => {
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    if (user?.id) {
+      fetchOrders(user.id);
+    }
+  }, [user]);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (customerId) => {
     try {
-      // Assume the logged-in customer's ID is stored in localStorage
-      const customerId = localStorage.getItem("customerId");
-      const endpoint = customerId
-        ? `http://localhost:5000/orders/getMyOrders?customerId=${customerId}`
-        : "http://localhost:5000/orders/getMyOrders";
-      const response = await axios.get(endpoint);
+      const response = await axios.get(
+        `http://localhost:5000/orders/getCustomerOrderStatus?customerId=${customerId}`
+      );
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -30,81 +31,54 @@ const MyOrders = () => {
     }
   };
 
-  // Helper to get a CSS class based on order.status
-  const getOrderStatusClass = (status) => {
-    if (!status) return "";
-    return status.toLowerCase().replace(" ", "-");
-  };
-
-  // Filter to only orders that are "In Progress"
-  const inProgressOrders = orders.filter((order) => order.status === "In Progress");
-
-  // Setup pie chart data for in-progress orders count
-  const progressCount = inProgressOrders.length;
-
-  const pieData = {
-    labels: ["In Progress"],
-    datasets: [
-      {
-        label: "Orders In Progress",
-        data: [progressCount],
-        backgroundColor: ["#0072ff"],
-        borderColor: ["#0056b3"],
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  // Mark an order as complete
-  const handleCompleteOrder = async (orderId) => {
-    try {
-      await axios.put(`http://localhost:5000/orders/completeOrder/${orderId}`);
-      toast.success("Order completed successfully!");
-      fetchOrders();
-    } catch (error) {
-      console.error("Error completing order:", error);
-      toast.error("Failed to complete order");
-    }
-  };
-
   return (
     <div>
       <CustomerSidebar />
       <div className="my-orders-container">
-        <h2 className="my-orders-title">My Orders (In Progress)</h2>
-        <p className="my-orders-subtitle">Track the progress of your orders in progress</p>
-
-        <div className="chart-container">
-          <Pie data={pieData} />
-        </div>
+        <h2 className="my-orders-title">My Order Statuses</h2>
 
         <div className="orders-list">
-          {inProgressOrders.length > 0 ? (
-            inProgressOrders.map((order) => (
-              <div key={order.id} className="order-card">
-                <p>
-                  <strong>Item:</strong> {order.item}
-                </p>
-                <p>
-                  <strong>Status:</strong>{" "}
-                  <span className={`order-status ${getOrderStatusClass(order.status)}`}>
-                    {order.status || "Unknown"}
-                  </span>
-                </p>
-                <p>
-                  <strong>Price:</strong> ${order.price}
-                </p>
-                <p>
-  <strong>Progress:</strong>{" "}
-  {(order.progress === 0 || order.progress) ? order.progress + "%" : "N/A"}
-</p>
-                <button className="complete-button" onClick={() => handleCompleteOrder(order.id)}>
-                  Complete Order
-                </button>
-              </div>
-            ))
+          {orders.length > 0 ? (
+            orders.map((order) => {
+              const showProgressChart =
+                order.progress > 0 && order.progress < 100;
+
+              const pieData = {
+                labels: ["Progress", "Remaining"],
+                datasets: [
+                  {
+                    data: [order.progress, 100 - order.progress],
+                    backgroundColor: ["#36A2EB", "#E0E0E0"],
+                    borderWidth: 1,
+                  },
+                ],
+              };
+
+              return (
+                <div key={order.id} className="order-card">
+                  <p>
+                    <strong>Order ID:</strong> {order.id}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {order.status || "Unknown"}
+                  </p>
+                  <p>
+                    <strong>Progress:</strong>{" "}
+                    {order.progress !== null && order.progress !== undefined
+                      ? `${order.progress}%`
+                      : "N/A"}
+                  </p>
+
+                  {showProgressChart && (
+                    <div className="progress-chart">
+                      <Pie data={pieData} />
+                    </div>
+                  )}
+                </div>
+              );
+            })
           ) : (
-            <p className="no-orders">No orders in progress found.</p>
+            <p className="no-orders">No orders found.</p>
           )}
         </div>
       </div>

@@ -278,6 +278,45 @@ router.put('/completeOrder/:id', async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   });
+
+
+ // GET /orders/getCustomerOrderStatus – Retrieve orders for a customer
+ router.get("/getCustomerOrderStatus", async (req, res) => {
+  const customerId = req.query.customerId;
+
+  try {
+    if (!customerId) {
+      return res.status(400).json({ message: "Customer ID is required" });
+    }
+
+    // 1. Get service IDs for the customer using promise()
+    // Note: Updated column name to customer_ID to match your table schema.
+    const [services] = await db.promise().query(
+      "SELECT service_id FROM services WHERE customer_ID = ?",
+      [customerId]
+    );
+    console.log("Services:", services); // Debugging line
+
+    if (!services.length) {
+      return res.json([]);
+    }
+
+    const serviceIds = services.map((s) => s.service_id);
+    console.log("Service IDs:", serviceIds); // Debugging line
+
+    // 2. Get orders using those service IDs using promise()
+    const [orders] = await db.promise().query(
+      "SELECT order_id, service_id, status, progress FROM orders WHERE service_id IN (?)",
+      [serviceIds]
+    );
+    console.log("Orders:", orders); // Debugging line
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error in getCustomerOrderStatus:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
   
   
   
