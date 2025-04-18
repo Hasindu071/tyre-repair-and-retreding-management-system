@@ -14,13 +14,14 @@ import {
   useTheme
 } from '@mui/material';
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   FiHome,
   FiClipboard,
   FiCalendar,
   FiUser,
-  FiPackage
+  FiPackage,
+  FiLogOut
 } from 'react-icons/fi';
 import MenuIcon from '@mui/icons-material/Menu';
 import '../styles/WorkerSideBar.css';
@@ -39,8 +40,15 @@ const WorkerSideBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDrawer = () => setOpen(!open);
+
+  const handleLogout = () => {
+    // Clear user data and navigate to the login page
+    localStorage.clear();
+    navigate('/RoleLoginSelection');
+  };
 
   return (
     <Box className="sidebar-container">
@@ -96,6 +104,14 @@ const WorkerSideBar = () => {
               </ListItem>
             </NavLink>
           ))}
+          <Divider sx={{ borderColor: '#2d2d3a', mt: 2, mb: 2 }} />
+          {/* Logout Button */}
+          <ListItem button onClick={handleLogout} className="creative-logout-button">
+            <ListItemIcon sx={{ color: 'inherit' }}>
+              <FiLogOut />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
         </List>
       </Drawer>
 

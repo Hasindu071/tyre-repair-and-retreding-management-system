@@ -50,3 +50,57 @@
 .sidebar-link:hover .gradient-bar {
   visibility: visible;
 }
+
+.creative-logout-button {
+  background: linear-gradient(135deg, #00d4ff, #0083ff);
+  border-radius: 16px;
+  padding: 10px 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(163, 77, 255, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.creative-logout-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.creative-logout-button:hover::before {
+  opacity: 1;
+  top: -60%;
+  left: -60%;
+}
+
+.creative-logout-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #00a4c5, #004e97);
+  box-shadow: 0 8px 30px rgba(119, 77, 255, 0.5);
+}
+
+.creative-logout-button:active {
+  transform: scale(0.96) rotate(-1deg);
+}
+
+.custom-nav-icon-logout {
+  color: white;
+  animation: pulseIcon 2s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
