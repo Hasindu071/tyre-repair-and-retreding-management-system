@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaShoppingCart, FaClipboardList, FaMoneyBillAlt, FaChevronDown } from "react-icons/fa";
+import { FaShoppingCart, FaClipboardList, FaMoneyBillAlt, FaChevronDown, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/CustomerSidebar.css";
 
@@ -13,6 +13,12 @@ const CustomerSidebar = () => {
   };
 
   const isActive = (path) => location.pathname === path; // 👈 Compare paths
+
+  const handleLogout = () => {
+    // Perform any additional logout logic here (e.g., clear auth tokens)
+    localStorage.clear();
+    navigate("/RoleLoginSelection");
+  };
 
   return (
     <div className="customer-sidebar">
@@ -63,6 +69,11 @@ const CustomerSidebar = () => {
         >
           <FaMoneyBillAlt className="sidebar-icon" />
           Payment & Billing
+        </li>
+        {/* Logout Button */}
+        <li className="logout-button" onClick={handleLogout}>
+          <FaSignOutAlt className="sidebar-icon" />
+          Logout
         </li>
       </ul>
     </div>

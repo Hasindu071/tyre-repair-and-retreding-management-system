@@ -89,6 +89,24 @@
   color: #fff;
 }
 
+.logout-button {
+  padding: 10px 16px;
+  margin-top: 280px;
+  color: #fff;
+  background: linear-gradient(135deg, #3c1880, #0d1651);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
   
   @keyframes fadeIn {
     from {
