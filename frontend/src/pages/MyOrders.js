@@ -4,6 +4,7 @@ import CustomerSidebar from "../components/CustomerSidebar";
 import "../styles/MyOrders.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { toast } from "react-toastify";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -16,14 +17,20 @@ const MyOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/orders/getMyOrders");
+      // Assume the logged-in customer's ID is stored in localStorage
+      const customerId = localStorage.getItem("customerId");
+      const endpoint = customerId
+        ? `http://localhost:5000/orders/getMyOrders?customerId=${customerId}`
+        : "http://localhost:5000/orders/getMyOrders";
+      const response = await axios.get(endpoint);
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
+      toast.error("Error fetching orders");
     }
   };
 
-  // Safe helper: Returns a CSS class based on order.status or empty string if not available.
+  // Helper to get a CSS class based on order.status
   const getOrderStatusClass = (status) => {
     if (!status) return "";
     return status.toLowerCase().replace(" ", "-");
@@ -32,7 +39,7 @@ const MyOrders = () => {
   // Filter to only orders that are "In Progress"
   const inProgressOrders = orders.filter((order) => order.status === "In Progress");
 
-  // For progress display, you can also setup a pie chart using the progress orders count.
+  // Setup pie chart data for in-progress orders count
   const progressCount = inProgressOrders.length;
 
   const pieData = {
@@ -52,11 +59,11 @@ const MyOrders = () => {
   const handleCompleteOrder = async (orderId) => {
     try {
       await axios.put(`http://localhost:5000/orders/completeOrder/${orderId}`);
-      alert("Order completed successfully!");
+      toast.success("Order completed successfully!");
       fetchOrders();
     } catch (error) {
       console.error("Error completing order:", error);
-      alert("Failed to complete order");
+      toast.error("Failed to complete order");
     }
   };
 
@@ -87,6 +94,10 @@ const MyOrders = () => {
                 <p>
                   <strong>Price:</strong> ${order.price}
                 </p>
+                <p>
+  <strong>Progress:</strong>{" "}
+  {(order.progress === 0 || order.progress) ? order.progress + "%" : "N/A"}
+</p>
                 <button className="complete-button" onClick={() => handleCompleteOrder(order.id)}>
                   Complete Order
                 </button>

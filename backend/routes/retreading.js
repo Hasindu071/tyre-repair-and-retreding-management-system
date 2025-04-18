@@ -111,8 +111,29 @@ const updateRetreadingStatus = async (req, res, newStatus, successMessage, error
     let query, params;
     
     if (newStatus === 'Rejected' && note) {
-        query = 'UPDATE services SET status = ?, special_note = ? WHERE service_id = ?';
-        params = [newStatus, note, serviceId];
+            // Update only the status in the services table 
+            query = "UPDATE services SET status = ? WHERE service_id = ?";
+            params = [newStatus, repairId];
+            const [result] = await db.promise().query(query, params);
+            if (result.affectedRows > 0) {
+                // If customer_id is not provided in the request body, query the services table
+                let customerId = req.body.customer_id;
+                if (!customerId) {
+                    const [rows] = await db.promise().query("SELECT customer_ID FROM services WHERE service_id = ?", [repairId]);
+                    if (rows.length > 0) {
+                        customerId = rows[0].customer_ID;
+                    }
+                }
+                if (!customerId) {
+                    return res.status(400).json({ message: "Customer ID not provided." });
+                }
+                // Insert a record into the reject_orders table
+                const insertQuery = "INSERT INTO reject_orders (service_id, customer_id, note) VALUES (?, ?, ?)";
+                await db.promise().query(insertQuery, [repairId, customerId, req.body.note]);
+                return res.status(200).json({ message: successMessage });
+            } else {
+                return res.status(404).json({ message: "Repair service not found" });
+            }
     } else {
         query = 'UPDATE services SET status = ? WHERE service_id = ?';
         params = [newStatus, serviceId];

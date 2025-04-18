@@ -155,16 +155,23 @@ router.get('/getStartedTasks', async (req, res) => {
 
 // GET /orders/getMyOrders – Retrieve all orders (or filter by customer if needed)
 router.get('/getMyOrders', async (req, res) => {
-    try {
-      // Optionally, you can filter by customer id if provided as a query parameter
-      // For now, we return all orders.
-      const [orders] = await db.promise().query("SELECT * FROM orders");
+  try {
+      let query = "SELECT * FROM orders";
+      const params = [];
+      
+      // Filter orders by customer id if provided as a query parameter.
+      if (req.query.customerId) {
+          query += " WHERE customer = ?";
+          params.push(req.query.customerId);
+      }
+      
+      const [orders] = await db.promise().query(query, params);
       res.status(200).json(orders);
-    } catch (error) {
+  } catch (error) {
       console.error("Error fetching orders:", error);
       res.status(500).json({ message: "Failed to fetch orders", error: error.message });
-    }
-  });
+  }
+});
 
   // PUT /orders/completeOrder/:id – Mark a specific order as complete
 router.put('/completeOrder/:id', async (req, res) => {
