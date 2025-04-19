@@ -31,14 +31,16 @@ router.post(
                 internalStructure,
                 receiveDate,
                 notes,
+                needDeliveryService,
                 userId
             } = req.body;
 
             // Retrieve file names if uploaded and include "/uploads/" prefix
-            const insideDamagePhoto = req.files && req.files.insideDamagePhoto 
+            const insideDamagePhoto = req.files?.insideDamagePhoto 
                 ? `/uploads/${req.files.insideDamagePhoto[0].filename}` 
                 : null;
-            const outsideDamagePhoto = req.files && req.files.outsideDamagePhoto 
+
+            const outsideDamagePhoto = req.files?.outsideDamagePhoto 
                 ? `/uploads/${req.files.outsideDamagePhoto[0].filename}` 
                 : null;
 
@@ -47,61 +49,53 @@ router.post(
                 return res.status(400).json({ message: 'All required fields must be filled.' });
             }
 
-            // 1. Get the last service_id from the database
-const [rows] = await db.promise().query('SELECT service_id FROM services ORDER BY service_id DESC LIMIT 1');
-let newServiceId = 'RP_00001'; // Default starting service_id
+            // Generate new service ID
+            const [rows] = await db.promise().query('SELECT service_id FROM services ORDER BY service_id DESC LIMIT 1');
+            let newServiceId = 'RP_00001';
 
-if (rows.length > 0) {
-    const lastServiceId = rows[0].service_id;
+            if (rows.length > 0) {
+                const lastIdStr = String(rows[0].service_id);
+                if (lastIdStr.startsWith('RP_')) {
+                    const lastIdNumber = parseInt(lastIdStr.split('_')[1]);
+                    if (!isNaN(lastIdNumber)) {
+                        newServiceId = `RP_${(lastIdNumber + 1).toString().padStart(5, '0')}`;
+                    } else {
+                        console.error("Invalid numeric part in service_id:", lastIdStr);
+                    }
+                } else {
+                    console.error("Unexpected service_id format:", lastIdStr);
+                }
+            }
 
-    // Ensure it's treated as a string just in case it's returned as something else (e.g., a Buffer)
-    const lastIdStr = String(lastServiceId);
+            console.log("New service_id:", newServiceId);
 
-    if (lastIdStr.startsWith('RP_')) {
-        const lastIdNumber = parseInt(lastIdStr.split('_')[1]);
-        if (!isNaN(lastIdNumber)) {
-            newServiceId = `RP_${(lastIdNumber + 1).toString().padStart(5, '0')}`;
-        } else {
-            console.error("Invalid numeric part in service_id:", lastIdStr);
-        }
-    } else {
-        console.error("Unexpected service_id format:", lastIdStr);
-    }
-} else {
-    console.log("No previous service_id found, using default.");
-}
-
-console.log("New service_id:", newServiceId);
-
-
-
-            // First query: Insert into services
+            // Insert into services
             const query1 = `
-                INSERT INTO services (service_id, tireBrand, internalStructure,receiveDate, notes, status, customer_ID, total_amount)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO services (service_id, tireBrand, internalStructure, receiveDate, notes, needDeliveryService, status, customer_ID, total_amount)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            const serviceId = 1; // Manually set service_id to 1
-            const status = 'Pending'; // Default status
-            const totalAmount = 0; // Default total amount
+            const status = 'Pending';
+            const totalAmount = 0;
 
-            const [result1] = await db.promise().query(query1, [
+            await db.promise().query(query1, [
                 newServiceId,
                 tireBrand,
                 internalStructure,
                 receiveDate,
                 notes,  
+                needDeliveryService,
                 status,
                 userId,
                 totalAmount
             ]);
 
-            // Second query: Insert into repairing
+            // Insert into repairing
             const query2 = `
                 INSERT INTO repairing (id, patchesApplied, punctureSize, insideDamagePhoto, outsideDamagePhoto) 
                 VALUES (?, ?, ?, ?, ?)
             `;
-            const [result2] = await db.promise().query(query2, [
-                newServiceId,  // Use service_id = 1 as manually set
+            await db.promise().query(query2, [
+                newServiceId,
                 patchesApplied,
                 punctureSize,
                 insideDamagePhoto,
@@ -110,9 +104,9 @@ console.log("New service_id:", newServiceId);
 
             return res.status(200).json({
                 message: 'Repair details submitted successfully!',
-                serviceId: result1.insertId,  // Should return service ID from `services` table
-                repairId: result2.insertId,   // Should return repair ID from `repairing` table
+                serviceId: newServiceId
             });
+
         } catch (error) {
             console.error('Unexpected error:', error);
             return res.status(500).json({ message: 'Unexpected server error.' });

@@ -21,6 +21,7 @@ const RepairServiceForm = () => {
         internalStructure: "",
         receiveDate: null,
         notes: "",
+        needDeliveryService: "",
         insideDamagePhoto: null,
         outsideDamagePhoto: null
     });
@@ -118,6 +119,7 @@ const RepairServiceForm = () => {
                 internalStructure: "",
                 receiveDate: null,
                 notes: "",
+                needDeliveryService: "",
                 insideDamagePhoto: null,
                 outsideDamagePhoto: null
             });
@@ -284,6 +286,25 @@ const RepairServiceForm = () => {
                                 onChange={handleChange}
                                 className="repair-notes-box"
                             ></textarea>
+                        </div>
+
+                        <div className="repair-section">
+                            <label htmlFor="needDeliveryService">
+                                <h3>Need Delivery Service?</h3>
+                            </label>
+                            <select
+                                id="needDeliveryService"
+                                name="needDeliveryService"
+                                value={formData.needDeliveryService}
+                                onChange={handleChange}
+                                className="form-control"
+                                required
+                            >
+                                <option value="">Select option</option> {/* <-- Added */}
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+
                         </div>
 
                         <button type="submit" className="repair-submit-button" disabled={loading}>
