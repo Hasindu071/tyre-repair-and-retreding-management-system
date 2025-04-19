@@ -36,6 +36,7 @@ router.post(
             completionDate,
             tireStructure,
             notes,
+            needDeliveryService,
             userId
         } = req.body;
 
@@ -69,9 +70,9 @@ router.post(
 
             // Insert into services table
             await db.promise().query(
-                `INSERT INTO services (service_id, tireBrand, internalStructure, receiveDate, notes, status, customer_ID, total_amount)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-                [newServiceId, tireBrand, internalStructure, receiveDate, notes, 'Pending', userId, 0]
+                `INSERT INTO services (service_id, tireBrand, internalStructure, receiveDate, notes,needDeliveryService, status, customer_ID, total_amount)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [newServiceId, tireBrand, internalStructure, receiveDate, notes, needDeliveryService, 'Pending', userId, 0]
             );
 
             // Insert into retreading table (similar to repairing structure)

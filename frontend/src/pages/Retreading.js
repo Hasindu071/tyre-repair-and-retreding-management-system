@@ -21,6 +21,7 @@ const RetreadingService = () => {
         completionDate: null, // Date object for date picker
         tireStructure: "",
         notes: "",
+        needDeliveryService: "",
         insidePhoto: null,
         outsidePhoto: null
     });
@@ -108,6 +109,7 @@ const RetreadingService = () => {
                 tirePattern: "",
                 completionDate: null,
                 tireStructure: "",
+                needDeliveryService: "",
                 notes: "",
                 insidePhoto: null,
                 outsidePhoto: null
@@ -314,6 +316,26 @@ const RetreadingService = () => {
                                 onChange={handleChange} 
                                 className="notes-box"
                             ></textarea>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="needDeliveryService">
+                                <h3>Need Delivery Service?</h3>
+                            </label>
+                            <select
+                                id="needDeliveryService"
+                                name="needDeliveryService"
+                                value={formData.needDeliveryService}
+                                onChange={handleChange}
+                                className="form-control"
+                                required
+                            >
+                                <option value="">Select option</option> {/* <-- Added */}
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            
+
                         </div>
 
                         <button 
