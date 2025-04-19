@@ -29,7 +29,7 @@ const CustomerPayment = () => {
   // Fetch orders with total amount = 0 (pending orders)
   const fetchIncompleteOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/orders//getCompletedTotalAmount0Tasks");
+      const response = await fetch("http://localhost:5000/orders/getCompletedTotalAmount0Tasks");
       const data = await response.json();
       setIncompleteOrders(data);
     } catch (error) {

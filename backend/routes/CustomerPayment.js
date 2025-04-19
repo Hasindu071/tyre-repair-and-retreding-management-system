@@ -20,6 +20,9 @@ const NetAmount = amt + srv + del;
         const query = 'INSERT INTO customer_payments ( amount, delivery_fee, note, net_amount, payment_date, payment_method, order_id, customer_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
         await db.promise().execute(query, [amount, deliveryamount, note, NetAmount, paymentDate, paymentMethod, orderId, customerId]);
 
+        const updateQuery = 'UPDATE orders SET payment_status = ? WHERE order_id = ?';
+        await db.promise().execute(updateQuery, ['Paid', orderId]);
+
         // Update the corresponding service record's total_amount column
         //const updateQuery = 'UPDATE services SET total_amount = ? WHERE service_id = ?';
         //await db.promise().execute(updateQuery, [amount, serviceId]);

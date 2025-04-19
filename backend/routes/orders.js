@@ -225,7 +225,7 @@ router.put('/completeOrder/:id', async (req, res) => {
         JOIN orders o ON s.service_id = o.service_id
         JOIN customer_register c ON c.id = s.customer_ID
         JOIN worker_register w ON w.id = o.emp_id
-        WHERE o.status = 'Completed' AND s.total_amount = 0
+        WHERE o.status = 'Completed' AND o.payment_status = 'not paid'
       `);
       res.status(200).json(rows);
     } catch (error) {
@@ -249,8 +249,8 @@ router.put('/completeOrder/:id', async (req, res) => {
   
       // Insert into orders table
       const [result] = await db.promise().query(
-        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date, status)
-         VALUES (?, ?, ?, ?, ?, "Pending")`,
+        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date, status, payment_status)
+         VALUES (?, ?, ?, ?, ?, "Pending", "not paid")`,
         [service_id, emp_id, total_amount, progress, order_date]
       );
   
