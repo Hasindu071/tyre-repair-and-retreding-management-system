@@ -7,11 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 const CustomerPayment = () => {
   // Initialize formData with today's date and an empty serviceId
   const [formData, setFormData] = useState({
-    customerName: "",
     amount: "",
+    note: "",
+    serviceamount: "",
+    deliveryamount: "",
+    customerId: "",
     paymentDate: new Date().toISOString().split("T")[0],
     paymentMethod: "Credit Card",
-    serviceId: "",
+    orderId: "",
   });
 
   const [payments, setPayments] = useState([]);
@@ -60,11 +63,12 @@ const CustomerPayment = () => {
   // Note: serviceId is set using the order_id from the selected order.
   const handleAutoFill = (order) => {
     setFormData({
-      customerName: order.customerFirstName ? `${order.customerFirstName} ${order.customerLastName}` : "",
       amount: order.TotalAmount, // Typically 0; owner can update this field
+      serviceamount: order.total_amount,
+      customerId: order.customer_ID,
       paymentDate: new Date().toISOString().split("T")[0],
       paymentMethod: "Credit Card",
-      serviceId: order.service_id, // Use order_id to update the related service's total_amount
+      orderId: order.order_id, // Use order_id to update the related service's total_amount
     });
   };
 
@@ -73,7 +77,7 @@ const CustomerPayment = () => {
     e.preventDefault();
 
     // Validate that serviceId is present (auto-fill must have been used)
-    if (!formData.serviceId) {
+    if (!formData.orderId) {
       toast.error("Please select a pending payment record using the eye button.");
       return;
     }
@@ -84,27 +88,31 @@ const CustomerPayment = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
-      if (response.ok) {
+    
+      const data = await response.json(); // Get the actual response body
+    
+      if (data.success) {
         toast.success("Payment record submitted successfully.");
-        // Reset form after submission – note the paymentDate is re-initialized
         setFormData({
-          customerName: "",
           amount: "",
+          note: "",
+          serviceamount: "",
+          deliveryamount: "", // Add this if it's part of your form
+          customerId: "",
           paymentDate: new Date().toISOString().split("T")[0],
           paymentMethod: "Credit Card",
-          serviceId: "",
+          orderId: "",
         });
         fetchPayments();
-        fetchIncompleteOrders(); // Refresh pending orders in case the service was updated
+        fetchIncompleteOrders();
       } else {
-        toast.error("Error submitting payment record.");
+        toast.error(data.message || "Error submitting payment record.");
       }
     } catch (error) {
       console.error("Error submitting payment record:", error);
       toast.error("Error submitting payment record.");
     }
-  };
+  }    
 
   return (
     <React.Fragment>
@@ -114,8 +122,9 @@ const CustomerPayment = () => {
         <table className="payment-table">
           <thead>
             <tr>
-              <th>Service ID</th>
-              <th>Customer</th>
+              <th>Order ID</th>
+              <th>service Amount</th>
+              <th>Customer ID</th>
               <th>Order Date</th>
               <th>Status</th>
               <th>Worker</th>
@@ -128,7 +137,8 @@ const CustomerPayment = () => {
               incompleteOrders.map((task) => (
                 <tr key={task.id}>
                   <td>{task.order_id}</td>
-                  <td>{task.customerFirstName ? `${task.customerFirstName} ${task.customerLastName}` : "N/A"}</td>
+                  <td>{task.total_amount}</td>
+                  <td>{task.customer_ID}</td>
                   <td>{task.order_date || "N/A"}</td>
                   <td>{task.status}</td>
                   <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
@@ -155,13 +165,48 @@ const CustomerPayment = () => {
         <br />
         <h2 className="title">Submit Customer Payment</h2>
         <form onSubmit={handleSubmit} className="payment-form">
+
+        <div className="form-group">
+            <label htmlFor="orderID">Order ID</label>
+            <input
+              type="number"
+              id="orderID"
+              name="orderID"
+              value={formData.orderId}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           <div className="form-group">
-            <label htmlFor="customerName">Customer Name</label>
+              <label htmlFor="customerId">Customer ID</label>
+              <input
+                type="text"
+                id="customerId"
+                name="customerId"
+                value={formData.customerId}
+                readOnly
+              />
+            </div>
+
+            <div className="form-group">
+            <label htmlFor="serviceamount">Service Amount</label>
+            <input
+              type="number"
+              id="serviceamount"
+              name="serviceamount"
+              value={formData.serviceamount}
+              readOnly
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="note">Note</label>
             <input
               type="text"
-              id="customerName"
-              name="customerName"
-              value={formData.customerName}
+              id="note"
+              name="note"
+              value={formData.note}
               onChange={handleChange}
               required
             />
@@ -178,6 +223,19 @@ const CustomerPayment = () => {
               required
             />
           </div>
+
+          <div className="form-group">
+            <label htmlFor="deliveryamount">Delivery Amount</label>
+            <input
+              type="number"
+              id="deliveryamount"
+              name="deliveryamount"
+              value={formData.deliveryamount}
+              onChange={handleChange}
+            />
+          </div>
+
+
 
           <div className="form-group">
             <label htmlFor="paymentDate">Payment Date</label>
@@ -219,7 +277,6 @@ const CustomerPayment = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Customer Name</th>
               <th>Amount</th>
               <th>Payment Date</th>
               <th>Payment Method</th>
@@ -229,7 +286,6 @@ const CustomerPayment = () => {
             {payments.map((payment) => (
               <tr key={payment.id}>
                 <td>{payment.id}</td>
-                <td>{payment.customer_name}</td>
                 <td>{payment.amount}</td>
                 <td>{payment.payment_date}</td>
                 <td>{payment.payment_method}</td>
