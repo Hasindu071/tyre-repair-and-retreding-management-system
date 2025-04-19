@@ -4,9 +4,11 @@ import OwnerSidebar from '../../components/SideNav';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/OwnerSeeCompleteOrders.css';
+import { useNavigate } from 'react-router-dom';
 
 const OwnerSeeCompleteOrders = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCompletedOrders();
@@ -23,34 +25,8 @@ const OwnerSeeCompleteOrders = () => {
   };
 
   // If total amount equals 0, prompt to add the total amount
-  const handleAddTotalAmount = async (orderId) => {
-    const amount = prompt("Enter total amount:");
-    if (!amount || isNaN(amount)) {
-      toast.error("Invalid amount");
-      return;
-    }
-    try {
-      // Adjust endpoint as necessary to update total_amount in the services table
-      await axios.put(`http://localhost:5000/orders/updateTotalAmount/${orderId}`, { totalAmount: amount });
-      toast.success("Total amount updated!");
-      fetchCompletedOrders();
-    } catch (error) {
-      console.error("Error updating total amount:", error);
-      toast.error("Failed to update total amount");
-    }
-  };
 
-  // When total amount is not 0, complete the order
-  const handleCompleteOrder = async (orderId) => {
-    try {
-      await axios.put(`http://localhost:5000/orders/completeOrder/${orderId}`);
-      toast.success("Order completed successfully");
-      fetchCompletedOrders();
-    } catch (error) {
-      console.error("Error completing order:", error);
-      toast.error("Error completing order");
-    }
-  };
+
 
   return (
     <div>
@@ -81,22 +57,20 @@ const OwnerSeeCompleteOrders = () => {
                     <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
                     <td>{task.TotalAmount}</td>
                     <td>
-                      {Number(task.TotalAmount) === 0 ? (
-                        <span 
-                          className="action-label zero-amount" 
-                          onClick={() => handleAddTotalAmount(task.order_id)}
-                        >
-                          Add Total Amount
-                        </span>
-                      ) : (
-                        <span 
-                          className="action-label nonzero-amount" 
-                          onClick={() => handleCompleteOrder(task.order_id)}
-                        >
-                          Complete Full Order
-                        </span>
-                      )}
-                    </td>
+                    {Number(task.TotalAmount) === 0 ? (
+                      <span 
+                        className="action-label zero-amount"
+                        onClick={() => navigate('/Owner/SeeCustomerPayment')}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        Add Payment
+                      </span>
+                    ) : (
+                      <span className="action-label nonzero-amount">
+                        Complete Full Order
+                      </span>
+                    )}
+                  </td>
                   </tr>
                 ))
               ) : (
