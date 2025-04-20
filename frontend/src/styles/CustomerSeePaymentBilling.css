@@ -1,40 +1,73 @@
-.payment-billing-container {
-    max-width: 800px;
-    margin: 50px auto;
-    background: #fff;
+.receipt-container {
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    margin-left: 250px; /* adjust based on sidebar width */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.receipt-title {
     text-align: center;
+    margin-bottom: 30px;
 }
 
-.payment-billing-title {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
+.receipt-box {
+    background-color: #fff;
+    padding: 30px;
+    border: 1px dashed #333;
+    width: 400px;
+    margin: 0 auto 30px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.payment-billing-description {
+.receipt-box p {
+    margin: 8px 0;
     font-size: 16px;
-    margin-bottom: 30px;
-    color: #666;
 }
 
-.payment-billing-details {
-    margin-bottom: 30px;
-    color: #555;
+.thank-you-msg {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
 }
 
-.payment-billing-back-button {
+.generate-receipt-btn,
+.back-btn {
     padding: 10px 20px;
-    background: linear-gradient(135deg, #ff4b5c, #ff0000);
-    color: #fff;
+    margin-right: 10px;
+    font-size: 14px;
     border: none;
-    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out;
 }
 
-.payment-billing-back-button:hover {
-    transform: scale(1.05);
+.generate-receipt-btn:hover,
+.back-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Print style */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .receipt-box,
+    .receipt-box * {
+        visibility: visible;
+    }
+
+    .receipt-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+    }
+
+    .generate-receipt-btn,
+    .back-btn {
+        display: none;
+    }
 }

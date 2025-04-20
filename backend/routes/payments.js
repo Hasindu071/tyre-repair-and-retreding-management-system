@@ -74,4 +74,29 @@ router.put('/updatePayment/:id', async (req, res) => {
     }
 });
 
+// GET latest payment for a specific customer
+router.get('/latest/:customerId', (req, res) => {
+  const customerId = req.params.customerId;
+
+  const query = `
+      SELECT * FROM customer_payments
+      WHERE customer_ID = ?
+      ORDER BY payment_date DESC, id DESC
+      LIMIT 1
+  `;
+
+  db.query(query, [customerId], (err, results) => {
+      if (err) {
+          console.error("Error fetching latest payment:", err);
+          return res.status(500).json({ error: "Database error" });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ message: "No payment found" });
+      }
+
+      res.json(results[0]); // Send the latest payment
+  });
+});
+
 module.exports = router;
