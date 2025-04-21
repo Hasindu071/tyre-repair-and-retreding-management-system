@@ -12,9 +12,16 @@ import {
 } from 'react-icons/fa';
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar"; // Assuming you have a Navbar component
 import "../styles/OwnerDashboard.css"; // Import the CSS file
+import { useOwnerAuth } from "../context/OwnerAuthContext"; 
 
 const OwnerDashboard = () => {
     const navigate = useNavigate();
+    const { owner } = useOwnerAuth(); // owner should have firstName and lastName
+
+    // Fallback in case owner information is not available
+    const ownerName = owner 
+      ? `${owner.firstName} ${owner.lastName}` 
+      : "Owner";
 
     const approveWorker = () => {
         navigate("/ApproveWorker"); // Redirect to ApproveWorker page
@@ -69,6 +76,7 @@ const OwnerDashboard = () => {
             <OwnerNavbar />
             <div className="owner-dashboard-container">
                 <h2 className="owner-dashboard-title">Owner Dashboard</h2>
+                <p className="owner-dashboard-greeting">Welcome, {ownerName}!</p>
                 <p className="owner-dashboard-subtitle">Manage operations efficiently</p>
 
                 <div className="owner-dashboard-grid">
