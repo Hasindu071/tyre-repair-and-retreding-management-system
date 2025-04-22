@@ -99,4 +99,20 @@ router.get('/latest/:customerId', (req, res) => {
   });
 });
 
+// GET endpoint to fetch worker payments by workerId
+router.get('/getWorkerPayments/:workerId', async (req, res) => {
+    const workerId = req.params.workerId;
+    try {
+      // Use the column "assignedWorker" if that is where the worker's ID is stored.
+      const [payments] = await db.promise().query(
+        'SELECT * FROM worker_payments WHERE assignedWorker = ?',
+        [workerId]
+      );
+      res.status(200).json(payments);
+    } catch (error) {
+      console.error("Error fetching worker payments:", error);
+      res.status(500).json({ message: 'Error fetching worker payments' });
+    }
+});
+
 module.exports = router;

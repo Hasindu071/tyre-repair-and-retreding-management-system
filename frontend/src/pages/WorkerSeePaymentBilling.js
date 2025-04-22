@@ -1,76 +1,112 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import WorkerSideBar from "../components/WorkerSideBar";
 import axios from "axios";
+import WorkerSideBar from "../components/WorkerSideBar";
 import "../styles/WorkerSeePaymentBilling.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WorkerSeePaymentBilling = () => {
-    const navigate = useNavigate();
-    const [payments, setPayments] = useState([]);
-    const workerId = localStorage.getItem("workerId"); // Retrieve logged in worker's ID
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [workerId, setWorkerId] = useState(null);
 
-    useEffect(() => {
-        fetchPayments();
-        // eslint-disable-next-line
-    }, []);
+  useEffect(() => {
+    // Get worker ID from localStorage or wherever it's stored after login
+    const storedWorkerId = localStorage.getItem("workerId");
+    if (storedWorkerId) {
+      setWorkerId(storedWorkerId);
+      fetchWorkerPayments(storedWorkerId);
+    }
+  }, []);
 
-    const fetchPayments = async () => {
-        try {
-            // Assuming your backend endpoint can filter payments by workerId
-            const response = await axios.get("http://localhost:5000/payments/getPayments", { 
-                params: { workerId } 
-            });
-            setPayments(response.data);
-        } catch (error) {
-            console.error("Error fetching payments:", error);
-            toast.error("Error fetching payment history.");
-        }
-    };
+  const fetchWorkerPayments = async (workerId) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:5000/payments/getWorkerPayments/${workerId}`
+      );
+      setPayments(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+      toast.error("Error fetching payment details");
+      setLoading(false);
+    }
+  };
 
-    const handleBack = () => {
-        navigate(-1);
-    };
+  // Calculate total earnings
+  const totalEarnings = payments.reduce(
+    (sum, payment) => sum + Number(payment.amount) + Number(payment.bonus),
+    0
+  );
 
-    return (
-        <div>
-            <WorkerSideBar />
-            <div className="worker-payment-container">
-                <h2 className="title">Payment History</h2>
-                {payments.length > 0 ? (
-                    <table className="payment-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {payments.map((payment) => (
-                                <tr key={payment.id}>
-                                    <td>{payment.id}</td>
-                                    <td>{payment.customer}</td>
-                                    <td>${payment.amount}</td>
-                                    <td>{payment.date}</td>
-                                    <td>{payment.status}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                ) : (
-                    <p>No payment history found.</p>
-                )}
-                <button className="back-button" onClick={handleBack}>
-                    Back
-                </button>
-            </div>
-            <ToastContainer />
+  return (
+    <div className="worker-payment-container">
+      <WorkerSideBar />
+      <div className="worker-payment-content">
+        <div className="payment-header">
+          <h1>My Payment Details</h1>
+          <div className="total-earnings">
+            <span>Total Earnings:</span>
+            <span className="amount">${totalEarnings.toFixed(2)}</span>
+          </div>
         </div>
-    );
+
+        {loading ? (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Loading payment details...</p>
+          </div>
+        ) : payments.length === 0 ? (
+          <div className="no-payments">
+            <img src="/images/no-payments.svg" alt="No payments" />
+            <p>No payment records found</p>
+          </div>
+        ) : (
+          <div className="payment-cards-container">
+            {payments.map((payment) => (
+              <div
+                key={payment.id}
+                className={`payment-card ${payment.status.toLowerCase()}`}
+              >
+                <div className="payment-card-header">
+                  <h3>{payment.MonthAttendDates}</h3>
+                  <span className={`status-badge ${payment.status.toLowerCase()}`}>
+                    {payment.status}
+                  </span>
+                </div>
+                <div className="payment-card-body">
+                  <div className="payment-row">
+                    <span>Base Salary:</span>
+                    <span>${payment.amount}</span>
+                  </div>
+                  <div className="payment-row">
+                    <span>Bonus:</span>
+                    <span>${payment.bonus}</span>
+                  </div>
+                  <div className="payment-row total">
+                    <span>Total:</span>
+                    <span>${(Number(payment.amount) + Number(payment.bonus)).toFixed(2)}</span>
+                  </div>
+                  {payment.note && (
+                    <div className="payment-notes">
+                      <p>
+                        <strong>Notes:</strong> {payment.note}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="payment-card-footer">
+                  <span>Paid on: {payment.date}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <ToastContainer position="bottom-right" />
+    </div>
+  );
 };
 
 export default WorkerSeePaymentBilling;
