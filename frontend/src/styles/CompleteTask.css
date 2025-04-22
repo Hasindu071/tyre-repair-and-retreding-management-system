@@ -1,74 +1,137 @@
-body {
-    font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-}
+/* CompleteTask.css */
 
 .complete-container {
-    margin: 40px auto;
+    max-width: 1200px;
+    margin: 20px auto;
     padding: 30px;
-    max-width: 600px;
-    background: #edbfbf;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
     border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .complete-title {
     text-align: center;
-}
-
-.complete-title {
+    color: #2c3e50;
     font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.complete-subtitle {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 25px;
-}
-
-.task-list {
-    list-style: none;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  .complete-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #9b59b6);
+    border-radius: 2px;
+  }
+  
+  .complete-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 1.2rem;
+    margin-top: 40px;
+    font-style: italic;
+  }
+  
+  .task-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
     padding: 0;
-    margin: 0;
-}
-
-.task-item {
-    text-align: left;
-    background: #fafafa;
+    list-style: none;
+  }
+  
+  .task-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid #3498db;
+  }
+  
+  .task-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #3498db, #9b59b6);
+  }
+  
+  .task-item p {
     margin: 10px 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-.task-item p {
-    margin: 5px 0;
-    font-size: 1rem;
-    color: #444;
-}
-
-.complete-action {
-    margin-top: 20px;
-}
-
-.complete-button {
-    padding: 12px 30px;
-    font-size: 1rem;
+    color: #34495e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .task-item strong {
+    color: #2c3e50;
     font-weight: 600;
-    color: #fff;
-    background: linear-gradient(45deg, #34d399, #10b981);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background 0.4s ease;
-    outline: none;
-}
-
-.complete-button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #10b981, #34d399);
-}
-
-.complete-button:active {
-    transform: scale(0.98);
-}
+  }
+  
+  /* Animation for empty state */
+  .complete-subtitle {
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .complete-container {
+      padding: 20px;
+    }
+    
+    .task-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .complete-title {
+      font-size: 2rem;
+    }
+  }
+  
+  /* Glow effect for completed status */
+  .task-item p:contains("Status: Completed") {
+    color: #27ae60;
+    text-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
+  }
+  
+  /* Custom scrollbar for task list */
+  .task-list::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .task-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .task-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(#3498db, #9b59b6);
+    border-radius: 10px;
+  }
+  
+  .task-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(#2980b9, #8e44ad);
+  }
