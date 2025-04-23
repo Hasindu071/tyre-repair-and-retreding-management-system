@@ -1,41 +1,196 @@
+/* styles/Notification.css */
+
 .notification-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-  }
-  
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .notification-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .notification-table th,
-  .notification-table td {
-    border: 1px solid #b79090;
-    padding: 8px;
-  }
-  
-  .notification-table th {
-    background-color: #8d7272;
-    text-align: left;
-  }
-  
-  .notification-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .notification-table tr:hover {
-    background-color: #ddd;
-  }
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title-notification {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  border-radius: 2px;
+}
+
+.notification-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.notification-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: all 0.3s ease;
+  border-left: 4px solid #3498db;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification-card.unread {
+  border-left-color: #e74c3c;
+  background-color: #f9f9ff;
+}
+
+.notification-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-sender {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.notification-time {
+  font-size: 0.85rem;
+  color: #95a5a6;
+}
+
+.notification-subject {
+  font-weight: 600;
+  color: #3498db;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.notification-message {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.notification-email {
+  display: inline-block;
+  background: #f1f8fe;
+  color: #2980b9;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.notification-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.action-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.action-btn.read {
+  color: #27ae60;
+  border: 1px solid #27ae60;
+}
+
+.action-btn.read:hover {
+  background: #27ae60;
+  color: white;
+}
+
+.action-btn.delete {
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.action-btn.delete:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #7f8c8d;
+  grid-column: 1 / -1;
+}
+
+.empty-state i {
+  font-size: 5rem;
+  color: #bdc3c7;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Loading spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  color: #3498db;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Floating refresh button */
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #3498db, #9b59b6);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+  border: none;
+}
+
+.fab:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
