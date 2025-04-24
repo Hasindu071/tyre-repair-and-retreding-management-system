@@ -1,263 +1,338 @@
-.repair-service-container-body{
-  background: rgba(0, 0, 0, 0.542);
+/* styles/Repairing.css */
+
+/* Base Styles */
+.repair-service-container-body {
+  margin-left: 250px; /* Sidebar width */
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-/* Main Container */
+
 .repair-service-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #f9f8f8c8;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(228, 227, 227, 0.2);
-  text-align: center;
-  color: rgb(9, 9, 9);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Title */
+.repair-service-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.repair-service-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+}
+
 .repair-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #ff7700;
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
-/* Repair Input Group Styles */
+.repair-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  border-radius: 2px;
+}
+
+/* Form Elements */
+.repair-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .repair-input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
-.repair-input-group .form-group {
-  display: flex;
-  flex-direction: column;
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
-/* Label Styling */
-.repair-input-group .form-group label {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: #333;
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
 }
 
-/* Input Field Styling */
-.repair-input-group .form-group input {
-  padding: 12px;
-  font-size: 16px;
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  border: 1px solid #ff7700;
-  background: #f0efef;
-  color: rgb(21, 21, 21);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #ff7e5f;
+  box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Focus Effect */
-.repair-input-group .form-group input:focus {
-  border-color: #ff5500;
-  box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+.repair-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
 }
 
-/* Radio Group */
+.repair-section h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.repair-section h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+  border-radius: 2px;
+}
+
+/* Radio Buttons */
 .repair-radio-group {
   display: flex;
-  justify-content: space-around;
-  margin: 10px 0;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .repair-radio-group label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 16px;
+  gap: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  padding-left: 1.8rem;
+}
+
+.repair-radio-group input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.repair-radio-group label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.repair-radio-group input[type="radio"]:checked + label::before {
+  border-color: #ff7e5f;
+  background: radial-gradient(circle, #ff7e5f 40%, transparent 45%);
 }
 
 /* Image Upload */
-.image-upload-section {
-  margin: 20px 0;
-}
-
 .repair-image-upload {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .repair-upload-box {
+  height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 15px;
-  background: #dfdede;
-  border: 2px dashed #ff7700;
-  border-radius: 10px;
   cursor: pointer;
-  width: 48%;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .repair-upload-box:hover {
-  background: #c4c3c3;
+  border-color: #ff7e5f;
+  background-color: rgba(255, 126, 95, 0.05);
 }
 
 .upload-icon {
-  font-size: 24px;
-  color: #ff7700;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.repair-upload-box:hover .upload-icon {
+  color: #ff7e5f;
+  transform: scale(1.1);
+}
+
+.repair-upload-box span {
+  color: #7f8c8d;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.repair-upload-box:hover span {
+  color: #2c3e50;
 }
 
 /* Date Picker */
 .repair-date-picker {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  background: #dddcdc;
-  color: rgb(21, 21, 21);
-  border: 1px solid #ff7700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.repair-date-picker:focus {
+  border-color: #ff7e5f;
+  box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
   outline: none;
 }
 
-/* Notes Box */
+/* Textarea */
 .repair-notes-box {
   width: 100%;
-  padding: 15px;
-  font-size: 16px;
+  min-height: 120px;
+  padding: 1rem;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  border: 1px solid #ff7700;
-  background: #cac9c9;
-  color: rgb(9, 9, 9);
-  resize: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  resize: vertical;
+}
+
+.repair-notes-box:focus {
+  border-color: #ff7e5f;
+  box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
+  outline: none;
 }
 
 /* Submit Button */
 .repair-submit-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  background: #f6a966;
-  color: black;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  color: white;
   border: none;
-  border-radius: 8px;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 126, 95, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 200px;
 }
 
 .repair-submit-button:hover {
-  background: #ff7700;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 126, 95, 0.4);
+  background: linear-gradient(90deg, #ff6b4a, #fea56d);
 }
 
-.repair-section h3{
-  font-size: 20px;
-  padding: 10px;
-  margin: 10px;
+.repair-submit-button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-/* Input Container */
-.react-datepicker-wrapper,
-.react-datepicker__input-container input {
+.repair-upload-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .repair-service-container-body {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+  
+  .repair-service-container {
+    padding: 2rem;
+  }
+  
+  .repair-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .repair-input-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .repair-image-upload {
+    grid-template-columns: 1fr;
+  }
+  
+  .repair-submit-button {
     width: 100%;
+  }
 }
 
-.react-datepicker__input-container input {
-    padding: 10px 15px;
-    border: 2px solid #ff7700;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+/* Animation Effects */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.react-datepicker__input-container input:focus {
-    border-color: #ff5500;
-    outline: none;
+.repair-service-container {
+  animation: fadeIn 0.6s ease forwards;
 }
 
-/* Calendar Popup */
-.react-datepicker {
-    font-family: 'Poppins', sans-serif;
-    border: none;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border-radius: 10px;
-    overflow: hidden;
+/* Floating Effect */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
 }
 
-/* Header with gradient */
-.react-datepicker__header {
-    background: linear-gradient(45deg, #ff7700, #ff5500);
-    border: none;
-    padding: 10px;
-    text-align: center;
-}
-
-.react-datepicker__current-month {
-    font-size: 1.2rem;
-    color: #fff;
-}
-
-/* Day Names & Days */
-.react-datepicker__day-name,
-.react-datepicker__day {
-    width: 2.5rem;
-    line-height: 2.5rem;
-    margin: 2px;
-    text-align: center;
-    border-radius: 50%;
-    transition: background 0.3s ease;
-}
-
-.react-datepicker__day:not(.react-datepicker__day--outside-month) {
-    color: #333;
-}
-
-/* Hover effect for days */
-.react-datepicker__day:hover {
-    background-color: rgba(255, 85, 0, 0.3);
-}
-
-/* Selected day styling */
-.react-datepicker__day--selected {
-    background-color: #ff5500;
-    color: #fff;
-}
-
-/* Creative styling for the repair-radio-group */
-.repair-radio-group {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: #fff5f0;
-  border: 2px dashed #ff7700;
-  border-radius: 8px;
-  padding: 10px;
-  gap: 1rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease;
-}
-
-.repair-radio-group:hover {
-  background: #ffece6;
-}
-
-.repair-radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 1rem;
-  color: #333;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.repair-radio-group label:hover {
-  transform: scale(1.05);
-  color: #ff8a76;
-}
-
-.repair-radio-group input[type="radio"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #ff5d57; /* Modern browser support */
-  margin-right: 5px;
+.repair-service-container:hover {
+  animation: float 4s ease-in-out infinite;
 }
