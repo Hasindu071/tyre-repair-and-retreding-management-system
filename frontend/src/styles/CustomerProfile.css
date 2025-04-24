@@ -1,68 +1,92 @@
 
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-}
 
 .profile-container {
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .profile-title {
     text-align: center;
-    font-size: 2.5rem;
-    color: #8a8989;
+    font-size: 2.8rem;
+    color: #ff4b5c;
     margin-bottom: 30px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     position: relative;
+    font-weight: 600;
 }
 
 .profile-title::after {
     content: "";
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(90deg, #ff4b5c, #ff0000);
+    width: 120px;
+    height: 5px;
+    background: linear-gradient(90deg, #ff4b5c, #ff006e, #ff4b5c);
     display: block;
-    margin: 10px auto 0;
-    border-radius: 2px;
+    margin: 15px auto 0;
+    border-radius: 3px;
+    animation: pulseBar 2s infinite ease-in-out;
 }
 
 .profile-card {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .profile-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .profile-card p {
-    font-size: 1.1rem;
-    color: #555;
-    margin: 15px 0;
+    font-size: 1.2rem;
+    color: #444;
+    margin: 18px 0;
+    line-height: 1.7;
+    text-align: center;
 }
 
 .profile-card strong {
-    color: #333;
+    color: #222;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseBar {
+    0%, 100% {
+        transform: scaleX(1);
+    }
+    50% {
+        transform: scaleX(1.2);
+    }
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
     .profile-container {
-        padding: 10px;
-        margin: 20px auto;
+        padding: 15px;
+        margin: 30px auto;
     }
     .profile-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
     .profile-card {
-        padding: 20px;
+        padding: 25px;
     }
 }
