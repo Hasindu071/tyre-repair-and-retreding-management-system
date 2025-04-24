@@ -5,7 +5,7 @@ import "../styles/MyOrders.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext"; // ✅ Using the correct Auth hook
+import { useAuth } from "../context/AuthContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -31,8 +31,21 @@ const MyOrders = () => {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return "#2ecc71";
+      case "Processing":
+        return "#f39c12";
+      case "Cancelled":
+        return "#e74c3c";
+      default:
+        return "#3498db";
+    }
+  };
+
   return (
-    <div>
+    <div className="my-orders-page">
       <CustomerSidebar />
       <div className="my-orders-container">
         <h2 className="my-orders-title">My Order Statuses</h2>
@@ -48,37 +61,55 @@ const MyOrders = () => {
                 datasets: [
                   {
                     data: [order.progress, 100 - order.progress],
-                    backgroundColor: ["#36A2EB", "#E0E0E0"],
+                    backgroundColor: [getStatusColor(order.status), "#E0E0E0"],
                     borderWidth: 1,
                   },
                 ],
               };
 
               return (
-                <div key={order.id} className="order-card">
-                  <p>
-                    <strong>Order ID:</strong> {order.id}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {order.status || "Unknown"}
-                  </p>
-                  <p>
-                    <strong>Progress:</strong>{" "}
-                    {order.progress !== null && order.progress !== undefined
-                      ? `${order.progress}%`
-                      : "N/A"}
-                  </p>
+                <div 
+                  key={order.id} 
+                  className="order-card"
+                  data-status={order.status}
+                >
+                  <div className="order-header">
+                    <h3>Order #{order.id}</h3>
+                    <span className="order-badge" style={{ backgroundColor: getStatusColor(order.status) }}>
+                      {order.status || "Unknown"}
+                    </span>
+                  </div>
+                  
+                  <div className="order-details">
+                    <p>
+                      <strong>Date:</strong> {new Date(order.orderDate).toLocaleDateString()}
+                    </p>
+                    <p>
+                      <strong>Progress:</strong>{" "}
+                      {order.progress !== null && order.progress !== undefined
+                        ? `${order.progress}%`
+                        : "N/A"}
+                    </p>
+                  </div>
 
                   {showProgressChart && (
-                    <div className="progress-chart">
-                      <Pie data={pieData} />
+                    <div className="progress-chart-container">
+                      <div className="progress-chart">
+                        <Pie data={pieData} />
+                      </div>
+                      <div className="progress-text">
+                        {order.progress}% Complete
+                      </div>
                     </div>
                   )}
                 </div>
               );
             })
           ) : (
-            <p className="no-orders">No orders found.</p>
+            <div className="no-orders-container">
+              <p className="no-orders">No orders found</p>
+              <div className="empty-illustration"></div>
+            </div>
           )}
         </div>
       </div>
