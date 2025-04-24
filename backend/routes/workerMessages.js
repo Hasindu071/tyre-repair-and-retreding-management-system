@@ -49,4 +49,44 @@ router.post('/sendMessage', async (req, res) => {
     }
 });
 
+// Route to mark a message as read
+router.put('/markAsRead/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Update the message as read
+        const query = 'UPDATE worker_messages SET is_read = 1 WHERE id = ?';
+        const [result] = await db.promise().execute(query, [id]);
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Message not found.' });
+        }
+        
+        res.status(200).json({ message: 'Message marked as read.' });
+    } catch (error) {
+        console.error('Database update error:', error);
+        res.status(500).json({ message: 'Failed to mark message as read', error: error.message });
+    }
+});
+
+// Route to delete a message
+router.delete('/deleteMessage/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Delete the message
+        const query = 'DELETE FROM worker_messages WHERE id = ?';
+        const [result] = await db.promise().execute(query, [id]);
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Message not found.' });
+        }
+        
+        res.status(200).json({ message: 'Message deleted successfully.' });
+    } catch (error) {
+        console.error('Database delete error:', error);
+        res.status(500).json({ message: 'Failed to delete message', error: error.message });
+    }
+});
+
 module.exports = router;

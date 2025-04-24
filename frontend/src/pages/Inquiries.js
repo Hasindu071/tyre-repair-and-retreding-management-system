@@ -3,13 +3,10 @@ import axios from 'axios';
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar";
 import '../styles/Inquiries.css';
 
-// Define workerId (you could retrieve it from localStorage or your auth context)
-
 const Inquiries = () => {
     const [inquiries, setInquiries] = useState([]);
-    const [selectedInquiry] = useState(null);
+    const [selectedInquiry, setSelectedInquiry] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
 
     useEffect(() => {
         fetchInquiries();
@@ -35,22 +32,36 @@ const Inquiries = () => {
         }
     }, []);
 
-    const handleSendMessage = async () => {
-        if (newMessage.trim() !== '' && selectedInquiry) {
-            try {
-                const response = await axios.post('http://localhost:5000/workerMessages/sendMessage', {
-                    sender: 'owner', // owner is replying
-                    receiver: selectedInquiry.email,
-                    message: newMessage
-                });
-                if (response.status === 201) {
-                    setNewMessage('');
-                    // Refresh conversation after sending
-                    fetchMessages(selectedInquiry.email);
-                }
-            } catch (error) {
-                console.error('Error sending message:', error);
+    const markAsRead = async (inquiryId) => {
+        try {
+            await axios.put(`http://localhost:5000/workerMessages/markAsRead/${inquiryId}`);
+            fetchInquiries();
+        } catch (error) {
+            console.error('Error marking as read:', error);
+        }
+    };
+
+    const deleteInquiry = async (inquiryId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this inquiry?");
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`http://localhost:5000/workerMessages/deleteMessage/${inquiryId}`);
+            fetchInquiries();
+            if (selectedInquiry && selectedInquiry.id === inquiryId) {
+                setSelectedInquiry(null);
+                setMessages([]);
             }
+        } catch (error) {
+            console.error('Error deleting inquiry:', error);
+        }
+    };
+
+    const handleInquiryClick = (inquiry) => {
+        setSelectedInquiry(inquiry);
+        fetchMessages(inquiry.email);
+        if (!inquiry.is_read) {
+            markAsRead(inquiry.id);
         }
     };
 
@@ -61,53 +72,40 @@ const Inquiries = () => {
                 <h2>Customer Inquiries</h2>
                 <div className="inquiries-list">
                     {inquiries.map((inquiry) => (
-                        <div key={inquiry.id} className="inquiry-card">
-                            <h3>{inquiry.name}</h3>
-                            <p><strong>Worker ID:</strong> {inquiry.worker_id}</p>
-                            <p><strong>Initial Message:</strong> {inquiry.message}</p>
+                        <div 
+                            key={inquiry.id} 
+                            className={`inquiry-card ${inquiry.is_read ? 'read' : 'unread'}`}
+                            onClick={() => handleInquiryClick(inquiry)}
+                        >
+                            <h3>{inquiry.firstName} {inquiry.lastName}</h3>
+                            <p><strong>Email:</strong> {inquiry.email}</p>
+                            <p><strong>Message:</strong> {inquiry.message}</p>
+                            <p className="status">{inquiry.is_read ? 'Read' : 'Unread'}</p>
+                            <div className="inquiry-actions">
+                                {!inquiry.is_read && (
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            markAsRead(inquiry.id);
+                                        }}
+                                        className="mark-read-btn"
+                                    >
+                                        Mark as Read
+                                    </button>
+                                )}
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteInquiry(inquiry.id);
+                                    }}
+                                    className="delete-btn"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
-                {selectedInquiry && (
-                    <div className="chat-container">
-                        <h2>Conversation with {selectedInquiry.name}</h2>
-                        <div className="message-box">
-                            {messages.length > 0 ? (
-                                messages.map((msg, index) => (
-                                    <div
-                                        key={index}
-                                        className={`message ${
-                                            msg.sender === 'owner'
-                                                ? 'owner'
-                                                : msg.sender === 'worker'
-                                                ? 'worker'
-                                                : 'customer'
-                                        }`}
-                                    >
-                                        <strong>
-                                            {msg.sender === 'worker'
-                                                ? 'Worker'
-                                                : msg.sender.charAt(0).toUpperCase() + msg.sender.slice(1)}
-                                            :
-                                        </strong>{' '}
-                                        {msg.message}
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No messages yet.</p>
-                            )}
-                        </div>
-                        <div className="message-input">
-                            <input
-                                type="text"
-                                placeholder="Type your message..."
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                            />
-                            <button onClick={handleSendMessage}>Send</button>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );
