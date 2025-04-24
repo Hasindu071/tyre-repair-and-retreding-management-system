@@ -1,15 +1,13 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom'; // Using NavLink for active links
+import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome CSS
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import Logo from '../../assets/Logo.png';
 
-const Navbar = () => {
+const Navbar = ({ unreadCount = 0 }) => {  // Default to 0 if prop not provided
   const navigate = useNavigate();
 
-  // Handle Logout
   const handleLogout = () => {
-    // Add logout functionality here (e.g., clear user session, redirect)
     console.log("User logged out");
     navigate("/RoleLoginSelection");
   };
@@ -22,7 +20,7 @@ const Navbar = () => {
           <img src={Logo} alt="Ryak Tires Logo" style={{ height: '45px' }} />
         </NavLink>
 
-        {/* Navbar Toggler for Mobile View */}
+        {/* Navbar Toggler */}
         <button
           className="navbar-toggler"
           type="button"
@@ -38,38 +36,53 @@ const Navbar = () => {
         {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            {/* Home */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/OwnerDashboard" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink className="nav-link" to="/OwnerDashboard" style={({ isActive }) => ({ 
+                color: isActive ? 'red' : 'black', 
+                fontWeight: isActive ? 'bold' : 'normal' 
+              })}>
                 Home
               </NavLink>
             </li>
 
-            {/* Profile */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/Inquiries" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink className="nav-link" to="/Inquiries" style={({ isActive }) => ({ 
+                color: isActive ? 'red' : 'black', 
+                fontWeight: isActive ? 'bold' : 'normal' 
+              })}>
                 Inquiries
               </NavLink>
             </li>
 
-            {/* Our Products */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/OurProducts" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink className="nav-link" to="/OurProducts" style={({ isActive }) => ({ 
+                color: isActive ? 'red' : 'black', 
+                fontWeight: isActive ? 'bold' : 'normal' 
+              })}>
                 Our Products
               </NavLink>
             </li>
 
-
-            {/* Notification */}
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/notification" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
-                <i className="fas fa-bell"></i>
+            {/* Notification with Badge */}
+            <li className="nav-item position-relative mx-2">
+              <NavLink className="nav-link" to="/notification" style={({ isActive }) => ({ 
+                color: isActive ? 'red' : 'black', 
+                fontWeight: isActive ? 'bold' : 'normal' 
+              })}>
+                <i className="fas fa-bell fa-lg"></i>
+                {unreadCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
+                    fontSize: '0.6rem',
+                    padding: '0.25em 0.4em'
+                  }}>
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </NavLink>
             </li>
 
-            {/* Logout Button */}
             <li className="nav-item">
-              <button className="btn btn-danger ms-3 px-4 py-2 fw-bold rounded" onClick={handleLogout}>
+              <button className="btn btn-danger ms-2 px-4 py-2 fw-bold rounded" onClick={handleLogout}>
                 Logout
               </button>
             </li>

@@ -8,19 +8,23 @@ import "react-toastify/dist/ReactToastify.css";
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const fetchNotifications = async () => {
     try {
       setLoading(true);
       const response = await fetch("http://localhost:5000/contact/getContact");
       const data = await response.json();
-      // Map each notification so that read is true only if readStatus equals 1 
       const formattedData = data.map(notification => ({
         ...notification,
         read: notification.readStatus === 1,
         date: new Date(notification.created_at).toLocaleString()
       }));
       setNotifications(formattedData);
+      
+      // Calculate and update unread count
+      const count = formattedData.filter(n => !n.read).length;
+      setUnreadCount(count);
     } catch (error) {
       console.error("Error fetching notifications:", error);
       toast.error("Failed to load notifications");
@@ -35,15 +39,14 @@ const Notification = () => {
 
   const markAsRead = async (id) => {
     try {
-      // Send PUT request to update backend status (readStatus becomes 1)
       const response = await fetch(`http://localhost:5000/contact/markAsRead/${id}`, {
         method: "PUT"
       });
       if (response.ok) {
-        // Update frontend state upon success: set read to true
         setNotifications(notifications.map(notification =>
           notification.id === id ? { ...notification, read: true } : notification
         ));
+        setUnreadCount(prev => prev - 1);
         toast.success("Marked as read");
       } else {
         toast.error("Failed to mark as read");
@@ -56,12 +59,15 @@ const Notification = () => {
 
   const deleteNotification = async (id) => {
     try {
-      // Send DELETE request to backend
+      const notificationToDelete = notifications.find(n => n.id === id);
       const response = await fetch(`http://localhost:5000/contact/deleteNotification/${id}`, {
         method: "DELETE"
       });
       if (response.ok) {
         setNotifications(notifications.filter(notification => notification.id !== id));
+        if (notificationToDelete && !notificationToDelete.read) {
+          setUnreadCount(prev => prev - 1);
+        }
         toast.success("Notification deleted");
       } else {
         toast.error("Failed to delete notification");
@@ -74,11 +80,11 @@ const Notification = () => {
 
   return (
     <>
-      <OwnerNavbar />
+      <OwnerNavbar unreadCount={unreadCount} />
       <div className="notification-container">
         <h2 className="title-notification">
           <FiBell style={{ verticalAlign: "middle", marginRight: "10px" }} />
-          Notifications
+          Notifications {unreadCount > 0 && `(${unreadCount} unread)`}
         </h2>
         <div className="notification-grid">
           {loading ? (
