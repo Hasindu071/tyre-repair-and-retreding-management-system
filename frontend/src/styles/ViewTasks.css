@@ -125,6 +125,15 @@
     color: white;
 }
 
+.tasks-table img {
+    width: 80px; /* Adjust width as needed */
+    height: 80px; /* Adjust height as needed */
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
 /* Responsive tweaks */
 @media (max-width: 768px) {
     .tasks-table thead {
@@ -160,3 +169,33 @@
         text-align: left;
     }
 }
+
+
+.task-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.no-tasks {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin-top: 2rem;
+}
+
+.modal-body p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+}
+
+.photo-grid {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+

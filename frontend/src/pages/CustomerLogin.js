@@ -49,7 +49,9 @@ const CustomerLogin = () => {
                 login({ 
                     id: data.user.id, 
                     email: data.user.email, 
-                    fullName: fullName, 
+                    firstName: data.user.firstName,
+                    lastName: data.user.lastName,
+                    fullName: `${data.user.firstName} ${data.user.lastName}`,
                     token: data.token 
                 });
 

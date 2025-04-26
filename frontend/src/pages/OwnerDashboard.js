@@ -64,8 +64,8 @@ const OwnerDashboard = () => {
     };
 
     const UpdateWorkerAttendence = () => {
-        navigate("./WorkerAttendance"); // Redirect to Supplies page
-    };
+        navigate("/Owner/WorkerAttendance"); // Use the absolute path
+      };
 
     const UpdateReports = () => {
         navigate("/OwnerReport"); // Redirect to Supplies page

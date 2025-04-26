@@ -14,6 +14,9 @@ const OwnerMarksWorkerAttendance = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [totalAttendanceCount, setTotalAttendanceCount] = useState(0);
+  const [showBulkAttendance, setShowBulkAttendance] = useState(false);
+  const [selectedWorkers, setSelectedWorkers] = useState([]);
+  const [bulkMessage, setBulkMessage] = useState("");
 
   const today = new Date();
   const todayDisplay = today.toLocaleDateString();
@@ -73,6 +76,53 @@ const OwnerMarksWorkerAttendance = () => {
     }
   };
 
+  const markBulkAttendance = async () => {
+    if (selectedWorkers.length === 0) {
+      setBulkMessage("Please select at least one worker");
+      return;
+    }
+
+    try {
+      const responses = await Promise.all(
+        selectedWorkers.map(workerId => 
+          axios.post("http://localhost:5000/attendance/mark", {
+            worker_id: workerId
+          })
+        )
+      );
+
+      const successfulMarks = responses.filter(res => res.status === 200).length;
+      const alreadyMarked = responses.filter(res => 
+        res.response?.status === 400 && 
+        res.response.data.message === "Attendance already marked for today."
+      ).length;
+
+      setBulkMessage(
+        `Successfully marked attendance for ${successfulMarks} workers. ` +
+        `${alreadyMarked} workers already had attendance marked for today.`
+      );
+
+      // Refresh individual worker data if one is selected
+      if (selectedWorker) {
+        fetchWorkerAttendance(selectedWorker.id);
+      }
+
+      // Clear selections after marking
+      setSelectedWorkers([]);
+    } catch (error) {
+      console.error("Error marking bulk attendance:", error);
+      setBulkMessage("Failed to mark attendance for some workers. Please try again.");
+    }
+  };
+
+  const toggleWorkerSelection = (workerId) => {
+    setSelectedWorkers(prev => 
+      prev.includes(workerId) 
+        ? prev.filter(id => id !== workerId) 
+        : [...prev, workerId]
+    );
+  };
+
   const generateCalendar = () => {
     const firstDay = new Date(selectedYear, selectedMonth, 1);
     const lastDay = new Date(selectedYear, selectedMonth + 1, 0);
@@ -95,35 +145,81 @@ const OwnerMarksWorkerAttendance = () => {
         <h2>Worker Attendance</h2>
         <p>Today: {todayDisplay}</p>
 
-        {!selectedWorker ? (
-          <button onClick={() => setShowWorkerModal(true)}>Select Worker</button>
-        ) : (
-          <div>
-            <p>
-              Selected Worker: {selectedWorker.firstName} {selectedWorker.lastName}
-            </p>
-            <p>Total Days Attended: {totalAttendanceCount}</p>
+        <div className="attendance-actions">
+          <button 
+            className="btn btn-primary"
+            onClick={() => setShowBulkAttendance(!showBulkAttendance)}
+          >
+            {showBulkAttendance ? "Hide Bulk Attendance" : "Mark Attendance for Multiple Workers"}
+          </button>
 
-            <button
-              onClick={markAttendance}
-              disabled={attendanceMarked}
-              className={attendanceMarked ? "btn-disabled" : ""}
+          {!selectedWorker ? (
+            <button className="btn btn-secondary" onClick={() => setShowWorkerModal(true)}>
+              Select Worker to View Details
+            </button>
+          ) : (
+            <div className="worker-details">
+              <p>
+                Selected Worker: {selectedWorker.firstName} {selectedWorker.lastName}
+              </p>
+              <p>Total Days Attended: {totalAttendanceCount}</p>
+
+              <button
+                className={`btn ${attendanceMarked ? "btn-success" : "btn-primary"}`}
+                onClick={markAttendance}
+                disabled={attendanceMarked}
+              >
+                {attendanceMarked ? "Attendance Marked" : "Mark Attendance"}
+              </button>
+              <button className="btn btn-info" onClick={() => setShowCalendarModal(true)}>
+                View Attendance Calendar
+              </button>
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => {
+                  setSelectedWorker(null);
+                  setAttendanceDates([]);
+                  setAttendanceMarked(false);
+                  setMessage("");
+                }}
+              >
+                Change Worker
+              </button>
+            </div>
+          )}
+        </div>
+
+        {message && <p className="alert alert-info">{message}</p>}
+
+        {/* Bulk Attendance Section */}
+        {showBulkAttendance && (
+          <div className="bulk-attendance-section mt-4 p-3 border rounded">
+            <h4>Mark Attendance for Multiple Workers</h4>
+            <div className="workers-list">
+              {workers.map(worker => (
+                <div key={worker.id} className="worker-checkbox">
+                  <input
+                    type="checkbox"
+                    id={`worker-${worker.id}`}
+                    checked={selectedWorkers.includes(worker.id)}
+                    onChange={() => toggleWorkerSelection(worker.id)}
+                  />
+                  <label htmlFor={`worker-${worker.id}`}>
+                    {worker.firstName} {worker.lastName}
+                  </label>
+                </div>
+              ))}
+            </div>
+            <button 
+              className="btn btn-primary mt-2"
+              onClick={markBulkAttendance}
+              disabled={selectedWorkers.length === 0}
             >
-              {attendanceMarked ? "Attendance Marked" : "Mark Attendance"}
+              Mark Attendance for Selected Workers
             </button>
-            <button onClick={() => setShowCalendarModal(true)}>View Attendance Calendar</button>
-            <button onClick={() => {
-              setSelectedWorker(null);
-              setAttendanceDates([]);
-              setAttendanceMarked(false);
-              setMessage("");
-            }}>
-              Change Worker
-            </button>
+            {bulkMessage && <p className="alert alert-info mt-2">{bulkMessage}</p>}
           </div>
         )}
-
-        {message && <p className="attendance-message">{message}</p>}
       </div>
 
       {/* Worker Selection Modal */}
