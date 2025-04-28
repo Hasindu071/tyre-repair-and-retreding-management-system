@@ -276,7 +276,6 @@ const RetreadingService = () => {
                         <hr />
                         <h3>Preferred Completion Date</h3>
                         <div className="form-group">
-                            <label htmlFor="completionDate">Completion Date</label>
                             <ReactDatePicker
                                 id="completionDate"
                                 selected={formData.completionDate}
@@ -307,7 +306,6 @@ const RetreadingService = () => {
                         <hr />
                         <h3>Additional Notes</h3>
                         <div className="form-group">
-                            <label htmlFor="notes">Notes</label>
                             <textarea 
                                 id="notes"
                                 name="notes" 
@@ -317,7 +315,7 @@ const RetreadingService = () => {
                                 className="notes-box"
                             ></textarea>
                         </div>
-
+                        <hr />
                         <div className="form-group">
                             <label htmlFor="needDeliveryService">
                                 <h3>Need Delivery Service?</h3>
@@ -335,7 +333,7 @@ const RetreadingService = () => {
                                 <option value="No">No</option>
                             </select>
                             
-
+                            <hr />
                         </div>
 
                         <button 
