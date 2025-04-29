@@ -42,12 +42,7 @@ const CustomerLogin = () => {
             if (data.success) {
                 toast.success('Login successful!');
     
-                login({ 
-                    id: data.customer.id, 
-                    email: data.customer.email, 
-                    userName: data.customer.userName, // Ensure this matches the response from the backend
-                    token: data.token 
-                });
+                login('customer', data.customer.id, data.customer.userName, data.token);
     
                 console.log('User logged in:', data.customer.id, data.customer.userName); // Fixed the log statement
     
