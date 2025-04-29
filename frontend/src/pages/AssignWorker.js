@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify"; // toast container
 import "react-toastify/dist/ReactToastify.css"; // import toast css
 import { FaEye } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext"; // adjust the path if necessary
+
 
 
 const AssignWorker = () => {
@@ -15,6 +17,8 @@ const AssignWorker = () => {
   const [workers, setWorkers] = useState([]);
   const [newOrder, setNewOrder] = useState({ customer: "", task: "" });
   const [selectedWorker, setSelectedWorker] = useState({});
+  const { userID } = useAuth();
+
 
   // New state for approved orders
   const [approvedOrders, setApprovedOrders] = useState([]);
@@ -69,21 +73,23 @@ const AssignWorker = () => {
       type = "Repair";
     }
   
-    setNewOrder({ customer: serviceId, task: "" });
+    setNewOrder({ customer: serviceId, task: "" , userID});
   };
 
   const handleAddOrder = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/orders/getOrders', newOrder);
+      const orderToSend = { ...newOrder, userID }; // attach userID before sending
+      const response = await axios.post('http://localhost:5000/orders/getOrders', orderToSend);
       setOrders([...orders, response.data]);
-      setNewOrder({ customer: "", task: "" });
+      setNewOrder({ customer: "", task: "", assignedWorker: "" });
       toast.success("Order added successfully");
     } catch (error) {
       console.error("Error adding order:", error);
       toast.error("Error adding order");
     }
   };
+  
 
   const handleAssign = async (orderId) => {
     const worker = selectedWorker[orderId];

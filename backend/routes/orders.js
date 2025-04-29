@@ -235,13 +235,14 @@ router.put('/completeOrder/:id', async (req, res) => {
   });
 
   router.post("/getOrders", async (req, res) => {
-    const { customer, task, assignedWorker } = req.body;
+    const { customer, task, userID, assignedWorker } = req.body;
   
     const emp_id = assignedWorker;
     const order_date = new Date();
     const progress = "0%";
     const total_amount = task;
     const service_id = customer;
+    const user_id = userID;
   
     try {
       // Start transaction
@@ -249,9 +250,9 @@ router.put('/completeOrder/:id', async (req, res) => {
   
       // Insert into orders table
       const [result] = await db.promise().query(
-        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date, status, payment_status)
-         VALUES (?, ?, ?, ?, ?, "Pending", "not paid")`,
-        [service_id, emp_id, total_amount, progress, order_date]
+        `INSERT INTO orders (service_id, emp_id, total_amount, progress, order_date, status, payment_status, own_ID )
+         VALUES (?, ?, ?, ?, ?, "Pending", "not paid", ?)`,
+        [service_id, emp_id, total_amount, progress, order_date, user_id]
       );
   
       // Update the services table

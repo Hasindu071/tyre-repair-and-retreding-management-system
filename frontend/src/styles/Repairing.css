@@ -130,14 +130,14 @@
 /* Radio Buttons */
 .repair-radio-group {
   display: flex;
-  gap: 1.5rem;
+  gap: 4.5rem;
   flex-wrap: wrap;
 }
 
 .repair-radio-group label {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.5rem;
   cursor: pointer;
   position: relative;
   padding-left: 1.8rem;
@@ -145,12 +145,10 @@
 
 .repair-radio-group input[type="radio"] {
   position: absolute;
-  opacity: 0;
-  cursor: pointer;
+  opacity: 15;
 }
 
 .repair-radio-group label::before {
-  content: '';
   position: absolute;
   left: 0;
   top: 50%;
@@ -322,9 +320,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.repair-service-container {
-  animation: fadeIn 0.6s ease forwards;
-}
+
 
 /* Floating Effect */
 @keyframes float {
@@ -333,6 +329,3 @@
   100% { transform: translateY(0px); }
 }
 
-.repair-service-container:hover {
-  animation: float 4s ease-in-out infinite;
-}
