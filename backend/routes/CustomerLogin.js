@@ -37,13 +37,14 @@ router.post('/login', (req, res) => {
         res.json({ 
             success: true, 
             token, 
-            user: { 
+            customer: { 
                 id: user.id, 
                 email: user.email, 
-                firstName: user.firstName, 
-                lastName: user.lastName 
+                userName: `${user.firstName} ${user.lastName}` // Changed from 'name' to 'userName'
             } 
         });
+        
+
     });
 });
 

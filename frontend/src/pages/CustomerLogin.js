@@ -38,25 +38,19 @@ const CustomerLogin = () => {
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
-
+    
             if (data.success) {
                 toast.success('Login successful!');
-                
-                // Construct full name
-                const fullName = `${data.user.firstName} ${data.user.lastName}`;
-
-                // Save user data in context
+    
                 login({ 
-                    id: data.user.id, 
-                    email: data.user.email, 
-                    firstName: data.user.firstName,
-                    lastName: data.user.lastName,
-                    fullName: `${data.user.firstName} ${data.user.lastName}`,
+                    id: data.customer.id, 
+                    email: data.customer.email, 
+                    userName: data.customer.userName, // Ensure this matches the response from the backend
                     token: data.token 
                 });
-
-                console.log('User logged in:', data.user.id, fullName);
-
+    
+                console.log('User logged in:', data.customer.id, data.customer.userName); // Fixed the log statement
+    
                 setTimeout(() => navigate('/customerDashboard'), 2000);
             } else {
                 setErrorMessage('Login failed! Please check your credentials.');
@@ -67,6 +61,7 @@ const CustomerLogin = () => {
             toast.error('An error occurred. Please try again.');
         }
     };
+    
 
     return (
         <div>

@@ -9,14 +9,13 @@ import { useAuth } from "../context/AuthContext"; // Import useAuth hook
 
 const CustomerDashboard = () => {
     const navigate = useNavigate();
-    const { user } = useAuth(); // Get user details from context
+    const { userName } = useAuth();
+    console.log('userName in CustomerDashboard:', userName); // Check the value of userName
+
 
     // Determine the user's display name
     const getDisplayName = () => {
-        if (user && user.fullName) {
-            return user.fullName;
-        }
-        return user?.email || "Customer";
+        return userName ;
     };
 
     const handlePlaceOrder = () => {

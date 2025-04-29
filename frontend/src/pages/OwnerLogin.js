@@ -5,6 +5,7 @@ import Navbar from '../components/NavBar'; // Assuming you have a Navbar compone
 import '../styles/OwnerLogin.css'; // Import the CSS file
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../src/context/AuthContext'; // adjust path as needed
 
 const API_URL = "http://localhost:5000";
 
@@ -28,6 +29,8 @@ const OwnerLogin = () => {
         });
     };
 
+    const { login } = useAuth();
+
     const handleResetChange = (e) => {
         setResetEmail(e.target.value);
     };
@@ -42,10 +45,15 @@ const OwnerLogin = () => {
                 },
                 body: JSON.stringify(formData)
             });
+            
             const data = await response.json();
+            console.log("Login response:", data);
+
             if (data.success) {
+                // Assuming backend sends { id, name }
+                login("owner", data.owner.id, data.owner.name);  // Call context login
                 toast.success('Login successful!');
-                setTimeout(() => navigate('/OwnerDashboard'), 2000); // 2 seconds
+                setTimeout(() => navigate('/OwnerDashboard'), 2000);
             }
              else {
                 setErrorMessage('Login failed! Please check your credentials.');

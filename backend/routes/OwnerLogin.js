@@ -37,8 +37,16 @@ router.post('/login', (req, res) => {
         }
         else{
             console.log('Login successful:', user);
-            return res.json({ success: true, message: 'Login successful.', token });
-        }   
+            return res.json({
+                success: true,
+                message: 'Login successful.',
+                token,
+                owner: {
+                  id: user.id,
+                  name: user.firstName + ' ' + user.lastName // or user.firstName + ' ' + user.lastName if needed
+                }
+              });
+                      }   
     }
     );
 });

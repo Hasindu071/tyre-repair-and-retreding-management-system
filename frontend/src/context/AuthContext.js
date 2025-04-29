@@ -1,31 +1,52 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
-        // Read from localStorage when app starts
-        const storedUser = localStorage.getItem('user');
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
+  const [userType, setUserType] = useState(null); // 'customer' or 'owner'
+  const [userID, setUserID] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-    const login = (userData) => {
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData)); // Save user in localStorage
-    };
 
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user'); // Remove user from localStorage
-    };
+  useEffect(() => {
+    const savedUserType = localStorage.getItem("userType");
+    const savedUserID = localStorage.getItem("userID");
+    const savedUserName = localStorage.getItem("userName");
 
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    if (savedUserType) setUserType(savedUserType);
+    if (savedUserID) setUserID(savedUserID);
+    if (savedUserName) setUserName(savedUserName);
+  }, []);
+
+  const login = (type, id, name, token) => {
+    setUserType(type);
+    setUserID(id);
+    setUserName(name);
+    setToken(token); // Add this line to store the token
+  
+    localStorage.setItem("userType", type);
+    localStorage.setItem("userID", id);
+    localStorage.setItem("userName", name);
+    localStorage.setItem("token", token); // Store token in localStorage
+  };
+
+  const logout = () => {
+    setUserType(null);
+    setUserID(null);
+    setUserName(null);
+
+    localStorage.removeItem("userType");
+    localStorage.removeItem("userID");
+    localStorage.removeItem("userName");
+  };
+
+  return (
+    <AuthContext.Provider value={{ userType, userID, userName, token, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+  
 };
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
