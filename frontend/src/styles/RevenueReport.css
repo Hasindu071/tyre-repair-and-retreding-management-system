@@ -1,0 +1,136 @@
+/* OwnerReport.css */
+
+.owner-revenue-report-container {
+    margin-left: 250px; /* Adjust based on your sidebar width */
+    padding: 20px;
+  }
+  
+  .owner-revenue-report-content {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .owner-revenue-report-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+  
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .filter-item label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .filter-item input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary {
+    background-color: #4a6baf;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3a5695;
+  }
+  
+  .revenue-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .revenue-report-table th,
+  .revenue-report-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .revenue-report-table th {
+    background-color: #4a6baf;
+    color: white;
+    font-weight: 500;
+  }
+  
+  .revenue-report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .revenue-report-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .total-revenue {
+    margin: 20px 0;
+    text-align: right;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+  
+  .total-revenue h3 {
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Print-specific styles */
+  @media print {
+    .owner-revenue-report-container {
+      margin-left: 0;
+      padding: 0;
+    }
+  
+    .filter-container,
+    .btn {
+      display: none;
+    }
+  
+    .revenue-report-table {
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
+  
+    .revenue-report-table th {
+      background-color: white;
+      color: black;
+      border-bottom: 2px solid #ddd;
+    }
+  
+    body {
+      background-color: white;
+      color: black;
+    }
+  }

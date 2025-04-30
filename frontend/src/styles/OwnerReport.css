@@ -1,59 +1,63 @@
 /* OwnerReport.css */
 
-.owner-revenue-report-container {
+.owner-report-selection-container {
   margin-left: 250px; /* Adjust based on your sidebar width */
   padding: 20px;
 }
 
-.owner-revenue-report-content {
+.owner-report-selection-container h2 {
+  color: #ffffff;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.report-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.report-card {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-}
-
-.owner-revenue-report-content h2 {
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: flex-end;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 5px;
-}
-
-.filter-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-.filter-item label {
-  margin-bottom: 5px;
-  font-weight: 500;
+.report-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.report-card h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.report-card p {
   color: #555;
-}
-
-.filter-item input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin-bottom: 20px;
+  flex-grow: 1;
   font-size: 14px;
+  line-height: 1.5;
 }
 
 .btn {
-  padding: 8px 16px;
+  padding: 10px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s;
+  align-self: flex-start;
 }
 
 .btn-primary {
@@ -65,72 +69,32 @@
   background-color: #3a5695;
 }
 
-.revenue-report-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .owner-report-selection-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .report-options {
+    grid-template-columns: 1fr;
+  }
 }
 
-.revenue-report-table th,
-.revenue-report-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.revenue-report-table th {
-  background-color: #4a6baf;
-  color: white;
-  font-weight: 500;
-}
-
-.revenue-report-table tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.revenue-report-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-.total-revenue {
-  margin: 20px 0;
-  text-align: right;
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 5px;
-}
-
-.total-revenue h3 {
-  color: #333;
-  margin: 0;
-}
-
-/* Print-specific styles */
 @media print {
-  .owner-revenue-report-container {
+  .owner-report-selection-container {
     margin-left: 0;
     padding: 0;
   }
 
-  .filter-container,
-  .btn {
-    display: none;
-  }
-
-  .revenue-report-table {
+  .report-card {
+    break-inside: avoid;
     box-shadow: none;
     border: 1px solid #ddd;
+    margin-bottom: 15px;
   }
 
-  .revenue-report-table th {
-    background-color: white;
-    color: black;
-    border-bottom: 2px solid #ddd;
-  }
-
-  body {
-    background-color: white;
-    color: black;
+  .btn {
+    display: none;
   }
 }

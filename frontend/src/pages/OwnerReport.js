@@ -1,130 +1,77 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import OwnerSidebar from "../components/SideNav";
 import "../styles/OwnerReport.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const OwnerRevenueReport = () => {
-  const [reports, setReports] = useState([]);
-  const [startDate, setStartDate] = useState(""); // YYYY-MM-DD format
-  const [endDate, setEndDate] = useState("");
-  const [loading, setLoading] = useState(false);
+const OwnerSelectReport = () => {
+  const navigate = useNavigate();
 
-  // Function to fetch revenue report data from backend
-  const fetchReports = async () => {
-    if (!startDate || !endDate) {
-      toast.error("Please select both start and end dates.");
-      return;
+  // Define the list of report options with title, description, and target route.
+  const reportOptions = [
+    {
+      title: "Daily Orders Summary",
+      description: "Total orders placed, revenue generated, and progress status for each day.",
+      path: "/reports/daily"
+    },
+    {
+      title: "Weekly/Monthly Orders Report",
+      description: "Aggregate orders over a week or month with trends and comparisons.",
+      path: "/reports/weekly-monthly"
+    },
+    {
+      title: "Service Completion Report",
+      description: "List orders that are completed versus those still in progress; include average service time.",
+      path: "/reports/completion"
+    },
+    {
+      title: "Worker Performance Report",
+      description: "Report on number of orders handled by each worker, average turnaround time, and ratings if available.",
+      path: "/reports/worker-performance"
+    },
+    {
+      title: "Revenue Report",
+      description: "Detailed revenue analysis from repairs and retreading services over a period.",
+      path: "/reports/revenue"
+    },
+    {
+      title: "Customer Demographics Report",
+      description: "Breakdown of orders by customer type or region for targeted marketing.",
+      path: "/reports/customer-demographics"
+    },
+    {
+      title: "Inventory & Parts Usage Report",
+      description: "Track tyre parts and retreading materials used, with cost analysis per service.",
+      path: "/reports/inventory-parts"
+    },
+    {
+      title: "Cancellation & Refund Report",
+      description: "List orders that were cancelled or refunded with reasons and their financial impact.",
+      path: "/reports/cancellation-refunds"
     }
-    setLoading(true);
-    try {
-      const response = await axios.get("http://localhost:5000/reports/revenue", {
-        params: { startDate, endDate }
-      });
-      setReports(response.data);
-    } catch (error) {
-      console.error("Error fetching revenue report:", error);
-      toast.error("Error fetching revenue report");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Set default dates to the last 30 days on initial mount
-  useEffect(() => {
-    if (!startDate && !endDate) {
-      const today = new Date();
-      const priorDate = new Date();
-      priorDate.setDate(today.getDate() - 30);
-      setStartDate(priorDate.toISOString().split("T")[0]);
-      setEndDate(today.toISOString().split("T")[0]);
-    }
-  }, []);
-
-  // Fetch report when the dates are set/changed
-  useEffect(() => {
-    if (startDate && endDate) {
-      fetchReports();
-    }
-  }, [startDate, endDate]);
-
-  // Calculate total revenue from all reports
-  const totalRevenue = reports.reduce(
-    (sum, report) => sum + Number(report.revenue), 0
-  );
-
-  // When printing the report, call the print window
-  const handlePrint = () => {
-    window.print();
-  };
+  ];
 
   return (
     <div>
       <OwnerSidebar />
-      <div className="owner-revenue-report-container">
-        <div className="owner-revenue-report-content">
-          <h2>Revenue Report</h2>
-          <div className="filter-container">
-            <div className="filter-item">
-              <label htmlFor="startDate">Start Date:</label>
-              <input
-                type="date"
-                id="startDate"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-            <div className="filter-item">
-              <label htmlFor="endDate">End Date:</label>
-              <input
-                type="date"
-                id="endDate"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-            <button onClick={fetchReports} className="btn btn-primary">
-              {loading ? "Loading..." : "Get Report"}
-            </button>
-          </div>
-          {reports.length === 0 ? (
-            <p>No revenue data found for the selected period.</p>
-          ) : (
-            <>
-              <table className="revenue-report-table">
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Service Type</th>
-                    <th>Revenue ($)</th>
-                    <th>Order Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reports.map((report) => (
-                    <tr key={report.order_id}>
-                      <td>{report.order_id}</td>
-                      <td>{report.serviceType}</td>
-                      <td>{report.revenue}</td>
-                      <td>{new Date(report.order_date).toLocaleDateString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="total-revenue">
-                <h3>Total Revenue: ${totalRevenue.toFixed(2)}</h3>
-              </div>
-              <button onClick={handlePrint} className="btn btn-primary">
-                Print Report
+      <div className="owner-report-selection-container">
+        <h2>Select Report to View</h2>
+        <div className="report-options">
+          {reportOptions.map((report, index) => (
+            <div key={index} className="report-card">
+              <h3>{report.title}</h3>
+              <p>{report.description}</p>
+              <button 
+                className="btn btn-primary" 
+                onClick={() => navigate(report.path)}
+              >
+                View Report
               </button>
-            </>
-          )}
+            </div>
+          ))}
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
 
-export default OwnerRevenueReport;
+export default OwnerSelectReport;
