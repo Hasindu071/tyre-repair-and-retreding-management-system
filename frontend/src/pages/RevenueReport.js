@@ -6,15 +6,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const OwnerRevenueReport = () => {
-  // Revenue Report states
   const [reports, setReports] = useState([]);
   const [startDate, setStartDate] = useState(""); // YYYY-MM-DD format
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Attendance & Productivity Report states
-  const [attendanceReport, setAttendanceReport] = useState([]);
-  const [attendanceLoading, setAttendanceLoading] = useState(false);
 
   // Function to fetch revenue report data from backend
   const fetchReports = async () => {
@@ -36,26 +31,6 @@ const OwnerRevenueReport = () => {
     }
   };
 
-  // Function to fetch employee attendance & productivity report data from backend
-  const fetchAttendanceReport = async () => {
-    if (!startDate || !endDate) {
-      toast.error("Please select both start and end dates for attendance report.");
-      return;
-    }
-    setAttendanceLoading(true);
-    try {
-      const response = await axios.get("http://localhost:5000/reports/attendance-productivity", {
-        params: { startDate, endDate }
-      });
-      setAttendanceReport(response.data);
-    } catch (error) {
-      console.error("Error fetching attendance report:", error);
-      toast.error("Error fetching attendance report");
-    } finally {
-      setAttendanceLoading(false);
-    }
-  };
-
   // Set default dates to the last 30 days on initial mount
   useEffect(() => {
     if (!startDate && !endDate) {
@@ -67,19 +42,19 @@ const OwnerRevenueReport = () => {
     }
   }, []);
 
-  // Fetch revenue report when the dates are set/changed
+  // Fetch report when the dates are set/changed
   useEffect(() => {
     if (startDate && endDate) {
       fetchReports();
     }
   }, [startDate, endDate]);
 
-  // Calculate total revenue from all revenue reports
+  // Calculate total revenue from all reports
   const totalRevenue = reports.reduce(
     (sum, report) => sum + Number(report.revenue), 0
   );
 
-  // When printing the revenue report, call the print window
+  // When printing the report, call the print window
   const handlePrint = () => {
     window.print();
   };
@@ -145,51 +120,6 @@ const OwnerRevenueReport = () => {
               </button>
             </>
           )}
-          <br />
-<br /><br /><br />
-          <hr />
-          <div className="attendance-report-section">
-            <h2>Employee Attendance &amp; Productivity Report</h2>
-            <p>
-              Record of worker attendance linked to service performance, which can help optimize staffing.
-            </p>
-            <div className="filter-container">
-              <button onClick={fetchAttendanceReport} className="btn btn-primary">
-                {attendanceLoading ? "Loading..." : "Get Attendance Report"}
-              </button>
-            </div>
-            {attendanceReport.length === 0 ? (
-              <p>No attendance data found for the selected period.</p>
-            ) : (
-              <>
-                <table className="attendance-report-table">
-                  <thead>
-                    <tr>
-                      <th>Worker ID</th>
-                      <th>Worker Name</th>
-                      <th>Days Attended</th>
-                      <th>Total Services</th>
-                      <th>Productivity Score</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {attendanceReport.map((row) => (
-                      <tr key={row.worker_id}>
-                        <td>{row.worker_id}</td>
-                        <td>{row.worker_name}</td>
-                        <td>{row.days_attended}</td>
-                        <td>{row.total_services}</td>
-                        <td>{row.productivity_score}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <button onClick={() => window.print()} className="btn btn-primary">
-                  Print Attendance Report
-                </button>
-              </>
-            )}
-          </div>
         </div>
       </div>
       <ToastContainer />
