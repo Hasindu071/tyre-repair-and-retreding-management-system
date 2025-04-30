@@ -4,30 +4,33 @@ import { useParams, useNavigate } from 'react-router-dom';
 import OwnerSidebar from "../components/SideNav";
 
 const WorkerTask = () => {
-  const { workerId } = useParams(); // Grab the order id from the URL
+  const { workerId } = useParams();
   const navigate = useNavigate();
-  const [workerTask, setWorkerTask] = useState(null);
+  const [workerTasks, setWorkerTasks] = useState([]); // changed to array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!workerId) {
-      setError("No task id provided.");
+      setError("No worker ID provided.");
       setLoading(false);
       return;
     }
-    const fetchWorkerTask = async () => {
+
+    const fetchWorkerTasks = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/orders/workersTask/${workerId}`);
-        setWorkerTask(response.data);
+        const tasks = Array.isArray(response.data) ? response.data : [response.data]; // make sure it's an array
+        setWorkerTasks(tasks);
       } catch (err) {
-        console.error("Error fetching worker task:", err);
-        setError("Failed to fetch worker task");
+        console.error("Error fetching worker tasks:", err);
+        setError("Failed to fetch worker tasks");
       } finally {
         setLoading(false);
       }
     };
-    fetchWorkerTask();
+
+    fetchWorkerTasks();
   }, [workerId]);
 
   if (loading) {
@@ -38,7 +41,7 @@ const WorkerTask = () => {
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
-          <p>Loading worker task...</p>
+          <p>Loading worker tasks...</p>
         </div>
       </div>
     );
@@ -63,25 +66,23 @@ const WorkerTask = () => {
       <OwnerSidebar />
       <div className="container mt-4">
         <h2>Worker Task Details</h2>
-        <div className="card">
-          <div className="card-header">
-            Order ID: {workerTask.order_id}
-          </div>
-          <div className="card-body">
-            <h5 className="card-title">Service ID: {workerTask.service_id}</h5>
-            <p className="card-text"><strong>Total Amount:</strong> {workerTask.total_amount}</p>
-            <p className="card-text"><strong>Order Date:</strong> {workerTask.order_date}</p>
-            <p className="card-text"><strong>Progress:</strong> {workerTask.progress}</p>
-            <p className="card-text"><strong>Tire Brand:</strong> {workerTask.tireBrand}</p>
-            <p className="card-text"><strong>Internal Structure:</strong> {workerTask.internalStructure}</p>
-            <p className="card-text"><strong>Received Date:</strong> {workerTask.receiveDate}</p>
-            <p className="card-text"><strong>Notes:</strong> {workerTask.notes}</p>
-            <p className="card-text">
-              <strong>Assigned Worker:</strong> {workerTask.firstName} {workerTask.lastName}
-            </p>
-            <button onClick={() => navigate(-1)} className="btn btn-secondary">Back</button>
-          </div>
-        </div>
+        {workerTasks.length === 0 ? (
+          <p>No tasks found for this worker.</p>
+        ) : (
+          workerTasks.map((task, index) => (
+            <div className="card mb-4" key={index}>
+              <div className="card-header">
+                Order ID: {task.order_id}
+              </div>
+              <div className="card-body">
+                <p><strong>Order Date:</strong> {new Date(task.order_date).toLocaleDateString()}</p>
+                <p><strong>Received Date:</strong> {new Date(task.receiveDate).toLocaleDateString()}</p>
+                <p><strong>Customer:</strong> {task.firstName} {task.lastName}</p>
+              </div>
+            </div>
+          ))
+        )}
+        <button onClick={() => navigate(-1)} className="btn btn-secondary">Back</button>
       </div>
     </div>
   );

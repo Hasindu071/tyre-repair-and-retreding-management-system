@@ -342,7 +342,7 @@ router.get('/workersTask/:id', async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).json({ message: "Task not found." });
     }
-    return res.status(200).json(rows[0]);
+    return res.status(200).json(rows); // ✅ Send full list
   } catch (error) {
     console.error("Error fetching worker task:", error);
     res.status(500).json({ message: "Server error." });
