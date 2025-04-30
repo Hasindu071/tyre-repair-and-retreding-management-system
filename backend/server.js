@@ -43,6 +43,7 @@ const suppliesRouter = require('./routes/Supplies');
 const OurProductOwner = require('./routes/our_products');
 const patternsRoute = require('./routes/updatingpattern');
 const attendanceMarkRoute = require('./routes/attendanceMark');
+const ReportRoute = require('./routes/reports');
 const ownerForgotPasswordRouter = require('./routes/OwnerForgotPassword');
 const workerForgotPasswordRouter = require('./routes/WorkerForgotPassword');
 const CustomerForgotPassword = require('./routes/CustomerForgotPassword');
@@ -77,6 +78,7 @@ app.use('/ownerForgotPassword', ownerForgotPasswordRouter);
 app.use('/workerForgotPassword', workerForgotPasswordRouter);
 app.use('/CustomerForgotPassword', CustomerForgotPassword);
 app.use('/owner', ownerResetPasswordRouter);
+app.use('/reports', ReportRoute);
 
 
 
