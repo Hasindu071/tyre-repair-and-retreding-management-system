@@ -46,11 +46,19 @@ const Navbar = ({ unreadCount = 0 }) => {  // Default to 0 if prop not provided
             </li>
 
             <li className="nav-item">
-              <NavLink className="nav-link" to="/Inquiries" style={({ isActive }) => ({ 
+              <NavLink className="nav-link position-relative" to="/Inquiries" style={({ isActive }) => ({ 
                 color: isActive ? 'red' : 'black', 
                 fontWeight: isActive ? 'bold' : 'normal' 
               })}>
                 Inquiries
+                {unreadCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
+                    fontSize: '0.6rem',
+                    padding: '0.25em 0.4em'
+                  }}>
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </NavLink>
             </li>
 

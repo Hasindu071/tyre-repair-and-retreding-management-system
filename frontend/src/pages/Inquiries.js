@@ -67,8 +67,8 @@ const Inquiries = () => {
 
     return (
         <div>
-            <OwnerNavbar />
-            <div className="inquiries-container">
+                <OwnerNavbar unreadCount={inquiries.filter(i => !i.is_read).length} />
+                <div className="inquiries-container">
                 <h2>Customer Inquiries</h2>
                 <div className="inquiries-list">
                     {inquiries.map((inquiry) => (
