@@ -47,6 +47,11 @@ const OwnerSelectReport = () => {
       title: "Cancellation & Refund Report",
       description: "List orders that were cancelled or refunded with reasons and their financial impact.",
       path: "/reports/cancellation-refunds"
+    },
+    {
+      title: "Employee Attendance & Productivity Report",
+      description: "Record of worker attendance linked to service performance, which can help optimize staffing.",
+      path: "/reports/Employee-Attendance"
     }
   ];
 
