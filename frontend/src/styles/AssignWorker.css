@@ -1,142 +1,106 @@
-.body {
-  background-image: url('../assets/background.png');
-}
-
-/* General Styles */
-body {
-  background-color: #f8f9fa;
-  font-family: 'Arial', sans-serif;
-}
+/* AssignWorker.css */
 
 .assign-worker-container {
-  max-width: 1200px;
-  margin: 50px auto;
+  margin-left: 250px; /* Adjust based on your sidebar width */
   padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  text-align: center;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
 .title {
-  font-size: 28px;
+  color: #343a40;
+  margin-bottom: 30px;
+  text-align: center;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
 }
 
-/* Table Styles */
+.add-order-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #495057;
+}
+
 .worker-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.worker-table th,
+.worker-table th, 
 .worker-table td {
-  border: 1px solid #ddd;
-  padding: 12px;
+  padding: 12px 15px;
   text-align: left;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .worker-table th {
-  background-color: #007bff;
+  background-color: #343a40;
   color: white;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.worker-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  font-weight: 500;
 }
 
 .worker-table tr:hover {
-  background-color: #ddd;
+  background-color: #f8f9fa;
 }
 
-/* Select Styles */
-.worker-select {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.worker-select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.assigned-worker {
-  font-weight: bold;
-  color: #28a745;
-}
-
-/* Button Styles */
-button {
-  padding: 10px 15px;
+.worker-table button {
+  background: none;
   border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  font-size: 14px;
+  color: #007bff;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  margin: 10px; /* Add margin to buttons */
+  font-size: 1.2rem;
+  padding: 5px;
 }
 
-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+.worker-table button:hover {
+  color: #0056b3;
 }
 
-button:active {
-  transform: scale(1);
-}
-
-/* Form Styles */
-.add-order-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.add-order-form input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.add-order-form input:focus {
+.btn-primary {
+  background-color: #007bff;
   border-color: #007bff;
-  outline: none;
 }
 
-.add-order-form button {
-  align-self: flex-start;
-  background-color: #28a745;
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
 }
 
-.add-order-form button:hover {
-  background-color: #218838;
+.btn-outline-info {
+  color: #17a2b8;
+  border-color: #17a2b8;
 }
 
-.add-order-form {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  margin-bottom: 30px;
+.btn-outline-info:hover {
+  background-color: #17a2b8;
+  color: white;
 }
 
-.add-order-form .form-group label {
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.add-order-form .btn {
-  min-width: 120px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .assign-worker-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+  
+  .add-order-form {
+    padding: 15px;
+  }
+  
+  .worker-table th, 
+  .worker-table td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
 }

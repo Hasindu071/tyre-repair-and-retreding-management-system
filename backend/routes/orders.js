@@ -318,7 +318,36 @@ router.put('/completeOrder/:id', async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-  
+
+
+// GET worker task details based on task order id
+router.get('/workersTask/:id', async (req, res) => {
+  const taskId = req.params.id;
+  console.log("Task ID:", taskId); // Debugging line
+  try {
+    const query = `
+      SELECT 
+         o.order_id AS order_id,
+         o.order_date,
+         s.receiveDate,
+         w.firstName,
+         w.lastName
+      FROM orders o
+      LEFT JOIN services s ON o.service_id = s.service_id
+      LEFT JOIN worker_register w ON o.emp_id = w.id
+      WHERE o.emp_id = ?
+    `;
+    const [rows] = await db.promise().query(query, [taskId]);
+    console.log("Worker Task Details:", rows); // Debugging line
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Task not found." });
+    }
+    return res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error("Error fetching worker task:", error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
   
   
 module.exports = router;

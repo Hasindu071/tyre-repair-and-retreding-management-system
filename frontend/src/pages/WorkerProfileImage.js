@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import NewNavbar from "../components/Navbars/OwnerRegiNavBar";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/WorkerImages.css';
+import '../styles/WorkerImages.css'
+import OwnerSidebar from "../components/SideNav";
 
 const WorkerRegisterCreativeView = () => {
   const [workers, setWorkers] = useState([]);
@@ -30,7 +30,7 @@ const WorkerRegisterCreativeView = () => {
   if (loading) {
     return (
       <div>
-        <NewNavbar />
+        <OwnerSidebar />
         <div className="worker-profile-container text-center mt-5">
           <p>Loading workers...</p>
         </div>
@@ -41,7 +41,7 @@ const WorkerRegisterCreativeView = () => {
   if (error) {
     return (
       <div>
-        <NewNavbar />
+        <OwnerSidebar />
         <div className="worker-profile-container text-center mt-5">
           <p>{error}</p>
         </div>
@@ -51,7 +51,7 @@ const WorkerRegisterCreativeView = () => {
 
   return (
     <div>
-      <NewNavbar />
+      <OwnerSidebar />
       <div className="worker-profile-container">
         <h2 className="worker-profile-heading text-center">Registered Workers</h2>
         <div className="worker-profile-row row">
@@ -83,10 +83,14 @@ const WorkerRegisterCreativeView = () => {
                 <div className="worker-profile-footer">
                   <button 
                     className="worker-profile-btn"
-                    onClick={() => navigate(`/workerTask/${worker.id}`)}  // navigates to workerTask page
+                    onClick={() => {
+                      console.log(worker.id); // navigates to workerTask page
+                      navigate(`/workerTask/${worker.id}`);
+                    }}
                   >
                     View Tasks
                   </button>
+                  
                 </div>
               </div>
             </div>
