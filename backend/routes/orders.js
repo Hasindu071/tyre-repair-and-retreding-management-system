@@ -331,7 +331,8 @@ router.get('/workersTask/:id', async (req, res) => {
          o.order_date,
          s.receiveDate,
          w.firstName,
-         w.lastName
+         w.lastName,
+        o.status
       FROM orders o
       LEFT JOIN services s ON o.service_id = s.service_id
       LEFT JOIN worker_register w ON o.emp_id = w.id
