@@ -74,7 +74,7 @@ const HomePage = () => {
         style={{ backgroundImage: `url(${background})` }}
       >
         <div className="overlay"></div>
-        <div className="container">
+        <div className="container-home">
           <div className="row align-items-center">
             {/* Left Side - Hero Text */}
             <div className="col-md-6">

@@ -15,7 +15,11 @@ body {
   color: white;
 }
 
-
+.container-home {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
 
 /* Hero Title */
 .hero-title {
