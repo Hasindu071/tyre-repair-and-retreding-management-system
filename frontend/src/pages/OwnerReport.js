@@ -34,8 +34,8 @@ const OwnerSelectReport = () => {
       path: "/reports/inventoryPartsUsage"
     },
     {
-      title: "Cancellation & Refund Report",
-      description: "List orders that were cancelled or refunded with reasons and their financial impact.",
+      title: "Cancellation Report",
+      description: "List orders that were cancelled orders with reasons.",
       path: "/reports/cancellation-refunds"
     },
     {

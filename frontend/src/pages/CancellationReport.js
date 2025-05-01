@@ -3,9 +3,9 @@ import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../styles/WorkerPerformanceReport.css";
+import "../styles/CancellationReport.css";
 
-const WorkerPerformanceReport = () => {
+const CancellationReport = () => {
     const [reportData, setReportData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [startDate, setStartDate] = useState("");
@@ -18,24 +18,13 @@ const WorkerPerformanceReport = () => {
         }
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/reports/workerPerformance", {
+            const response = await axios.get("http://localhost:5000/reports/cancellation-refunds", {
                 params: { startDate, endDate }
             });
-            // Expected response (example):
-            // [
-            //   {
-            //       workerId: 1,
-            //       workerName: "John Doe",
-            //       totalOrders: 25,
-            //       averageTurnaroundTime: 48.5,  // in hours, modify as needed
-            //       rating: 4.5  // if available
-            //   },
-            //   ...
-            // ]
             setReportData(response.data);
         } catch (error) {
-            console.error("Error fetching worker performance report:", error);
-            toast.error("Error fetching worker performance report");
+            console.error("Error fetching cancellation report:", error);
+            toast.error("Error fetching cancellation report");
         } finally {
             setLoading(false);
         }
@@ -46,10 +35,10 @@ const WorkerPerformanceReport = () => {
     };
 
     return (
-        <div className="worker-performance-report-page">
+        <div className="cancellation-report-page">
             <OwnerSidebar />
-            <div className="worker-performance-report-container">
-                <h2>Worker Performance Report</h2>
+            <div className="cancellation-report-container">
+                <h2>Cancellation Report</h2>
                 <div className="filter-container">
                     <div className="filter-item">
                         <label htmlFor="startDate">Start Date:</label>
@@ -79,17 +68,17 @@ const WorkerPerformanceReport = () => {
                         <table className="report-table">
                             <thead>
                                 <tr>
-                                    <th>Worker ID</th>
-                                    <th>Worker Name</th>
-                                    <th>Total Orders</th>
+                                    <th>Order ID</th>
+                                    <th>Cancellation Reason</th>
+                                    <th>Cancellation Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {reportData.map((worker) => (
-                                    <tr key={worker.workerId}>
-                                        <td>{worker.workerId}</td>
-                                        <td>{worker.workerName}</td>
-                                        <td>{worker.totalOrders}</td>
+                                {reportData.map((order) => (
+                                    <tr key={order.orderId}>
+                                        <td>{order.orderId}</td>
+                                        <td>{order.reason}</td>
+                                        <td>{order.date}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -99,7 +88,7 @@ const WorkerPerformanceReport = () => {
                         </button>
                     </>
                 ) : (
-                    <p>No data available for the selected period.</p>
+                    <p>No cancelled orders found for the selected period.</p>
                 )}
             </div>
             <ToastContainer />
@@ -107,4 +96,4 @@ const WorkerPerformanceReport = () => {
     );
 };
 
-export default WorkerPerformanceReport;
+export default CancellationReport;

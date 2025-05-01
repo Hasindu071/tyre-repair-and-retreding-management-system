@@ -70,6 +70,7 @@ import DailyOrderSummaryReport from './pages/DailyOrderSummaryReport';
 import InventoryReport from './pages/InventoryReport';
 import ServiceCompletionReport from './pages/ServiceCompletionReport';
 import WorkerPerformanceReport from './pages/WorkerPerformanceReport';
+import CancellationReport from './pages/CancellationReport';
 import OwnerSeeCompleteOrders from './pages/OWNER/OwnerSeeCompleteOrders';
 
 
@@ -147,6 +148,7 @@ function App() {
             <Route path="/reports/dailyOrdersSummary" element={<DailyOrderSummaryReport />} />
             <Route path="/reports/inventoryPartsUsage" element={<InventoryReport />} />
             <Route path="/reports/serviceCompletion" element={<ServiceCompletionReport />} />
+            <Route path="/reports/cancellation-refunds" element={<CancellationReport />} />
             <Route path="/reports/workerPerformance" element={<WorkerPerformanceReport />} />
           </Routes>
         </div>

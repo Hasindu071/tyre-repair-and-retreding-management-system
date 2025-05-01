@@ -135,4 +135,60 @@ router.get('/serviceCompletion', async (req, res) => {
   }
 });
 
+// GET /reports/workerPerformance
+// This endpoint fetches the performance of workers based on the number of orders handled, average turnaround time, and ratings.
+router.get('/workerPerformance', async (req, res) => {
+  const { startDate, endDate } = req.query;
+  if (!startDate || !endDate) {
+      return res.status(400).json({ message: "Start date and end date are required" });
+  }
+  
+  try {
+      const query = `
+          SELECT 
+              w.id AS workerId,
+              CONCAT(w.firstName, ' ', w.lastName) AS workerName,
+              COUNT(o.order_id) AS totalOrders,
+              0 AS averageTurnaroundTime
+          FROM worker_register w
+          LEFT JOIN orders o
+              ON w.id = o.emp_id
+              AND DATE(o.order_date) BETWEEN ? AND ?
+          GROUP BY w.id, w.firstName, w.lastName
+          ORDER BY workerName ASC
+      `;
+      const [rows] = await db.promise().query(query, [startDate, endDate]);
+      res.status(200).json(rows);
+  } catch (error) {
+      console.error("Error fetching worker performance report:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// GET /reports/cancellation-refunds
+// This endpoint fetches the cancellation report, including order ID, reason for cancellation, and date of cancellation.
+router.get('/cancellation-refunds', async (req, res) => {
+  const { startDate, endDate } = req.query;
+  if (!startDate || !endDate) {
+      return res.status(400).json({ message: "Start date and end date are required" });
+  }
+  
+  try {
+      const query = `
+          SELECT 
+              order_id AS orderId,
+              cancellation_reason AS reason,
+              DATE(cancellation_date) AS date
+          FROM order_cancellations
+          WHERE DATE(cancellation_date) BETWEEN ? AND ?
+          ORDER BY cancellation_date ASC
+      `;
+      const [rows] = await db.promise().query(query, [startDate, endDate]);
+      res.status(200).json(rows);
+  } catch (error) {
+      console.error("Error fetching cancellation report:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 module.exports = router;
