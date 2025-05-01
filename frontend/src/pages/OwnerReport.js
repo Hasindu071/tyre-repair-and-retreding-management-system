@@ -21,7 +21,7 @@ const OwnerSelectReport = () => {
     {
       title: "Worker Performance Report",
       description: "Report on number of orders handled by each worker, average turnaround time, and ratings if available.",
-      path: "/reports/worker-performance"
+      path: "/reports/workerPerformance"
     },
     {
       title: "Revenue Report",

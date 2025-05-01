@@ -1,0 +1,126 @@
+.worker-performance-report-page {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.worker-performance-report-container {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 250px; /* Adjust based on sidebar width */
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.worker-performance-report-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-item label {
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.filter-item input[type="date"] {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4a6baf;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #3a5699;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Report Table */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.report-table th,
+.report-table td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.report-table th {
+    background-color: #4a6baf;
+    color: #fff;
+    font-weight: 600;
+}
+
+.report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.report-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.print-button {
+    margin-top: 1rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .worker-performance-report-container {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .report-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
