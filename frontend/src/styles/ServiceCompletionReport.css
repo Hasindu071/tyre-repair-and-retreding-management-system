@@ -1,0 +1,147 @@
+.service-completion-report-page {
+    display: flex;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.service-completion-report-container {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 250px; /* Adjust based on sidebar width */
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.service-completion-report-container h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-item label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.filter-item input[type="date"] {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #4a6baf;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #3a5699;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.print-button {
+    margin-top: 1rem;
+    display: block;
+    width: 100%;
+}
+
+.report-section {
+    margin-bottom: 2rem;
+}
+
+.report-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.report-table th,
+.report-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.report-table th {
+    background-color: #4a6baf;
+    color: #fff;
+    font-weight: 600;
+}
+
+.report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.report-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.average-service-time {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .service-completion-report-container {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .report-table {
+        display: block;
+        overflow-x: auto;
+    }
+}

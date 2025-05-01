@@ -16,7 +16,7 @@ const OwnerSelectReport = () => {
     {
       title: "Service Completion Report",
       description: "List orders that are completed versus those still in progress; include average service time.",
-      path: "/reports/completion"
+      path: "/reports/serviceCompletion"
     },
     {
       title: "Worker Performance Report",
