@@ -66,6 +66,7 @@ import ApprovedOrders from './pages/ApproveOrder';
 import PendingOrders from './pages/PendingOrder';
 import OwnerRevenueReport from './pages/RevenueReport';
 import OwnerAttendanceReport from './pages/AttendanceReport';
+import DailyOrderSummaryReport from './pages/DailyOrderSummaryReport';
 import OwnerSeeCompleteOrders from './pages/OWNER/OwnerSeeCompleteOrders';
 
 
@@ -140,6 +141,7 @@ function App() {
             <Route path="/Orders/CompleteOrders" element={<OwnerSeeCompleteOrders />} /> 
             <Route path="/reports/revenue" element={<OwnerRevenueReport />} />
             <Route path="/reports/Employee-Attendance" element={<OwnerAttendanceReport />} />
+            <Route path="/reports/dailyOrdersSummary" element={<DailyOrderSummaryReport />} />
           </Routes>
         </div>
       </Router>

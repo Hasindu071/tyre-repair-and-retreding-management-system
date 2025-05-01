@@ -72,4 +72,31 @@ router.get('/attendance-productivity', async (req, res) => {
     }
   });
 
+
+  router.get('/dailyOrdersSummary', async (req, res) => {
+    const { startDate } = req.query;
+    if (!startDate) {
+        return res.status(400).json({ message: "startDate query parameter is required" });
+    }
+
+    try {
+        const query = `
+            SELECT 
+                DATE(order_date) AS date,
+                COUNT(*) AS totalOrders,
+                IFNULL(SUM(total_amount), 0) AS totalRevenue,
+                IFNULL(AVG(progress), 0) AS averageProgress
+            FROM orders
+            WHERE DATE(order_date) = ?
+            GROUP BY DATE(order_date)
+        `;
+
+        const [rows] = await db.promise().query(query, [startDate]);
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error fetching daily orders summary:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+});
+
 module.exports = router;

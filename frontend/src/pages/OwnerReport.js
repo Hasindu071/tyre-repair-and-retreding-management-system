@@ -11,7 +11,7 @@ const OwnerSelectReport = () => {
     {
       title: "Daily Orders Summary",
       description: "Total orders placed, revenue generated, and progress status for each day.",
-      path: "/reports/daily"
+      path: "/reports/dailyOrdersSummary"
     },
     {
       title: "Weekly/Monthly Orders Report",
