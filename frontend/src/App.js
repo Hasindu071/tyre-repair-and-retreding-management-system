@@ -68,6 +68,7 @@ import OwnerRevenueReport from './pages/RevenueReport';
 import OwnerAttendanceReport from './pages/AttendanceReport';
 import DailyOrderSummaryReport from './pages/DailyOrderSummaryReport';
 import InventoryReport from './pages/InventoryReport';
+import ServiceCompletionReport from './pages/ServiceCompletionReport';
 import OwnerSeeCompleteOrders from './pages/OWNER/OwnerSeeCompleteOrders';
 
 
@@ -144,6 +145,7 @@ function App() {
             <Route path="/reports/Employee-Attendance" element={<OwnerAttendanceReport />} />
             <Route path="/reports/dailyOrdersSummary" element={<DailyOrderSummaryReport />} />
             <Route path="/reports/inventoryPartsUsage" element={<InventoryReport />} />
+            <Route path="/reports/serviceCompletion" element={<ServiceCompletionReport />} />
           </Routes>
         </div>
       </Router>

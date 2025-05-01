@@ -27,9 +27,8 @@ const ServiceCompletionReport = () => {
             });
             // Expected response format:
             // {
-            //   completed: [{ orderId, serviceTime, date }, ...],
-            //   inProgress: [{ orderId, serviceTime, date }, ...],
-            //   averageServiceTime: number
+            //   completed: [{ orderId, date }, ...],
+            //   inProgress: [{ orderId, date }, ...]
             // }
             setReportData(response.data);
         } catch (error) {
@@ -43,6 +42,12 @@ const ServiceCompletionReport = () => {
     const handlePrint = () => {
         window.print();
     };
+
+    // Use a fallback value of 0 for averageServiceTime if undefined
+    const averageServiceTime =
+        typeof reportData.averageServiceTime === "number"
+            ? reportData.averageServiceTime.toFixed(2)
+            : "0.00";
 
     return (
         <div className="service-completion-report-page">
@@ -81,7 +86,6 @@ const ServiceCompletionReport = () => {
                                 <thead>
                                     <tr>
                                         <th>Order ID</th>
-                                        <th>Service Time (mins)</th>
                                         <th>Date</th>
                                     </tr>
                                 </thead>
@@ -89,7 +93,6 @@ const ServiceCompletionReport = () => {
                                     {reportData.completed.map((order) => (
                                         <tr key={order.orderId}>
                                             <td>{order.orderId}</td>
-                                            <td>{order.serviceTime}</td>
                                             <td>{order.date}</td>
                                         </tr>
                                     ))}
@@ -102,7 +105,6 @@ const ServiceCompletionReport = () => {
                                 <thead>
                                     <tr>
                                         <th>Order ID</th>
-                                        <th>Service Time (mins)</th>
                                         <th>Date</th>
                                     </tr>
                                 </thead>
@@ -110,7 +112,6 @@ const ServiceCompletionReport = () => {
                                     {reportData.inProgress.map((order) => (
                                         <tr key={order.orderId}>
                                             <td>{order.orderId}</td>
-                                            <td>{order.serviceTime ? order.serviceTime : "N/A"}</td>
                                             <td>{order.date}</td>
                                         </tr>
                                     ))}
@@ -118,7 +119,7 @@ const ServiceCompletionReport = () => {
                             </table>
                         </div>
                         <div className="average-service-time">
-                            <h3>Average Service Time: {reportData.averageServiceTime.toFixed(2)} mins</h3>
+                            <h3>Average Service Time: {averageServiceTime} mins</h3>
                         </div>
                         <button onClick={handlePrint} className="btn btn-secondary print-button">
                             Print Report

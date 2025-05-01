@@ -99,4 +99,40 @@ router.get('/attendance-productivity', async (req, res) => {
     }
 });
 
+// GET /reports/serviceCompletion
+router.get('/serviceCompletion', async (req, res) => {
+  const { startDate, endDate } = req.query;
+  if (!startDate || !endDate) {
+      return res.status(400).json({ message: "Start date and end date are required" });
+  }
+  
+  try {
+      // Query completed orders between the given dates.
+      const completedQuery = `
+          SELECT order_id AS orderId, DATE(order_date) AS date
+          FROM orders
+          WHERE status = 'Completed'
+            AND DATE(order_date) BETWEEN ? AND ?
+      `;
+      const [completedOrders] = await db.promise().query(completedQuery, [startDate, endDate]);
+
+      // Query in-progress orders (orders not marked as 'Completed') between the given dates.
+      const inProgressQuery = `
+          SELECT order_id AS orderId, DATE(order_date) AS date
+          FROM orders
+          WHERE status <> 'Completed'
+            AND DATE(order_date) BETWEEN ? AND ?
+      `;
+      const [inProgressOrders] = await db.promise().query(inProgressQuery, [startDate, endDate]);
+
+      res.status(200).json({
+          completed: completedOrders,
+          inProgress: inProgressOrders
+      });
+  } catch (error) {
+      console.error("Error fetching service completion report:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 module.exports = router;
