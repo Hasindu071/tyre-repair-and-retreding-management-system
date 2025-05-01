@@ -14,11 +14,6 @@ const OwnerSelectReport = () => {
       path: "/reports/dailyOrdersSummary"
     },
     {
-      title: "Weekly/Monthly Orders Report",
-      description: "Aggregate orders over a week or month with trends and comparisons.",
-      path: "/reports/weekly-monthly"
-    },
-    {
       title: "Service Completion Report",
       description: "List orders that are completed versus those still in progress; include average service time.",
       path: "/reports/completion"
@@ -34,14 +29,9 @@ const OwnerSelectReport = () => {
       path: "/reports/revenue"
     },
     {
-      title: "Customer Demographics Report",
-      description: "Breakdown of orders by customer type or region for targeted marketing.",
-      path: "/reports/customer-demographics"
-    },
-    {
       title: "Inventory & Parts Usage Report",
       description: "Track tyre parts and retreading materials used, with cost analysis per service.",
-      path: "/reports/inventory-parts"
+      path: "/reports/inventoryPartsUsage"
     },
     {
       title: "Cancellation & Refund Report",
