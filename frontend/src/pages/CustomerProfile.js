@@ -19,16 +19,15 @@ const CustomerProfile = () => {
         city: "",
         state: "",
     });
-    const { user } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState(profile);
+    const { userID } = useAuth();
 
     useEffect(() => {
         const fetchProfile = async () => {
-            if (!user) return;
+            if (!userID) return;
             try {
-                const customerId = user.id;
-                const response = await axios.get(`http://localhost:5000/customerProfile/getProfile/${customerId}`);
+                const response = await axios.get(`http://localhost:5000/customerProfile/getProfile/${userID}`);
                 setProfile(response.data);
                 setFormData(response.data);
             } catch (error) {
@@ -36,19 +35,14 @@ const CustomerProfile = () => {
                 toast.error("Failed to fetch profile");
             }
         };
-
+    
         fetchProfile();
-    }, [user]);
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
+    }, [userID]);
+    
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const customerId = user.id;
-            const response = await axios.put(`http://localhost:5000/customerProfile/${customerId}`, formData);
+            const response = await axios.put(`http://localhost:5000/customerProfile/${userID}`, formData);
             if (response.status === 200) {
                 setProfile(formData);
                 setShowModal(false);
@@ -59,6 +53,7 @@ const CustomerProfile = () => {
             toast.error("Failed to update profile");
         }
     };
+    
 
     return (
         <div>
@@ -110,7 +105,7 @@ const CustomerProfile = () => {
                                             id="firstName"
                                             name="firstName"
                                             value={formData.firstName}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -122,7 +117,7 @@ const CustomerProfile = () => {
                                             id="lastName"
                                             name="lastName"
                                             value={formData.lastName}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -134,7 +129,7 @@ const CustomerProfile = () => {
                                             id="email"
                                             name="email"
                                             value={formData.email}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -146,7 +141,7 @@ const CustomerProfile = () => {
                                             id="nic"
                                             name="nic"
                                             value={formData.nic}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -158,7 +153,7 @@ const CustomerProfile = () => {
                                             id="phone1"
                                             name="phone1"
                                             value={formData.phone1}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -170,7 +165,7 @@ const CustomerProfile = () => {
                                             id="phone2"
                                             name="phone2"
                                             value={formData.phone2}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -181,7 +176,7 @@ const CustomerProfile = () => {
                                             id="houseName"
                                             name="houseName"
                                             value={formData.houseName}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -193,7 +188,7 @@ const CustomerProfile = () => {
                                             id="city"
                                             name="city"
                                             value={formData.city}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
@@ -205,7 +200,7 @@ const CustomerProfile = () => {
                                             id="state"
                                             name="state"
                                             value={formData.state}
-                                            onChange={handleChange}
+                                            onChange={handleUpdate}
                                             required
                                         />
                                     </div>
