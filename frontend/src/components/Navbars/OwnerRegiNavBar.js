@@ -2,14 +2,16 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useMessageContext } from '../../context/MessageContext';
 import Logo from '../../assets/Logo.png';
 
-const Navbar = ({ unreadCount = 0 }) => {  // Default to 0 if prop not provided
+const Navbar = () => {
+  const { unreadCount } = useMessageContext();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log("User logged out");
-    navigate("/RoleLoginSelection");
+    // Add logout logic here (e.g., clear token, redirect)
+    navigate('/login');
   };
 
   return (
@@ -71,7 +73,6 @@ const Navbar = ({ unreadCount = 0 }) => {  // Default to 0 if prop not provided
               </NavLink>
             </li>
 
-            {/* Notification with Badge */}
             <li className="nav-item position-relative mx-2">
               <NavLink className="nav-link" to="/notification" style={({ isActive }) => ({ 
                 color: isActive ? 'red' : 'black', 

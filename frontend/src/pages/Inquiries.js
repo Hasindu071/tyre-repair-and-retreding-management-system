@@ -35,27 +35,37 @@ const Inquiries = () => {
     const markAsRead = async (inquiryId) => {
         try {
             await axios.put(`http://localhost:5000/workerMessages/markAsRead/${inquiryId}`);
-            fetchInquiries();
+    
+            // Update the local state immediately
+            window.location.reload();
+
         } catch (error) {
             console.error('Error marking as read:', error);
         }
     };
+    
 
     const deleteInquiry = async (inquiryId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this inquiry?");
         if (!confirmDelete) return;
-
+    
         try {
             await axios.delete(`http://localhost:5000/workerMessages/deleteMessage/${inquiryId}`);
-            fetchInquiries();
+    
+            // ✅ Immediately update local state
+            setInquiries(prev => prev.filter(inquiry => inquiry.id !== inquiryId));
+    
+            // ✅ Clear if the deleted one was selected
             if (selectedInquiry && selectedInquiry.id === inquiryId) {
                 setSelectedInquiry(null);
                 setMessages([]);
             }
+    
         } catch (error) {
             console.error('Error deleting inquiry:', error);
         }
     };
+    
 
     const handleInquiryClick = (inquiry) => {
         setSelectedInquiry(inquiry);

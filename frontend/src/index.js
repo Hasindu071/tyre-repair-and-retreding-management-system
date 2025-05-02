@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import  { AuthProvider } from '../src/context/AuthContext'; // Adjust the path as needed
+import  { AuthProvider } from '../src/context/AuthContext'; 
+import { MessageProvider } from '../src/context/MessageContext';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
+    <AuthProvider><MessageProvider>
             <App />
-    </AuthProvider>
+    </MessageProvider></AuthProvider>
   </React.StrictMode>
 );
 
