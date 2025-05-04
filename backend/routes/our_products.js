@@ -20,16 +20,16 @@ const upload = multer({ storage: storage });
 // Route to add a new product with optional image upload
 router.post('/add', upload.single('image'), async (req, res) => {
     try {
-        const { productName, description, price } = req.body;
+        const { productName, description, price, ownerId } = req.body;
         // Set image path if file is uploaded
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
-        if (!productName || !description || !price) {
+        if (!productName || !description || !price || !ownerId) {
             return res.status(400).json({ success: false, message: 'Missing required fields.' });
         }
 
-        const query = "INSERT INTO our_products (productName, description, price, image) VALUES (?, ?, ?, ?)";
-        const [result] = await db.promise().execute(query, [productName, description, price, imagePath]);
+        const query = "INSERT INTO our_products (productName, description, price, image, owner_id) VALUES (?, ?, ?, ?, ?)";
+        const [result] = await db.promise().execute(query, [productName, description, price, imagePath, ownerId]);
 
         res.status(201).json({ success: true, message: 'Product added successfully', productId: result.insertId });
     } catch (err) {

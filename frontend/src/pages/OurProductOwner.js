@@ -4,6 +4,7 @@ import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar";
 import '../styles/OurProductOwner.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../context/AuthContext';
 
 const OurProductOwner = () => {
     const [productName, setProductName] = useState('');
@@ -12,6 +13,7 @@ const OurProductOwner = () => {
     const [image, setImage] = useState(null);
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
+    const { userID } = useAuth();
 
     const fetchProducts = async () => {
         try {
@@ -42,6 +44,13 @@ const OurProductOwner = () => {
             formData.append("image", image);
         }
 
+        if (userID) {
+            formData.append("ownerId", userID);
+        } else {
+            toast.error("Owner ID missing. Please log in as owner.");
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:5000/OurProductOwner/add', {
                 method: 'POST',
@@ -55,7 +64,7 @@ const OurProductOwner = () => {
                 setPrice('');
                 setImage(null);
                 fetchProducts();
-                setTimeout(() => navigate('/owner/products'), 2000);
+                setTimeout(() => navigate('/OurProducts'), 2000);
             } else {
                 toast.error(data.message || "Failed to add product.");
             }
@@ -90,7 +99,7 @@ const OurProductOwner = () => {
             <OwnerNavbar />
             <ToastContainer />
             <div className="ourproductowner-container">
-                <h1 className="ourproductowner-title">Add a New Product</h1>
+                <h1 className="ourproductowner-title">Add a New Our Product</h1>
                 <form onSubmit={handleSubmit} className="ourproductowner-form">
                     <div className="form-group">
                         <label htmlFor="productName">Product Name</label>
@@ -114,7 +123,7 @@ const OurProductOwner = () => {
                         ></textarea>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="price">Price ($)</label>
+                        <label htmlFor="price">Price (Rs)</label>
                         <input
                             type="number"
                             id="price"

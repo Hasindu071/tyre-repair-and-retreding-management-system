@@ -100,3 +100,22 @@
 .products-table img {
     border-radius: 4px;
 }
+.form-group textarea {
+    height: 150px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #fefefe;
+    color: #333;
+    resize: none; /* Prevent resizing if you want fixed height */
+    line-height: 1.5;
+}
+
+.form-group textarea:focus {
+    border-color: #5a67d8;
+    box-shadow: 0 0 5px rgba(90, 103, 216, 0.3);
+    outline: none;
+}
