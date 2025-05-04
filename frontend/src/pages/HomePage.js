@@ -3,18 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import background from '../assets/background.png';
 import Navbar from '../components/NavBar';
-import mainImage from '../assets/mainImage.jpg'; // Adjust the path as needed
+import mainImage from '../assets/mainImage.jpg'; 
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import processImg1 from '../assets/processImg1.jpg'; // Adjust the path as needed
-import processImg2 from '../assets/processImg2.jpg'; // Adjust the path as needed
-import processImg3 from '../assets/processImg3.jpg'; // Adjust the path as needed
-import Logo from '../assets/Logo.png'; // Adjust the path to your logo file
+import processImg1 from '../assets/processImg1.jpg'; 
+import processImg2 from '../assets/processImg2.jpg'; 
+import processImg3 from '../assets/processImg3.jpg'; 
+import Logo from '../assets/Logo.png'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faLinkedin, faTwitter, faInstagram, faYoutube, faReddit } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faLinkedin, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 import imageurl1 from '../assets/Owner.jpg';
+import imageurl2 from '../assets/Woker1.jpeg';
+import imageurl3 from '../assets/Woker2.jpeg';
 import '../styles/HomePage.css';
 
 const slideInFromRight = {
@@ -29,22 +31,22 @@ const HomePage = () => {
 
   const reviews = [
 {
-  feedback: "Excellent service and quality!",
-  name: "Mohan Liyanapathirana",
-  designation: "Business Owner",
-  photo: imageurl1 , // Add the image URL as a property
+  feedback: "Always maintains professionalism under pressure!",
+  name: "Charith Malaka",
+  designation: "Business Worker",
+  photo: imageurl2 ,
 },
 {
   feedback: "Excellent service and quality!",
   name: "Mohan Liyanapathirana",
   designation: "Business Owner",
-  photo: imageurl1 , // Add the image URL as a property
+  photo: imageurl1 , 
 },
 {
-  feedback: "Excellent service and quality!",
-  name: "Mohan Liyanapathirana",
-  designation: "Business Owner",
-  photo: imageurl1 , // Add the image URL as a property
+  feedback: "Highly committed and quick to learn new processes!",
+  name: "Ajith Liyanapathirana",
+  designation: "Business Worker",
+  photo: imageurl3 , 
 },
 ];
 
@@ -338,14 +340,6 @@ const HomePage = () => {
       <FontAwesomeIcon icon={faLinkedin} />
     </a>
     <a
-      href="https://example.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: "#1da1f2", fontSize: "20px" }}
-    >
-      <FontAwesomeIcon icon={faTwitter} />
-    </a>
-    <a
       href="https://instagram.com"
       target="_blank"
       rel="noopener noreferrer"
@@ -360,14 +354,6 @@ const HomePage = () => {
       style={{ color: "#ff0000", fontSize: "20px" }}
     >
       <FontAwesomeIcon icon={faYoutube} />
-    </a>
-    <a
-      href="https://reddit.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: "#ff4500", fontSize: "20px" }}
-    >
-      <FontAwesomeIcon icon={faReddit} />
     </a>
   </div>
   <p style={{ fontSize: "16px", color: "#555", marginBottom: "10px" }}>
