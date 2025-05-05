@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
-import { FaMoneyBillAlt } from "react-icons/fa"; // Added Payment & Billing icon
+import { FaMoneyBillAlt } from "react-icons/fa";
 import "../styles/WorkerDashboard.css";
-
 
 const WorkerDashboard = () => {
     const navigate = useNavigate();
     const [workerId, setWorkerId] = useState("");
+    const [workerName, setWorkerName] = useState("");
 
     useEffect(() => {
         const id = localStorage.getItem("workerId");
         if (id) {
             setWorkerId(id);
+            // Fetch the worker's profile to get first and last name
+            fetch(`http://localhost:5000/workerProfile/getWorker/${id}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data && data.firstName && data.lastName) {
+                        setWorkerName(`${data.firstName} ${data.lastName}`);
+                    }
+                })
+                .catch((err) => {
+                    console.error("Error fetching worker details:", err);
+                });
         }
     }, []);
 
@@ -23,7 +34,9 @@ const WorkerDashboard = () => {
                 <header className="dashboard-header">
                     <h2 className="worker-dashboard-title">Worker Dashboard</h2>
                     <p className="worker-dashboard-subtitle">
-                        {workerId ? `Welcome, Worker ${workerId}` : "Manage your assigned tasks efficiently"}
+                        {workerName
+                            ? `Welcome, ${workerName}`
+                            : "Manage your assigned tasks efficiently"}
                     </p>
                 </header>
                 <section className="dashboard-actions">
@@ -49,14 +62,6 @@ const WorkerDashboard = () => {
                             <span className="button-icon">✅</span>
                             Complete Task
                         </button>
-                        {/*
-                        <button 
-                            className="profile-button creative-button"
-                            onClick={() => navigate("/history-of-works")}
-                        >
-                            <span className="button-icon">📝</span>
-                            History of Works
-                        </button> */}
                         <button 
                             className="profile-button creative-button"
                             onClick={() => navigate("/WokerAttendance")}
@@ -68,8 +73,7 @@ const WorkerDashboard = () => {
                             className="profile-button creative-button"
                             onClick={() => navigate("/WorkerSeePaymentBilling")}
                         >
-                            <FaMoneyBillAlt size={28} className="button-icon" /> {/* Updated icon */}
-                            Payment & Billing
+                            <FaMoneyBillAlt size={28} className="button-icon" /> Payment & Billing
                         </button>
                     </div>
                 </section>
