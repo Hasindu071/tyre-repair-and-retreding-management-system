@@ -6,7 +6,8 @@ import "../styles/CustomerSidebar.css";
 const CustomerSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation(); // 👈 Get current location
-  const [isOrderMenuOpen, setOrderMenuOpen] = useState(false);
+  const [isOrderMenuOpen, setOrderMenuOpen] = useState(true); // 👈 State to manage submenu visibility
+
 
   const toggleOrderMenu = () => {
     setOrderMenuOpen(!isOrderMenuOpen);
@@ -39,21 +40,21 @@ const CustomerSidebar = () => {
         </li>
 
         {isOrderMenuOpen && (
-          <ul className="submenu">
-            <li
-              className={isActive("/service/repairing") ? "active" : ""}
-              onClick={() => navigate("/service/repairing")}
-            >
-              Repair
-            </li>
-            <li
-              className={isActive("/service/retreading") ? "active" : ""}
-              onClick={() => navigate("/service/retreading")}
-            >
-              Retreading
-            </li>
-          </ul>
-        )}
+            <ul className="submenu">
+              <li
+                className={isActive("/service/repairing") ? "active" : ""}
+                onClick={() => navigate("/service/repairing")}
+              >
+                Repair
+              </li>
+              <li
+                className={isActive("/service/retreading") ? "active" : ""}
+                onClick={() => navigate("/service/retreading")}
+              >
+                Retreading
+              </li>
+            </ul>
+          )}
 
         <li
           className={isActive("/MyOrders") ? "active" : ""}
