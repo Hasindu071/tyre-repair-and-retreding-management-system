@@ -57,7 +57,7 @@ const OwnerSendNotice = () => {
             <br></br>
             <div className="content-send-wrapper">
                 <div className="notice-send-form-container">
-                    <h2>Send Notice</h2>
+                    <h2>Send Customer Notice</h2>
                     <form onSubmit={handleSubmit} className="notice-send-form">
                         <textarea
                             value={notice}
@@ -69,7 +69,7 @@ const OwnerSendNotice = () => {
                     </form>
                 </div>
                 <div className="notice-send-list-container">
-                    <h2>Sent Notices</h2>
+                    <h2>Sent Customer Notices</h2>
                     {notices.length > 0 ? (
                         notices.map((n) => (
                             <div key={n.id} className="notice-send-card">

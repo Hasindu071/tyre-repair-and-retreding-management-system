@@ -130,7 +130,8 @@ const CustomerPayment = () => {
     <React.Fragment>
       <OwnerSidebar />
       <div className="customer-payment-container">
-        <h2 className="title">Pending Payments (Total = 0)</h2>
+        <h2 className="title">Pending Payments</h2>
+        <div className="table-scroll">
         <table className="payment-table">
           <thead>
             <tr>
@@ -175,6 +176,7 @@ const CustomerPayment = () => {
             )}
           </tbody>
         </table>
+        </div>
 
         <br />
         <h2 className="title">Submit Customer Payment</h2>
@@ -280,9 +282,7 @@ const CustomerPayment = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="Credit Card">Credit Card</option>
-                <option value="Debit Card">Debit Card</option>
-                <option value="PayPal">PayPal</option>
+                <option value="Cash on Hand" >Cash on Hand</option>
                 <option value="Bank Transfer">Bank Transfer</option>
               </select>
           </div>
@@ -299,8 +299,11 @@ const CustomerPayment = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Amount</th>
+              <th>Service Amount</th>
+              <th>Delivery Amount</th>
+              <th>Total Amount</th>
               <th>Payment Date</th>
+              <th>Note</th>
               <th>Payment Method</th>
             </tr>
           </thead>
@@ -309,7 +312,10 @@ const CustomerPayment = () => {
               <tr key={payment.id}>
                 <td>{payment.id}</td>
                 <td>{payment.amount}</td>
+                <td>{payment.delivery_fee}</td>
+                <td>{payment.net_amount}</td>
                 <td>{payment.payment_date}</td>
+                <td>{payment.note}</td>
                 <td>{payment.payment_method}</td>
               </tr>
             ))}
