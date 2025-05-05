@@ -20,6 +20,7 @@ export const registerOwner = async (ownerData) => {
 const OwnerRegister = () => {
     const [setUsers] = useState([]);
     const navigate = useNavigate();
+    const [successMessage, setSuccessMessage] = useState("");
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -38,12 +39,18 @@ const OwnerRegister = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        // For firstName and lastName ensure no digits are added
+        if ((name === "firstName" || name === "lastName") && /\d/.test(value)) {
+            console.error(`Numbers are not allowed in ${name} field:`, value);
+            alert("Numbers are not allowed in name fields");
+            return;
+        }
         setFormData({
             ...formData,
             [name]: value
         });
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -70,7 +77,11 @@ const OwnerRegister = () => {
         try {
             await registerOwner(formData);
             console.log('Owner registered successfully');
-            navigate('/login/owner'); // Redirect after successful registration
+            setSuccessMessage("Registration successful!");
+            // After showing success message, navigate after a delay
+            setTimeout(() => {
+                navigate('/login/owner'); // Redirect after successful registration
+            }, 3000);
         } catch (error) {
             console.error('Error registering owner:', error);
         }
@@ -79,12 +90,15 @@ const OwnerRegister = () => {
     return (
         <div>
             <Navbar />
-
             <div className="custom-container">
                 <div className="custom-card">
                     <h2 className="register-owner-title">Owner <span>REGISTRATION</span></h2>
                     <p className="custom-subtitle">Create your account to get started!</p>
-
+                    {successMessage && (
+                        <div className="alert alert-success" role="alert">
+                            {successMessage}
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit}>
                         <div className="custom-row">
                             <div className="custom-col">

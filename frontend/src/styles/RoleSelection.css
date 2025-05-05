@@ -1,118 +1,121 @@
-/* General Styling */
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-}
+/* RoleSelection.css */
 
-/* Role Selection Container */
 .role-selection-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 90vh;
-  padding: 20px;
+  min-height: calc(100vh - 80px); 
+  padding: 2rem;
 }
 
 .select-container {
-  text-align: center;
+  max-width: 900px;
+  width: 100%;
   background: white;
-  padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 750px; /* Prevents unnecessary stretching */
+  padding: 2.5rem;
+  text-align: center;
 }
 
-/* Title & Subtitle */
 .title-selection {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.5rem;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .subtitle-selection {
   font-size: 1.1rem;
   color: #666;
-  margin-bottom: 20px;
+  margin-bottom: 2.5rem;
 }
 
-/* Role Grid */
 .role-grid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-/* Role Card */
 .role-card {
-  flex: 1 1 auto; /* Prevents unwanted stretching */
-  min-width: 200px;
-  max-width: 220px; /* Keeps cards from getting too big */
   background: white;
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
+  border-radius: 10px;
+  padding: 2rem 1.5rem;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
-  border: 2px solid transparent;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .role-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Icon Container */
 .icon-container {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin: 0 auto 15px;
+  margin-bottom: 1.5rem;
   color: white;
 }
 
-/* Register Button */
+.role-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
 .register-button {
+  padding: 0.8rem 2rem;
   border: none;
+  border-radius: 50px;
   color: white;
+  font-weight: 600;
   font-size: 1rem;
-  padding: 10px 15px;
-  width: 100%;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: 0.3s ease-in-out;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+  width: 80%;
 }
 
 .register-button:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+  transform: scale(1.05);
 }
 
-/* Responsive Design */
+/* Responsive adjustments */
 @media (max-width: 768px) {
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .select-container {
+    padding: 1.5rem;
+  }
+  
+  .title-selection {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .role-selection-container {
+    padding: 1rem;
+  }
+  
   .title-selection {
     font-size: 1.8rem;
   }
   
   .subtitle-selection {
     font-size: 1rem;
-  }
-
-  .role-grid {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .role-card {
-    width: 150%;
-    max-width: 300px; /* Prevents excessive stretching */
   }
 }

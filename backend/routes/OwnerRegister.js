@@ -6,26 +6,37 @@ const db = require('../config/db');
 
 // Register route
 router.post('/', async (req, res) => {
-    const { firstName, lastName, email, password, Confirm_Password} = req.body;
+    const { firstName, lastName, email, password, Confirm_Password } = req.body;
 
-    if (!firstName || !lastName || !email || !password || !Confirm_Password ) {
-        return res.status(400).send('All fields are required.');
+    // Basic field validation
+    if (!firstName || !lastName || !email || !password || !Confirm_Password) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (password !== Confirm_Password) {
+        return res.status(400).json({ message: 'Passwords do not match.' });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const query = 'INSERT INTO owner_register (firstName, lastName, email, password) VALUES (?, ?, ?, ?)';
+        const query = `
+            INSERT INTO owner_register (firstName, lastName, email, password)
+            VALUES (?, ?, ?, ?)
+        `;
         db.query(query, [firstName, lastName, email, hashedPassword], (err, results) => {
             if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    return res.status(400).json({ message: 'An account with this email already exists.' });
+                }
                 console.error('Error inserting data:', err);
-                return res.status(500).send('Server error.');
+                return res.status(500).json({ message: 'Server error. Please try again later.' });
             }
-            res.status(201).send('User registered successfully.');
+            res.status(201).json({ message: 'Owner registered successfully.' });
         });
     } catch (error) {
         console.error('Error hashing password:', error);
-        res.status(500).send('Server error.');
+        res.status(500).json({ message: 'Server error. Please try again later.' });
     }
 });
 

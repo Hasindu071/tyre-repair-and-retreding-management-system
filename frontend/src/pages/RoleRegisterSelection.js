@@ -23,9 +23,9 @@ const RoleSelection = () => {
           </p>
           <div className="role-grid">
             {[
-              { name: "Owner", icon: <FaUserTie size={50} />, color: "#ff6f61" },
-              { name: "Worker", icon: <FaUserCog size={50} />, color: "#4CAF50" },
-              { name: "Customer", icon: <FaUser size={50} />, color: "#007bff" }
+              { name: "Owner", icon: <FaUserTie size={50} />, color: "#830000" },
+              { name: "Worker", icon: <FaUserCog size={50} />, color: "#830000" },
+              { name: "Customer", icon: <FaUser size={50} />, color: "#830000" }
             ].map(({ name, icon, color }) => (
               <div 
                 key={name} 
