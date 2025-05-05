@@ -149,18 +149,18 @@ const RetreadingService = () => {
                             </tr>
                             <tr>
                             <td>
-                                <div className="form-group">
-                                <label htmlFor="Aspect Ratio">Aspect Ratio</label>
+                            <div className="form-group">
+                                <label htmlFor="sizeCode">Aspect Ratio</label>
                                 <input
                                     id="sizeCode"
                                     type="number"
-                                    name="Aspect Ratio"
+                                    name="sizeCode" 
                                     placeholder="Aspect Ratio"
                                     value={formData.sizeCode}
                                     onChange={handleChange}
                                     required
                                 />
-                                </div>
+                            </div>
                             </td>
                             <td>
                                 <div className="form-group">
