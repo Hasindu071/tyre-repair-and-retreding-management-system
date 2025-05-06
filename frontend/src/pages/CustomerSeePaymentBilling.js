@@ -4,18 +4,22 @@ import CustomerSidebar from "../components/CustomerSidebar";
 import Logo from '../assets/Logo.png'; // Adjust path accordingly
 import axios from "axios";
 import "../styles/CustomerSeePaymentBilling.css";
+import { useAuth } from "../context/AuthContext"; 
 
 const CustomerSeePaymentBilling = () => {
     const navigate = useNavigate();
     const [latestPayment, setLatestPayment] = useState(null);
-    const customerId = 16; // Replace with dynamic ID if needed
+    const { userID } = useAuth(); // Get user details from context
+    const userId = userID; // Extract user ID from context
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:5000/payments/latest/${customerId}`)
-            .then((res) => setLatestPayment(res.data))
-            .catch((err) => console.error("Error fetching payment:", err));
-    }, []);
+        if (userId) {
+            axios
+                .get(`http://localhost:5000/payments/latest/${userId}`)
+                .then((res) => setLatestPayment(res.data))
+                .catch((err) => console.error("Error fetching payment:", err));
+        }
+    }, [userId]);
 
     const handleBack = () => navigate(-1);
     const handlePrint = () => window.print();
@@ -26,7 +30,7 @@ const CustomerSeePaymentBilling = () => {
             <div className="receipt-wrapper">
                 <div className="receipt-container">
                     <div className="header">
-                    <img src={Logo} alt="Ryak Tires Logo" className="logo" />
+                        <img src={Logo} alt="Ryak Tires Logo" className="logo" />
                         <h1 className="company-name">Reyak Tyres</h1>
                         <p className="receipt-tagline">Your trusted partner for retreading & repairing</p>
                         <hr />
