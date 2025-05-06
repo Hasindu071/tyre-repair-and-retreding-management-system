@@ -101,6 +101,9 @@ const RetreadingService = () => {
         try {
             await axios.post('http://localhost:5000/Retreading/submit', data);
             setResponseMessage({ type: 'success', message: 'Form submitted successfully!' });
+
+                    // Scroll to top after successful submission
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             setFormData({
                 sizeCode: "",
                 wheelDiameter: "",
@@ -117,6 +120,8 @@ const RetreadingService = () => {
         } catch (error) {
             console.error("Error submitting form:", error);
             setResponseMessage({ type: 'error', message: 'Error submitting form. Please try again.' });
+        // Scroll to top on error to bring the message into view
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         } finally {
             setLoading(false);
         }
