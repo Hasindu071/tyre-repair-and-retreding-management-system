@@ -18,9 +18,10 @@ export const registerOwner = async (ownerData) => {
 };
 
 const OwnerRegister = () => {
-    const [setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -35,7 +36,7 @@ const OwnerRegister = () => {
           .get("http://localhost:5000/users")
           .then((response) => setUsers(response.data))
           .catch((error) => console.error("Error fetching users:", error));
-    }, [setUsers]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,9 +51,11 @@ const OwnerRegister = () => {
             [name]: value
         });
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessage("");
+        setSuccessMessage("");
         
         // Validate email
         if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -84,6 +87,11 @@ const OwnerRegister = () => {
             }, 3000);
         } catch (error) {
             console.error('Error registering owner:', error);
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message);
+            } else {
+                setErrorMessage("Error registering owner. Please try again.");
+            }
         }
     };
 
@@ -94,11 +102,18 @@ const OwnerRegister = () => {
                 <div className="custom-card">
                     <h2 className="register-owner-title">Owner <span>REGISTRATION</span></h2>
                     <p className="custom-subtitle">Create your account to get started!</p>
+                    
                     {successMessage && (
                         <div className="alert alert-success" role="alert">
                             {successMessage}
                         </div>
                     )}
+                    {errorMessage && (
+                        <div className="alert alert-danger" role="alert">
+                            {errorMessage}
+                        </div>
+                    )}
+                    
                     <form onSubmit={handleSubmit}>
                         <div className="custom-row">
                             <div className="custom-col">
