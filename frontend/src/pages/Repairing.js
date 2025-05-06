@@ -110,6 +110,8 @@ const RepairServiceForm = () => {
         try {
             const response = await axios.post("http://localhost:5000/Repairing/submit", data);
             toast.success("Form submitted successfully!");
+            // Scroll to top on error to bring the message into view
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             console.log("Response:", response.data);
 
             setFormData({
@@ -130,6 +132,8 @@ const RepairServiceForm = () => {
         } catch (error) {
             console.error("Error submitting form:", error);
             toast.error("Failed to submit the form. Please try again.");
+            // Scroll to top on error to bring the message into view
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } finally {
             setLoading(false);
         }
