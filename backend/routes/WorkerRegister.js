@@ -19,30 +19,34 @@ const upload = multer({ storage });
 
 // Add Worker Registration Route with Profile Picture Upload
 router.post('/', upload.single('profilePicture'), async (req, res) => {
-    const { firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password } = req.body;
-    const profilePicture = req.file ? `/uploads/${req.file.filename}` : null;
+  const { firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password } = req.body;
+  const profilePicture = req.file ? `/uploads/${req.file.filename}` : null;
 
-    if (!email || !password || !profilePicture) {
-        return res.status(400).json({ success: false, message: "Email, password, and profile picture are required." });
-    }
+  if (!email || !password || !profilePicture) {
+      return res.status(400).json({ success: false, message: "Email, password, and profile picture are required." });
+  }
 
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const query = `INSERT INTO worker_register 
-            (firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password, profilePicture, status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')`;
+  try {
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-        db.query(query, [firstName, lastName, email, title, phone1, phone2, nic, address1, address2, hashedPassword, profilePicture], (err, results) => {
-            if (err) {
-                console.error('Error inserting data:', err);
-                return res.status(500).json({ success: false, message: 'Server error.' });
-            }
-            res.status(201).json({ success: true, message: 'Worker registered successfully.' });
-        });
-    } catch (error) {
-        console.error('Error hashing password:', error);
-        res.status(500).json({ success: false, message: 'Server error.' });
-    }
+      const query = `
+          INSERT INTO worker_register (firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password, profilePicture, status)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+      `;
+      db.query(query, [firstName, lastName, email, title, phone1, phone2, nic, address1, address2, hashedPassword, profilePicture], (err, results) => {
+          if (err) {
+              if (err.code === 'ER_DUP_ENTRY') {
+                  return res.status(400).json({ success: false, message: 'An account with this email already exists.' });
+              }
+              console.error('Error inserting data:', err);
+              return res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+          }
+          res.status(201).json({ success: true, message: 'Worker registered successfully.' });
+      });
+  } catch (error) {
+      console.error('Error hashing password:', error);
+      res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+  }
 });
 
 // GET route – Retrieve all registered workers (including profile picture path)

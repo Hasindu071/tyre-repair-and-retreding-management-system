@@ -15,6 +15,8 @@ const WorkerSignup = () => {
         password: '',
         rePassword: ''
     });
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState(""); // 'success' or 'danger'
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,21 +29,28 @@ const WorkerSignup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Clear any previous alert messages
+        setAlertMessage("");
+        setAlertType("");
+
         // Check email validity
         if (!/\S+@\S+\.\S+/.test(signupData.email)) {
-            alert("Please enter a valid email address!");
+            setAlertMessage("Please enter a valid email address!");
+            setAlertType("danger");
             return;
         }
 
         // Check password length (minimum 6 characters)
         if (signupData.password.length < 6) {
-            alert("Password must be at least 6 characters long!");
+            setAlertMessage("Password must be at least 6 characters long!");
+            setAlertType("danger");
             return;
         }
 
         // Check if passwords match
         if (signupData.password !== signupData.rePassword) {
-            alert("Passwords do not match!");
+            setAlertMessage("Passwords do not match!");
+            setAlertType("danger");
             return;
         }
 
@@ -62,12 +71,22 @@ const WorkerSignup = () => {
                 }
             });
             console.log('Worker registered:', response.data);
-            alert('Registration successful!');
-            navigate('/login/worker');
-        } catch (error) {
-            console.error('Error registering Worker:', error);
-            alert('Registration failed! Please try again.');
-        }
+            setAlertMessage("Registration successful!");
+            setAlertType("success");
+            // After showing the success alert, navigate after a delay
+            setTimeout(() => {
+                navigate('/login/worker');
+            }, 3000);
+        }catch (error) {
+            console.error('Error registering worker:', error);
+            if (error.response && error.response.data && error.response.data.message) {
+              setAlertMessage(error.response.data.message);
+              setAlertType("danger");
+            } else {
+              setAlertMessage("Registration failed! Please try again.");
+              setAlertType("danger");
+            }
+          }
     };
 
     return (
@@ -76,9 +95,17 @@ const WorkerSignup = () => {
             <div className="worker-signup-container">
                 <div className="worker-signup-card">
                     <h2 className="worker-signup-title">Worker <span>SignUp</span></h2>
+                    
+                    {/* Bootstrap Alert */}
+                    {alertMessage && (
+                        <div className={`alert alert-${alertType}`} role="alert">
+                            {alertMessage}
+                        </div>
+                    )}
+                    
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">Email:</label>
                             <input
                                 type="email"
                                 name="email"
@@ -92,7 +119,7 @@ const WorkerSignup = () => {
                         </div>
     
                         <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Password:</label>
                             <input
                                 type="password"
                                 name="password"
@@ -106,7 +133,7 @@ const WorkerSignup = () => {
                         </div>
     
                         <div className="form-group">
-                            <label htmlFor="rePassword">Re-enter Password</label>
+                            <label htmlFor="rePassword">Re-enter Password:</label>
                             <input
                                 type="password"
                                 name="rePassword"

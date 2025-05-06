@@ -43,6 +43,10 @@ label {
     color: #d9534f; /* Red color accent */
 }
 
+.form-group label {
+    text-align: left;
+}
+
 /* === Input Fields === */
 .worker-signup-input {
     width: 100%;
