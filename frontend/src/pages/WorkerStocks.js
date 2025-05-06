@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/WorkerStocks.css";
 import WorkerSideBar from "../components/WorkerSideBar";
-import axios from 'axios'; // Import axios for HTTP requests
+import axios from "axios"; // Import axios for HTTP requests
 
 const WorkerStocks = () => {
     const [stocks, setStocks] = useState([]);
+    const [decreaseValues, setDecreaseValues] = useState({});
 
     useEffect(() => {
         fetchStocks();
@@ -19,9 +20,27 @@ const WorkerStocks = () => {
         }
     };
 
-    const handleStockDecrease = async (id, value) => {
-        const updatedStocks = stocks.map(stock => 
-            stock.id === id ? { ...stock, stock: stock.stock - value } : stock
+    const handleInputChange = (id, value) => {
+        setDecreaseValues(prevValues => ({
+            ...prevValues,
+            [id]: value,
+        }));
+    };
+
+    const handleStockDecrease = async (id) => {
+        const decreaseAmount = decreaseValues[id];
+        if (!decreaseAmount || isNaN(decreaseAmount) || decreaseAmount < 0) {
+            alert("Please enter a valid decrease amount");
+            return;
+        }
+        // Get current stock for the product
+        const currentStock = stocks.find(stock => stock.id === id)?.stock || 0;
+        if (decreaseAmount > currentStock) {
+            alert("Decrease amount cannot be greater than available stock");
+            return;
+        }
+        const updatedStocks = stocks.map(stock =>
+            stock.id === id ? { ...stock, stock: stock.stock - decreaseAmount } : stock
         );
         setStocks(updatedStocks);
 
@@ -43,14 +62,20 @@ const WorkerStocks = () => {
                         stocks.map((stock) => (
                             <div key={stock.id} className="stock-card">
                                 <h3>{stock.name}</h3>
-                                <p>Available Quantity: <span className="stock-quantity">{stock.stock}</span></p>
+                                <p>
+                                    Available Quantity: <span className="stock-quantity">{stock.stock}</span>
+                                </p>
                                 <input
                                     type="number"
                                     min="0"
                                     max={stock.stock}
                                     placeholder="Decrease Amount"
-                                    onChange={(e) => handleStockDecrease(stock.id, parseInt(e.target.value))}
+                                    value={decreaseValues[stock.id] || ""}
+                                    onChange={(e) => handleInputChange(stock.id, parseInt(e.target.value))}
                                 />
+                                <button onClick={() => handleStockDecrease(stock.id)}>
+                                    Decrease Stock
+                                </button>
                             </div>
                         ))
                     ) : (

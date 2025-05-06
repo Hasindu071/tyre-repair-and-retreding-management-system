@@ -1,73 +1,104 @@
-/* Sidebar + main content wrapper */
+/* WorkerStocks.css */
+
 .worker-stocks-container {
-    margin-left: 260px; /* Room for sidebar */
-    padding: 2rem 3rem;
-    background: #f0f4f8;
-    min-height: 100vh;
+    margin-left: 250px; /* To account for the sidebar width */
+    background-color: #ffffff;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Title */
 .stocks-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #343a40;
-    margin-bottom: 2rem;
+    color: #2c3e50;
     text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
 }
 
-/* Grid Layout */
 .stocks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
-/* Stock Card */
 .stock-card {
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6px);
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 6px solid #007bff;
 }
 
 .stock-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .stock-card h3 {
-    font-size: 1.4rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+    color: #3498db;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.stock-card p {
+    color: #555;
+    margin-bottom: 15px;
+    font-size: 16px;
 }
 
 .stock-quantity {
-    font-weight: 600;
-    color: #007bff;
+    font-weight: bold;
+    color: #27ae60;
 }
 
 .stock-card input {
-    margin-top: 1rem;
     width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .stock-card input:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
 
-/* No data text */
+.stock-card button {
+    width: 100%;
+    padding: 10px;
+    background-color: #f2a097;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.stock-card button:hover {
+    background-color: #f6604f;
+}
+
 .no-stocks {
     text-align: center;
-    font-size: 1.2rem;
-    color: #888;
+    color: #7f8c8d;
+    font-size: 18px;
+    grid-column: 1 / -1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .worker-stocks-container {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .stocks-grid {
+        grid-template-columns: 1fr;
+    }
 }
