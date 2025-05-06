@@ -4,7 +4,6 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar';
 import '../styles/customerSignup.css';
-
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
@@ -18,6 +17,7 @@ const CustomerSignup = () => {
         password: '',
         rePassword: ''
     });
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         // Check for registration success flag passed from CustomerRegister
@@ -67,13 +67,21 @@ const CustomerSignup = () => {
                     'Content-Type': 'application/json'
                 }
             });
-
             console.log('Customer registered:', response.data);
             toast.success('Registration successful!');
-            navigate('/login/Customer'); // Redirect after success
+            setSuccessMessage('Registration successful!');
+            // Redirect after a short delay to let the user read the message
+            setTimeout(() => {
+                navigate('/login/Customer');
+            }, 2000);
         } catch (error) {
             console.error('Error registering customer:', error);
-            toast.error('Registration failed! Please try again.');
+            // If the backend sends an error message, display it
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error('Registration failed! Please try again.');
+            }
         }
     };
 
@@ -128,6 +136,11 @@ const CustomerSignup = () => {
                             Submit
                         </button>
                     </form>
+                    {successMessage && (
+                        <p className="success-message" style={{ marginTop: '15px', color: 'green', fontWeight: 'bold' }}>
+                            {successMessage}
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

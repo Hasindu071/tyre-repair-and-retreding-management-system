@@ -28,7 +28,7 @@ const CustomerRegister = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validate NIC number (either legacy: 9 digits + V/v/X/x OR new: exactly 12 digits)
@@ -51,8 +51,32 @@ const CustomerRegister = () => {
             return;
         }
 
-        console.log('Form submitted:', formData);
-        navigate('/CustomerSignup', { state: { formData, registrationSuccess: true } });
+        // Check NIC availability
+        try {
+            // Ensure the URL used here matches your backend configuration.
+            const res = await fetch('http://localhost:5000/CustomerRegister', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nic: formData.nic })
+            });
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                throw new Error(`Server error: ${res.status} ${res.statusText} - ${errorText}`);
+            }
+
+            const data = await res.json();
+            if (data.exists) {
+                toast.error("NIC already exists!");
+                return;
+            }
+
+            console.log('Form submitted:', formData);
+            navigate('/CustomerSignup', { state: { formData, registrationSuccess: true } });
+        } catch (err) {
+            console.error('Error checking NIC:', err);
+            toast.error("Something went wrong. Please try again.");
+        }
     };
 
     return (
@@ -61,7 +85,9 @@ const CustomerRegister = () => {
             <ToastContainer />
             <div className="container-customer-register">
                 <div className="card p-4 shadow-sm">
-                    <h2 className="register-customer-title">Customer <span>REGISTRATION</span></h2>
+                    <h2 className="register-customer-title">
+                        Customer <span>REGISTRATION</span>
+                    </h2>
                     <p className="text-center mb-4">Let's get started!</p>
                     <form onSubmit={handleSubmit}>
                         <div className="row">
