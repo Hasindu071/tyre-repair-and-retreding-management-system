@@ -1,113 +1,181 @@
+/* Main Container Styles */
 .approve-worker-container-worker {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  margin-left: 250px;
+  padding: 2rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  transition: all 0.3s ease;
 }
 
-.title-worker {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
+.approve-worker-container-worker .title-worker {
+  color: #1e293b;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e2e8f0;
+  font-weight: 600;
 }
 
+/* Table Styles */
 .worker-table-worker {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.worker-table-worker th,
-.worker-table-worker td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: center;
-  font-size: 16px;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .worker-table-worker th {
-  background: #f4f4f4;
-  font-size: 16px;
-  color: #555;
+  background-color: #334155;
+  color: white;
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
 }
 
-.worker-table-worker tr:nth-child(even) {
-  background: #f9f9f9;
+.worker-table-worker td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.worker-table-worker tr:last-child td {
+  border-bottom: none;
+}
+
+.worker-table-worker tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Profile Photo Styles */
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+  transition: transform 0.3s ease;
+}
+
+.profile-photo:hover {
+  transform: scale(1.5);
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Button Styles */
 .approve-button-worker,
-.cancel-button-worker {
-  padding: 8px 12px 8px 12px;
-  margin-bottom: 5px;
+.cancel-button-worker,
+.remove-button-worker {
+  padding: 0.4rem 0.8rem;
+  margin: 0.15rem;
   border: none;
+  border-radius: 0.25rem;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-  font-size: 14px;
-  color: #fff;
-  margin-right: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .approve-button-worker {
-  background: green;
+  background-color: #10b981;
+  color: white;
 }
 
-.approve-button-worker:hover {
-  background: darkgreen;
+.approve-button-worker:hover:not(:disabled) {
+  background-color: #059669;
+  transform: translateY(-1px);
 }
 
 .cancel-button-worker {
-  background: red;
-  margin-right: 0;
+  background-color: #ef4444;
+  color: white;
 }
 
-.cancel-button-worker:hover {
-  background: darkred;
+.cancel-button-worker:hover:not(:disabled) {
+  background-color: #dc2626;
+  transform: translateY(-1px);
 }
 
-/* Optional status styling (apply class in your JSX if needed) */
-.status-approved-worker {
-  color: green;
-  font-weight: bold;
+.remove-button-worker {
+  background-color: #64748b;
+  color: white;
 }
 
-.status-canceled-worker {
-  color: red;
-  font-weight: bold;
+.remove-button-worker:hover:not(:disabled) {
+  background-color: #475569;
+  transform: translateY(-1px);
 }
 
-/* Profile image */
-.profile-photo {
-  width: 4cm;
-  height: 4cm;
-  object-fit: cover;
+/* Disabled Button Styles */
+.approve-button-worker:disabled,
+.cancel-button-worker:disabled,
+.remove-button-worker:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Empty State Message */
+.approve-worker-container-worker > p {
+  text-align: center;
+  color: #64748b;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
   .approve-worker-container-worker {
-    margin: 20px;
-    padding: 15px;
+      margin-left: 0;
+      padding: 1.5rem;
   }
+}
 
-  .title-worker {
-    font-size: 20px;
+@media (max-width: 768px) {
+  .worker-table-worker {
+      display: block;
+      overflow-x: auto;
   }
-
+  
   .worker-table-worker th,
   .worker-table-worker td {
-    font-size: 12px;
-    padding: 8px;
+      padding: 0.5rem;
+      font-size: 0.85rem;
   }
-
+  
+  .profile-photo {
+      width: 40px;
+      height: 40px;
+  }
+  
   .approve-button-worker,
-  .cancel-button-worker {
-    font-size: 12px;
-    padding: 6px 10px;
+  .cancel-button-worker,
+  .remove-button-worker {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      margin: 0.1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .title-worker {
+      font-size: 1.5rem;
+  }
+  
+  .approve-worker-container-worker > p {
+      font-size: 1rem;
   }
 }

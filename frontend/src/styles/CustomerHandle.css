@@ -1,92 +1,215 @@
-/* Main container */
+/* Main container styling */
 .customer-handle-container {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  margin-left: 250px; /* To account for the sidebar */
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fcb3b3;
+  min-height: 100vh;
 }
 
-.customer-handle-container:hover {
-  transform: translateY(-3px);
-}
-
-/* Title */
 .title {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  font-weight: bold;
+  color: #343a40;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
 }
 
-/* Search Box */
+/* Search box styling */
 .search-box {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px 20px;
+  margin-bottom: 25px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
   font-size: 16px;
-  transition: border-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .search-box:focus {
-  border-color: #007bff;
-  outline: none;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Table */
+/* Table wrapper for responsive scrolling */
 .table-wrapper {
   overflow-x: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
 }
 
+/* Table styling */
 .customer-table {
   width: 100%;
   border-collapse: collapse;
-  background: #ffffff;
-}
-
-.customer-table th,
-.customer-table td {
-  border: 1px solid #ddd;
-  padding: 3px;
-  text-align: center;
-  font-size: 16px;
 }
 
 .customer-table th {
-  background-color: #656566;
-  color: #fff;
+  background-color: #343a40;
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
 }
 
-.customer-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+.customer-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
 }
 
-.customer-table tbody tr:hover {
-  background-color: #e9ecef;
+.customer-table tr:hover {
+  background-color: #f1f3f5;
 }
 
-/* No results */
+.customer-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* No results message */
 .no-results {
   text-align: center;
-  font-size: 16px;
-  color: red;
-  font-weight: bold;
-  padding: 15px;
+  padding: 20px;
+  color: #6c757d;
+  font-style: italic;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+/* Button styling */
+.approve-button,
+.cancel-button {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.approve-button {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.approve-button:hover {
+  background-color: #138496;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* Modal styling */
+.modal-content {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  background-color: #343a40;
+  color: white;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.modal-title {
+  font-weight: 500;
+}
+
+.close {
+  color: white;
+  opacity: 1;
+}
+
+.close:hover {
+  color: #f8f9fa;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-update-profile {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-update-profile:hover {
+  background-color: #218838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .customer-handle-container {
+      margin-left: 0;
+      padding: 20px;
+  }
+  
   .customer-table th,
   .customer-table td {
+      padding: 8px 10px;
       font-size: 14px;
-      padding: 8px;
   }
+  
+  .approve-button,
+  .cancel-button {
+      padding: 4px 8px;
+      font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+      font-size: 20px;
+  }
+  
   .search-box {
-      font-size: 14px;
+      padding: 10px 15px;
+  }
+  
+  .modal-dialog {
+      margin: 10px;
   }
 }
