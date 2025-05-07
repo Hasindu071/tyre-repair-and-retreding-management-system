@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveWorker.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,25 +10,26 @@ const ApproveWorker = () => {
 
   const fetchWorkers = async () => {
     try {
-      // Updated endpoint to match the backend route that returns registered workers
       const res = await fetch("http://localhost:5000/WorkerRegister");
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
-      setWorkers(data);
+      // Filter out workers with status "Removed" (if you don't want to show them)
+      const filteredData = data.filter(worker => worker.status !== "Removed");
+      setWorkers(filteredData);
     } catch (err) {
       console.error("Error fetching workers:", err);
       toast.error("Error fetching workers");
     }
   };
 
-  // Fetch workers when component mounts
   useEffect(() => {
     fetchWorkers();
   }, []);
 
-  // Handle worker approval/rejection and refresh the worker list after updating
+  // Handle worker approval, rejection, or removal.
+  // For removal, update local state to hide the row (and table if no workers remain).
   const handleApproval = async (id, status) => {
     try {
       const response = await fetch(`http://localhost:5000/WorkerRegister/update-status/${id}`, {
@@ -39,8 +39,13 @@ const ApproveWorker = () => {
       });
       if (response.ok) {
         toast.success(`Worker ${status.toLowerCase()} successfully`);
-        // Re-fetch the worker list after successful update
-        fetchWorkers();
+        if (status === "Removed") {
+          // Remove the worker from local state so that the table row disappears.
+          setWorkers(prev => prev.filter(worker => worker.id !== id));
+        } else {
+          // For other statuses, re-fetch the workers list from the backend.
+          fetchWorkers();
+        }
       } else {
         toast.error("Failed to update worker status");
       }
@@ -52,7 +57,6 @@ const ApproveWorker = () => {
 
   return (
     <div>
-            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="approve-worker-container-worker">
         <h2 className="title-worker">Approve Workers</h2>
@@ -102,6 +106,13 @@ const ApproveWorker = () => {
                       disabled={worker.status === "Rejected"}
                     >
                       Reject
+                    </button>
+                    <button
+                      className="remove-button-worker"
+                      onClick={() => handleApproval(worker.id, "Removed")}
+                      disabled={worker.status === "Removed"}
+                    >
+                      Remove
                     </button>
                   </td>
                 </tr>
