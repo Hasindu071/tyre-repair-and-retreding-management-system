@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../styles/Supplies.css";
 import OwnerSidebar from "../components/SideNav";
@@ -19,6 +19,11 @@ const Supplies = () => {
     supplierName: "",
     description: ""
   });
+
+    // Refs for navigable sections
+    const suppliesRef = useRef(null);
+    const productRef = useRef(null);
+    const inventoryRef = useRef(null);
 
   // Map productNames to react-select options
   const productOptions = productNames.map((product) => ({
@@ -65,6 +70,11 @@ const Supplies = () => {
     fetchProductNames();
     fetchSupplies();
   }, []);
+
+    // Navigation function
+    const scrollToSection = (ref) => {
+        ref.current?.scrollIntoView({ behavior: "smooth" });
+      };
 
   // Handle adding a new supply
   const handleAddSupply = async (e) => {
@@ -171,6 +181,15 @@ const Supplies = () => {
     <div>
       <OwnerSidebar />
       <div className="supplies-container">
+        {/* Navigation Buttons */}
+        <div className="nav-buttons" style={{width:"50000px", height:"50px", marginBottom: "50px", gap: "100px" }}>
+          <button onClick={() => scrollToSection(suppliesRef)}>Add Supplies</button>
+          <button onClick={() => scrollToSection(productRef)}>Add New Product</button>
+          <button onClick={() => scrollToSection(inventoryRef)}>Inventory</button>
+        </div>
+
+        {/* Add Supplies Section */}
+        <div id="add-supplies" ref={suppliesRef}>
         <h2>Add Supplies</h2>
         <form onSubmit={handleAddSupply}>
           <label htmlFor="name">Full Name</label>
@@ -216,6 +235,39 @@ const Supplies = () => {
           <button type="submit">Add Supply</button>
         </form>
 
+        <table className="supply-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Company Name</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {supplies.map((supply) => (
+                <tr key={supply.id}>
+                    <td>{supply.id}</td>
+                    <td>{supply.name}</td>
+                    <td>{supply.phone_number}</td>
+                    <td>{supply.address}</td>
+                    <td>{supply.company_name}</td>
+                    <td>
+                        <button onClick={() => handleDeleteSupply(supply.id)}>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+
+        <hr />
+
+        {/* Add New Product Section */}
+        <div id="add-product" ref={productRef}></div>
         <div className="product-container">
           <h2>Add New Product</h2>
           <form onSubmit={handleAddProduct}>
@@ -243,6 +295,33 @@ const Supplies = () => {
           </form>
         </div>
 
+        <table className="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {productNames.map((product) => (
+                    <tr key={product.id}>
+                        <td>{product.id}</td>
+                        <td>{product.name}</td>
+                        <td>{product.description}</td>
+                        <td>
+                            <button onClick={() => handleDeleteSupply(product.id)}>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+
+        {/* Inventory Section */}
+        <div id="inventory" ref={inventoryRef}></div>
         <div className="Inventory-container">
           <h2>Inventory</h2>
           <form onSubmit={handleAddInventory}>
@@ -334,6 +413,7 @@ const Supplies = () => {
         </table>
       </div>
       <ToastContainer />
+    </div>
     </div>
   );
 };
