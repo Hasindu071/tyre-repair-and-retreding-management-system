@@ -81,7 +81,8 @@ router.post("/inventory", async (req, res) => {
   
     // Use 0 as default value for amount if not provided.
     const amtValue = (amount === undefined || amount === null || amount === "") ? 0 : amount;
-  
+    const amt = Number(amtValue);
+    
     try {
       // Lookup product ID from products table using product_name.
       const [productRows] = await db.promise().query(
