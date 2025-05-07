@@ -28,17 +28,32 @@ router.put('/updateProduct/:id', async (req, res) => {
     }
 });
 
-// Route to add a new product
-router.post('/addProduct', async (req, res) => {
-    const { name, stock } = req.body;
-
+// POST endpoint to add a new product
+router.post("/", async (req, res) => {
+    const { product_name, description } = req.body;
+  
+    if (!product_name || !description) {
+        return res.status(400).json({ error: "Product name and description are required" });
+    }
+  
     try {
-        const query = 'INSERT INTO products (name, stock) VALUES (?, ?)';
-        await db.promise().execute(query, [name, stock]);
-        res.status(201).json({ message: 'Product added successfully' });
+        const sql = "INSERT INTO products (name, description) VALUES (?, ?)";
+        const [result] = await db.promise().execute(sql, [product_name, description]);
+        res.status(201).json({ message: "Product added successfully", productId: result.insertId });
     } catch (error) {
-        console.error('Database insert error:', error);
-        res.status(500).json({ message: 'Failed to add product' });
+        console.error("Error adding product:", error);
+        res.status(500).json({ error: "Failed to add product" });
+    }
+});
+
+// GET endpoint to fetch all products
+router.get("/names", async (req, res) => {
+    try {
+        const [products] = await db.promise().query("SELECT * FROM products");
+        res.status(200).json(products);
+    } catch (error) {
+        console.error("Error fetching product names:", error);
+        res.status(500).json({ error: "Failed to fetch products" });
     }
 });
 

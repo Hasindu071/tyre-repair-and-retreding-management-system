@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const OwnerProductInquiries = () => {
     const [products, setProducts] = useState([]);
-    const [newProduct, setNewProduct] = useState({ name: "", stock: 0 });
 
     useEffect(() => {
         fetchProducts();
@@ -40,25 +39,6 @@ const OwnerProductInquiries = () => {
         } catch (error) {
             console.error("Error saving stock updates:", error);
             toast.error("Error saving stock updates");
-        }
-    };
-
-    const handleNewProductChange = (e) => {
-        const { name, value } = e.target;
-        setNewProduct({ ...newProduct, [name]: value });
-    };
-
-    const handleAddProduct = async () => {
-        if (newProduct.name && newProduct.stock >= 0) {
-            try {
-                await axios.post('http://localhost:5000/products/addProduct', newProduct);
-                fetchProducts(); // Refresh product list
-                setNewProduct({ name: "", stock: 0 });
-                toast.success("Product added successfully");
-            } catch (error) {
-                console.error("Error adding product:", error);
-                toast.error("Error adding product");
-            }
         }
     };
 
@@ -94,27 +74,6 @@ const OwnerProductInquiries = () => {
                     </tbody>
                 </table>
                 <button className="update-stock-btn" onClick={handleSaveUpdates}>Save Updates</button>
-                <br />
-                <br />
-                <h2 className="title">Add New Product</h2>
-                <div className="add-product-form">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Product Name"
-                        value={newProduct.name}
-                        onChange={handleNewProductChange}
-                    />
-                    <input
-                        type="number"
-                        name="stock"
-                        placeholder="Stock"
-                        min="0"
-                        value={newProduct.stock}
-                        onChange={handleNewProductChange}
-                    />
-                    <button onClick={handleAddProduct} className="add-product-btn">Add Product</button>
-                </div>
             </div>
             <ToastContainer />
         </div>
