@@ -78,7 +78,7 @@ const PendingOrder = () => {
     };
 
     return (
-        <div>
+        <div className="pending-order-page">
             {/*<Navbar />*/}
             <OwnerSidebar />
             <div className="approve-order-container">

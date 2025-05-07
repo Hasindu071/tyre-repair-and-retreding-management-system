@@ -27,10 +27,10 @@ const ApproveOrder = () => {
 };
 
   return (
-    <div>
+    <div className="approve-order-page">
       <OwnerSidebar />
       <div className="approve-order-container">
-        <h2>Orders</h2>
+        <h1>Approve Orders</h1>
         <table className="order-table">
           <thead>
             <tr>

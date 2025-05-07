@@ -1,8 +1,19 @@
+.approve-order-page {
+  background-color: #f5bebe;
+}
 .approve-order-container {
   padding: 20px;
   margin: 0 auto;
   max-width: 1200px;
   font-family: Arial, sans-serif;
+}
+
+.approve-order-container h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ffffff;
 }
 
 .order-table {

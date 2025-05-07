@@ -1,80 +1,85 @@
-.body{
-    background-image: url('../assets/background.png');
-}
-/* General Styles */
-body {
-  background-color: #f8f9fa;
-  font-family: 'Arial', sans-serif;
+.pending-order-page {
+  background-color: #f5bebe;
 }
 
+/* Main container styling */
 .approve-order-container {
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5bebe;
+  margin-left: 250px; /* Assuming sidebar width is 250px */
+  margin-right: 20px;
+  min-height: 100vh;
 }
 
 .title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
+  color: #343a40;
+  margin: 30px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
 }
 
-/* Table Styles */
+/* Table styling */
 .order-table {
   width: 100%;
-  border-collapse: collapse;
   margin-bottom: 30px;
-}
-
-.order-table th,
-.order-table td {
-  border: 1px solid #ddd;
-  padding: 2px;
-  text-align: left;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .order-table th {
-  background-color: #f8a79b;
+  background-color: #343a40;
   color: white;
-  font-weight: bold;
+  padding: 15px;
+  text-align: left;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
 }
 
-.order-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+.order-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
 }
 
 .order-table tr:hover {
-  background-color: #ddd;
+  background-color: #f1f3f5;
 }
 
-/* Button Styles */
-button {
-  padding: 10px 18px;
-  margin: 5px;
+.order-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Button styling */
+.view-btn-order,
+.approve-btn-order,
+.reject-btn-order {
+  padding: 6px 12px;
+  margin: 2px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
 .view-btn-order {
-  background-color: #3498db;
-  color: #fff;
+  background-color: #17a2b8;
+  color: white;
 }
 
 .view-btn-order:hover {
-  background-color: #2980b9;
+  background-color: #138496;
 }
 
 .approve-btn-order {
   background-color: #28a745;
-  color: #fff;
+  color: white;
 }
 
 .approve-btn-order:hover {
@@ -82,10 +87,108 @@ button {
 }
 
 .reject-btn-order {
-  background-color: #e74c3c;
-  color: #fff;
+  background-color: #dc3545;
+  color: white;
 }
 
 .reject-btn-order:hover {
   background-color: #c82333;
+}
+
+/* Image styling */
+.order-table img {
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #dee2e6;
+  transition: transform 0.3s;
+}
+
+.order-table img:hover {
+  transform: scale(1.5);
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal styling */
+.modal-content {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  background-color: #343a40;
+  color: white;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.modal-title {
+  font-weight: 500;
+}
+
+.modal-body textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.modal-footer {
+  border-top: none;
+  background-color: #f8f9fa;
+  border-radius: 0 0 10px 10px;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .approve-order-container {
+      margin-left: 0;
+      padding: 15px;
+  }
+  
+  .order-table {
+      display: block;
+      overflow-x: auto;
+  }
+  
+  .order-table th,
+  .order-table td {
+      padding: 8px 10px;
+      font-size: 14px;
+  }
+  
+  .view-btn-order,
+  .approve-btn-order,
+  .reject-btn-order {
+      padding: 4px 8px;
+      font-size: 12px;
+      margin: 1px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+      font-size: 20px;
+  }
+  
+  .order-table img {
+      width: 3cm;
+      height: 3cm;
+  }
 }

@@ -29,10 +29,10 @@ const OwnerSeeCompleteOrders = () => {
 
 
   return (
-    <div>
+    <div className="owner-complete-orders-page">
       <OwnerSidebar />
       <div className="owner-complete-orders-container">
-        <h2 className="title">Complete Orders</h2>
+        <h1 className="title">Complete Orders</h1>
         <div className="table-wrapper">
           <table className="orders-table">
             <thead>
