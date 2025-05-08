@@ -22,7 +22,7 @@ const RoleLoginSelection = () => {
           {["Owner", "Worker", "Customer"].map((role) => (
             <div key={role} className="role-login-card">
                 <div className="icon-container">
-                              {role === "Owner" && <FaUserTie size={50} color="white" />}
+                              {role === "Owner" && <FaUserTie size={50} color="white"  />}
                               {role === "Worker" && <FaUserCog size={50} color="white" />}
                               {role === "Customer" && <FaUser size={50} color="white" />}
                             </div>
