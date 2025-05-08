@@ -57,4 +57,20 @@ router.get("/names", async (req, res) => {
     }
 });
 
+// DELETE /products/:id - Delete a product by ID
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const query = 'DELETE FROM products WHERE id = ?';
+      const [result] = await db.promise().query(query, [id]);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      res.json({ message: "Product deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      res.status(500).json({ message: "Error deleting product" });
+    }
+  });
+
 module.exports = router;

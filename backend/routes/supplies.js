@@ -8,7 +8,7 @@ router.use(cors());
 router.use(express.json());
 
 // GET: Fetch all supplier names
-router.get("/", (req, res) => {
+router.get("/supplier", (req, res) => {
     const sql = "SELECT * FROM supplies";
     db.query(sql, (err, results) => {
         if (err) {
@@ -61,6 +61,22 @@ router.delete("/:id", (req, res) => {
         }
         res.json({ message: "Supply deleted successfully" });
     });
+});
+
+// DELETE /supplies/inventory/:id - Delete an inventory record by its ID
+router.delete('/inventory/:id', async (req, res) => {
+  const inventoryId = req.params.id;
+  try {
+    const query = 'DELETE FROM inventory WHERE id = ?';
+    const [result] = await db.promise().query(query, [inventoryId]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Inventory record not found' });
+    }
+    res.status(200).json({ message: 'Inventory deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting inventory:', error);
+    res.status(500).json({ message: 'Error deleting inventory', error: error.message });
+  }
 });
 
 router.post("/inventory", async (req, res) => {
@@ -161,5 +177,29 @@ router.get("/names", async (req, res) => {
       res.status(500).json({ error: "Failed to fetch supplier names" });
     }
   });
+
+// GET: Fetch inventory details with product and supplier names
+router.get("/inventory", async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        i.id, 
+        p.name AS product_name, 
+        s.name AS supplier_name, 
+        i.stock, 
+        i.quantity, 
+        i.amount, 
+        i.date 
+      FROM inventory i
+      JOIN products p ON i.product_id = p.id
+      JOIN supplies s ON i.supplier_id = s.id
+    `;
+    const [rows] = await db.promise().query(query);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching inventory:", error);
+    res.status(500).json({ message: "Error fetching inventory", error: error.message });
+  }
+});
 
   module.exports = router;

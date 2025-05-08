@@ -6,9 +6,15 @@ import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Validation helper functions
+const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
+const validatePhoneNumber = (phone) => /^\d{10}$/.test(phone);
+const validateNumber = (value) => !isNaN(value) && Number(value) > 0;
+
 const Supplies = () => {
   const [supplies, setSupplies] = useState([]);
   const [supplierNames, setSupplierNames] = useState([]);
+  const [inventories, setInventory] = useState([]);
   const [productNames, setProductNames] = useState([]);
   const [newSupply, setNewSupply] = useState({
     name: "",
@@ -17,13 +23,15 @@ const Supplies = () => {
     address: "",
     company_name: "",
     supplierName: "",
-    description: ""
+    description: "",
+    quantity: "",
+    amount: ""
   });
 
-    // Refs for navigable sections
-    const suppliesRef = useRef(null);
-    const productRef = useRef(null);
-    const inventoryRef = useRef(null);
+  // Refs for navigable sections
+  const suppliesRef = useRef(null);
+  const productRef = useRef(null);
+  const inventoryRef = useRef(null);
 
   // Map productNames to react-select options
   const productOptions = productNames.map((product) => ({
@@ -56,11 +64,22 @@ const Supplies = () => {
   // Fetch all supplies
   const fetchSupplies = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/supplies");
+      const response = await axios.get("http://localhost:5000/supplies/supplier");
       setSupplies(response.data);
     } catch (error) {
       console.error("Error fetching supplies:", error);
       toast.error("Error fetching supplies");
+    }
+  };
+
+  // GET method to fetch inventory details
+  const fetchInventory = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/supplies/inventory");
+      setInventory(response.data);
+    } catch (error) {
+      console.error("Error fetching inventories:", error);
+      toast.error("Error fetching inventories");
     }
   };
 
@@ -69,32 +88,39 @@ const Supplies = () => {
     fetchSupplierNames();
     fetchProductNames();
     fetchSupplies();
+    fetchInventory();
   }, []);
 
-    // Navigation function
-    const scrollToSection = (ref) => {
-        ref.current?.scrollIntoView({ behavior: "smooth" });
-      };
+  // Navigation function
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Validate all supply fields before submission
+  const validateSupplyFields = () => {
+    if (!newSupply.name || !validateName(newSupply.name)) {
+      toast.error("Please enter a valid Supply Name (only letters and spaces allowed).");
+      return false;
+    }
+    if (!newSupply.phone_number || !validatePhoneNumber(newSupply.phone_number)) {
+      toast.error("Please enter a valid 10-digit Phone Number.");
+      return false;
+    }
+    if (!newSupply.address) {
+      toast.error("Address is required.");
+      return false;
+    }
+    if (!newSupply.company_name || !validateName(newSupply.company_name)) {
+      toast.error("Please enter a valid Company Name (only letters and spaces allowed).");
+      return false;
+    }
+    return true;
+  };
 
   // Handle adding a new supply
   const handleAddSupply = async (e) => {
     e.preventDefault();
-    // Validate required supply fields
-    if (
-      !newSupply.name ||
-      !newSupply.address ||
-      !newSupply.company_name ||
-      !newSupply.phone_number
-    ) {
-      console.error("Missing required fields:", {
-        name: newSupply.name,
-        address: newSupply.address,
-        company_name: newSupply.company_name,
-        phone_number: newSupply.phone_number
-      });
-      toast.error("Please fill all supply fields.");
-      return;
-    }
+    if (!validateSupplyFields()) return;
     try {
       await axios.post("http://localhost:5000/supplies", newSupply);
       toast.success("Supply added successfully");
@@ -141,15 +167,28 @@ const Supplies = () => {
   // Handle adding new inventory data
   const handleAddInventory = async (e) => {
     e.preventDefault();
-    if (!newSupply.product_name || !newSupply.quantity || !newSupply.supplierName) {
+    if (
+      !newSupply.product_name ||
+      !newSupply.quantity ||
+      !newSupply.supplierName
+    ) {
       toast.error("Please fill in all inventory fields.");
+      return;
+    }
+    if (!validateNumber(newSupply.quantity)) {
+      toast.error("Quantity must be a positive number.");
+      return;
+    }
+    if (!validateNumber(newSupply.amount)) {
+      toast.error("Amount must be a positive number.");
       return;
     }
     try {
       const inventoryData = {
         product_name: newSupply.product_name,
         quantity: newSupply.quantity,
-        supplierName: newSupply.supplierName
+        supplierName: newSupply.supplierName,
+        amount: newSupply.amount
       };
       await axios.post("http://localhost:5000/supplies/inventory", inventoryData);
       toast.success("Inventory added successfully");
@@ -157,8 +196,10 @@ const Supplies = () => {
         ...prev,
         product_name: "",
         quantity: "",
-        supplierName: ""
+        supplierName: "",
+        amount: ""
       }));
+      fetchInventory();
     } catch (error) {
       console.error("Error adding inventory:", error);
       toast.error("Error adding inventory");
@@ -177,12 +218,36 @@ const Supplies = () => {
     }
   };
 
+  // Handle product deletion
+  const handleDeleteProduct = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/products/${id}`);
+      toast.success("Product deleted successfully");
+      fetchProductNames();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Error deleting product");
+    }
+  };
+
+  // Delete inventory record using DELETE method
+  const handleDeleteInventory = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/supplies/inventory/${id}`);
+      toast.success("Inventory deleted successfully");
+      fetchInventory();
+    } catch (error) {
+      console.error("Error deleting inventory:", error);
+      toast.error("Error deleting inventory");
+    }
+  };
+
   return (
     <div>
       <OwnerSidebar />
       <div className="supplies-container">
         {/* Navigation Buttons */}
-        <div className="nav-buttons" style={{width:"50000px", height:"50px", marginBottom: "50px", gap: "100px" }}>
+        <div className="nav-buttons" style={{ width: "50000px", height: "50px", marginBottom: "50px", gap: "100px" }}>
           <button onClick={() => scrollToSection(suppliesRef)}>Add Supplies</button>
           <button onClick={() => scrollToSection(productRef)}>Add New Product</button>
           <button onClick={() => scrollToSection(inventoryRef)}>Inventory</button>
@@ -190,79 +255,86 @@ const Supplies = () => {
 
         {/* Add Supplies Section */}
         <div id="add-supplies" ref={suppliesRef}>
-        <h2>Add Supplies</h2>
-        <form onSubmit={handleAddSupply}>
-          <label htmlFor="name">Full Name</label>
-          <input
-            type="text"
-            placeholder="Supply Name"
-            value={newSupply.name}
-            onChange={(e) =>
-              setNewSupply({ ...newSupply, name: e.target.value })
-            }
-            required
-          />
-          <label htmlFor="phone_number">Phone Number</label>
-          <input
-            type="text"
-            placeholder="Phone Number"
-            value={newSupply.phone_number}
-            onChange={(e) =>
-              setNewSupply({ ...newSupply, phone_number: e.target.value })
-            }
-            required
-          />
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            placeholder="Address"
-            value={newSupply.address}
-            onChange={(e) =>
-              setNewSupply({ ...newSupply, address: e.target.value })
-            }
-            required
-          />
-          <label htmlFor="company_name">Company Name</label>
-          <input
-            type="text"
-            placeholder="Company Name"
-            value={newSupply.company_name}
-            onChange={(e) =>
-              setNewSupply({ ...newSupply, company_name: e.target.value })
-            }
-            required
-          />
-          <button type="submit">Add Supply</button>
-        </form>
+          <h2>Add Supplies</h2>
+          <form onSubmit={handleAddSupply}>
+            <label htmlFor="name">Full Name</label>
+            <input
+              type="text"
+              placeholder="Supply Name"
+              value={newSupply.name}
+              onChange={(e) => setNewSupply({ ...newSupply, name: e.target.value })}
+              onKeyPress={(e) => {
+                const char = String.fromCharCode(e.charCode);
+                if (!/^[A-Za-z\s]$/.test(char)) {
+                  e.preventDefault();
+                  toast.error("Only letters and spaces allowed in Full Name.");
+                }
+              }}
+              required
+            />
+            <label htmlFor="phone_number">Phone Number</label>
+            <input
+              type="number"
+              placeholder="Phone Number"
+              value={newSupply.phone_number}
+              onChange={(e) => setNewSupply({ ...newSupply, phone_number: e.target.value })}
+              required
+            />
+            <label htmlFor="address">Address</label>
+            <input
+              type="text"
+              placeholder="Address"
+              value={newSupply.address}
+              onChange={(e) => setNewSupply({ ...newSupply, address: e.target.value })}
+              required
+            />
+            <label htmlFor="company_name">Company Name</label>
+            <input
+              type="text"
+              placeholder="Company Name"
+              value={newSupply.company_name}
+              onChange={(e) => setNewSupply({ ...newSupply, company_name: e.target.value })}
+              onKeyPress={(e) => {
+                const char = String.fromCharCode(e.charCode);
+                if (!/^[A-Za-z\s]$/.test(char)) {
+                  e.preventDefault();
+                  toast.error("Only letters and spaces allowed in Company Name.");
+                }
+              }}
+              required
+            />
+            <button type="submit">Add Supply</button>
+          </form>
 
-        <table className="supply-table">
-          <thead>
-            <tr>
-              <th>ID</th>
+          <table className="supply-table">
+            <thead>
+              <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Phone Number</th>
                 <th>Address</th>
                 <th>Company Name</th>
                 <th>Action</th>
-            </tr>
+              </tr>
             </thead>
             <tbody>
-            {supplies.map((supply) => (
+              {supplies.map((supply) => (
                 <tr key={supply.id}>
-                    <td>{supply.id}</td>
-                    <td>{supply.name}</td>
-                    <td>{supply.phone_number}</td>
-                    <td>{supply.address}</td>
-                    <td>{supply.company_name}</td>
-                    <td>
-                        <button onClick={() => handleDeleteSupply(supply.id)}>
-                            Delete
-                        </button>
-                    </td>
+                  <td>{supply.id}</td>
+                  <td>{supply.name}</td>
+                  <td>{supply.phone_number}</td>
+                  <td>{supply.address}</td>
+                  <td>{supply.company_name}</td>
+                  <td>
+                    <button onClick={() => handleDeleteSupply(supply.id)}>
+                      Delete
+                    </button>
+                  </td>
                 </tr>
-            ))}
+              ))}
             </tbody>
-        </table>
+          </table>
+        </div>
 
         <hr />
 
@@ -296,28 +368,28 @@ const Supplies = () => {
         </div>
 
         <table className="product-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {productNames.map((product) => (
-                    <tr key={product.id}>
-                        <td>{product.id}</td>
-                        <td>{product.name}</td>
-                        <td>{product.description}</td>
-                        <td>
-                            <button onClick={() => handleDeleteSupply(product.id)}>
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productNames.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                <td>{product.description}</td>
+                <td>
+                  <button onClick={() => handleDeleteProduct(product.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
 
         {/* Inventory Section */}
@@ -385,25 +457,25 @@ const Supplies = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Product Name</th>
-              <th>Phone Number</th>
+              <th>Supplier Name</th>
+              <th>Stock</th>
               <th>Quantity</th>
-              <th>Amount</th>
               <th>Date and Time</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {supplies.map((supply) => (
-              <tr key={supply.id}>
-                <td>{supply.id}</td>
-                <td>{supply.name}</td>
-                <td>{supply.product_name}</td>
-                <td>{supply.phone_number}</td>
-                <td>{supply.quantity}</td>
-                <td>{supply.amount}</td>
-                <td>{supply.date_added}</td>
+            {inventories.map((inventory) => (
+              <tr key={inventory.id}>
+                <td>{inventory.id}</td>
+                <td>{inventory.product_name}</td>  
+                <td>{inventory.supplier_name}</td> 
+                <td>{inventory.stock}</td>
+                <td>{inventory.quantity}</td>
+                <td>{inventory.amount}</td>
+                <td>{inventory.date}</td>
                 <td>
-                  <button onClick={() => handleDeleteSupply(supply.id)}>
+                  <button onClick={() => handleDeleteInventory(inventory.id)}>
                     Delete
                   </button>
                 </td>
@@ -411,9 +483,9 @@ const Supplies = () => {
             ))}
           </tbody>
         </table>
+
       </div>
       <ToastContainer />
-    </div>
     </div>
   );
 };
