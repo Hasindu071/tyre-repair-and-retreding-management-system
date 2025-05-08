@@ -14,7 +14,7 @@ const WorkerRegisterCreativeView = () => {
   useEffect(() => {
     const fetchWorkers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/WorkerRegister');
+        const response = await axios.get('http://localhost:5000/WorkerRegister/approveWorker');
         setWorkers(response.data);
       } catch (err) {
         console.error("Error fetching workers:", err);

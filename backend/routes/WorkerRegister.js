@@ -95,4 +95,20 @@ router.put('/:id', (req, res) => {
     });
   });
 
+  // GET /WorkerRegister/approveWorker - Return only approved workers
+router.get('/approveWorker', async (req, res) => {
+  try {
+    const query = `
+      SELECT id, title, firstName, lastName, email, nic, address1, address2, profilePicture, status 
+      FROM worker_register 
+      WHERE status = 'Approved'
+    `;
+    const [rows] = await db.promise().query(query);
+    return res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching approved workers:", error);
+    return res.status(500).json({ message: "Server error fetching approved workers" });
+  }
+});
+
 module.exports = router;
