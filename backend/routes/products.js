@@ -152,4 +152,28 @@ router.put("/decreaseStock/:id", async (req, res) => {
     }
 });
 
+// GET endpoint to fetch all worker stock decreases
+router.get("/getWorkerStockDecreases", async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                d.id,
+                CONCAT(w.firstName, ' ', w.lastName) AS workerName,
+                p.name AS productName,
+                d.decrease_amount,
+                d.decrease_date
+            FROM worker_stock_decreases d
+            JOIN worker_register w ON d.worker_id = w.id
+            JOIN products p ON d.product_id = p.id
+            ORDER BY d.id DESC
+        `;
+        const [rows] = await db.promise().query(query);
+        console.log("Fetched worker stock decrease records with names:", rows);
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error fetching worker stock decrease records:", error);
+        res.status(500).json({ error: "Failed to fetch worker stock decrease records" });
+    }
+});
+
 module.exports = router;

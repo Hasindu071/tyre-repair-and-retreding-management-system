@@ -1,5 +1,5 @@
 .owner-stock-container {
-    margin-left: 250px;
+    margin-left: 300px;
     padding: 40px;
     background: linear-gradient(135deg, #f4f6f8 0%, #e9ecef 100%);
     min-height: 100vh;
@@ -11,7 +11,7 @@
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 25px;
-    color: #2c3e50;
+    color: #fafafa;
     border-left: 5px solid #4CAF50;
     padding-left: 15px;
   }
