@@ -72,5 +72,84 @@ router.delete('/:id', async (req, res) => {
       res.status(500).json({ message: "Error deleting product" });
     }
   });
+  
+// PUT endpoint to decrease stock and record the worker's decrease
+// This endpoint assumes that the worker's ID and the decrease amount are sent in the request body.
+router.put("/decreaseStock/:id", async (req, res) => {
+    const productId = req.params.id;
+    const { workerId, decreaseAmount } = req.body;
+
+    console.log(`Received decreaseStock request for productId: ${productId} with workerId: ${workerId} and decreaseAmount: ${decreaseAmount}`);
+
+    // Validate input
+    if (!workerId || !decreaseAmount || isNaN(decreaseAmount) || decreaseAmount <= 0) {
+        console.error("Invalid workerId or decreaseAmount provided.");
+        return res.status(400).json({ error: "Invalid workerId or decreaseAmount" });
+    }
+
+    try {
+        // Verify the worker exists in worker_register table
+        const [workerRows] = await db.promise().query(
+            "SELECT id FROM worker_register WHERE id = ?",
+            [workerId]
+        );
+        console.log("Worker lookup result:", workerRows);
+        if (workerRows.length === 0) {
+            console.error("Worker not found for workerId:", workerId);
+            return res.status(400).json({ error: "Worker not found" });
+        }
+
+        // Fetch the current stock from products table
+        const [productRows] = await db.promise().query(
+            "SELECT stock FROM products WHERE id = ?",
+            [productId]
+        );
+        console.log("Product lookup result:", productRows);
+        if (productRows.length === 0) {
+            console.error("Product not found for productId:", productId);
+            return res.status(404).json({ error: "Product not found" });
+        }
+        const currentStock = productRows[0].stock;
+        console.log(`Current stock for productId ${productId}: ${currentStock}`);
+        if (decreaseAmount > currentStock) {
+            console.error("Decrease amount is greater than current stock.");
+            return res.status(400).json({ error: "Decrease amount cannot be greater than current stock" });
+        }
+
+        // Calculate the updated stock and update the products table
+        const updatedStock = currentStock - decreaseAmount;
+        console.log(`Updated stock for productId ${productId} will be: ${updatedStock}`);
+        await db.promise().query(
+            "UPDATE products SET stock = ? WHERE id = ?",
+            [updatedStock, productId]
+        );
+        console.log("Products table updated successfully.");
+
+        // Record the stock decrease in the worker_stock_decreases table
+        const now = new Date();
+        const formattedDate = now.toISOString().slice(0, 19).replace("T", " ");
+        console.log(`Formatted date for decrease record: ${formattedDate}`);
+        const insertQuery = `
+            INSERT INTO worker_stock_decreases (worker_id, product_id, decrease_amount, decrease_date)
+            VALUES (?, ?, ?, ?)
+        `;
+        const [result] = await db.promise().query(insertQuery, [
+            workerId,
+            productId,
+            decreaseAmount,
+            formattedDate
+        ]);
+        console.log("Inserted record in worker_stock_decreases:", result);
+
+        res.status(200).json({
+            message: "Stock decreased and record saved successfully",
+            updatedStock,
+            recordId: result.insertId
+        });
+    } catch (error) {
+        console.error("Error decreasing stock:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 module.exports = router;

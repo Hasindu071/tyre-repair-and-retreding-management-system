@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/WorkerStocks.css";
 import WorkerSideBar from "../components/WorkerSideBar";
-import axios from "axios"; // Import axios for HTTP requests
+import axios from "axios";
 
 const WorkerStocks = () => {
     const [stocks, setStocks] = useState([]);
@@ -33,22 +33,37 @@ const WorkerStocks = () => {
             alert("Please enter a valid decrease amount");
             return;
         }
-        // Get current stock for the product
         const currentStock = stocks.find(stock => stock.id === id)?.stock || 0;
         if (decreaseAmount > currentStock) {
             alert("Decrease amount cannot be greater than available stock");
             return;
         }
-        const updatedStocks = stocks.map(stock =>
-            stock.id === id ? { ...stock, stock: stock.stock - decreaseAmount } : stock
-        );
-        setStocks(updatedStocks);
+
+        // Retrieve workerId from localStorage instead of hardcoding it.
+        const storedWorkerId = localStorage.getItem("workerId");
+        if (!storedWorkerId) {
+            alert("Worker not logged in");
+            return;
+        }
+        const workerId = parseInt(storedWorkerId, 10);
 
         try {
-            await axios.put(`http://localhost:5000/products/updateProduct/${id}`, { stock: updatedStocks.find(stock => stock.id === id).stock });
-            alert("Stock updated successfully");
+            // Call the endpoint to decrease stock and record the worker's decrease.
+            const response = await axios.put(`http://localhost:5000/products/decreaseStock/${id}`, {
+                workerId,
+                decreaseAmount
+            });
+            alert(response.data.message);
+
+            // Update local stocks state using the updated stock from the response.
+            const updatedStock = response.data.updatedStock;
+            const updatedStocks = stocks.map(stock =>
+                stock.id === id ? { ...stock, stock: updatedStock } : stock
+            );
+            setStocks(updatedStocks);
         } catch (error) {
             console.error("Error updating stock:", error);
+            alert("Error updating stock");
         }
     };
 
