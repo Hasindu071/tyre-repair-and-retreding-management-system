@@ -1,100 +1,229 @@
-/* Supplies.css */
+/* Supplies.css - Styling for Supplies Management Interface */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f3f6f9;
-    margin: 0;
-    padding: 0;
-}
-
+/* Main container */
 .supplies-container {
-    margin-left: 260px; /* Assuming sidebar width is 250px */
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.supplies-container h2 {
-    color: #2c3e50;
-    font-size: 28px;
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-form {
+    margin-left: 270px; 
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Navigation buttons */
+  .nav-buttons {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 30px;
-    justify-content: center;
-}
+    text-align: center;
+    position: sticky;
+    padding-left: 30%;
+    top: 0;
+    background-color: #f56e9f;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-buttons button {
+    background-color: #ffffff;
+    color: #b54a81;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-buttons button:hover {
+    background-color: #feb6e4;
+    transform: translateY(-2px);
+  }
+  
+  /* Section headers */
+  .Inventory-container h2 {
+    color: #ffffff;
+    margin: 30px 0 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #fcfcfc;
+    padding-bottom: 10px;
+  }
 
-form input {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 200px;
-    font-size: 14px;
-    transition: 0.3s ease;
-}
+    .product-container h2 {
+        color: #ffffff;
+        margin: 30px 0 20px;
+        font-size: 24px;
+        border-bottom: 2px solid #ffffff;
+        padding-bottom: 10px;
+    }
 
-form input:focus {
-    border-color: #3498db;
+    #add-supplies h2 {
+        color: #ffffff;
+        margin: 30px 0 20px;
+        font-size: 24px;
+        border-bottom: 2px solid #ffffff;
+        padding-bottom: 10px;
+    }
+
+    
+  
+  /* Forms styling */
+  form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: border 0.3s ease;
+  }
+  
+  input:focus, select:focus {
+    border-color: #4a6eb5;
     outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-}
-
-form button {
-    background-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(74, 110, 181, 0.2);
+  }
+  
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+  
+  form button {
+    background-color: #27ae60;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 12px 24px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s ease;
-    font-weight: bold;
-}
-
-form button:hover {
-    background-color: #2980b9;
-}
-
-table {
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #219653;
+  }
+  
+  /* Tables styling */
+  table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-thead {
-    background-color: #2c3e50;
-    color: white;
-}
-
-th, td {
+    border-radius: 18px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+  
+  th, td {
+    padding: 15px;
     text-align: left;
-    padding: 14px 16px;
-    border-bottom: 1px solid #eee;
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-button {
-    background-color: #924037;
+    border-bottom: 1px solid #e1e1e1;
+  }
+  
+  th {
+    background-color: #4a6eb5;
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 60px; /* Below nav buttons */
+  }
+  
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  table button {
+    background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
+    padding: 8px 12px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease;
-}
-
-button:hover {
+    transition: all 0.2s ease;
+  }
+  
+  table button:hover {
     background-color: #c0392b;
-}
+  }
+  
+  /* Container specific styles */
+  .product-container, .Inventory-container {
+    margin-top: 40px;
+  }
+  
+  /* React-Select customization */
+  .css-b62m3t-container {
+    margin-bottom: 20px;
+  }
+  
+  .css-13cymwt-control {
+    border-color: #ddd !important;
+    min-height: 45px !important;
+  }
+  
+  .css-13cymwt-control:hover {
+    border-color: #bbb !important;
+  }
+  
+  .css-t3ipsp-control {
+    border-color: #4a6eb5 !important;
+    box-shadow: 0 0 0 1px #4a6eb5 !important;
+    min-height: 45px !important;
+  }
+  
+  /* Section separator */
+  hr {
+    margin: 40px 0;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(74, 110, 181, 0.75), rgba(0, 0, 0, 0));
+  }
+  
+  /* Toast notifications (for react-toastify) */
+  .Toastify__toast {
+    border-radius: 8px !important;
+  }
+  
+  .Toastify__toast--success {
+    background-color: #27ae60 !important;
+  }
+  
+  .Toastify__toast--error {
+    background-color: #e74c3c !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .supplies-container {
+      margin-left: 0;
+      padding: 10px;
+    }
+    
+    .nav-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .nav-buttons button {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
