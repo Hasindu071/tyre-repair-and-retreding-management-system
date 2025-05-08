@@ -155,14 +155,18 @@ router.post("/inventory", async (req, res) => {
       ]);
       console.log("Insert result:", result);
   
-      res.status(201).json({
-        message: "Inventory added successfully",
-        inventoryId: result.insertId,
-      });
-    } catch (error) {
-      console.error("Error adding inventory:", error);
-      res.status(500).json({ error: "Failed to add inventory" });
-    }
+    // Update the products table stock. For example, add the inserted quantity to the current stock.
+    const updateQuery = "UPDATE products SET stock = stock + ? WHERE id = ?";
+    await db.promise().query(updateQuery, [qty, productId]);
+
+    res.status(201).json({
+      message: "Inventory added and product stock updated successfully",
+      inventoryId: result.insertId,
+    });
+  } catch (error) {
+    console.error("Error adding inventory:", error);
+    res.status(500).json({ error: "Failed to add inventory" });
+  }
   });
   
 
