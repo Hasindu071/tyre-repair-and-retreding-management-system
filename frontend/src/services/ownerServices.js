@@ -158,3 +158,14 @@ export const fetchAssignedOrders = async () => {
         throw error;
     }
 };
+
+//Owner See Complete Orders
+export const fetchCompletedOrders = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/orders/getCompletedTasks");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching completed orders:", error);
+    throw error;
+  }
+};
