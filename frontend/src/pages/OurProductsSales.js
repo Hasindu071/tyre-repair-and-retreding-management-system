@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Navbar from "../components/NavBar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "../styles/OurProductsSales.css";
+import { ownergetProducts } from "../services/productServices";
 
 const OurProductsSales = () => {
   const [products, setProducts] = useState([]);
@@ -16,8 +16,8 @@ const OurProductsSales = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/OurProductOwner/getProducts");
-        setProducts(response.data);
+        const data = await ownergetProducts();
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -61,7 +61,7 @@ const OurProductsSales = () => {
             breakpoints={{
               640: { slidesPerView: 2 },
               768: { slidesPerView: 3 },
-              1024: { slidesPerView: 4 }
+              1024: { slidesPerView: 4 },
             }}
             navigation
             className="swiper-container-sale"
@@ -74,7 +74,7 @@ const OurProductsSales = () => {
                     alt={product.productName}
                     className="product-image-sale"
                     onClick={() => handleImageClick(product)}
-                    style={{cursor: "pointer"}}
+                    style={{ cursor: "pointer" }}
                   />
                   <h2 className="product-title-sale">{product.productName}</h2>
                   <p className="product-description-sale">{product.description}</p>
@@ -103,7 +103,9 @@ const OurProductsSales = () => {
                   className="img-fluid mb-3"
                 />
                 <p>{selectedProduct.description}</p>
-                <p><strong>Price:</strong> {selectedProduct.price} LKR</p>
+                <p>
+                  <strong>Price:</strong> {selectedProduct.price} LKR
+                </p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>

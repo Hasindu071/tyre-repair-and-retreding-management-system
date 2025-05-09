@@ -69,3 +69,15 @@ export const getWorkerStockDecreases = async () => {
         throw error;
     }
 };
+
+
+// get products
+export const ownergetProducts = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/OurProductOwner/getProducts");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
