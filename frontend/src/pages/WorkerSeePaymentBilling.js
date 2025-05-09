@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import WorkerSideBar from "../components/WorkerSideBar";
 import "../styles/WorkerSeePaymentBilling.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getWorkerPayments } from "../services/workerServices";
 
 const WorkerSeePaymentBilling = () => {
   const [payments, setPayments] = useState([]);
@@ -22,14 +22,12 @@ const WorkerSeePaymentBilling = () => {
   const fetchWorkerPayments = async (workerId) => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `http://localhost:5000/payments/getWorkerPayments/${workerId}`
-      );
-      setPayments(response.data);
-      setLoading(false);
+      const data = await getWorkerPayments(workerId);
+      setPayments(data);
     } catch (error) {
       console.error("Error fetching payments:", error);
       toast.error("Error fetching payment details");
+    } finally {
       setLoading(false);
     }
   };
