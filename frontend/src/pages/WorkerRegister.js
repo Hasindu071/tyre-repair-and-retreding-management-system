@@ -21,6 +21,14 @@ const WorkerRegister = () => {
         profilePicture: null, // Added profile picture state
     });
 
+        const handleAlphaInput = (e) => {
+        const charCode = e.which || e.keyCode;
+        // If number (characters 48-57), prevent input
+        if (charCode >= 48 && charCode <= 57) {
+            e.preventDefault();
+        }
+    };
+
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'profilePicture' && files.length > 0) {
@@ -88,6 +96,7 @@ const WorkerRegister = () => {
                                 placeholder="Enter first name"
                                 value={formData.firstName}
                                 onChange={handleChange}
+                                onKeyPress={handleAlphaInput}
                                 required
                             />
                         </div>
@@ -100,6 +109,7 @@ const WorkerRegister = () => {
                                 placeholder="Enter last name"
                                 value={formData.lastName}
                                 onChange={handleChange}
+                                onKeyPress={handleAlphaInput}
                                 required
                             />
                         </div>
@@ -112,13 +122,14 @@ const WorkerRegister = () => {
                                 placeholder="Enter job title"
                                 value={formData.title}
                                 onChange={handleChange}
+                                onKeyPress={handleAlphaInput}
                                 required
                             />
                         </div>
                         <div className="form-group-worker">
                             <label htmlFor="phone1">Phone Number 1:</label>
                             <input
-                                type="text"
+                                type="number"
                                 id="phone1"
                                 name="phone1"
                                 placeholder="Enter primary phone number"
@@ -130,7 +141,7 @@ const WorkerRegister = () => {
                         <div className="form-group-worker">
                             <label htmlFor="phone2">Phone Number 2:</label>
                             <input
-                                type="text"
+                                type="number"
                                 id="phone2"
                                 name="phone2"
                                 placeholder="Enter secondary phone number (optional)"
