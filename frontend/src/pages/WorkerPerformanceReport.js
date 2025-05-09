@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/WorkerPerformanceReport.css";
+import { getWorkerPerformanceReport } from "../services/reportService";
 
 const WorkerPerformanceReport = () => {
     const [reportData, setReportData] = useState([]);
@@ -18,21 +18,8 @@ const WorkerPerformanceReport = () => {
         }
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/reports/workerPerformance", {
-                params: { startDate, endDate }
-            });
-            // Expected response (example):
-            // [
-            //   {
-            //       workerId: 1,
-            //       workerName: "John Doe",
-            //       totalOrders: 25,
-            //       averageTurnaroundTime: 48.5,  // in hours, modify as needed
-            //       rating: 4.5  // if available
-            //   },
-            //   ...
-            // ]
-            setReportData(response.data);
+            const data = await getWorkerPerformanceReport(startDate, endDate);
+            setReportData(data);
         } catch (error) {
             console.error("Error fetching worker performance report:", error);
             toast.error("Error fetching worker performance report");
