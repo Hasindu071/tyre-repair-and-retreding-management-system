@@ -63,3 +63,37 @@ export const getLatestPayment = async (userId) => {
         throw error;
     }
 };
+
+
+//customer see payment billing
+export const getIncompleteOrders = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/orders/getCompletedTotalAmount0Tasks");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching incomplete orders:", error);
+    throw error;
+  }
+};
+
+export const getcustomerPayments = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/CustomerPayment/getPayments");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching payment records:", error);
+    throw error;
+  }
+};
+
+export const savePayment = async (paymentData) => {
+  try {
+    const response = await axios.post("http://localhost:5000/CustomerPayment/savePayment", paymentData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting payment record:", error);
+    throw error;
+  }
+};
