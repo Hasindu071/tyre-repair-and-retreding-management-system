@@ -88,3 +88,16 @@ export const getWorkerAttendance = async (workerId, year, month) => {
     throw error;
   }
 };
+
+//get the completed works
+export const getCompletedWorks = async (workerId) => {
+    try {
+        const response = await axios.get("http://localhost:5000/Orders/completed", {
+            params: { workerId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching history:", error);
+        throw error;
+    }
+};

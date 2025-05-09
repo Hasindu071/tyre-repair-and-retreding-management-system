@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import "../styles/history-of-works.css";
+import { getCompletedWorks } from "../services/HistoryService";
 
 const HistoryOfWorks = () => {
     const [works, setWorks] = useState([]);
@@ -12,15 +12,12 @@ const HistoryOfWorks = () => {
         const fetchHistory = async () => {
             try {
                 const workerId = localStorage.getItem("workerId");
-                // Adjust the endpoint and query params as necessary.
-                const res = await axios.get("http://localhost:5000/Orders/completed", {
-                    params: { workerId }
-                });
-                setWorks(res.data);
-                setLoading(false);
+                const data = await getCompletedWorks(workerId);
+                setWorks(data);
             } catch (err) {
                 console.error("Error fetching history:", err);
                 setError("Failed to fetch history.");
+            } finally {
                 setLoading(false);
             }
         };
