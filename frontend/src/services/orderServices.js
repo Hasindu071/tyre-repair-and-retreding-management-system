@@ -170,3 +170,15 @@ export const rejectItem = async (rejectType, id, note) => {
         throw error;
     }
 };
+
+//complete task
+export const fetchCompletedTasks = async () => {
+    try {
+        // Ensure your backend endpoint returns completed tasks.
+        const response = await axios.get("http://localhost:5000/orders/getCompletedTasks");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching completed tasks:", error);
+        throw error;
+    }
+};
