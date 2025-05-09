@@ -66,3 +66,25 @@ export const getRetreadingDetails = async (id) => {
         throw error;
     }
 };
+
+//retreading services get all patterns
+export const getAllPatterns = async () => {
+    try {
+        const res = await axios.get("http://localhost:5000/patterns/getAll");
+        return res.data && res.data.length > 0 ? res.data : [];
+    } catch (error) {
+        console.error("Error fetching patterns:", error);
+        return [];
+    }
+};
+
+//retreading services get all retreading
+export const submitRetreadingForm = async (data) => {
+    try {
+        const response = await axios.post('http://localhost:5000/Retreading/submit', data);
+        return response;
+    } catch (error) {
+        console.error("Error submitting retreading form:", error);
+        throw error;
+    }
+};

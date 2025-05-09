@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomerSidebar from "../components/CustomerSidebar";
 import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import "../styles/Retreading.css";
-import axios from "axios";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../context/AuthContext";
 import TyreSpecsImg from "../assets/Tyre_specs.png";
+import { getAllPatterns, submitRetreadingForm } from "../services/orderServices";
 
 const RetreadingService = () => {
     const { userID } = useAuth();
@@ -33,17 +33,8 @@ const RetreadingService = () => {
 
     useEffect(() => {
         const fetchPatterns = async () => {
-            try {
-                const res = await axios.get("http://localhost:5000/patterns/getAll");
-                if (res.data && res.data.length > 0) {
-                    setPatterns(res.data);
-                } else {
-                    setPatterns([]);
-                }
-            } catch (error) {
-                console.error("Error fetching patterns:", error);
-                setPatterns([]);
-            }
+            const patternsData = await getAllPatterns();
+            setPatterns(patternsData);
         };
         fetchPatterns();
     }, []);
@@ -82,6 +73,7 @@ const RetreadingService = () => {
         }));
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
@@ -99,10 +91,10 @@ const RetreadingService = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/Retreading/submit', data);
+            await submitRetreadingForm(data);
             setResponseMessage({ type: 'success', message: 'Form submitted successfully!' });
 
-                    // Scroll to top after successful submission
+            // Scroll to top after successful submission
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setFormData({
                 sizeCode: "",
@@ -120,8 +112,7 @@ const RetreadingService = () => {
         } catch (error) {
             console.error("Error submitting form:", error);
             setResponseMessage({ type: 'error', message: 'Error submitting form. Please try again.' });
-        // Scroll to top on error to bring the message into view
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } finally {
             setLoading(false);
         }
