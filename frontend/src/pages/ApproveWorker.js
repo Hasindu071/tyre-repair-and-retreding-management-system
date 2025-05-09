@@ -4,20 +4,15 @@ import OwnerSidebar from "../components/SideNav";
 import "../styles/ApproveWorker.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchApproveWorkers, updateWorkerStatus } from "../services/ownerServices";
 
 const ApproveWorker = () => {
   const [workers, setWorkers] = useState([]);
 
-  const fetchWorkers = async () => {
+  const loadWorkers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/WorkerRegister");
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      // Filter out workers with status "Removed" (if you don't want to show them)
-      const filteredData = data.filter(worker => worker.status !== "Removed");
-      setWorkers(filteredData);
+      const data = await fetchApproveWorkers();
+      setWorkers(data);
     } catch (err) {
       console.error("Error fetching workers:", err);
       toast.error("Error fetching workers");
@@ -25,26 +20,20 @@ const ApproveWorker = () => {
   };
 
   useEffect(() => {
-    fetchWorkers();
+    loadWorkers();
   }, []);
 
-  // Handle worker approval, rejection, or removal.
-  // For removal, update local state to hide the row (and table if no workers remain).
   const handleApproval = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/WorkerRegister/update-status/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
+      const response = await updateWorkerStatus(id, status);
       if (response.ok) {
         toast.success(`Worker ${status.toLowerCase()} successfully`);
         if (status === "Removed") {
-          // Remove the worker from local state so that the table row disappears.
+          // Remove worker from local state so that the table row disappears
           setWorkers(prev => prev.filter(worker => worker.id !== id));
         } else {
-          // For other statuses, re-fetch the workers list from the backend.
-          fetchWorkers();
+          // Re-fetch the workers list from the backend for other statuses.
+          loadWorkers();
         }
       } else {
         toast.error("Failed to update worker status");

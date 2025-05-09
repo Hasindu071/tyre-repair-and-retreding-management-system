@@ -110,3 +110,37 @@ export const assignWorker = async (orderId, worker) => {
     throw error;
   }
 };
+
+//approve the worker
+export const fetchApproveWorkers = async () => {
+  try {
+    const res = await fetch("http://localhost:5000/WorkerRegister");
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    // Filter out workers with status "Removed"
+    const filteredData = data.filter(worker => worker.status !== "Removed");
+    return filteredData;
+  } catch (err) {
+    console.error("Error fetching workers:", err);
+    throw err;
+  }
+};
+
+export const updateWorkerStatus = async (id, status) => {
+  try {
+    const response = await fetch(`http://localhost:5000/WorkerRegister/update-status/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update worker status");
+    }
+    return response;
+  } catch (error) {
+    console.error("Error updating worker status:", error);
+    throw error;
+  }
+};
