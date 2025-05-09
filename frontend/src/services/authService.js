@@ -86,3 +86,18 @@ export const loginOwner = async (credentials) => {
     throw error;
   }
 };
+
+//customer login
+export const loginCustomer = async (credentials) => {
+    try {
+        const response = await fetch(`${API_URL}/Customer/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Error in loginCustomer:', error);
+        throw error;
+    }
+};

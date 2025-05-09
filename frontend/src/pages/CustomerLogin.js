@@ -5,9 +5,8 @@ import Navbar from '../components/NavBar';
 import '../styles/CustomerLogin.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../context/AuthContext'; // Import auth context
-
-const API_URL = "http://localhost:5000";
+import { useAuth } from '../context/AuthContext';
+import { loginCustomer } from '../services/authService';
 
 const CustomerLogin = () => {
     const [formData, setFormData] = useState({
@@ -15,7 +14,7 @@ const CustomerLogin = () => {
         password: ''
     });
 
-    const { login } = useAuth(); // Use auth context
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -30,21 +29,14 @@ const CustomerLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${API_URL}/Customer/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await response.json();
+            const data = await loginCustomer(formData);
     
             if (data.success) {
                 toast.success('Login successful!');
     
                 login('customer', data.customer.id, data.customer.userName, data.token);
     
-                console.log('User logged in:', data.customer.id, data.customer.userName); // Fixed the log statement
+                console.log('User logged in:', data.customer.id, data.customer.userName);
     
                 setTimeout(() => navigate('/customerDashboard'), 2000);
             } else {
@@ -57,7 +49,6 @@ const CustomerLogin = () => {
         }
     };
     
-
     return (
         <div>
             <Navbar />
