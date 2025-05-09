@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/WorkerStocks.css";
 import WorkerSideBar from "../components/WorkerSideBar";
-import axios from "axios";
+import { getProducts, decreaseStock } from "../services/productServices";
 
 const WorkerStocks = () => {
     const [stocks, setStocks] = useState([]);
@@ -13,8 +13,8 @@ const WorkerStocks = () => {
 
     const fetchStocks = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/products/getProducts');
-            setStocks(response.data);
+            const data = await getProducts();
+            setStocks(data);
         } catch (error) {
             console.error("Error fetching stocks:", error);
         }
@@ -39,7 +39,6 @@ const WorkerStocks = () => {
             return;
         }
 
-        // Retrieve workerId from localStorage instead of hardcoding it.
         const storedWorkerId = localStorage.getItem("workerId");
         if (!storedWorkerId) {
             alert("Worker not logged in");
@@ -48,15 +47,12 @@ const WorkerStocks = () => {
         const workerId = parseInt(storedWorkerId, 10);
 
         try {
-            // Call the endpoint to decrease stock and record the worker's decrease.
-            const response = await axios.put(`http://localhost:5000/products/decreaseStock/${id}`, {
-                workerId,
-                decreaseAmount
-            });
-            alert(response.data.message);
+            // Use service to decrease stock and record the worker's decrease.
+            const response = await decreaseStock(id, workerId, decreaseAmount);
+            alert(response.message);
 
             // Update local stocks state using the updated stock from the response.
-            const updatedStock = response.data.updatedStock;
+            const updatedStock = response.updatedStock;
             const updatedStocks = stocks.map(stock =>
                 stock.id === id ? { ...stock, stock: updatedStock } : stock
             );
