@@ -70,3 +70,43 @@ export const submitContactForm = async (formData) => {
         throw error;
     }
 };
+
+//Assign Worker
+export const fetchWorkers = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/orders/getWorkers');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching workers:", error);
+    throw error;
+  }
+};
+
+export const fetchApprovedOrders = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/services/approvedOrders');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching approved orders:", error);
+    throw error;
+  }
+};
+
+export const addOrder = async (orderToSend) => {
+  try {
+    const response = await axios.post('http://localhost:5000/orders/getOrders', orderToSend);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding order:", error);
+    throw error;
+  }
+};
+
+export const assignWorker = async (orderId, worker) => {
+  try {
+    await axios.put(`http://localhost:5000/orders/assignWorker/${orderId}`, { assignedWorker: worker });
+  } catch (error) {
+    console.error("Error assigning worker:", error);
+    throw error;
+  }
+};

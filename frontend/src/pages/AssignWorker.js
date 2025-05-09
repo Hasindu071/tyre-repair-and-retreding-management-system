@@ -3,14 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/AssignWorker.css";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from "react-toastify"; // toast container
-import "react-toastify/dist/ReactToastify.css"; // import toast css
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FaEye } from "react-icons/fa";
-import { useAuth } from "../context/AuthContext"; // adjust the path if necessary
-
-
+import { useAuth } from "../context/AuthContext";
+import { fetchWorkers, fetchApprovedOrders, addOrder, assignWorker } from "../services/ownerServices";
 
 const AssignWorker = () => {
   const [orders, setOrders] = useState([]);
@@ -19,7 +17,6 @@ const AssignWorker = () => {
   const [selectedWorker, setSelectedWorker] = useState({});
   const { userID } = useAuth();
 
-
   // New state for approved orders
   const [approvedOrders, setApprovedOrders] = useState([]);
 
@@ -27,38 +24,25 @@ const AssignWorker = () => {
 
   useEffect(() => {
     //fetchOrders();
-    fetchWorkers();
-    fetchApprovedOrders();
+    fetchWorkersData();
+    fetchApprovedOrdersData();
   }, []);
 
-  /*
-  const fetchOrders = async () => {
+  const fetchWorkersData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/orders/getOrders');
-      setOrders(response.data);
+      const data = await fetchWorkers();
+      setWorkers(data);
     } catch (error) {
-      console.error("Error fetching orders:", error);
-      toast.error("Error fetching orders");
-    }
-  };*/
-
-  const fetchWorkers = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/orders/getWorkers');
-      setWorkers(response.data);
-    } catch (error) {
-      console.error("Error fetching workers:", error);
       toast.error("Error fetching workers");
     }
   };
 
-  const fetchApprovedOrders = async () => {
+  const fetchApprovedOrdersData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/services/approvedOrders');
-      console.log("Approved Repairs:", response.data); // Debug log
-      setApprovedOrders(response.data);
+      const data = await fetchApprovedOrders();
+      console.log("Approved Repairs:", data);
+      setApprovedOrders(data);
     } catch (error) {
-      console.error("Error fetching approved repairs:", error);
       toast.error("Error fetching approved repairs");
     }
   };
@@ -66,30 +50,26 @@ const AssignWorker = () => {
   // Function to handle viewing service details
   const handleViewService = (serviceId) => {
     let type = "";
-  
     if (serviceId.startsWith("RD")) {
       type = "Retreading";
     } else if (serviceId.startsWith("RP")) {
       type = "Repair";
     }
-  
-    setNewOrder({ customer: serviceId, task: "" , userID});
+    setNewOrder({ customer: serviceId, task: "", userID });
   };
 
   const handleAddOrder = async (e) => {
     e.preventDefault();
     try {
       const orderToSend = { ...newOrder, userID }; // attach userID before sending
-      const response = await axios.post('http://localhost:5000/orders/getOrders', orderToSend);
-      setOrders([...orders, response.data]);
+      const data = await addOrder(orderToSend);
+      setOrders([...orders, data]);
       setNewOrder({ customer: "", task: "", assignedWorker: "" });
       toast.success("Order added successfully");
     } catch (error) {
-      console.error("Error adding order:", error);
       toast.error("Error adding order");
     }
   };
-  
 
   const handleAssign = async (orderId) => {
     const worker = selectedWorker[orderId];
@@ -97,17 +77,15 @@ const AssignWorker = () => {
       toast.error("Please select a worker");
       return;
     }
-
     const updatedOrders = orders.map((order) =>
       order.id === orderId ? { ...order, assignedWorker: worker } : order
     );
     setOrders(updatedOrders);
 
     try {
-      await axios.put(`http://localhost:5000/orders/assignWorker/${orderId}`, { assignedWorker: worker });
+      await assignWorker(orderId, worker);
       toast.success("Worker assigned successfully");
     } catch (error) {
-      console.error("Error assigning worker:", error);
       toast.error("Error assigning worker");
     }
   };
@@ -117,119 +95,113 @@ const AssignWorker = () => {
     navigate(`/WorkerProfileImage`);
   };
 
-
-
   return (
     <div>
-            {/*<Navbar />*/}
+      {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="assign-worker-container">
         <h2 className="title">Assign Workers</h2>
 
         {/* New Order Form */}
-              <form onSubmit={handleAddOrder} className="add-order-form row">
-        {/* Left Column */}
-        <div className="col-md-6">
-          <div className="form-group mb-3">
-            <label>Order ID</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="ID"
-              value={newOrder.customer}
-              onChange={(e) =>
-                setNewOrder({ ...newOrder, customer: e.target.value })
-              }
-              readOnly={
-                newOrder.customer.startsWith("RD") ||
-                newOrder.customer.startsWith("RP")
-              }
-            />
+        <form onSubmit={handleAddOrder} className="add-order-form row">
+          {/* Left Column */}
+          <div className="col-md-6">
+            <div className="form-group mb-3">
+              <label>Order ID</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="ID"
+                value={newOrder.customer}
+                onChange={(e) =>
+                  setNewOrder({ ...newOrder, customer: e.target.value })
+                }
+                readOnly={
+                  newOrder.customer.startsWith("RD") ||
+                  newOrder.customer.startsWith("RP")
+                }
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label>Service Amount</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Service amount"
+                value={newOrder.task}
+                onChange={(e) => setNewOrder({ ...newOrder, task: e.target.value })}
+                required
+              />
+            </div>
           </div>
 
-          <div className="form-group mb-3">
-            <label>Service Amount</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Service amount"
-              value={newOrder.task}
-              onChange={(e) => setNewOrder({ ...newOrder, task: e.target.value })}
-              required
-            />
+          {/* Right Column */}
+          <div className="col-md-6 d-flex flex-column justify-content-start">
+            <div className="form-group mb-3">
+              <label>Assign Worker</label>
+              <select
+                className="form-select"
+                value={newOrder.assignedWorker || ""}
+                onChange={(e) =>
+                  setNewOrder({ ...newOrder, assignedWorker: e.target.value })
+                }
+                required
+              >
+                <option value="">Select Worker</option>
+                {workers.map((worker) => (
+                  <option key={worker.id} value={worker.id}>
+                    {worker.id} - {worker.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-outline-info"
+                onClick={() => handleViewWorkerTasks(newOrder.assignedWorker)}
+              >
+                View Tasks
+              </button>
+              <button type="submit" className="btn btn-primary">
+                Add Order
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
 
-        {/* Right Column */}
-        <div className="col-md-6 d-flex flex-column justify-content-start">
-          <div className="form-group mb-3">
-            <label>Assign Worker</label>
-            <select
-            className="form-select"
-            value={newOrder.assignedWorker || ""}
-            onChange={(e) =>
-              setNewOrder({ ...newOrder, assignedWorker: e.target.value })
-            }
-            required
-          >
-            <option value="">Select Worker</option>
-            {workers.map((worker) => (
-              <option key={worker.id} value={worker.id}>
-                {worker.id} - {worker.name}
-              </option>
-            ))}
-          </select>
-
-          </div>
-
-          <div className="d-flex gap-2">
-            <button
-              type="button"
-              className="btn btn-outline-info"
-              onClick={() => handleViewWorkerTasks(newOrder.assignedWorker)}
-            >
-              View Tasks
-            </button>
-            <button type="submit" className="btn btn-primary">
-              Add Order
-            </button>
-          </div>
-        </div>
-      </form>
-
-       {/* Display Approved Repair Orders */}
-       <h3>Approved Orders</h3>
-<table className="worker-table">
-  <thead>
-    <tr>
-      <th>Service ID</th>
-      <th>Type</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {approvedOrders.map((order) => {
-      const type =
-        order.service_id.startsWith("RD")
-          ? "Retreading"
-          : order.service_id.startsWith("RP")
-          ? "Repair"
-          : "Unknown";
-      return (
-        <tr key={order.service_id}>
-          <td>{order.service_id}</td>
-          <td>{type}</td>
-          <td>
-            <button onClick={() => handleViewService(order.service_id)}>
-              <FaEye />
-            </button>
-          </td>
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
-
+        {/* Display Approved Repair Orders */}
+        <h3>Approved Orders</h3>
+        <table className="worker-table">
+          <thead>
+            <tr>
+              <th>Service ID</th>
+              <th>Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {approvedOrders.map((order) => {
+              const type =
+                order.service_id.startsWith("RD")
+                  ? "Retreading"
+                  : order.service_id.startsWith("RP")
+                  ? "Repair"
+                  : "Unknown";
+              return (
+                <tr key={order.service_id}>
+                  <td>{order.service_id}</td>
+                  <td>{type}</td>
+                  <td>
+                    <button onClick={() => handleViewService(order.service_id)}>
+                      <FaEye />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       <ToastContainer />
     </div>
