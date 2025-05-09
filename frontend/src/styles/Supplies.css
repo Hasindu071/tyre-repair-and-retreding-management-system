@@ -138,7 +138,6 @@
     color: white;
     font-weight: 600;
     position: sticky;
-    top: 60px; /* Below nav buttons */
   }
   
   tr:hover {

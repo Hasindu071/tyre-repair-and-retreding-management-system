@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/ServiceCompletionReport.css";
+import { fetchServiceCompletionReport } from "../services/reportService";
 
 const ServiceCompletionReport = () => {
     const [reportData, setReportData] = useState({
@@ -22,15 +22,8 @@ const ServiceCompletionReport = () => {
         }
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/reports/serviceCompletion", {
-                params: { startDate, endDate }
-            });
-            // Expected response format:
-            // {
-            //   completed: [{ orderId, date }, ...],
-            //   inProgress: [{ orderId, date }, ...]
-            // }
-            setReportData(response.data);
+            const data = await fetchServiceCompletionReport(startDate, endDate);
+            setReportData(data);
         } catch (error) {
             console.error("Error fetching service completion report:", error);
             toast.error("Error fetching service completion report");
