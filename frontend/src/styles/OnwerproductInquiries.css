@@ -1,98 +1,65 @@
-.owner-stock-container {
-    margin-left: 300px;
-    padding: 40px;
-    background: linear-gradient(135deg, #f4f6f8 0%, #e9ecef 100%);
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .title {
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #fafafa;
-    border-left: 5px solid #4CAF50;
-    padding-left: 15px;
-  }
-  
-  .product-card {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.2s ease;
-  }
-  
-  .product-card:hover {
-    transform: translateY(-4px);
-  }
-  
-  .product-info {
-    font-size: 20px;
-    color: #37474f;
-    flex: 2;
-  }
-  
-  .product-card input[type="number"] {
-    width: 120px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #bbb;
-    margin-left: 15px;
-    font-size: 16px;
-    transition: border 0.3s ease;
-  }
-  
-  .product-card input[type="number"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-  }
-  
-  .update-stock-btn,
-  .add-product-btn {
-    margin-top: 10px;
-    padding: 12px 24px;
-    border-radius: 12px;
-    background: linear-gradient(to right, #4CAF50, #66bb6a);
+/* OwnerproductInquiries.css */
+
+.worker-stock-decreases-container {
+    margin-left: 250px; /* Adjust based on your sidebar width */
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.title-stock-decreases {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+}
+
+.decrease-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.decrease-table th {
+    background-color: #4a6fa5;
     color: white;
-    border: none;
+    padding: 12px 15px;
+    text-align: left;
     font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .update-stock-btn:hover,
-  .add-product-btn:hover {
-    background: linear-gradient(to right, #43a047, #5dbb63);
-  }
-  
-  .add-product-form {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 25px;
-    margin-top: 30px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-  
-  .add-product-form input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .add-product-form input:focus {
-    border-color: #4CAF50;
-    outline: none;
-  }
-  
+}
+
+.decrease-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #555;
+}
+
+.decrease-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.decrease-table tr:hover {
+    background-color: #f1f5fd;
+}
+
+.decrease-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .worker-stock-decreases-container {
+        margin-left: 0;
+        padding: 10px;
+    }
+    
+    .decrease-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+}
