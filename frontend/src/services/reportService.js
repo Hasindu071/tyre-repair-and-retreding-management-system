@@ -38,3 +38,16 @@ export const fetchRevenueReport = async (startDate, endDate) => {
         throw error;
     }
 };
+
+//get the inventory reports
+export const getInventoryReport = async (startDate, endDate) => {
+    try {
+        const response = await axios.get("http://localhost:5000/reports/inventoryPartsUsage", {
+            params: { startDate, endDate }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching inventory report:", error);
+        throw error;
+    }
+};
