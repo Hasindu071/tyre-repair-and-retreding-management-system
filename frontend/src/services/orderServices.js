@@ -55,3 +55,14 @@ export const updateProgress = async (taskId, progress) => {
         throw error;
     }
 };
+
+//retreading services get detalis
+export const getRetreadingDetails = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/Retreading/getRetreading/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching retreading details:", error);
+        throw error;
+    }
+};

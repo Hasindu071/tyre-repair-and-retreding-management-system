@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getRetreadingDetails } from "../services/retreadingService";
 import "../styles/RetreadingDetails.css";
 
 const RetreadingDetails = () => {
@@ -11,8 +11,8 @@ const RetreadingDetails = () => {
     useEffect(() => {
         const fetchRetreadingDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/Retreading/getRetreading/${id}`);
-                setRetreading(response.data);
+                const data = await getRetreadingDetails(id);
+                setRetreading(data);
             } catch (error) {
                 console.error("Error fetching retreading details:", error);
             }
@@ -28,9 +28,9 @@ const RetreadingDetails = () => {
     return (
         <div>
             <div className="retreading-details-container">
-            <div className="cut-icon-retreading" onClick={() => navigate(-1)}>
-                ✖
-            </div>
+                <div className="cut-icon-retreading" onClick={() => navigate(-1)}>
+                    ✖
+                </div>
                 <h2>Retreading Details - ID: {retreading.id}</h2>
                 <p><strong>Size Code:</strong> {retreading.sizeCode}</p>
                 <p><strong>Wheel Diameter:</strong> {retreading.wheelDiameter}</p>
