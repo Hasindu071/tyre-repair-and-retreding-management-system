@@ -36,3 +36,30 @@ export const getWorkerProfile = async (workerId) => {
         throw error;
     }
 };
+
+// get worker messages
+export const getWorkerMessages = async (workerId) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/workerMessages/getMessages`, {
+            params: { worker_id: workerId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching messages:", error);
+        throw error;
+    }
+};
+
+// send message worker
+export const sendWorkerMessage = async (workerId, message) => {
+    try {
+        const response = await axios.post("http://localhost:5000/workerMessages/sendMessage", {
+            worker_id: workerId,
+            message: message
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error sending message:", error);
+        throw error;
+    }
+};
