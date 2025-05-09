@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import OwnerNavbar from "../components/Navbars/OwnerRegiNavBar";
 import '../styles/Inquiries.css';
+import { 
+    getWorkerMessages, 
+    getMessagesByReceiver, 
+    markWorkerMessageAsRead, 
+    deleteWorkerMessage 
+} from "../services/NotificationService";
 
 const Inquiries = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -14,8 +19,8 @@ const Inquiries = () => {
 
     const fetchInquiries = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages`);
-            setInquiries(response.data);
+            const data = await getWorkerMessages();
+            setInquiries(data);
         } catch (error) {
             console.error('Error fetching inquiries:', error);
         }
@@ -23,10 +28,8 @@ const Inquiries = () => {
 
     const fetchMessages = useCallback(async (email) => {
         try {
-            const response = await axios.get(`http://localhost:5000/workerMessages/getMessages`, {
-                params: { receiver: email }
-            });
-            setMessages(response.data);
+            const data = await getMessagesByReceiver(email);
+            setMessages(data);
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
@@ -34,38 +37,31 @@ const Inquiries = () => {
 
     const markAsRead = async (inquiryId) => {
         try {
-            await axios.put(`http://localhost:5000/workerMessages/markAsRead/${inquiryId}`);
-    
-            // Update the local state immediately
+            await markWorkerMessageAsRead(inquiryId);
+            // Update the local state immediately by reloading the page or using state update logic
             window.location.reload();
-
         } catch (error) {
             console.error('Error marking as read:', error);
         }
     };
-    
 
     const deleteInquiry = async (inquiryId) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this inquiry?");
         if (!confirmDelete) return;
-    
+
         try {
-            await axios.delete(`http://localhost:5000/workerMessages/deleteMessage/${inquiryId}`);
-    
-            // ✅ Immediately update local state
+            await deleteWorkerMessage(inquiryId);
+            // Immediately update local state
             setInquiries(prev => prev.filter(inquiry => inquiry.id !== inquiryId));
-    
-            // ✅ Clear if the deleted one was selected
+            // Clear if the deleted one was selected
             if (selectedInquiry && selectedInquiry.id === inquiryId) {
                 setSelectedInquiry(null);
                 setMessages([]);
             }
-    
         } catch (error) {
             console.error('Error deleting inquiry:', error);
         }
     };
-    
 
     const handleInquiryClick = (inquiry) => {
         setSelectedInquiry(inquiry);
@@ -77,8 +73,8 @@ const Inquiries = () => {
 
     return (
         <div>
-                <OwnerNavbar unreadCount={inquiries.filter(i => !i.is_read).length} />
-                <div className="inquiries-container">
+            <OwnerNavbar unreadCount={inquiries.filter(i => !i.is_read).length} />
+            <div className="inquiries-container">
                 <h2>Customer Inquiries</h2>
                 <div className="inquiries-list">
                     {inquiries.map((inquiry) => (
