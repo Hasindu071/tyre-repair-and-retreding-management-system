@@ -74,3 +74,15 @@ export const registerOwner = async (ownerData) => {
     throw error;
   }
 };
+
+
+// owner login service
+export const loginOwner = async (credentials) => {
+  try {
+    const response = await axios.post(`${API_URL}/Owner/login`, credentials);
+    return response.data;
+  } catch (error) {
+    console.error("Error logging in owner:", error.response ? error.response.data : error.message);
+    throw error;
+  }
+};

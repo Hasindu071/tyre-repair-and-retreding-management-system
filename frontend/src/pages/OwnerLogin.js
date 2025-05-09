@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/NavBar'; // Assuming you have a Navbar component
-import '../styles/OwnerLogin.css'; // Import the CSS file
+import Navbar from '../components/NavBar';
+import '../styles/OwnerLogin.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../../src/context/AuthContext'; // adjust path as needed
-
-const API_URL = "http://localhost:5000";
+import { useAuth } from '../../src/context/AuthContext';
+import { loginOwner } from "../services/authService";
 
 const OwnerLogin = () => {
     const [formData, setFormData] = useState({
@@ -15,12 +14,12 @@ const OwnerLogin = () => {
         password: ''
     });
 
-    const [resetMode, setResetMode] = useState(false); // Toggle between login and reset mode
+    const [resetMode, setResetMode] = useState(false);
     const [resetEmail, setResetEmail] = useState("");
-    const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -38,24 +37,14 @@ const OwnerLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${API_URL}/Owner/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            
-            const data = await response.json();
+            const data = await loginOwner(formData);
             console.log("Login response:", data);
-
             if (data.success) {
-                // Assuming backend sends { id, name }
-                login("owner", data.owner.id, data.owner.name);  // Call context login
+                // Call context login with owner id and name
+                login("owner", data.owner.id, data.owner.name);
                 toast.success('Login successful!');
                 setTimeout(() => navigate('/OwnerDashboard'), 2000);
-            }
-             else {
+            } else {
                 setErrorMessage('Login failed! Please check your credentials.');
                 toast.error('Login failed! Please check your credentials.');
             }
@@ -130,14 +119,14 @@ const OwnerLogin = () => {
                             </button>
                             {errorMessage && <p className="error-message">{errorMessage}</p>}
                             <p className="owner-forgot-password" onClick={() => navigate('/owner/forgot-password')}>
-                            Forgot Password?
+                                Forgot Password?
                             </p>
                         </form>
                     )}
 
-                        <p className="owner-signup-tage" onClick={() => navigate('/register/owner')}>
-                         Don't have an account? Sign Up
-                        </p>
+                    <p className="owner-signup-tage" onClick={() => navigate('/register/owner')}>
+                        Don't have an account? Sign Up
+                    </p>
                 </div>
             </div>
         </div>
