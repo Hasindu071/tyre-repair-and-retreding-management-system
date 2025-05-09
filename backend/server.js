@@ -19,7 +19,7 @@ app.use("/attendanceMark", require("./routes/attendanceMarkRoutes"));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Import routes
-const ownerRegisterRoute = require('./routes/OwnerRegister');
+const ownerRegisterRoute = require('./routes/ownerRegisterRoutes');
 const customerRegisterRoute = require('./routes/customerRegisterRoutes');
 const workerRegisterRoute = require('./routes/WorkerRegister');
 const ownerLoginRoute = require('./routes/ownerLoginRoutes');
