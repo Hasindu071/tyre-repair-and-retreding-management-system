@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../styles/UpdateProgress.css";
 import WorkerSideBar from "../components/WorkerSideBar";
+import "../styles/UpdateProgress.css";
+import { getUpdateOrders, getStartedTasks, startTask, updateProgress } from "../services/orderServices";
 
 const UpdateProgress = () => {
     const [taskId, setTaskId] = useState("");
@@ -17,10 +17,8 @@ const UpdateProgress = () => {
         const workerId = localStorage.getItem("workerId");
         const fetchTasks = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/Orders/UpdateOrders`, {
-                    params: { workerId }
-                });
-                setTasks(res.data);
+                const res = await getUpdateOrders(workerId);
+                setTasks(res);
             } catch (err) {
                 console.error("Error fetching tasks:", err);
             }
@@ -38,8 +36,8 @@ const UpdateProgress = () => {
 
     const fetchStartedTasks = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/Orders/getStartedTasks");
-            setStartedTasks(res.data);
+            const res = await getStartedTasks();
+            setStartedTasks(res);
         } catch (err) {
             console.error("Error fetching started tasks:", err);
         }
@@ -56,7 +54,7 @@ const UpdateProgress = () => {
             return;
         }
         try {
-            await axios.put("http://localhost:5000/Orders/startTask", { taskId });
+            await startTask(taskId);
             alert("Task started!");
             setTaskStarted(true);
         } catch (err) {
@@ -72,7 +70,7 @@ const UpdateProgress = () => {
             return;
         }
         try {
-            await axios.put("http://localhost:5000/Orders/updateProgress", { taskId, progress });
+            await updateProgress(taskId, progress);
             alert(`Task ${taskId} updated to ${progress}% progress!`);
             if (progress >= 100) {
                 setCompleteMessage("Task Completed!");
@@ -93,7 +91,7 @@ const UpdateProgress = () => {
             return;
         }
         try {
-            await axios.put("http://localhost:5000/Orders/updateProgress", { taskId: id, progress: updatedProgress });
+            await updateProgress(id, updatedProgress);
             alert(`Task ${id} updated to ${updatedProgress}% progress!`);
             fetchStartedTasks();
         } catch (err) {

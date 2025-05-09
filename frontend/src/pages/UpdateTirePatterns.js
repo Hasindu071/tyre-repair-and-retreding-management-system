@@ -51,7 +51,7 @@ const handleUpload = async (patternNum) => {
     }
 
     try {
-        await updatePatternImage(patternNum, fileUpdates[patternNum]); // ✅ Using service
+        await updatePatternImage(patternNum, fileUpdates[patternNum]);
         alert(`Pattern ${patternNum} updated successfully!`);
         await fetchPatterns();
 
