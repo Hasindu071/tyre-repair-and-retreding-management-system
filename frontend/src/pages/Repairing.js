@@ -3,12 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaUpload } from "react-icons/fa";
 import CustomerSidebar from "../components/CustomerSidebar"; // Assuming you have a sidebar component
 import "../styles/Repairing.css";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAuth } from "../context/AuthContext"; // Import useAuth hook
+import { useAuth } from "../context/AuthContext"; 
+import { submitRepairingForm } from "../services/orderServices"; // Import the function to submit the form
 
 const RepairServiceForm = () => {
         const { userID } = useAuth(); // Get user details from context
@@ -108,7 +108,7 @@ const RepairServiceForm = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:5000/Repairing/submit", data);
+        const response = await submitRepairingForm(data);
             toast.success("Form submitted successfully!");
             // Scroll to top on error to bring the message into view
             window.scrollTo({ top: 0, behavior: 'smooth' });

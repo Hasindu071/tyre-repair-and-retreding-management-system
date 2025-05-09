@@ -88,3 +88,14 @@ export const submitRetreadingForm = async (data) => {
         throw error;
     }
 };
+
+//repairing services submit details
+export const submitRepairingForm = async (data) => {
+    try {
+        const response = await axios.post("http://localhost:5000/Repairing/submit", data);
+        return response;
+    } catch (error) {
+        console.error("Error submitting repair form:", error);
+        throw error;
+    }
+};
