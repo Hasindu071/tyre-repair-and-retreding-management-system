@@ -110,3 +110,63 @@ export const getRepairDetails = async (id) => {
         throw error;
     }
 };
+
+//get pending repairs and retreadings
+export const getPendingRepairs = async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/services/getPendingRepairs');
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching repairs:", error);
+        throw error;
+    }
+};
+
+export const getPendingRetreadings = async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/services/getPendingRetreadings');
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching retreadings:", error);
+        throw error;
+    }
+};
+
+//approve repair
+export const approveRepair = async (repairId) => {
+    try {
+        const response = await axios.put(`http://localhost:5000/Repairing/approveRepair/${repairId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error approving repair:", error);
+        throw error;
+    }
+};
+
+//approve retreading
+export const approveRetreading = async (retreadingId) => {
+    try {
+        const response = await axios.put(`http://localhost:5000/Retreading/approveRetreading/${retreadingId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error approving retreading:", error);
+        throw error;
+    }
+};
+
+//reject repair and retreading
+export const rejectItem = async (rejectType, id, note) => {
+    try {
+        let url = "";
+        if (rejectType === "repair") {
+            url = `http://localhost:5000/Repairing/rejectRepair/${id}`;
+        } else if (rejectType === "retreading") {
+            url = `http://localhost:5000/Retreading/rejectRetreading/${id}`;
+        }
+        const response = await axios.put(url, { note });
+        return response.data;
+    } catch (error) {
+        console.error("Error rejecting item:", error);
+        throw error;
+    }
+};

@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //import Navbar from '../components/Navbars/OwnerRegiNavBar';
 import OwnerSidebar from "../components/SideNav";
 import "../styles/PendingOrder.css";
-import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getPendingRepairs, getPendingRetreadings, approveRepair, approveRetreading, rejectItem } from "../services/orderServices";
 
 const PendingOrder = () => {
     const [repairs, setRepairs] = useState([]);
@@ -26,20 +26,18 @@ const PendingOrder = () => {
 
     const fetchRepairs = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/services/getPendingRepairs');
-            setRepairs(response.data);
+            const data = await getPendingRepairs();
+            setRepairs(data);
         } catch (error) {
-            console.error("Error fetching repairs:", error);
             toast.error("Failed to fetch repair services");
         }
     };
 
     const fetchRetreadings = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/services/getPendingRetreadings');
-            setRetreadings(response.data);
+            const data = await getPendingRetreadings();
+            setRetreadings(data);
         } catch (error) {
-            console.error("Error fetching retreadings:", error);
             toast.error("Failed to fetch retreading services");
         }
     };
@@ -53,29 +51,23 @@ const PendingOrder = () => {
     };
 
     // Called when confirming the rejection with a note
-    const handleConfirmRejection = async () => {
-        if (!selectedRejectItem) return;
-        try {
-            let url = "";
-            if (rejectType === "repair") {
-                url = `http://localhost:5000/Repairing/rejectRepair/${selectedRejectItem.id}`;
-            } else if (rejectType === "retreading") {
-                url = `http://localhost:5000/Retreading/rejectRetreading/${selectedRejectItem.id}`;
-            }
-            await axios.put(url, { note: rejectionNote });
-            toast.success("Rejection processed successfully");
-            if (rejectType === "repair") {
-                fetchRepairs();
-            } else if (rejectType === "retreading") {
-                fetchRetreadings();
-            }
-            setShowRejectModal(false);
-            setSelectedRejectItem(null);
-        } catch (error) {
-            console.error("Error rejecting item:", error);
-            toast.error("Error processing rejection");
+const handleConfirmRejection = async () => {
+    if (!selectedRejectItem) return;
+    try {
+        await rejectItem(rejectType, selectedRejectItem.id, rejectionNote);
+        toast.success("Rejection processed successfully");
+        if (rejectType === "repair") {
+            fetchRepairs();
+        } else if (rejectType === "retreading") {
+            fetchRetreadings();
         }
-    };
+        setShowRejectModal(false);
+        setSelectedRejectItem(null);
+    } catch (error) {
+        console.error("Error rejecting item:", error);
+        toast.error("Error processing rejection");
+    }
+};
 
     return (
         <div className="pending-order-page">
@@ -139,7 +131,7 @@ const PendingOrder = () => {
                                         className="approve-btn-order"
                                         onClick={async () => {
                                             try {
-                                                await axios.put(`http://localhost:5000/Repairing/approveRepair/${repair.id}`);
+                                                await approveRepair(repair.id);
                                                 toast.success("Repair approved successfully");
                                                 fetchRepairs();
                                             } catch (error) {
@@ -223,7 +215,7 @@ const PendingOrder = () => {
                                         className="approve-btn-order"
                                         onClick={async () => {
                                             try {
-                                                await axios.put(`http://localhost:5000/Retreading/approveRetreading/${retreading.id}`);
+                                                await approveRetreading(retreading.id);
                                                 toast.success("Retreading approved successfully");
                                                 fetchRetreadings();
                                             } catch (error) {
