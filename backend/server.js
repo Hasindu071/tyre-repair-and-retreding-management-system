@@ -46,7 +46,7 @@ const attendanceMarkRoute = require('./routes/attendanceMarkRoutes');
 const ReportRoute = require('./routes/reports');
 const ownerForgotPasswordRouter = require('./routes/OwnerForgotPassword');
 const workerForgotPasswordRouter = require('./routes/WorkerForgotPassword');
-const CustomerForgotPassword = require('./routes/CustomerForgotPassword');
+const CustomerForgotPassword = require('./routes/customerForgotPasswordRoutes');
 const ownerResetPasswordRouter = require('./routes/OwnerResetPassword');
 
 // Use routes
