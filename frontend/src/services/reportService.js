@@ -78,3 +78,16 @@ export const fetchCancellationReport = async (startDate, endDate) => {
     }
 };
 
+// Attendance Report
+export const fetchAttendanceReport = async (startDate, endDate) => {
+    try {
+        const response = await axios.get("http://localhost:5000/reports/attendance-productivity", {
+            params: { startDate, endDate }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching attendance report:", error);
+        throw error;
+    }
+};
+

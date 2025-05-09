@@ -1,29 +1,26 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import "../styles/OwnerReport.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchAttendanceReport } from "../services/reportService";
 
 const AttendanceReport = () => {
   const [reportData, setReportData] = useState([]);
-  const [startDate, setStartDate] = useState(""); // Format: YYYY-MM-DD
+  const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const fetchAttendanceReport = async () => {
+  const getAttendanceReport = async () => {
     if (!startDate || !endDate) {
       toast.error("Please select both start and end dates.");
       return;
     }
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/reports/attendance-productivity", {
-        params: { startDate, endDate }
-      });
-      setReportData(response.data);
+      const data = await fetchAttendanceReport(startDate, endDate);
+      setReportData(data);
     } catch (error) {
-      console.error("Error fetching attendance report:", error);
       toast.error("Error fetching attendance report");
     } finally {
       setLoading(false);
@@ -44,7 +41,7 @@ const AttendanceReport = () => {
   // Fetch report whenever the dates change
   useEffect(() => {
     if (startDate && endDate) {
-      fetchAttendanceReport();
+      getAttendanceReport();
     }
   }, [startDate, endDate]);
 
@@ -78,7 +75,7 @@ const AttendanceReport = () => {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
-            <button onClick={fetchAttendanceReport} className="btn btn-primary">
+            <button onClick={getAttendanceReport} className="btn btn-primary">
               {loading ? "Loading..." : "Get Report"}
             </button>
           </div>
