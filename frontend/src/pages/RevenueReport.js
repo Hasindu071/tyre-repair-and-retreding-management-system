@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import "../styles/RevenueReport.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchRevenueReport } from "../services/reportService";
 
 const OwnerRevenueReport = () => {
   const [reports, setReports] = useState([]);
@@ -11,7 +11,7 @@ const OwnerRevenueReport = () => {
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Function to fetch revenue report data from backend
+  // Function to fetch revenue report data from backend using the service function
   const fetchReports = async () => {
     if (!startDate || !endDate) {
       toast.error("Please select both start and end dates.");
@@ -19,10 +19,8 @@ const OwnerRevenueReport = () => {
     }
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/reports/revenue", {
-        params: { startDate, endDate }
-      });
-      setReports(response.data);
+      const data = await fetchRevenueReport(startDate, endDate);
+      setReports(data);
     } catch (error) {
       console.error("Error fetching revenue report:", error);
       toast.error("Error fetching revenue report");
@@ -51,10 +49,11 @@ const OwnerRevenueReport = () => {
 
   // Calculate total revenue from all reports
   const totalRevenue = reports.reduce(
-    (sum, report) => sum + Number(report.revenue), 0
+    (sum, report) => sum + Number(report.revenue),
+    0
   );
 
-  // When printing the report, call the print window
+  // When printing the report, open the print dialog
   const handlePrint = () => {
     window.print();
   };

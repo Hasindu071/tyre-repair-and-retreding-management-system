@@ -25,3 +25,16 @@ export const fetchServiceCompletionReport = async (startDate, endDate) => {
         throw error;
     }
 };
+
+// revenue report
+export const fetchRevenueReport = async (startDate, endDate) => {
+    try {
+        const response = await axios.get("http://localhost:5000/reports/revenue", {
+            params: { startDate, endDate }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching revenue report:", error);
+        throw error;
+    }
+};
