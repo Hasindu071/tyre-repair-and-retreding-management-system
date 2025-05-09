@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import OwnerSidebar from "../components/SideNav";
-import '../styles/WorkerTasks.css'; // Import the CSS file
+import '../styles/WorkerTasks.css';
+import { getWorkerTasks } from '../services/ownerServices';
 
 const WorkerTask = () => {
   const { workerId } = useParams();
@@ -20,8 +20,7 @@ const WorkerTask = () => {
 
     const fetchWorkerTasks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/orders/workersTask/${workerId}`);
-        const tasks = Array.isArray(response.data) ? response.data : [response.data];
+        const tasks = await getWorkerTasks(workerId);
         setWorkerTasks(tasks);
       } catch (err) {
         console.error("Error fetching worker tasks:", err);

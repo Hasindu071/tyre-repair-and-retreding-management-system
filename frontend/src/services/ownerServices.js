@@ -18,3 +18,14 @@ export const updatePatternImage = async (patternNum, file) => {
 
     return response.data; // should include { filePath: "..." }
 };
+
+// Owner Get all Workers tasks
+export const getWorkerTasks = async (workerId) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/orders/workersTask/${workerId}`);
+        return Array.isArray(response.data) ? response.data : [response.data];
+    } catch (error) {
+        console.error("Error fetching worker tasks:", error);
+        throw error;
+    }
+};
