@@ -59,3 +59,14 @@ export const deleteCustomer = async (customerId) => {
         throw error;
     }
 };
+
+//contact submit
+export const submitContactForm = async (formData) => {
+    try {
+        const response = await axios.post('http://localhost:5000/contact/submit', formData);
+        return response.data;
+    } catch (error) {
+        console.error('Error submitting contact form:', error);
+        throw error;
+    }
+};

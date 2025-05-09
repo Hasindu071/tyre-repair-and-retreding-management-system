@@ -3,7 +3,7 @@ import "../styles/CustomerHandle.css";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { fetchCustomers, updateCustomerProfile, deleteCustomer } from "../services/CustomerHandleService";
+import { fetchCustomers, updateCustomerProfile, deleteCustomer } from "../services/ownerServices";
 
 const CustomerHandle = () => {
   const [searchQuery, setSearchQuery] = useState("");

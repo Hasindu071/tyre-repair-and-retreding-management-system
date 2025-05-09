@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Navbar from '../components/NavBar'; // Import the Navbar component
-import '../styles/contact.css'; // Updated CSS file with unique class names
-import axios from 'axios'; // Import axios for HTTP requests
+import Navbar from '../components/NavBar';
+import '../styles/contact.css';
+import { submitContactForm } from '../services/ownerServices';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -34,8 +34,8 @@ const Contact = () => {
         setAlert({ message: '', type: '' });
 
         try {
-            const response = await axios.post('http://localhost:5000/contact/submit', formData);
-            console.log('Form submitted:', response.data);
+            const response = await submitContactForm(formData);
+            console.log('Form submitted:', response);
             setAlert({ message: 'Your message has been sent successfully!', type: 'success' });
             setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form
         } catch (error) {
@@ -48,11 +48,10 @@ const Contact = () => {
 
     return (
         <div>
-            <Navbar /> {/* Navbar component */}
+            <Navbar />
             <div className="contact-container">
                 <h2 className="contact-title">Contact Us</h2>
 
-                {/* Alert Messages */}
                 {alert.message && (
                     <div className={`alert alert-${alert.type}`} role="alert">
                         {alert.message}
