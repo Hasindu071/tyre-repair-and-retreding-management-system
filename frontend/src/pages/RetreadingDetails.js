@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getRetreadingDetails } from "../services/retreadingService";
+import { getRetreadingDetails } from "../services/orderServices";
 import "../styles/RetreadingDetails.css";
 
 const RetreadingDetails = () => {
