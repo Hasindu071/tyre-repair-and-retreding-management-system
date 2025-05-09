@@ -51,3 +51,17 @@ export const getInventoryReport = async (startDate, endDate) => {
         throw error;
     }
 };
+
+//get Daily Order Summary Report
+export const getDailyOrderSummaryReport = async (startDate) => {
+    try {
+        const response = await axios.get("http://localhost:5000/reports/dailyOrdersSummary", {
+            params: { startDate }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching daily orders summary:", error);
+        throw error;
+    }
+};
+

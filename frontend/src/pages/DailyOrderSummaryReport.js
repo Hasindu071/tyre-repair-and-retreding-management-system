@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/DailyOrderSummaryReport.css";
+import { getDailyOrderSummaryReport } from "../services/reportService";
 
 const DailyOrderSummaryReport = () => {
     const [reportData, setReportData] = useState([]);
@@ -17,10 +17,8 @@ const DailyOrderSummaryReport = () => {
         }
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/reports/dailyOrdersSummary", {
-                params: { startDate }
-            });
-            setReportData(response.data);
+            const data = await getDailyOrderSummaryReport(startDate);
+            setReportData(data);
         } catch (error) {
             console.error("Error fetching daily orders summary:", error);
             toast.error("Error fetching daily orders summary");
