@@ -1,12 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../config/db'); // Import the database connection
+const WorkerModel = require('../models/workerProfileModel');
 
-router.get('/getWorker/:id', async (req, res) => {
+const getWorkerProfile = async (req, res) => {
     const workerId = req.params.id;
+
     try {
-        const query = "SELECT * FROM worker_register WHERE id = ?";
-        const [rows] = await db.promise().execute(query, [workerId]);
+        const rows = await WorkerModel.getWorkerById(workerId);
         if (rows.length > 0) {
             res.status(200).json(rows[0]);
         } else {
@@ -16,6 +14,6 @@ router.get('/getWorker/:id', async (req, res) => {
         console.error("Error fetching worker details:", error);
         res.status(500).json({ message: 'Server error retrieving worker details' });
     }
-});
+};
 
-module.exports = router;
+module.exports = { getWorkerProfile };
