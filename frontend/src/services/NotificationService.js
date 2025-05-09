@@ -83,3 +83,14 @@ export const deleteWorkerMessage = async (inquiryId) => {
     throw error;
   }
 };
+
+// This function fetches all notices from the server
+export const getNotices = async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/notices');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching notices:', error);
+        throw error;
+    }
+};
