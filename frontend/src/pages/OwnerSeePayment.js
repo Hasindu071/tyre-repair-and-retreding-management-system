@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../styles/SeePayment.css";
 import OwnerSidebar from "../components/SideNav";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  getPayments,
+  getWorkers,
+  getWorkerAttendance,
+  updatePayment,
+  addPayment,
+} from "../services/PaymentService";
 
 // Utility: Get today's date in YYYY-MM-DD format
 const getTodayDate = () => new Date().toISOString().slice(0, 10);
@@ -14,10 +20,10 @@ const SeePayment = () => {
   const [formData, setFormData] = useState({
     assignedWorker: "",
     MonthAttendDates: "",
-    amount: "",      // fix amount automatically computed
+    amount: "",
     bonus: "",
     note: "",
-    date: getTodayDate(), // prefilled with today's date
+    date: getTodayDate(),
     status: "Pending",
   });
   const [editingPaymentId, setEditingPaymentId] = useState(null);
@@ -33,54 +39,45 @@ const SeePayment = () => {
   useEffect(() => {
     if (formData.assignedWorker) {
       console.log("Fetching attendance for worker:", formData.assignedWorker);
-      fetchWorkerAttendance(formData.assignedWorker);
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1; // 1-indexed
+      getWorkerAttendance(formData.assignedWorker, year, month)
+        .then((data) => {
+          console.log("Attendance response", data);
+          const daysAttended = Array.isArray(data.attendances)
+            ? data.attendances.length
+            : 0;
+          // Calculate fix amount: 1500 per attended day
+          const fixAmount = daysAttended * 1500;
+          const monthName = now.toLocaleString("default", { month: "long" });
+          setFormData((prev) => ({
+            ...prev,
+            MonthAttendDates: `${monthName} ${year} (${daysAttended} Days)`,
+            amount: fixAmount,
+          }));
+        })
+        .catch((error) => {
+          toast.error("Error fetching worker attendance");
+        });
     }
   }, [formData.assignedWorker]);
 
   const fetchPayments = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/payments/getPayments");
-      setPayments(response.data);
+      const data = await getPayments();
+      setPayments(data);
     } catch (error) {
-      console.error("Error fetching payments:", error);
       toast.error("Error fetching payments");
     }
   };
 
   const fetchWorkers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/orders/getWorkers");
-      setWorkers(response.data);
+      const data = await getWorkers();
+      setWorkers(data);
     } catch (error) {
-      console.error("Error fetching workers:", error);
       toast.error("Error fetching workers");
-    }
-  };
-
-  const fetchWorkerAttendance = async (workerId) => {
-    try {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth() + 1; // 1-indexed
-      const res = await axios.get(
-        `http://localhost:5000/attendanceMark/workerAttend/${workerId}`,
-        { params: { year, month } }
-      );
-      console.log("Attendance response", res.data);
-      const daysAttended = Array.isArray(res.data.attendances)
-        ? res.data.attendances.length
-        : 0;
-      // Calculate fix amount: 1500 per attended day
-      const fixAmount = daysAttended * 1500;
-      const monthName = now.toLocaleString("default", { month: "long" });
-      setFormData(prev => ({
-        ...prev,
-        MonthAttendDates: `${monthName} ${year} (${daysAttended} Days)`,
-        amount: fixAmount
-      }));
-    } catch (error) {
-      console.error("Error fetching worker attendance:", error);
-      toast.error("Error fetching worker attendance");
     }
   };
 
@@ -151,13 +148,10 @@ const SeePayment = () => {
     }
     try {
       if (editingPaymentId) {
-        await axios.put(
-          `http://localhost:5000/payments/updatePayment/${editingPaymentId}`,
-          formData
-        );
+        await updatePayment(editingPaymentId, formData);
         toast.success("Payment updated successfully");
       } else {
-        await axios.post("http://localhost:5000/payments/addPayment", formData);
+        await addPayment(formData);
         toast.success("Payment added successfully");
       }
       fetchPayments();
@@ -170,7 +164,6 @@ const SeePayment = () => {
 
   return (
     <div>
-      {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="see-owner-payment-container">
         <h2 className="title-payment">Payment Records</h2>
@@ -203,11 +196,13 @@ const SeePayment = () => {
                     {payment.status}
                   </td>
                   <td>
-  {(() => {
-    const worker = workers.find(w => String(w.id) === String(payment.assignedWorker));
-    return worker ? worker.name : "N/A";
-  })()}
-</td>
+                    {(() => {
+                      const worker = workers.find(
+                        (w) => String(w.id) === String(payment.assignedWorker)
+                      );
+                      return worker ? worker.name : "N/A";
+                    })()}
+                  </td>
                   <td>
                     <button onClick={() => handleEdit(payment)} className="edit-btn">
                       Edit
@@ -232,13 +227,21 @@ const SeePayment = () => {
           role="dialog"
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
-          <div className="modal-dialog" role="document" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-dialog"
+            role="document"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
                   {editingPaymentId ? "Update Payment" : "Add New Payment"}
                 </h5>
-                <button type="button" className="btn-close" onClick={handleCancel}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={handleCancel}
+                ></button>
               </div>
               <form onSubmit={handleSubmit} id="paymentForm">
                 <div className="modal-body">
@@ -265,7 +268,6 @@ const SeePayment = () => {
                     className="form-control mb-2"
                     readOnly
                   />
-                  {/* Updated input: name changed from "Fix amount" to "amount" */}
                   <input
                     type="number"
                     name="amount"
@@ -276,15 +278,14 @@ const SeePayment = () => {
                     className="form-control mb-2"
                   />
                   <input
-                      type="number"
-                      name="bonus"
-                      placeholder="Bonus ($)"
-                      value={formData.bonus}
-                      onChange={handleChange}
-                      required
-                      className="form-control mb-2"
+                    type="number"
+                    name="bonus"
+                    placeholder="Bonus ($)"
+                    value={formData.bonus}
+                    onChange={handleChange}
+                    required
+                    className="form-control mb-2"
                   />
-                  {/* New Note Box */}
                   <textarea
                     name="note"
                     placeholder="Enter note here..."
@@ -294,7 +295,6 @@ const SeePayment = () => {
                     className="form-control mb-2"
                     rows="3"
                   ></textarea>
-                  {/* Date field prefilled with today and read-only */}
                   <input
                     type="date"
                     name="date"
@@ -314,7 +314,11 @@ const SeePayment = () => {
                   </select>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-primary">
