@@ -2,7 +2,7 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const RetreadingModel = require('../model/retreadingModel');
+const RetreadingModel = require('../models/retreadingModel');
 
 // Set up multer for file uploads
 const uploadDir = path.join(__dirname, '../uploads');

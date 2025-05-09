@@ -1,4 +1,4 @@
-const model = require('../model/workerMessagesModel');
+const model = require('../models/workerMessagesModel');
 
 module.exports = {
     getMessages: async (req, res) => {

@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { sendResetEmail } = require('../utils/mailer');

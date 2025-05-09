@@ -1,6 +1,6 @@
 // workerRegisterController.js
 const bcrypt = require('bcryptjs');
-const Worker = require('./workerRegisterModel');
+const Worker = require('../models/workerRegisterModel');
 
 exports.registerWorker = async (req, res) => {
   const { firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password } = req.body;

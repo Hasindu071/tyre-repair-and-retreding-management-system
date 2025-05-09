@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('../config/db');
 
 const getRepairs = async () => {
   const [rows] = await db.promise().query(`

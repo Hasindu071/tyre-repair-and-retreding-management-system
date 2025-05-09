@@ -1,6 +1,6 @@
 // routes/retreadingRoutes.js
 const express = require('express');
-const retreadingController = require('../controller/retreadingController');
+const retreadingController = require('../controllers/retreadingController');
 const router = express.Router();
 
 // Route to submit a retreading form

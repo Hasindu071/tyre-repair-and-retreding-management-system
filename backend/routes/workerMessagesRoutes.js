@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/workerMessagesController');
+const controller = require('../controllers/workerMessagesController');
 
 router.get('/getMessages', controller.getMessages);
 router.post('/sendMessage', controller.sendMessage);
