@@ -1,22 +1,17 @@
-const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql2');
-const router = express.Router();
-const db = require('../config/db');
+const CustomerModel = require('../models/customerLoginModel');
 
-// Login route
-router.post('/login', (req, res) => {
+const loginCustomer = (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
         return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const query = 'SELECT * FROM customer_register WHERE email = ?';
-    db.query(query, [email], async (err, results) => {
+    CustomerModel.findCustomerByEmail(email, async (err, results) => {
         if (err) {
-            console.error('Error fetching user:', err);
+            console.error('Error fetching customer:', err);
             return res.status(500).json({ message: 'Server error.' });
         }
 
@@ -33,21 +28,16 @@ router.post('/login', (req, res) => {
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Send user ID, first name, last name, and email along with the token
-        res.json({ 
-            success: true, 
-            token, 
-            customer: { 
-                id: user.id, 
-                email: user.email, 
-                userName: `${user.firstName} ${user.lastName}` // Changed from 'name' to 'userName'
-            } 
+        return res.json({ 
+            success: true,
+            token,
+            customer: {
+                id: user.id,
+                email: user.email,
+                userName: `${user.firstName} ${user.lastName}`
+            }
         });
-        
-
     });
-});
+};
 
-
-
-module.exports = router;
+module.exports = { loginCustomer };
