@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import '../styles/WorkerProfile.css';
+import { getWorkerProfile } from "../services/workerServices";
 
 const WorkerProfile = () => {
     // Retrieve the worker ID from localStorage (if not found, fallback to '1')
@@ -11,11 +12,7 @@ const WorkerProfile = () => {
     useEffect(() => {
         const fetchWorkerDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/workerProfile/getWorker/${storedWorkerId}`);
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                const data = await response.json();
+                const data = await getWorkerProfile(storedWorkerId);
                 setWorker(data);
             } catch (error) {
                 console.error("Error fetching worker details:", error);

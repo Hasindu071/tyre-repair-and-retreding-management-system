@@ -21,3 +21,18 @@ export const getApprovedWorkers = async () => {
         throw error;
     }
 };
+
+// get worker details by id
+export const getWorkerProfile = async (workerId) => {
+    try {
+        const response = await fetch(`http://localhost:5000/workerProfile/getWorker/${workerId}`);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching worker profile:", error);
+        throw error;
+    }
+};
