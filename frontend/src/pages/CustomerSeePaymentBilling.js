@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomerSidebar from "../components/CustomerSidebar";
-import Logo from '../assets/Logo.png'; // Adjust path accordingly
-import axios from "axios";
+import Logo from '../assets/Logo.png';
 import "../styles/CustomerSeePaymentBilling.css";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../context/AuthContext";
+import { getLatestPayment } from "../services/PaymentService";
 
 const CustomerSeePaymentBilling = () => {
     const navigate = useNavigate();
     const [latestPayment, setLatestPayment] = useState(null);
-    const { userID } = useAuth(); // Get user details from context
-    const userId = userID; // Extract user ID from context
+    const { userID } = useAuth();
+    const userId = userID;
 
     useEffect(() => {
         if (userId) {
-            axios
-                .get(`http://localhost:5000/payments/latest/${userId}`)
-                .then((res) => setLatestPayment(res.data))
+            getLatestPayment(userId)
+                .then((data) => setLatestPayment(data))
                 .catch((err) => console.error("Error fetching payment:", err));
         }
     }, [userId]);

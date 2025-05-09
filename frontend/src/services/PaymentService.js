@@ -52,3 +52,14 @@ export const addPayment = async (data) => {
         throw error;
     }
 };
+
+//customer see payment billing
+export const getLatestPayment = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/payments/latest/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching payment:", error);
+        throw error;
+    }
+};
