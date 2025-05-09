@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "../styles/CustomerHandle.css";
-//import Navbar from "../components/Navbars/OwnerRegiNavBar";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchCustomers, updateCustomerProfile, deleteCustomer } from "../services/CustomerHandleService";
 
 const CustomerHandle = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,13 +13,9 @@ const CustomerHandle = () => {
 
   // Fetch customer data from the backend
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/customers")
-      .then((response) => {
-        setCustomers(response.data);
-      })
+    fetchCustomers()
+      .then((data) => setCustomers(data))
       .catch((error) => {
-        console.error("Error fetching customers:", error);
         toast.error("Error fetching customers");
       });
   }, []);
@@ -43,8 +38,8 @@ const CustomerHandle = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `http://localhost:5000/CustomerProfile/${selectedCustomer.customer_id}`,
+      await updateCustomerProfile(
+        selectedCustomer.customer_id,
         selectedCustomer
       );
       setCustomers((prev) =>
@@ -57,22 +52,20 @@ const CustomerHandle = () => {
       setShowEditModal(false);
       toast.success("Customer updated successfully!");
     } catch (error) {
-      console.error("Error updating customer:", error);
       toast.error("Failed to update customer profile");
     }
   };
 
-  // Delete customer handler remains unchanged except for toast alerts
+  // Delete customer handler
   const handleDelete = async (customerId) => {
     if (window.confirm("Are you sure you want to delete this customer?")) {
       try {
-        await axios.delete(`http://localhost:5000/CustomerProfile/${customerId}`);
+        await deleteCustomer(customerId);
         setCustomers((prev) =>
           prev.filter((cust) => cust.customer_id !== customerId)
         );
         toast.success("Customer deleted successfully!");
       } catch (error) {
-        console.error("Error deleting customer:", error);
         toast.error("Error deleting customer");
       }
     }
@@ -80,7 +73,6 @@ const CustomerHandle = () => {
 
   return (
     <div>
-            {/*<Navbar />*/}
       <OwnerSidebar />
       <div className="customer-handle-container">
         <h2 className="title">Customer Details</h2>

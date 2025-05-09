@@ -29,3 +29,33 @@ export const getWorkerTasks = async (workerId) => {
         throw error;
     }
 };
+
+// customer handle
+export const fetchCustomers = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/customers");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching customers:", error);
+        throw error;
+    }
+};
+
+export const updateCustomerProfile = async (customerId, updatedData) => {
+    try {
+        const response = await axios.put(`http://localhost:5000/CustomerProfile/${customerId}`, updatedData);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating customer:", error);
+        throw error;
+    }
+};
+
+export const deleteCustomer = async (customerId) => {
+    try {
+        await axios.delete(`http://localhost:5000/CustomerProfile/${customerId}`);
+    } catch (error) {
+        console.error("Error deleting customer:", error);
+        throw error;
+    }
+};
