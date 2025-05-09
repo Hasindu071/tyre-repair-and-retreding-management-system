@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-//import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Navbar component
 import OwnerSidebar from "../components/SideNav";
-import "../styles/OwnerSendNotice.css"; // Import CSS file
+import "../styles/OwnerSendNotice.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getNotices, sendNoticeAPI, deleteNoticeAPI } from '../services/productServices';
 
 const OwnerSendNotice = () => {
     const [notice, setNotice] = useState('');
@@ -13,10 +12,9 @@ const OwnerSendNotice = () => {
     // Function to fetch all notices
     const fetchNotices = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/notices');
-            setNotices(response.data);
+            const data = await getNotices();
+            setNotices(data);
         } catch (error) {
-            console.error("Error fetching notices:", error);
             toast.error("Error fetching notices");
         }
     };
@@ -28,31 +26,28 @@ const OwnerSendNotice = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/notices', { notice });
+            await sendNoticeAPI(notice);
             toast.success('Notice sent successfully');
             setNotice('');
             fetchNotices();
         } catch (error) {
-            console.error('Error sending notice:', error);
             toast.error('Failed to send notice');
         }
     };
 
-    // Delete a notice (requires DELETE endpoint on backend)
+    // Delete a notice
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/notices/${id}`);
+            await deleteNoticeAPI(id);
             toast.success('Notice deleted successfully');
             fetchNotices();
         } catch (error) {
-            console.error('Error deleting notice:', error);
             toast.error('Failed to delete notice');
         }
     };
 
     return (
         <div className="owner-send-notice-page">
-            {/*<Navbar />*/}
             <OwnerSidebar />
             <br></br>
             <div className="content-send-wrapper">
