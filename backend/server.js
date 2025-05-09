@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use("/attendanceMark", require("./routes/attendanceMark"));
+app.use("/attendanceMark", require("./routes/attendanceMarkRoutes"));
 
 // Serve static files from the assets directory
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -42,7 +42,7 @@ const workerProfileRouter = require('./routes/workerProfileRoutes');
 const suppliesRouter = require('./routes/Supplies');
 const OurProductOwner = require('./routes/our_products');
 const patternsRoute = require('./routes/updatingpattern');
-const attendanceMarkRoute = require('./routes/attendanceMark');
+const attendanceMarkRoute = require('./routes/attendanceMarkRoutes');
 const ReportRoute = require('./routes/reports');
 const ownerForgotPasswordRouter = require('./routes/OwnerForgotPassword');
 const workerForgotPasswordRouter = require('./routes/WorkerForgotPassword');
