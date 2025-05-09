@@ -52,3 +52,25 @@ export const resetWorkerPassword = async (email) => {
         throw error;
     }
 };
+
+// worker registration service
+export const getUsers = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/users");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        throw error;
+    }
+};
+
+// owner registration service
+export const registerOwner = async (ownerData) => {
+  try {
+    const response = await axios.post(`${API_URL}/OwnerRegister`, ownerData);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering owner:", error);
+    throw error;
+  }
+};
