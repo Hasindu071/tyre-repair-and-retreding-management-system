@@ -63,3 +63,14 @@ export const sendWorkerMessage = async (workerId, message) => {
         throw error;
     }
 };
+
+// get worker detalis in dashboard
+export const getWorkerProfileDashboard = async (workerId) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/workerProfile/getWorker/${workerId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching worker profile:", error);
+        throw error;
+    }
+};

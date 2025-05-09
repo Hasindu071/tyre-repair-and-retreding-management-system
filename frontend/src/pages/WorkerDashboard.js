@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import WorkerNavbar from "../components/Navbars/WorkerRegiNavBar";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import "../styles/WorkerDashboard.css";
+import { getWorkerProfileDashboard } from "../services/workerServices";
 
 const WorkerDashboard = () => {
     const navigate = useNavigate();
@@ -13,9 +14,7 @@ const WorkerDashboard = () => {
         const id = localStorage.getItem("workerId");
         if (id) {
             setWorkerId(id);
-            // Fetch the worker's profile to get first and last name
-            fetch(`http://localhost:5000/workerProfile/getWorker/${id}`)
-                .then((res) => res.json())
+            getWorkerProfileDashboard(id)
                 .then((data) => {
                     if (data && data.firstName && data.lastName) {
                         setWorkerName(`${data.firstName} ${data.lastName}`);
