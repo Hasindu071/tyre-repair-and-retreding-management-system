@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import CustomerSidebar from "../components/CustomerSidebar";
 import "../styles/MyOrders.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext"; // Import useAuth hook
+import { useAuth } from "../context/AuthContext";
+import { getCustomerOrderStatus } from "../services/productServices";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyOrders = () => {
-    const { userID } = useAuth(); // Get user details from context
+    const { userID } = useAuth();
     const userId = userID; // Extract user ID from context
     const [orders, setOrders] = useState([]);
 
@@ -22,10 +22,8 @@ const MyOrders = () => {
 
     const fetchOrders = async (customerId) => {
         try {
-            const response = await axios.get(
-                `http://localhost:5000/orders/getCustomerOrderStatus?customerId=${customerId}`
-            );
-            setOrders(response.data);
+            const data = await getCustomerOrderStatus(customerId);
+            setOrders(data);
         } catch (error) {
             console.error("Error fetching orders:", error);
             toast.error("Error fetching orders");

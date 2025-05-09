@@ -118,3 +118,16 @@ export const deleteProduct = async (id) => {
     throw error;
   }
 };
+
+// get customer orders
+export const getCustomerOrderStatus = async (customerId) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:5000/orders/getCustomerOrderStatus?customerId=${customerId}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching customer order status:", error);
+        throw error;
+    }
+};
