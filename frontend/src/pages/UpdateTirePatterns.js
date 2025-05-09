@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import {getAllPatterns, updatePatternImage} from "../services/ownerServices"; // Importing the service to fetch patterns
 //import NewNavbar from "../components/Navbars/OwnerRegiNavBar"; // Owner's Navbar
 import "../styles/UpdateTirePatterns.css";
 import OwnerSidebar from "../components/SideNav";
@@ -18,22 +18,24 @@ const UpdateTirePatterns = () => {
     const [patternImages, setPatternImages] = useState({});
 
     // Fetch current pattern images from the backend on mount
-    useEffect(() => {
         const fetchPatterns = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/patterns/getAll");
-                // Expected response: [{ id: 1, imageUrl: "http://localhost:5000/assets/pattern/pattern1.jpg" }, ...]
+                const data = await getAllPatterns();
                 const images = {};
-                res.data.forEach((pattern) => {
-                    images[pattern.id] = pattern.imageUrl;
+                data.forEach((pattern) => {
+                    images[pattern.id] = `${pattern.imageUrl}?t=${new Date().getTime()}`; // prevent caching
                 });
                 setPatternImages(images);
             } catch (error) {
                 console.error("Error fetching patterns:", error);
             }
         };
-        fetchPatterns();
-    }, []);
+
+
+        useEffect(() => {
+            fetchPatterns();
+        }, []);
+
 
     const handleFileChange = (e, patternNum) => {
         setFileUpdates((prev) => ({
@@ -42,30 +44,23 @@ const UpdateTirePatterns = () => {
         }));
     };
 
-    const handleUpload = async (patternNum) => {
-        if (!fileUpdates[patternNum]) {
-            alert("Please select a file first.");
-            return;
-        }
-        const formData = new FormData();
-        formData.append("patternNum", patternNum);
-        formData.append("image", fileUpdates[patternNum]);
-        
-        try {
-            const res = await axios.post("http://localhost:5000/patterns/update", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-            alert(`Pattern ${patternNum} updated successfully!`);
-            // Update the image URL by appending a timestamp query to bypass cache
-            setPatternImages((prev) => ({
-                ...prev,
-                [patternNum]: res.data.filePath + `?t=${new Date().getTime()}`,
-            }));
-        } catch (error) {
-            console.error("Error updating pattern:", error);
-            alert("Error updating pattern.");
-        }
-    };
+const handleUpload = async (patternNum) => {
+    if (!fileUpdates[patternNum]) {
+        alert("Please select a file first.");
+        return;
+    }
+
+    try {
+        await updatePatternImage(patternNum, fileUpdates[patternNum]); // ✅ Using service
+        alert(`Pattern ${patternNum} updated successfully!`);
+        await fetchPatterns();
+
+
+    } catch (error) {
+        console.error("Error updating pattern:", error);
+        alert("Error updating pattern.");
+    }
+};
 
     return (
         <div>
