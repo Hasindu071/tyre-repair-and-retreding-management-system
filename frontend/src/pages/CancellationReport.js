@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/CancellationReport.css";
+import { fetchCancellationReport } from "../services/reportService";
 
 const CancellationReport = () => {
     const [reportData, setReportData] = useState([]);
@@ -18,12 +18,9 @@ const CancellationReport = () => {
         }
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/reports/cancellation-refunds", {
-                params: { startDate, endDate }
-            });
-            setReportData(response.data);
+            const data = await fetchCancellationReport(startDate, endDate);
+            setReportData(data);
         } catch (error) {
-            console.error("Error fetching cancellation report:", error);
             toast.error("Error fetching cancellation report");
         } finally {
             setLoading(false);

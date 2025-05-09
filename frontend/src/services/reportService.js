@@ -65,3 +65,16 @@ export const getDailyOrderSummaryReport = async (startDate) => {
     }
 };
 
+//Cancellation Report
+export const fetchCancellationReport = async (startDate, endDate) => {
+    try {
+        const response = await axios.get("http://localhost:5000/reports/cancellation-refunds", {
+            params: { startDate, endDate }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching cancellation report:", error);
+        throw error;
+    }
+};
+
