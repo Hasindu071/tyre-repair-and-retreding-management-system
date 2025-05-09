@@ -144,3 +144,17 @@ export const updateWorkerStatus = async (id, status) => {
     throw error;
   }
 };
+
+//approve orders
+export const fetchAssignedOrders = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/services/getAssignedOrders");
+        return response.data;
+    } catch (error) {
+        console.error(
+            "Error fetching approved orders:",
+            error.response ? error.response.data : error.message
+        );
+        throw error;
+    }
+};
