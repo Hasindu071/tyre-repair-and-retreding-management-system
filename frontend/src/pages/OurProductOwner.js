@@ -5,6 +5,7 @@ import '../styles/OurProductOwner.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../context/AuthContext';
+import { getourProducts, addProduct, deleteProduct } from "../services/productServices";
 
 const OurProductOwner = () => {
     const [productName, setProductName] = useState('');
@@ -17,8 +18,7 @@ const OurProductOwner = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/OurProductOwner/getProducts');
-            const data = await response.json();
+            const data = await getourProducts();
             setProducts(data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -52,11 +52,7 @@ const OurProductOwner = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/OurProductOwner/add', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
+            const data = await addProduct(formData);
             if (data.success) {
                 toast.success('Product added successfully!');
                 setProductName('');
@@ -74,14 +70,10 @@ const OurProductOwner = () => {
         }
     };
 
-    // New function to handle deletion
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this product?")) return;
         try {
-            const response = await fetch(`http://localhost:5000/OurProductOwner/delete/${id}`, {
-                method: 'DELETE'
-            });
-            const data = await response.json();
+            const data = await deleteProduct(id);
             if (data.success) {
                 toast.success(data.message);
                 fetchProducts(); // Refresh list after deletion
