@@ -5,28 +5,26 @@ import Navbar from '../components/NavBar';
 import '../styles/WorkerLogin.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { jwtDecode } from 'jwt-decode'; // Import jwt-decode to extract workerId from token
-
-const API_URL = "http://localhost:5000";
+import { jwtDecode } from 'jwt-decode'; // Use the named export jwtDecode
+import { loginWorker, fetchWorkerProfile, resetWorkerPassword } from "../services/authService";
 
 const WorkerLogin = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
-
-    const [resetMode, setResetMode] = useState(false); // Toggle between login and reset mode
+    const [resetMode, setResetMode] = useState(false);
     const [resetEmail, setResetEmail] = useState("");
-    const [errorMessage, setErrorMessage] = useState(""); // State to hold error messages
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData((prevData) => ({
+            ...prevData,
             [name]: value
-        });
+        }));
     };
 
     const handleResetChange = (e) => {
@@ -34,18 +32,10 @@ const WorkerLogin = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log("FormData being sent:", formData); // Debugging line
-
+        console.log("FormData being sent:", formData);
         e.preventDefault();
         try {
-            const response = await fetch(`${API_URL}/Worker/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await response.json();
+            const data = await loginWorker(formData);
             if (data.success) {
                 toast.success('Login successful!');
                 // Store the token locally for future requests
@@ -54,13 +44,9 @@ const WorkerLogin = () => {
                 const decoded = jwtDecode(data.token);
                 localStorage.setItem('workerId', decoded.workerId);
                 // Fetch worker details to check status
-                const workerRes = await fetch(`${API_URL}/workerProfile/getWorker/${decoded.workerId}`);
-                if (!workerRes.ok) {
-                    throw new Error("Failed to fetch worker profile");
-                }
-                const workerData = await workerRes.json();
+                const workerData = await fetchWorkerProfile(decoded.workerId);
                 if (workerData.status === "Approved") {
-                    setTimeout(() => navigate('/WorkerDashboard'), 2000); // Navigate after delay
+                    setTimeout(() => navigate('/WorkerDashboard'), 2000);
                 } else if (workerData.status === "Pending") {
                     toast.info("Wait a minute, Owner Approve");
                 } else if (workerData.status === "Rejected") {
@@ -80,14 +66,7 @@ const WorkerLogin = () => {
     const handleResetSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${API_URL}/Worker/reset-password`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: resetEmail })
-            });
-            const data = await response.json();
+            const data = await resetWorkerPassword(resetEmail);
             if (data.success) {
                 toast.success('Password reset link has been sent to your email!');
                 setResetMode(false);
@@ -122,7 +101,13 @@ const WorkerLogin = () => {
                                 />
                             </div>
                             <button type="submit" className="worker-login-button">Send Reset Link</button>
-                            <button type="button" className="worker-login-button" onClick={() => setResetMode(false)}>Back to Login</button>
+                            <button
+                                type="button"
+                                className="worker-login-button"
+                                onClick={() => setResetMode(false)}
+                            >
+                                Back to Login
+                            </button>
                         </form>
                     ) : (
                         <form onSubmit={handleSubmit}>
