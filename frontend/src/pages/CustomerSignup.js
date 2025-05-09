@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { registerCustomer } from '../services/CustomerService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavBar';
 import '../styles/customerSignup.css';
@@ -62,21 +62,14 @@ const CustomerSignup = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/CustomerRegister', finalData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log('Customer registered:', response.data);
+            const responseData = await registerCustomer(finalData);
+            console.log('Customer registered:', responseData);
             toast.success('Registration successful!');
             setSuccessMessage('Registration successful!');
-            // Redirect after a short delay to let the user read the message
             setTimeout(() => {
                 navigate('/login/Customer');
             }, 2000);
         } catch (error) {
-            console.error('Error registering customer:', error);
-            // If the backend sends an error message, display it
             if (error.response && error.response.data && error.response.data.message) {
                 toast.error(error.response.data.message);
             } else {
