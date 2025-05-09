@@ -99,3 +99,14 @@ export const submitRepairingForm = async (data) => {
         throw error;
     }
 };
+
+//repairing services get all repairing
+export const getRepairDetails = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/Repairing/getRepair/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching repair details:", error);
+        throw error;
+    }
+};

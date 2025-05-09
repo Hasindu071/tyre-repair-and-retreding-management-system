@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getRepairDetails } from "../services/orderServices";
 import "../styles/RepairDetails.css";
 
 const RepairDetails = () => {
@@ -11,10 +11,10 @@ const RepairDetails = () => {
     useEffect(() => {
         const fetchRepairDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/Repairing/getRepair/${id}`);
-                setRepair(response.data);
+                const data = await getRepairDetails(id);
+                setRepair(data);
             } catch (error) {
-                console.error("Error fetching repair details:", error);
+                // Error logging is handled in the service file
             }
         };
 
