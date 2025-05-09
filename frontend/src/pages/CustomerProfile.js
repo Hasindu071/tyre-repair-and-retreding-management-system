@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CustomerNavbar from "../components/Navbars/CustomerRegiNavBar";
 import "../styles/CustomerProfile.css";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getCustomerProfile, updateCustomerProfile } from "../services/CustomerService";
 
 const CustomerProfile = () => {
     const [profile, setProfile] = useState({
@@ -27,33 +27,32 @@ const CustomerProfile = () => {
         const fetchProfile = async () => {
             if (!userID) return;
             try {
-                const response = await axios.get(`http://localhost:5000/customerProfile/getProfile/${userID}`);
-                setProfile(response.data);
-                setFormData(response.data);
+                const data = await getCustomerProfile(userID);
+                setProfile(data);
+                setFormData(data);
             } catch (error) {
-                console.error("Error fetching profile:", error);
                 toast.error("Failed to fetch profile");
             }
         };
-    
         fetchProfile();
     }, [userID]);
-    
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:5000/customerProfile/${userID}`, formData);
-            if (response.status === 200) {
-                setProfile(formData);
-                setShowModal(false);
-                toast.success("Profile updated successfully");
-            }
+            await updateCustomerProfile(userID, formData);
+            setProfile(formData);
+            setShowModal(false);
+            toast.success("Profile updated successfully");
         } catch (error) {
-            console.error("Error updating profile:", error);
             toast.error("Failed to update profile");
         }
     };
-    
 
     return (
         <div>
@@ -105,7 +104,7 @@ const CustomerProfile = () => {
                                             id="firstName"
                                             name="firstName"
                                             value={formData.firstName}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -117,7 +116,7 @@ const CustomerProfile = () => {
                                             id="lastName"
                                             name="lastName"
                                             value={formData.lastName}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -129,7 +128,7 @@ const CustomerProfile = () => {
                                             id="email"
                                             name="email"
                                             value={formData.email}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -141,7 +140,7 @@ const CustomerProfile = () => {
                                             id="nic"
                                             name="nic"
                                             value={formData.nic}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -153,7 +152,7 @@ const CustomerProfile = () => {
                                             id="phone1"
                                             name="phone1"
                                             value={formData.phone1}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -165,7 +164,7 @@ const CustomerProfile = () => {
                                             id="phone2"
                                             name="phone2"
                                             value={formData.phone2}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -176,7 +175,7 @@ const CustomerProfile = () => {
                                             id="houseName"
                                             name="houseName"
                                             value={formData.houseName}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -188,7 +187,7 @@ const CustomerProfile = () => {
                                             id="city"
                                             name="city"
                                             value={formData.city}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
@@ -200,7 +199,7 @@ const CustomerProfile = () => {
                                             id="state"
                                             name="state"
                                             value={formData.state}
-                                            onChange={handleUpdate}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                     </div>
