@@ -74,3 +74,17 @@ export const getWorkerProfileDashboard = async (workerId) => {
         throw error;
     }
 };
+
+
+//get worker Attendance
+export const getWorkerAttendance = async (workerId, year, month) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/attendance/worker/${workerId}?year=${year}&month=${month}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching worker attendance:", error);
+    throw error;
+  }
+};

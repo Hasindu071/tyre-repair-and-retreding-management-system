@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../styles/MyAttendance.css";
 import WorkerSideBar from "../components/WorkerSideBar";
+import "../styles/MyAttendance.css";
+import { getWorkerAttendance } from "../services/workerServices";
 
 const MyAttendance = () => {
     const workerId = 21;
@@ -14,18 +14,15 @@ const MyAttendance = () => {
 
     const selectedMonth = selectedDate.getMonth();
     const selectedYear = selectedDate.getFullYear();
-
     const todayDisplay = new Date().toLocaleDateString();
 
     // Fetch attendance for the selected month
     useEffect(() => {
         const year = selectedYear;
         const month = selectedMonth + 1; // Months are 1-indexed for backend
-
-        axios
-            .get(`http://localhost:5000/attendance/worker/${workerId}?year=${year}&month=${month}`)
-            .then((res) => {
-                const formattedAttendances = res.data.attendances.map(date => date.slice(0, 10));
+        getWorkerAttendance(workerId, year, month)
+            .then((data) => {
+                const formattedAttendances = data.attendances.map(date => date.slice(0, 10));
                 setAttendanceDates(formattedAttendances);
             })
             .catch((err) => {
