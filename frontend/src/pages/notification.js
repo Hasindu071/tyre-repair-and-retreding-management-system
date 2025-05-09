@@ -4,6 +4,7 @@ import "../styles/Notification.css";
 import { FiBell, FiRefreshCw, FiInbox, FiMail, FiClock, FiTrash2, FiCheck } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getNotifications, markNotificationAsRead, deleteNotificationService } from "../services/NotificationService";
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -13,16 +14,8 @@ const Notification = () => {
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/contact/getContact");
-      const data = await response.json();
-      const formattedData = data.map(notification => ({
-        ...notification,
-        read: notification.readStatus === 1,
-        date: new Date(notification.created_at).toLocaleString()
-      }));
+      const formattedData = await getNotifications();
       setNotifications(formattedData);
-      
-      // Calculate and update unread count
       const count = formattedData.filter(n => !n.read).length;
       setUnreadCount(count);
     } catch (error) {
@@ -39,18 +32,12 @@ const Notification = () => {
 
   const markAsRead = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/contact/markAsRead/${id}`, {
-        method: "PUT"
-      });
-      if (response.ok) {
-        setNotifications(notifications.map(notification =>
-          notification.id === id ? { ...notification, read: true } : notification
-        ));
-        setUnreadCount(prev => prev - 1);
-        toast.success("Marked as read");
-      } else {
-        toast.error("Failed to mark as read");
-      }
+      await markNotificationAsRead(id);
+      setNotifications(notifications.map(notification =>
+        notification.id === id ? { ...notification, read: true } : notification
+      ));
+      setUnreadCount(prev => prev - 1);
+      toast.success("Marked as read");
     } catch (error) {
       console.error("Error marking notification as read:", error);
       toast.error("Error marking notification as read");
@@ -60,18 +47,12 @@ const Notification = () => {
   const deleteNotification = async (id) => {
     try {
       const notificationToDelete = notifications.find(n => n.id === id);
-      const response = await fetch(`http://localhost:5000/contact/deleteNotification/${id}`, {
-        method: "DELETE"
-      });
-      if (response.ok) {
-        setNotifications(notifications.filter(notification => notification.id !== id));
-        if (notificationToDelete && !notificationToDelete.read) {
-          setUnreadCount(prev => prev - 1);
-        }
-        toast.success("Notification deleted");
-      } else {
-        toast.error("Failed to delete notification");
+      await deleteNotificationService(id);
+      setNotifications(notifications.filter(notification => notification.id !== id));
+      if (notificationToDelete && !notificationToDelete.read) {
+        setUnreadCount(prev => prev - 1);
       }
+      toast.success("Notification deleted");
     } catch (error) {
       console.error("Error deleting notification:", error);
       toast.error("Error deleting notification");
