@@ -57,3 +57,15 @@ export const deleteNoticeAPI = async (id) => {
         throw error;
     }
 };
+
+
+// This function fetches all products from the server
+export const getWorkerStockDecreases = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/products/getWorkerStockDecreases");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching worker stock decreases:", error);
+        throw error;
+    }
+};

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import OwnerSidebar from "../components/SideNav";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/OnwerproductInquiries.css";
+import { getWorkerStockDecreases } from "../services/productServices";
 
 const OwnerProductInquiries = () => {
     const [decreaseRecords, setDecreaseRecords] = useState([]);
@@ -14,8 +14,8 @@ const OwnerProductInquiries = () => {
 
     const fetchDecreaseRecords = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/products/getWorkerStockDecreases");
-            setDecreaseRecords(response.data);
+            const data = await getWorkerStockDecreases();
+            setDecreaseRecords(data);
         } catch (error) {
             console.error("Error fetching worker stock decreases:", error);
             toast.error("Error fetching worker stock decreases");
