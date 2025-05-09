@@ -11,3 +11,19 @@ export const registerCustomer = async (customerData) => {
         throw error;
     }
 };
+
+
+//check the nic number
+export const checkNICAvailability = async (nic) => {
+    try {
+        const response = await axios.post(
+            'http://localhost:5000/CustomerRegister',
+            { nic },
+            { headers: { 'Content-Type': 'application/json' } }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error checking NIC:', error);
+        throw error;
+    }
+};

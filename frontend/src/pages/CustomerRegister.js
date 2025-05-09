@@ -5,10 +5,10 @@ import Navbar from '../components/NavBar';
 import '../styles/customerRegister.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { checkNICAvailability } from '../services/CustomerService';
 
 const CustomerRegister = () => {
     const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -51,21 +51,9 @@ const CustomerRegister = () => {
             return;
         }
 
-        // Check NIC availability
+        // Check NIC availability using the service method
         try {
-            // Ensure the URL used here matches your backend configuration.
-            const res = await fetch('http://localhost:5000/CustomerRegister', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nic: formData.nic })
-            });
-
-            if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(`Server error: ${res.status} ${res.statusText} - ${errorText}`);
-            }
-
-            const data = await res.json();
+            const data = await checkNICAvailability(formData.nic);
             if (data.exists) {
                 toast.error("NIC already exists!");
                 return;
