@@ -30,6 +30,7 @@
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
+    margin: 0 auto; /* Center the table */
 }
 
 .tasks-table th, .tasks-table td {

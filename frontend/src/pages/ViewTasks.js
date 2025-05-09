@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import * as bootstrap from 'bootstrap';
 import "../styles/ViewTasks.css";
 import QRCode from "react-qr-code";
 import WorkerSideBar from "../components/WorkerSideBar";
+import { getAssignedOrders } from "../services/orderServices";
 
 const ViewTasks = () => {
     const currentWorkerId = localStorage.getItem("workerId");
@@ -16,7 +16,7 @@ const ViewTasks = () => {
     const [selectedTask, setSelectedTask] = useState(null);
     const [qrTask, setQrTask] = useState(null);
 
-    useEffect(() => {
+     useEffect(() => {
         const fetchTasks = async () => {
             if (!currentWorkerId) {
                 setError("Worker not authenticated.");
@@ -24,10 +24,8 @@ const ViewTasks = () => {
                 return;
             }
             try {
-                const response = await axios.get("http://localhost:5000/services/getAssignedOrders", {
-                    params: { workerId: currentWorkerId }  // Only get tasks for this worker
-                });
-                setTasks(response.data);
+                const data = await getAssignedOrders(currentWorkerId);
+                setTasks(data);
             } catch (err) {
                 console.error("Error fetching tasks:", err);
                 setError("Failed to load tasks.");
