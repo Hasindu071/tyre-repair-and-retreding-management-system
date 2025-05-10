@@ -7,6 +7,7 @@ import { getWorkerStockDecreases } from "../services/productServices";
 
 const OwnerProductInquiries = () => {
     const [decreaseRecords, setDecreaseRecords] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         fetchDecreaseRecords();
@@ -22,8 +23,13 @@ const OwnerProductInquiries = () => {
         }
     };
 
-    // Group records by productName
-    const groupedRecords = decreaseRecords.reduce((acc, record) => {
+    // Filter records based on search query by productName
+    const filteredRecords = decreaseRecords.filter(record =>
+        record.productName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Group filtered records by productName
+    const groupedRecords = filteredRecords.reduce((acc, record) => {
         if (!acc[record.productName]) {
             acc[record.productName] = [];
         }
@@ -36,6 +42,14 @@ const OwnerProductInquiries = () => {
             <OwnerSidebar />
             <div className="worker-stock-decreases-container">
                 <h2 className="title-stock-decreases">Worker Stock Decrease Records</h2>
+                {/* Search Input */}
+                <input
+                    type="text"
+                    placeholder="🔍 Search by product name..."
+                    className="search-box"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
                 <table className="decrease-table">
                     <thead>
                         <tr>
@@ -64,7 +78,9 @@ const OwnerProductInquiries = () => {
                                             <tr key={record.id}>
                                                 <td>{record.id}</td>
                                                 {index === 0 && (
-                                                    <td rowSpan={records.length + 1}>{productName}</td>
+                                                    <td rowSpan={records.length + 1}>
+                                                        {productName}
+                                                    </td>
                                                 )}
                                                 <td>{record.workerName}</td>
                                                 <td>{record.decrease_amount}</td>
