@@ -17,15 +17,22 @@ const AssignWorker = () => {
   const [selectedWorker, setSelectedWorker] = useState({});
   const { userID } = useAuth();
 
-  // New state for approved orders
+  // State for approved orders
   const [approvedOrders, setApprovedOrders] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    //fetchOrders();
     fetchWorkersData();
     fetchApprovedOrdersData();
+  }, []);
+
+  // Poll for approved orders every 5 seconds for real-time updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchApprovedOrdersData();
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchWorkersData = async () => {
@@ -47,7 +54,7 @@ const AssignWorker = () => {
     }
   };
 
-  // Function to handle viewing service details
+  // Handle viewing service details
   const handleViewService = (serviceId) => {
     let type = "";
     if (serviceId.startsWith("RD")) {
@@ -90,8 +97,7 @@ const AssignWorker = () => {
     }
   };
 
-  const handleViewWorkerTasks = (workerName) => {
-    // Navigate to a page showing detailed worker tasks
+  const handleViewWorkerTasks = () => {
     navigate(`/WorkerProfileImage`);
   };
 
@@ -159,7 +165,7 @@ const AssignWorker = () => {
               <button
                 type="button"
                 className="btn btn-outline-info"
-                onClick={() => handleViewWorkerTasks(newOrder.assignedWorker)}
+                onClick={() => handleViewWorkerTasks()}
               >
                 View Tasks
               </button>
@@ -209,6 +215,3 @@ const AssignWorker = () => {
 };
 
 export default AssignWorker;
-
-
-//Note- assign karama passe page eka refresh karanna one.
