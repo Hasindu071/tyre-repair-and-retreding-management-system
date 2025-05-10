@@ -229,19 +229,19 @@
   }
 }
 
-.recycle-button {
-    color: rgb(255, 0, 0);
-    border: none;
-    align-items: right;
-    cursor: pointer;
+.hide-completed-btn {
+    display: flex;
     align-items: center;
-    margin-left: 350px;
+    gap: 8px;
+    background-color: #d93ce7;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
 
-.recycle-button i {
-    font-size: 16px;
-}
-
-.recycle-button:hover {
-        color: rgb(118, 0, 0);
+.hide-completed-btn:hover {
+    background-color: #c02bb4;
 }

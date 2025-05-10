@@ -6,6 +6,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { getCustomerOrderStatus } from "../services/productServices";
+import { FaTrashAlt } from "react-icons/fa";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -13,12 +14,19 @@ const MyOrders = () => {
     const { userID } = useAuth();
     const userId = userID; // Extract user ID from context
     const [orders, setOrders] = useState([]);
+    const [hideCompleted, setHideCompleted] = useState(
+        JSON.parse(localStorage.getItem("hideCompleted")) || false
+    );
 
     useEffect(() => {
         if (userId) {
             fetchOrders(userId);
         }
     }, [userId]);
+
+    useEffect(() => {
+        localStorage.setItem("hideCompleted", JSON.stringify(hideCompleted));
+    }, [hideCompleted]);
 
     const fetchOrders = async (customerId) => {
         try {
@@ -43,15 +51,24 @@ const MyOrders = () => {
         }
     };
 
+    const filteredOrders = hideCompleted
+        ? orders.filter((order) => order.status !== "Completed")
+        : orders;
+
     return (
         <div className="my-orders-page">
             <CustomerSidebar />
             <div className="my-orders-container">
                 <h2 className="my-orders-title">My Order Statuses</h2>
-
+                <button
+                    className="hide-completed-btn"
+                    onClick={() => setHideCompleted(!hideCompleted)}
+                >
+                    <FaTrashAlt /> {hideCompleted ? "Show Completed Orders" : "Hide Completed Orders"}
+                </button>
                 <div className="orders-list">
-                    {orders.length > 0 ? (
-                        orders.map((order) => {
+                    {filteredOrders.length > 0 ? (
+                        filteredOrders.map((order) => {
                             const showProgressChart =
                                 order.progress > 0 && order.progress < 100;
 
@@ -67,25 +84,32 @@ const MyOrders = () => {
                             };
 
                             return (
-                                <div 
-                                    key={order.id} 
+                                <div
+                                    key={order.id}
                                     className="order-card"
                                     data-status={order.status}
                                 >
                                     <div className="order-header">
                                         <h3>Order :{order.order_id}</h3>
-                                        <span className="order-badge" style={{ backgroundColor: getStatusColor(order.status) }}>
+                                        <span
+                                            className="order-badge"
+                                            style={{
+                                                backgroundColor: getStatusColor(order.status),
+                                            }}
+                                        >
                                             {order.status || "Unknown"}
                                         </span>
                                     </div>
-                                    
+
                                     <div className="order-details">
                                         <p>
-                                            <strong>Date:</strong>{new Date(order.order_date).toLocaleDateString()}
+                                            <strong>Date:</strong>{" "}
+                                            {new Date(order.order_date).toLocaleDateString()}
                                         </p>
                                         <p>
                                             <strong>Progress:</strong>{" "}
-                                            {order.progress !== null && order.progress !== undefined
+                                            {order.progress !== null &&
+                                            order.progress !== undefined
                                                 ? `${order.progress}%`
                                                 : "N/A"}
                                         </p>
