@@ -228,3 +228,20 @@
     margin-top: 0.5rem;
   }
 }
+
+.recycle-button {
+    color: rgb(255, 0, 0);
+    border: none;
+    align-items: right;
+    cursor: pointer;
+    align-items: center;
+    margin-left: 350px;
+}
+
+.recycle-button i {
+    font-size: 16px;
+}
+
+.recycle-button:hover {
+        color: rgb(118, 0, 0);
+}

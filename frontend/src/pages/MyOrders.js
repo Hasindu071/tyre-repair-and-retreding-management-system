@@ -73,7 +73,7 @@ const MyOrders = () => {
                                     data-status={order.status}
                                 >
                                     <div className="order-header">
-                                        <h3>Order #{order.id}</h3>
+                                        <h3>Order :{order.order_id}</h3>
                                         <span className="order-badge" style={{ backgroundColor: getStatusColor(order.status) }}>
                                             {order.status || "Unknown"}
                                         </span>
@@ -81,7 +81,7 @@ const MyOrders = () => {
                                     
                                     <div className="order-details">
                                         <p>
-                                            <strong>Date:</strong> {new Date(order.orderDate).toLocaleDateString()}
+                                            <strong>Date:</strong>{new Date(order.order_date).toLocaleDateString()}
                                         </p>
                                         <p>
                                             <strong>Progress:</strong>{" "}

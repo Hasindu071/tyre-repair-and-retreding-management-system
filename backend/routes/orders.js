@@ -307,7 +307,7 @@ router.put('/completeOrder/:id', async (req, res) => {
 
     // 2. Get orders using those service IDs using promise()
     const [orders] = await db.promise().query(
-      "SELECT order_id, service_id, status, progress FROM orders WHERE service_id IN (?)",
+      "SELECT order_id, service_id, order_date, status, progress FROM orders WHERE service_id IN (?)",
       [serviceIds]
     );
     console.log("Orders:", orders); // Debugging line
