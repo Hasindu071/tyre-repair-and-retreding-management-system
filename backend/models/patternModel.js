@@ -1,11 +1,17 @@
+// model/patternsModel.js
 const db = require('../config/db');
 
-exports.replacePattern = (patternNum, imagePath) => {
-    const query = "REPLACE INTO tire_patterns (pattern_num, image_path) VALUES (?, ?)";
-    return db.promise().execute(query, [patternNum, imagePath]);
+const getAllPatterns = (callback) => {
+    const query = "SELECT pattern_num AS id, image_path AS imageUrl FROM tire_patterns";
+    db.query(query, callback);
 };
 
-exports.fetchAllPatterns = () => {
-    const query = "SELECT pattern_num AS id, image_path AS imageUrl FROM tire_patterns";
-    return db.promise().query(query);
+const replacePattern = (patternNum, filePath, callback) => {
+    const query = "REPLACE INTO tire_patterns (pattern_num, image_path) VALUES (?, ?)";
+    db.query(query, [patternNum, filePath], callback);
+};
+
+module.exports = {
+    getAllPatterns,
+    replacePattern
 };
