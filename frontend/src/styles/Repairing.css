@@ -127,26 +127,7 @@
   border-radius: 2px;
 }
 
-/* Radio Buttons */
-.repair-radio-group {
-  display: flex;
-  gap: 4.5rem;
-  flex-wrap: wrap;
-}
 
-.repair-radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  cursor: pointer;
-  position: relative;
-  padding-left: 1.8rem;
-}
-
-.repair-radio-group input[type="radio"] {
-  position: absolute;
-  opacity: 15;
-}
 
 .repair-radio-group label::before {
   position: absolute;
@@ -329,3 +310,30 @@
   100% { transform: translateY(0px); }
 }
 
+
+
+.repair-radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.repair-radio-group label {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #555;
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.repair-radio-group input[type="radio"] {
+    margin-right: 8px;
+}
+
+.repair-radio-group label:hover {
+    background-color: #fcd2d2;
+    border-color: #f8c5c5;
+}
