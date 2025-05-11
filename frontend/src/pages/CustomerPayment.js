@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import OwnerSidebar from "../components/SideNav";
 import "../styles/CustomerPayment.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,6 +20,9 @@ const CustomerPayment = () => {
 
   const [payments, setPayments] = useState([]);
   const [incompleteOrders, setIncompleteOrders] = useState([]);
+
+  // Create a ref for the form
+  const formRef = useRef(null);
 
   useEffect(() => {
     fetchPayments();
@@ -44,22 +47,13 @@ const CustomerPayment = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    // If needDeliveryService is changed to "No", force deliveryamount to 0.
-    if (name === "needDeliveryService" && value === "No") {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-        deliveryamount: "0"
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
+};
 
   const handleAutoFill = (order) => {
     setFormData({
@@ -71,38 +65,64 @@ const CustomerPayment = () => {
       orderId: order.order_id,
       needDeliveryService: order.needDeliveryService || "No"
     });
+
+    // Scroll to the form section
+    formRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.orderId) {
-      toast.error("Please select a pending payment record using the eye button.");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  // Validate form data
+  const requiredFields = [
+    "amount",
+    "note",
+    "serviceamount",
+    "deliveryamount",
+    "customerId",
+    "paymentDate",
+    "paymentMethod",
+    "orderId",
+    "needDeliveryService"
+  ];
+
+  for (const field of requiredFields) {
+    if (!formData[field]) {
+      toast.error(`The field "${field}" is required.`);
       return;
     }
-    try {
-      const data = await savePayment(formData);
-      if (data.success) {
-        toast.success("Payment record submitted successfully.");
-        setFormData({
-          amount: "",
-          note: "",
-          serviceamount: "",
-          deliveryamount: "",
-          customerId: "",
-          paymentDate: new Date().toISOString().split("T")[0],
-          paymentMethod: "Credit Card",
-          orderId: "",
-          needDeliveryService: ""
-        });
-        fetchPayments();
-        fetchIncompleteOrders();
-      } else {
-        toast.error(data.message || "Error submitting payment record.");
-      }
-    } catch (error) {
-      toast.error("Error submitting payment record.");
+  }
+
+  console.log("Submitting payment data:", formData); // Debugging: Log the payload
+
+  try {
+    const data = await savePayment(formData);
+    if (data.success) {
+      toast.success("Payment record submitted successfully.");
+      setFormData({
+        amount: "",
+        note: "",
+        serviceamount: "",
+        deliveryamount: "",
+        customerId: "",
+        paymentDate: new Date().toISOString().split("T")[0],
+        paymentMethod: "Credit Card",
+        orderId: "",
+        needDeliveryService: ""
+      });
+      fetchPayments();
+      fetchIncompleteOrders();
+    } else {
+      toast.error(data.message || "Error submitting payment record.");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting payment record:", error); // Debugging: Log the error
+    if (error.response) {
+      console.error("Server response:", error.response.data); // Log server error details
+    }
+    toast.error("Error submitting payment record.");
+  }
+};
 
   return (
     <React.Fragment>
@@ -114,7 +134,7 @@ const CustomerPayment = () => {
             <thead>
               <tr>
                 <th>Order ID</th>
-                <th>service Amount</th>
+                <th>Service Amount</th>
                 <th>Customer ID</th>
                 <th>Order Date</th>
                 <th>Status</th>
@@ -158,7 +178,8 @@ const CustomerPayment = () => {
 
         <br />
         <h2 className="title-payment-Rs">Submit Customer Payment</h2>
-        <form onSubmit={handleSubmit} className="payment-form">
+        {/* Attach the ref to the form */}
+        <form onSubmit={handleSubmit} className="payment-form" ref={formRef}>
           <div className="form-group">
             <label htmlFor="orderID">Order ID</label>
             <input
@@ -191,16 +212,6 @@ const CustomerPayment = () => {
               value={formData.serviceamount}
               readOnly
             />
-          </div>
-
-          <div class="notes-box-payment">
-            <label htmlFor="notes">Notes</label>
-            <textarea
-              id="notes"
-              name="notes"
-              placeholder="Enter your notes here..."
-              rows="5"
-            ></textarea>
           </div>
 
           <div className="form-group">
@@ -262,6 +273,19 @@ const CustomerPayment = () => {
               <option value="Cash on Hand">Cash on Hand</option>
               <option value="Bank Transfer">Bank Transfer</option>
             </select>
+          </div>
+
+          <div className="notes-box-payment">
+            <label htmlFor="notes">Service details(Material and Utility)</label>
+            <textarea
+              id="notes"
+              name="note" 
+              placeholder="Enter your notes here..."
+              rows="5"
+              value={formData.note} 
+              onChange={handleChange} 
+              required
+            ></textarea>
           </div>
 
           <button type="submit-payment" className="submit-btn-payment">
