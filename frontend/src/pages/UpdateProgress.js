@@ -77,7 +77,8 @@ const UpdateProgress = () => {
             } else {
                 setCompleteMessage("");
             }
-            fetchStartedTasks();
+            fetchStartedTasks(); // Refetch started tasks
+            window.location.reload(); // Refresh the page
         } catch (err) {
             console.error("Error updating progress:", err);
             alert("Failed to update progress");
@@ -103,6 +104,7 @@ const UpdateProgress = () => {
     return (
         <div>
             <WorkerSideBar />
+            <div className="update-progress-page">
             <div className="update-container">
                 <h2 className="update-title">Update Progress</h2>
                 <p className="update-subtitle">Update the progress of your tasks:</p>
@@ -136,7 +138,7 @@ const UpdateProgress = () => {
                                         <td>
                                             <button 
                                                 type="button"
-                                                className="view-button"
+                                                className="select-button-update"
                                                 onClick={() => handleViewClick(task)}
                                                 disabled={selectedTask && selectedTask.order_id === task.order_id}
                                             >
@@ -216,6 +218,7 @@ const UpdateProgress = () => {
                 )}
             </div>
         </div>
+    </div>
     );
 };
 

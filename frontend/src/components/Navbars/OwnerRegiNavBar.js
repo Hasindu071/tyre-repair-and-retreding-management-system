@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     // Add logout logic here (e.g., clear token, redirect)
-    navigate('/login');
+    navigate('/RoleLoginSelection');
   };
 
   return (

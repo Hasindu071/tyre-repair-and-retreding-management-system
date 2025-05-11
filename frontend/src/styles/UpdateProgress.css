@@ -1,4 +1,7 @@
-
+.update-progress-page {
+    background-color: #00000078;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 .update-container {
     margin: 40px auto;
@@ -90,8 +93,7 @@
 .started-tasks-container {
     margin: 50px auto;
     padding: 25px;
-    max-width: 90%;
-    background: #f5f7fa;
+    max-width: 100%;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -137,6 +139,34 @@
     font-size: 1.1rem;
     color: #0072ff;
     font-weight: bold;
+}
+
+.select-button-update {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(45deg, #891f2b, #ab2121);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.select-button-update:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #5a1414, #550d18);
+  box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+}
+
+.select-button-update:active {
+  transform: scale(0.98);
+}
+
+.select-button-update:disabled {
+  background: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
 }
 
 /* Responsive adjustments */
