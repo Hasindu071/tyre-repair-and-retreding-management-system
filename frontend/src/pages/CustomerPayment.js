@@ -108,7 +108,7 @@ const CustomerPayment = () => {
     <React.Fragment>
       <OwnerSidebar />
       <div className="customer-payment-container">
-        <h2 className="title">Pending Payments</h2>
+        <h2 className="title-payment-Rs">Pending Payments</h2>
         <div className="table-scroll">
           <table className="payment-table">
             <thead>
@@ -120,7 +120,7 @@ const CustomerPayment = () => {
                 <th>Status</th>
                 <th>Delivery</th>
                 <th>Worker</th>
-                <th>Total Amount</th>
+                <th>Service Amount</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -157,7 +157,7 @@ const CustomerPayment = () => {
         </div>
 
         <br />
-        <h2 className="title">Submit Customer Payment</h2>
+        <h2 className="title-payment-Rs">Submit Customer Payment</h2>
         <form onSubmit={handleSubmit} className="payment-form">
           <div className="form-group">
             <label htmlFor="orderID">Order ID</label>
@@ -193,24 +193,23 @@ const CustomerPayment = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="note">Note</label>
-            <input
-              type="text"
-              id="note"
-              name="note"
-              value={formData.note}
-              onChange={handleChange}
-              required
-            />
+          <div class="notes-box-payment">
+            <label htmlFor="notes">Notes</label>
+            <textarea
+              id="notes"
+              name="notes"
+              placeholder="Enter your notes here..."
+              rows="5"
+            ></textarea>
           </div>
 
           <div className="form-group">
-            <label htmlFor="amount">Amount</label>
+            <label htmlFor="amount">Material and Utility Amount</label>
             <input
               type="number"
               id="amount"
               name="amount"
+              placeholder="Enter material and utility amount"
               value={formData.amount}
               onChange={handleChange}
               required
@@ -224,6 +223,7 @@ const CustomerPayment = () => {
                 type="number"
                 id="deliveryamount"
                 name="deliveryamount"
+                placeholder="Enter delivery amount"
                 value={formData.deliveryamount}
                 onChange={handleChange}
               />
@@ -264,14 +264,14 @@ const CustomerPayment = () => {
             </select>
           </div>
 
-          <button type="submit" className="submit-btn">
+          <button type="submit-payment" className="submit-btn-payment">
             Submit Payment
           </button>
         </form>
 
         <br />
         <br />
-        <h2 className="title">All Payment Records</h2>
+        <h2 className="title-payment-Rs">All Payment Records</h2>
         <table className="payment-table">
           <thead>
             <tr>
