@@ -1,177 +1,149 @@
-/* Main Page Layout */
+/* OwnerSendNotice.css */
+
 .owner-send-notice-page {
-    margin-left: 250px;
-    background-color: #fa9595;
+  min-height: 100vh;
+  background-color: #0000006f;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-
-/* Form Container Styles */
-.notice-send-form-container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+.content-send-wrapper {
+  flex: 1;
+  padding: 30px;
+  margin-left: 250px; /* Space for sidebar */
 }
 
-.notice-send-form-container h2 {
-    color: #2c3e50;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid #e9ecef;
+.notice-send-form-container, 
+.notice-send-list-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  margin-bottom: 30px;
 }
 
-/* Form Styles */
+.notice-send-form-container h2,
+.notice-send-list-container h2 {
+  color: #3a3a3a;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 12px;
+}
+
 .notice-send-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .notice-send-form textarea {
-    width: 100%;
-    min-height: 150px;
-    padding: 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 1rem;
-    resize: vertical;
-    transition: all 0.3s ease;
+  min-height: 150px;
+  padding: 15px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  resize: vertical;
+  font-size: 15px;
+  transition: border-color 0.3s;
+  margin-bottom: 18px;
 }
 
 .notice-send-form textarea:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 .btn-submit {
-    align-self: flex-end;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-end;
 }
 
 .btn-submit:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #3a7bcb;
 }
 
-/* Notices List Container */
-.notice-send-list-container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.notice-send-list-container h2 {
-    color: #2c3e50;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid #e9ecef;
-}
-
-/* Notice Card Styles */
 .notice-send-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  border-left: 4px solid #4a90e2;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  transition: transform 0.2s;
 }
 
 .notice-send-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
 .notice-send-content {
-    flex: 1;
+  flex: 1;
 }
 
 .notice-send-content p {
-    margin: 0;
-    color: #343a40;
-    font-size: 1rem;
-    line-height: 1.5;
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
 }
 
 .notice-send-content small {
-    color: #6c757d;
-    font-size: 0.85rem;
+  color: #888;
+  font-size: 13px;
 }
 
 .btn-send-delete {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 1rem;
+  background-color: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  margin-left: 15px;
 }
 
 .btn-send-delete:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #e03e3e;
 }
 
-/* Empty State */
-.notice-send-list-container > p {
-    color: #6c757d;
-    text-align: center;
-    padding: 1rem;
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+  .content-send-wrapper {
+    margin-left: 0;
+    padding: 20px;
+  }
 }
 
-/* Responsive Styles */
-@media (max-width: 992px) {
-    .content-send-wrapper {
-        margin-left: 0;
-        padding: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .notice-send-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .btn-send-delete {
-        align-self: flex-end;
-        margin-top: 1rem;
-        margin-left: 0;
-    }
-    
-    .notice-send-form textarea {
-        min-height: 120px;
-    }
-}
-
-@media (max-width: 576px) {
-    .notice-send-form-container,
-    .notice-send-list-container {
-        padding: 1.5rem;
-    }
-    
-    .btn-submit {
-        width: 100%;
-    }
+@media screen and (max-width: 768px) {
+  .notice-send-form-container, 
+  .notice-send-list-container {
+    padding: 15px;
+  }
+  
+  .btn-submit {
+    width: 100%;
+  }
+  
+  .notice-send-card {
+    flex-direction: column;
+  }
+  
+  .btn-send-delete {
+    margin-left: 0;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
 }

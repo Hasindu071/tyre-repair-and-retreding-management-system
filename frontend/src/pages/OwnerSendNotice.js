@@ -52,7 +52,7 @@ const OwnerSendNotice = () => {
             <br></br>
             <div className="content-send-wrapper">
                 <div className="notice-send-form-container">
-                    <h2>Send Customer Notice</h2>
+                    <h2>Send Customers Notice (Offers/Promotions/Updates)</h2>
                     <form onSubmit={handleSubmit} className="notice-send-form">
                         <textarea
                             value={notice}
