@@ -11,4 +11,7 @@ router.put('/:id', CustomerProfileController.updateCustomerProfile);
 // DELETE: Delete customer profile
 router.delete('/:id', CustomerProfileController.deleteCustomerProfile);
 
+//get all customer profiles
+router.get('/getAll', CustomerProfileController.getAllCustomerProfiles);
+
 module.exports = router;

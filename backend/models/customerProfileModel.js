@@ -34,8 +34,16 @@ const deleteCustomerProfile = (id) => {
     return db.promise().query(query, [id]);
 };
 
+
+//get all customer profiles
+const getAllCustomerProfiles = () => {
+    const query = 'SELECT * FROM customer_register';
+    return db.promise().query(query);
+};
+
 module.exports = {
     getCustomerProfileById,
     updateCustomerProfile,
-    deleteCustomerProfile
+    deleteCustomerProfile,
+    getAllCustomerProfiles
 };

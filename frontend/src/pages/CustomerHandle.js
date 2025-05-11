@@ -4,7 +4,7 @@ import OwnerSidebar from "../components/SideNav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-  fetchCustomers,
+  fetchFullCustomers,
   updateCustomerProfile,
   deleteCustomer,
 } from "../services/ownerServices";
@@ -16,8 +16,11 @@ const CustomerHandle = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const loadCustomers = () => {
-    fetchCustomers()
-      .then((data) => setCustomers(data))
+    fetchFullCustomers()
+      .then((data) => {
+        console.log(data); // Debugging: Check the structure of the data
+        setCustomers(data); // Directly set the data since it already has firstName and lastName
+      })
       .catch(() => toast.error("Error fetching customers"));
   };
 
@@ -33,24 +36,25 @@ const CustomerHandle = () => {
   }, []);
 
   const filteredCustomers = customers.filter((customer) =>
-    customer.customer_name.toLowerCase().includes(searchQuery.toLowerCase())
+    `${customer.firstName} ${customer.lastName}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
   );
 
   const handleEdit = (customerId) => {
-    const customer = customers.find(
-      (cust) => cust.customer_id === customerId
-    );
+    const customer = customers.find((cust) => cust.id === customerId);
     setSelectedCustomer({ ...customer });
     setShowEditModal(true);
   };
 
   const validateFields = () => {
     const {
-      customer_name,
-      customer_email,
-      customer_nic,
-      customer_phone1,
-      customer_phone2,
+      firstName,
+      lastName,
+      email,
+      nic,
+      phone1,
+      phone2,
     } = selectedCustomer;
 
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -58,27 +62,32 @@ const CustomerHandle = () => {
     const nicRegex = /^(\d{9}[vV]|\d{12})$/;
     const phoneRegex = /^\d{10}$/;
 
-    if (!nameRegex.test(customer_name)) {
-      toast.error("Name must contain only letters and spaces");
+    if (!nameRegex.test(firstName)) {
+      toast.error("First name must contain only letters and spaces");
       return false;
     }
 
-    if (!emailRegex.test(customer_email)) {
+    if (!nameRegex.test(lastName)) {
+      toast.error("Last name must contain only letters and spaces");
+      return false;
+    }
+
+    if (!emailRegex.test(email)) {
       toast.error("Invalid email format");
       return false;
     }
 
-    if (!nicRegex.test(customer_nic)) {
+    if (!nicRegex.test(nic)) {
       toast.error("NIC must be 9 digits followed by 'V' or 12 digits");
       return false;
     }
 
-    if (!phoneRegex.test(customer_phone1)) {
+    if (!phoneRegex.test(phone1)) {
       toast.error("Phone Number 1 must be 10 digits");
       return false;
     }
 
-    if (customer_phone2 && !phoneRegex.test(customer_phone2)) {
+    if (phone2 && !phoneRegex.test(phone2)) {
       toast.error("Phone Number 2 must be 10 digits");
       return false;
     }
@@ -92,23 +101,22 @@ const CustomerHandle = () => {
     if (!validateFields()) return;
 
     const payload = {
-      firstName: selectedCustomer.customer_name,
-      email: selectedCustomer.customer_email,
-      nic: selectedCustomer.customer_nic,
-      phone1: selectedCustomer.customer_phone1,
-      phone2: selectedCustomer.customer_phone2,
-      houseName: selectedCustomer.customer_address1,
-      city: selectedCustomer.customer_address2,
-      state: selectedCustomer.customer_address3,
+      firstName: selectedCustomer.firstName,
+      lastName: selectedCustomer.lastName,
+      email: selectedCustomer.email,
+      nic: selectedCustomer.nic,
+      phone1: selectedCustomer.phone1,
+      phone2: selectedCustomer.phone2,
+      houseName: selectedCustomer.houseName,
+      city: selectedCustomer.city,
+      state: selectedCustomer.state,
     };
 
     try {
-      await updateCustomerProfile(selectedCustomer.customer_id, payload);
+      await updateCustomerProfile(selectedCustomer.id, payload);
       setCustomers((prev) =>
         prev.map((cust) =>
-          cust.customer_id === selectedCustomer.customer_id
-            ? { ...cust, ...payload }
-            : cust
+          cust.id === selectedCustomer.id ? { ...cust, ...payload } : cust
         )
       );
       setShowEditModal(false);
@@ -123,7 +131,7 @@ const CustomerHandle = () => {
       try {
         await deleteCustomer(customerId);
         setCustomers((prev) =>
-          prev.filter((cust) => cust.customer_id !== customerId)
+          prev.filter((cust) => cust.id !== customerId)
         );
         toast.success("Customer deleted successfully!");
       } catch (error) {
@@ -149,7 +157,8 @@ const CustomerHandle = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Email</th>
                 <th>NIC</th>
                 <th>Phone Number 1</th>
@@ -163,26 +172,27 @@ const CustomerHandle = () => {
             <tbody>
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((customer) => (
-                  <tr key={customer.customer_id}>
-                    <td>{customer.customer_id}</td>
-                    <td>{customer.customer_name}</td>
-                    <td>{customer.customer_email}</td>
-                    <td>{customer.customer_nic}</td>
-                    <td>{customer.customer_phone1}</td>
-                    <td>{customer.customer_phone2}</td>
-                    <td>{customer.customer_address1}</td>
-                    <td>{customer.customer_address2}</td>
-                    <td>{customer.customer_address3}</td>
+                  <tr key={customer.id}>
+                    <td>{customer.id}</td>
+                    <td>{customer.firstName}</td>
+                    <td>{customer.lastName}</td>
+                    <td>{customer.email}</td>
+                    <td>{customer.nic}</td>
+                    <td>{customer.phone1}</td>
+                    <td>{customer.phone2}</td>
+                    <td>{customer.houseName}</td>
+                    <td>{customer.city}</td>
+                    <td>{customer.state}</td>
                     <td>
                       <button
                         className="approve-button"
-                        onClick={() => handleEdit(customer.customer_id)}
+                        onClick={() => handleEdit(customer.id)}
                       >
                         Edit
                       </button>
                       <button
                         className="cancel-button"
-                        onClick={() => handleDelete(customer.customer_id)}
+                        onClick={() => handleDelete(customer.id)}
                       >
                         Delete
                       </button>
@@ -224,17 +234,30 @@ const CustomerHandle = () => {
               <div className="modal-body">
                 <form onSubmit={handleUpdate}>
                   <div className="form-group">
-                    <label>Name</label>
+                    <label>First Name</label>
                     <input
                       type="text"
                       className="form-control"
-                      value={selectedCustomer.customer_name}
-                      pattern="^[A-Za-z\s]+$"
-                      title="Name should only contain letters and spaces"
+                      value={selectedCustomer.firstName}
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_name: e.target.value,
+                          firstName: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Last Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={selectedCustomer.lastName}
+                      onChange={(e) =>
+                        setSelectedCustomer({
+                          ...selectedCustomer,
+                          lastName: e.target.value,
                         })
                       }
                       required
@@ -245,11 +268,11 @@ const CustomerHandle = () => {
                     <input
                       type="email"
                       className="form-control"
-                      value={selectedCustomer.customer_email}
+                      value={selectedCustomer.email}
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_email: e.target.value,
+                          email: e.target.value,
                         })
                       }
                       required
@@ -260,13 +283,13 @@ const CustomerHandle = () => {
                     <input
                       type="text"
                       className="form-control"
-                      value={selectedCustomer.customer_nic}
+                      value={selectedCustomer.nic}
                       pattern="^(\d{9}[vV]|\d{12})$"
                       title="NIC must be 9 digits followed by V or 12 digits"
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_nic: e.target.value,
+                          nic: e.target.value,
                         })
                       }
                       required
@@ -277,13 +300,13 @@ const CustomerHandle = () => {
                     <input
                       type="number"
                       className="form-control"
-                      value={selectedCustomer.customer_phone1}
+                      value={selectedCustomer.phone1}
                       pattern="^\d{10}$"
                       title="Phone number must be 10 digits"
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_phone1: e.target.value,
+                          phone1: e.target.value,
                         })
                       }
                       required
@@ -294,13 +317,13 @@ const CustomerHandle = () => {
                     <input
                       type="number"
                       className="form-control"
-                      value={selectedCustomer.customer_phone2}
+                      value={selectedCustomer.phone2}
                       pattern="^\d{10}$"
                       title="Phone number must be 10 digits"
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_phone2: e.target.value,
+                          phone2: e.target.value,
                         })
                       }
                     />
@@ -310,11 +333,11 @@ const CustomerHandle = () => {
                     <input
                       type="text"
                       className="form-control"
-                      value={selectedCustomer.customer_address1}
+                      value={selectedCustomer.houseName}
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_address1: e.target.value,
+                          houseName: e.target.value,
                         })
                       }
                       required
@@ -325,11 +348,11 @@ const CustomerHandle = () => {
                     <input
                       type="text"
                       className="form-control"
-                      value={selectedCustomer.customer_address2}
+                      value={selectedCustomer.city}
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_address2: e.target.value,
+                          city: e.target.value,
                         })
                       }
                       required
@@ -340,11 +363,11 @@ const CustomerHandle = () => {
                     <input
                       type="text"
                       className="form-control"
-                      value={selectedCustomer.customer_address3}
+                      value={selectedCustomer.state}
                       onChange={(e) =>
                         setSelectedCustomer({
                           ...selectedCustomer,
-                          customer_address3: e.target.value,
+                          state: e.target.value,
                         })
                       }
                       required

@@ -13,14 +13,17 @@ const checkEmailExists = (email) => {
 
 // Register a new customer in the database
 const registerCustomer = (customerData) => {
-    const { firstName, lastName, nic, phone1, phone2, houseName, city, state, email, password } = customerData;
+    const { firstName, lastName, nic, phone1, phone2, houseName, city, state, email, hashedPassword } = customerData;
+    console .log(customerData);
     const query = `INSERT INTO customer_register 
         (firstName, lastName, nic, phone1, phone2, houseName, city, state, email, password) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
+
+
     return db.promise().query(query, [
         firstName, lastName, nic, phone1, phone2,
-        houseName, city, state, email, password
+        houseName, city, state, email, hashedPassword
     ]);
 };
 

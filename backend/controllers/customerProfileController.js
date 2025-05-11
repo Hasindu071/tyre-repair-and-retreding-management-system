@@ -71,8 +71,24 @@ const deleteCustomerProfile = async (req, res) => {
     }
 };
 
+//get all customer profiles
+const getAllCustomerProfiles = async (req, res) => {
+    try {
+        const [profiles] = await CustomerProfileModel.getAllCustomerProfiles();
+        if (profiles.length > 0) {
+            res.status(200).json(profiles);
+        } else {
+            res.status(404).json({ message: 'No profiles found' });
+        }
+    } catch (error) {
+        console.error('Database fetch error:', error);
+        res.status(500).json({ message: 'Failed to retrieve profiles' });
+    }
+};
+
 module.exports = {
     getCustomerProfile,
     updateCustomerProfile,
-    deleteCustomerProfile
+    deleteCustomerProfile,
+    getAllCustomerProfiles
 };

@@ -41,6 +41,16 @@ export const fetchCustomers = async () => {
     }
 };
 
+export const fetchFullCustomers = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/CustomerProfile/getAll");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching customers:", error);
+        throw error;
+    }
+};
+
 export const updateCustomerProfile = async (customerId, updatedData) => {
     try {
         const response = await axios.put(`http://localhost:5000/CustomerProfile/${customerId}`, updatedData);
