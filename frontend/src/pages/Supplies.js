@@ -245,9 +245,9 @@ const Supplies = () => {
   return (
     <div>
       <OwnerSidebar />
-      <div className="supplies-container">
+      <div className="supplies-container-page">
         {/* Navigation Buttons */}
-        <div className="nav-buttons" style={{ width: "50000px", height: "50px", marginBottom: "50px", gap: "100px" }}>
+        <div className="supplies-nav-buttons" style={{ marginBottom: "50px" }}>
           <button onClick={() => scrollToSection(suppliesRef)}>Add Supplies</button>
           <button onClick={() => scrollToSection(productRef)}>Add New Product</button>
           <button onClick={() => scrollToSection(inventoryRef)}>Inventory</button>
@@ -255,8 +255,8 @@ const Supplies = () => {
 
         {/* Add Supplies Section */}
         <div id="add-supplies" ref={suppliesRef}>
-          <h2>Add Supplies</h2>
-          <form onSubmit={handleAddSupply}>
+          <h2 className="supplies-section-title">Add Supplies</h2>
+          <form className="supplies-form" onSubmit={handleAddSupply}>
             <label htmlFor="name">Full Name</label>
             <input
               type="text"
@@ -303,10 +303,10 @@ const Supplies = () => {
               }}
               required
             />
-            <button type="submit">Add Supply</button>
+            <button className="supplies-submit-button" type="submit">Add Supply</button>
           </form>
 
-          <table className="supply-table">
+          <table className="supplies-table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -340,9 +340,9 @@ const Supplies = () => {
 
         {/* Add New Product Section */}
         <div id="add-product" ref={productRef}></div>
-        <div className="product-container">
-          <h2>Add New Product</h2>
-          <form onSubmit={handleAddProduct}>
+        <div className="supplies-product-container">
+          <h2 className="supplies-section-title">Add New Product</h2>
+          <form className="supplies-product-form" onSubmit={handleAddProduct}>
             <label htmlFor="product_name">Product Name</label>
             <input
               type="text"
@@ -363,11 +363,11 @@ const Supplies = () => {
               }
               required
             />
-            <button type="submit">Add Product</button>
+            <button className="supplies-submit-button" type="submit">Add Product</button>
           </form>
         </div>
 
-        <table className="product-table">
+        <table className="supplies-product-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -394,9 +394,9 @@ const Supplies = () => {
 
         {/* Inventory Section */}
         <div id="inventory" ref={inventoryRef}></div>
-        <div className="Inventory-container">
-          <h2>Inventory</h2>
-          <form onSubmit={handleAddInventory}>
+        <div className="supplies-inventory-container">
+          <h2 className="supplies-section-title">Inventory</h2>
+          <form className="supplies-inventory-form" onSubmit={handleAddInventory}>
             <label htmlFor="product_name_inventory">Product Name</label>
             <Select
               id="product_name_inventory"
@@ -447,11 +447,11 @@ const Supplies = () => {
                 </option>
               ))}
             </select>
-            <button type="submit">Add Inventory</button>
+            <button className="supplies-submit-button" type="submit">Add Inventory</button>
           </form>
         </div>
 
-        <table>
+        <table className="supplies-inventory-table">
           <thead>
             <tr>
               <th>ID</th>
