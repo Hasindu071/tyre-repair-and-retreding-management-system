@@ -20,19 +20,19 @@
     gap: 20px;
 }
 
-.form-group {
+.form-group-our {
     display: flex;
     flex-direction: column;
 }
 
-.form-group label {
+.form-group-our label {
     font-size: 1rem;
     margin-bottom: 8px;
     color: #555;
 }
 
-.form-group input,
-.form-group textarea {
+.form-group-our input,
+.form-group-our textarea {
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
@@ -41,12 +41,12 @@
     transition: border-color 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.form-group-our input:focus,
+.form-group-our textarea:focus {
     border-color: #b03621;
 }
 
-.submit-button {
+.submit-button-our {
     padding: 12px;
     font-size: 1rem;
     background: linear-gradient(135deg, #ed916d, #b02121);
@@ -57,8 +57,23 @@
     transition: background 0.3s ease;
 }
 
-.submit-button:hover {
+.submit-button-our:hover {
     background: linear-gradient(135deg, #b02121, #ed6d6d);
+}
+
+.delete-button-our {
+    padding: 12px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #ed6d6d, #e16b6b);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-button-our:hover {
+    background: linear-gradient(135deg, #b02121, #9a2121);
 }
 
 .products-table {

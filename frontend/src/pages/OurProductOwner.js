@@ -93,7 +93,7 @@ const OurProductOwner = () => {
             <div className="ourproductowner-container">
                 <h1 className="ourproductowner-title">Add a New Our Product</h1>
                 <form onSubmit={handleSubmit} className="ourproductowner-form">
-                    <div className="form-group">
+                    <div className="form-group-our">
                         <label htmlFor="productName">Product Name</label>
                         <input
                             type="text"
@@ -104,7 +104,7 @@ const OurProductOwner = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group-our">
                         <label htmlFor="description">Description</label>
                         <textarea
                             id="description"
@@ -114,7 +114,7 @@ const OurProductOwner = () => {
                             required
                         ></textarea>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group-our">
                         <label htmlFor="price">Price (Rs)</label>
                         <input
                             type="number"
@@ -125,7 +125,7 @@ const OurProductOwner = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group-our">
                         <label htmlFor="image">Product Image</label>
                         <input
                             type="file"
@@ -138,7 +138,7 @@ const OurProductOwner = () => {
                             }}
                         />
                     </div>
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-button-our">
                         Add Product
                     </button>
                 </form>
@@ -177,7 +177,7 @@ const OurProductOwner = () => {
                                         </td>
                                         <td>
                                             <button
-                                                className="delete-button"
+                                                className="delete-button-our"
                                                 onClick={() => handleDelete(product.id)}
                                             >
                                                 Delete
