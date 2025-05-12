@@ -217,6 +217,19 @@ const OwnerMarksWorkerAttendance = () => {
             >
               Mark Attendance for Selected Workers
             </button>
+            <button
+              className="btn btn-secondary mt-2"
+              onClick={() => {
+                if (selectedWorkers.length === workers.length) {
+                  setSelectedWorkers([]);
+                } else {
+                  setSelectedWorkers(workers.map(worker => worker.id));
+                }
+              }}
+            >
+              {selectedWorkers.length === workers.length ? "Deselect All" : "Select All"}
+            </button>
+              
             {bulkMessage && <p className="alert alert-info mt-2">{bulkMessage}</p>}
           </div>
         )}
