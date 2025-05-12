@@ -9,6 +9,7 @@ import {
   getWorkerAttendance,
   updatePayment,
   addPayment,
+  getWorkerServices,
 } from "../services/PaymentService";
 
 // Utility: Get today's date in YYYY-MM-DD format
@@ -34,6 +35,23 @@ const SeePayment = () => {
     fetchPayments();
     fetchWorkers();
   }, []);
+
+  const [workerServices, setWorkerServices] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Default to current year
+
+// Fetch services completed by workers this month
+const fetchWorkerServices = async () => {
+  try {
+    // Fetch worker services for the selected month and year
+    const data = await getWorkerServices(selectedYear, selectedMonth);
+    setWorkerServices(data); // Update the state with the fetched data
+  } catch (error) {
+    console.error("Error fetching worker services:", error);
+    toast.error("Error fetching worker services");
+  }
+};
+
 
   // When a worker is selected, fetch their attendance.
   useEffect(() => {
@@ -165,6 +183,7 @@ const SeePayment = () => {
   return (
     <div>
       <OwnerSidebar />
+      <div className="content-payment-page">
       <div className="see-owner-payment-container">
         <h2 className="title-payment">Payment Records</h2>
         {/* Payment Table */}
@@ -188,8 +207,8 @@ const SeePayment = () => {
                 <tr key={payment.id}>
                   <td>{payment.id}</td>
                   <td>{payment.MonthAttendDates}</td>
-                  <td>${payment.amount}</td>
-                  <td>${payment.bonus}</td>
+                  <td>Rs.{payment.amount}</td>
+                  <td>Rs.{payment.bonus}</td>
                   <td>{payment.note}</td>
                   <td>{payment.date}</td>
                   <td className={payment.status === "Paid" ? "paid" : "pending"}>
@@ -217,7 +236,90 @@ const SeePayment = () => {
         <button className="add-payment-btn" onClick={handleAdd}>
           Add Payment
         </button>
+
+
+<div className="worker-services-container">
+  <h2 className="title-payment-dd">Worker Services</h2>
+  {/* Month and Year Filter */}
+  <div className="filter-container">
+    <label htmlFor="month-select">Select Month:</label>
+    <select
+      id="month-select"
+      value={selectedMonth}
+      onChange={(e) => setSelectedMonth(e.target.value)}
+    >
+      {Array.from({ length: 12 }, (_, i) => (
+        <option key={i} value={i + 1}>
+          {new Date(0, i).toLocaleString("default", { month: "long" })}
+        </option>
+      ))}
+    </select>
+    <label htmlFor="year-select">Select Year:</label>
+    <select
+      id="year-select"
+      value={selectedYear}
+      onChange={(e) => setSelectedYear(e.target.value)}
+    >
+      {Array.from({ length: 5 }, (_, i) => (
+        <option key={i} value={new Date().getFullYear() - i}>
+          {new Date().getFullYear() - i}
+        </option>
+      ))}
+    </select>
+    <button onClick={fetchWorkerServices}>Filter</button>
+  </div>
+
+  {/* Display the selected month and year */}
+  <h3 className="month-display">
+    {new Date(selectedYear, selectedMonth - 1).toLocaleString("default", {
+      month: "long",
+    })}{" "}
+    {selectedYear}
+  </h3>
+
+<div className="table-wrapper-payment">
+  {workerServices.length > 0 ? (
+    // Group services by worker name
+    Object.entries(
+      workerServices.reduce((acc, service) => {
+        if (!acc[service.workerName]) {
+          acc[service.workerName] = [];
+        }
+        acc[service.workerName].push(service);
+        return acc;
+      }, {})
+    ).map(([workerName, services]) => (
+      <div key={workerName} className="worker-group">
+        <h3>{workerName}</h3> {/* Display worker name */}
+        <table className="payment-table-payment">
+          <thead>
+            <tr>
+              <th>Service ID</th>
+              <th>Service Charge (Rs)</th>
+              <th>Commissions (Rs)</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {services.map((service) => (
+              <tr key={service.serviceId}>
+                <td>{service.serviceId}</td>
+                <td>{service.serviceCharge}</td>
+                <td>{(service.serviceCharge * 0.3).toFixed(2)}</td> {/* Calculate 30% commission */}
+                <td>{service.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+    ))
+  ) : (
+    <p>No services completed for the selected month.</p>
+  )}
+</div>
+    </div>
+      </div>
+
 
       {/* Modal for Adding/Updating Payment */}
       {showModal && (
@@ -271,7 +373,7 @@ const SeePayment = () => {
                   <input
                     type="number"
                     name="amount"
-                    placeholder="Fix Amount ($)"
+                    placeholder="Fix Amount (Rs)"
                     value={formData.amount}
                     onChange={handleChange}
                     required
@@ -280,7 +382,7 @@ const SeePayment = () => {
                   <input
                     type="number"
                     name="bonus"
-                    placeholder="Bonus ($)"
+                    placeholder="Commissions (Rs)"
                     value={formData.bonus}
                     onChange={handleChange}
                     required
@@ -331,6 +433,7 @@ const SeePayment = () => {
         </div>
       )}
       <ToastContainer />
+    </div>
     </div>
   );
 };

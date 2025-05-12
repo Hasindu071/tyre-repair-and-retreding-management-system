@@ -97,3 +97,16 @@ export const savePayment = async (paymentData) => {
     throw error;
   }
 };
+
+// Get all worker services for a specific month and year
+export const getWorkerServices = async (year, month) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/orders/getWorkerServices`, {
+            params: { year, month },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching worker services:", error);
+        throw error;
+    }
+};

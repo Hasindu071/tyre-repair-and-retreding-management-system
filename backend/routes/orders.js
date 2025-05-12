@@ -349,6 +349,42 @@ router.get('/workersTask/:id', async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
-  
+
+
+// Corrected query in /getWorkerServices endpoint
+router.get('/getWorkerServices', async (req, res) => {
+  const { year, month } = req.query;
+
+  if (!year || !month || isNaN(year) || isNaN(month)) {
+    return res.status(400).json({ message: "Valid year and month are required." });
+  }
+  console.log("Year:", year, "Month:", month);
+
+  try {
+    const query = `
+      SELECT 
+        w.id AS workerId,
+        CONCAT(w.firstName, ' ', w.lastName) AS workerName,
+        s.service_id AS serviceId,
+        o.total_amount AS serviceCharge,
+        o.order_date AS date
+      FROM services s
+      JOIN orders o ON s.service_id = o.service_id 
+      JOIN worker_register w ON o.emp_id = w.id 
+      WHERE YEAR(o.order_date) = ? AND MONTH(o.order_date) = ?
+    `;
+
+    const [rows] = await db.promise().query(query, [year, month]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "No worker services found for the specified year and month." });
+    }
+
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching worker services:", error);
+    res.status(500).json({ message: "Server error fetching worker services.", error: error.message });
+  }
+});
   
 module.exports = router;
