@@ -193,8 +193,8 @@ const fetchWorkerServices = async () => {
               <tr>
                 <th>ID</th>
                 <th>Month Attendance Dates</th>
-                <th>Amount ($)</th>
-                <th>Bonus ($)</th>
+                <th>Amount </th>
+                <th>Bonus </th>
                 <th>Note</th>
                 <th>Date</th>
                 <th>Status</th>
@@ -311,6 +311,14 @@ const fetchWorkerServices = async () => {
             ))}
           </tbody>
         </table>
+        <div className="total-commission">
+          <strong>
+            Total Commission: Rs.
+            {services
+              .reduce((sum, service) => sum + service.serviceCharge * 0.3, 0)
+              .toFixed(2)}
+          </strong>
+        </div>
       </div>
     ))
   ) : (
@@ -382,7 +390,7 @@ const fetchWorkerServices = async () => {
                   <input
                     type="number"
                     name="bonus"
-                    placeholder="Commissions (Rs)"
+                    placeholder="Commissions ,bonus (Rs)"
                     value={formData.bonus}
                     onChange={handleChange}
                     required

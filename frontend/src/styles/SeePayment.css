@@ -186,6 +186,19 @@
   padding-bottom: 10px;
 }
 
+.total-commission {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #000000; /* Light gray background */
+  border: 1px solid #ddd; /* Subtle border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  color: #ffffff; /* Dark text color */
+  text-align: center; /* Center align text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .see-owner-payment-container {
