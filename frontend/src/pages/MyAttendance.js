@@ -66,7 +66,7 @@ const MyAttendance = () => {
                     <button onClick={() => handleMonthChange(1)}>Next</button>
                 </div>
 
-                <p>Total Days Present in {monthNames[selectedMonth]}: {totalPresentDays}</p>
+                <p>Total Days Present in Year: {totalPresentDays}</p>
 
                 <div className="calendar-grid">
                     {generateCalendar().map((date, index) => {
