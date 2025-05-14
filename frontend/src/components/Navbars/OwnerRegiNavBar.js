@@ -3,10 +3,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useMessageContext } from '../../context/MessageContext';
+import { useNotificationContext } from '../../context/NotificationContext';
+
 import Logo from '../../assets/Logo.png';
 
 const Navbar = () => {
-  const { unreadCount } = useMessageContext();
+  const { unreadCount } = useMessageContext(); // For worker messages
+  const { unreadContactCount } = useNotificationContext(); // For contact inquiries
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -39,19 +42,27 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/OwnerDashboard" style={({ isActive }) => ({ 
-                color: isActive ? 'red' : 'black', 
-                fontWeight: isActive ? 'bold' : 'normal' 
-              })}>
+              <NavLink
+                className="nav-link"
+                to="/OwnerDashboard"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 Home
               </NavLink>
             </li>
 
-            <li className="nav-item">
-              <NavLink className="nav-link position-relative" to="/Inquiries" style={({ isActive }) => ({ 
-                color: isActive ? 'red' : 'black', 
-                fontWeight: isActive ? 'bold' : 'normal' 
-              })}>
+            <li className="nav-item position-relative">
+              <NavLink
+                className="nav-link"
+                to="/Inquiries"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 Inquiries
                 {unreadCount > 0 && (
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
@@ -64,31 +75,41 @@ const Navbar = () => {
               </NavLink>
             </li>
 
+
             <li className="nav-item">
-              <NavLink className="nav-link" to="/OurProducts" style={({ isActive }) => ({ 
-                color: isActive ? 'red' : 'black', 
-                fontWeight: isActive ? 'bold' : 'normal' 
-              })}>
+              <NavLink
+                className="nav-link"
+                to="/OurProducts"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 Our Products
               </NavLink>
             </li>
 
             <li className="nav-item position-relative mx-2">
-              <NavLink className="nav-link" to="/notification" style={({ isActive }) => ({ 
-                color: isActive ? 'red' : 'black', 
-                fontWeight: isActive ? 'bold' : 'normal' 
-              })}>
+              <NavLink
+                className="nav-link"
+                to="/notification"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 <i className="fas fa-bell fa-lg"></i>
-                {unreadCount > 0 && (
+                {unreadContactCount > 0 && (
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
                     fontSize: '0.6rem',
                     padding: '0.25em 0.4em'
                   }}>
-                    {unreadCount > 9 ? '9+' : unreadCount}
+                    {unreadContactCount > 9 ? '9+' : unreadContactCount}
                   </span>
                 )}
               </NavLink>
             </li>
+
 
             <li className="nav-item">
               <button className="btn btn-danger ms-2 px-4 py-2 fw-bold rounded" onClick={handleLogout}>
