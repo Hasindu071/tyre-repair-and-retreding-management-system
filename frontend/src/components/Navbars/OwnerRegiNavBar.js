@@ -65,12 +65,19 @@ const Navbar = () => {
               >
                 Inquiries
                 {unreadCount > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
-                    fontSize: '0.6rem',
-                    padding: '0.25em 0.4em'
-                  }}>
-                    {unreadCount > 9 ? '9+' : unreadCount}
-                  </span>
+                <span
+                  className="position-absolute custom-badge-pos badge rounded-pill bg-danger"
+                  style={{
+                    fontSize: '0.65rem',
+                    padding: '0.25em 0.5em',
+                    top: '1px',
+                    right: '0px',
+                    left: 'auto',
+                    transform: 'none'
+                  }}
+                >
+                {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
                 )}
               </NavLink>
             </li>
@@ -98,15 +105,22 @@ const Navbar = () => {
                   fontWeight: isActive ? 'bold' : 'normal'
                 })}
               >
-                <i className="fas fa-bell fa-lg"></i>
-                {unreadContactCount > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{
-                    fontSize: '0.6rem',
-                    padding: '0.25em 0.4em'
-                  }}>
-                    {unreadContactCount > 9 ? '9+' : unreadContactCount}
-                  </span>
-                )}
+              <i className="fas fa-bell fa-lg position-relative"></i>
+              {unreadContactCount > 0 && (
+                <span
+                  className="position-absolute custom-badge-pos badge rounded-pill bg-danger"
+                  style={{
+                    fontSize: '0.7rem',
+                    padding: '0.25em 0.5em',
+                    top: '1px',
+                    right: '0px',
+                    left: 'auto',
+                    transform: 'none'
+                  }}
+                >
+                  {unreadContactCount > 9 ? '9+' : unreadContactCount}
+                </span>
+              )}
               </NavLink>
             </li>
 
