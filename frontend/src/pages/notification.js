@@ -38,6 +38,8 @@ const Notification = () => {
       ));
       setUnreadCount(prev => prev - 1);
       toast.success("Marked as read");
+      fetchNotifications();
+      window.location.reload();
     } catch (error) {
       console.error("Error marking notification as read:", error);
       toast.error("Error marking notification as read");
