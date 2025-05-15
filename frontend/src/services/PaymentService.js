@@ -64,6 +64,16 @@ export const getLatestPayment = async (userId) => {
     }
 };
 
+export const getPreviousPayments = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/payments/previous/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching previous payments:", error);
+        throw error;
+    }
+};
+
 
 //customer see payment billing
 export const getIncompleteOrders = async () => {

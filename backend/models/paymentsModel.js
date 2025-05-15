@@ -36,6 +36,18 @@ const PaymentsModel = {
     const [rows] = await db.promise().execute(query, [customerId]);
     return rows[0] || null;
   },
+  
+    getPreviousCustomerPayments: async (customerId) => {
+    // This example returns the 10 most recent payments found after the latest one.
+    const query = `
+      SELECT * FROM customer_payments
+      WHERE customer_ID = ?
+      ORDER BY payment_date DESC
+      LIMIT 10 OFFSET 1
+    `;
+    const [rows] = await db.promise().query(query, [customerId]);
+    return rows;
+  },
 
   getWorkerPaymentsById: async (workerId) => {
     const [rows] = await db.promise().execute(

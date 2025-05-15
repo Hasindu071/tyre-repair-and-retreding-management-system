@@ -80,6 +80,20 @@ const PaymentsController = {
     }
   },
 
+    getPreviousPayments: async (req, res) => {
+    const { customerId } = req.params;
+    if (!customerId) {
+      return res.status(400).json({ message: "Customer ID is required" });
+    }
+    try {
+      const previousPayments = await PaymentsModel.getPreviousCustomerPayments(customerId);
+      res.status(200).json(previousPayments);
+    } catch (error) {
+      console.error("Error fetching previous payments:", error);
+      res.status(500).json({ message: "Error fetching previous payments", error: error.message });
+    }
+  },
+
   getWorkerPayments: async (req, res) => {
     const { workerId } = req.params;
     try {
