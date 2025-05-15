@@ -145,7 +145,7 @@ const RetreadingService = () => {
                             </tr>
                             <tr>
                             <td>
-                            <div className="form-group">
+                            <div className="form-group-retreading">
                                 <label htmlFor="sizeCode">Aspect Ratio</label>
                                 <input
                                     id="sizeCode"
@@ -159,7 +159,7 @@ const RetreadingService = () => {
                             </div>
                             </td>
                             <td>
-                                <div className="form-group">
+                                <div className="form-group-retreading">
                                 <label htmlFor="wheelDiameter">Wheel Diameter (cm)</label>
                                 <input
                                     id="wheelDiameter"
@@ -175,7 +175,7 @@ const RetreadingService = () => {
                             </tr>
                             <tr>
                             <td>
-                                <div className="form-group">
+                                <div className="form-group-retreading">
                                 <label htmlFor="tireWidth">Tire Width (mm)</label>
                                 <input
                                     id="tireWidth"
@@ -189,7 +189,7 @@ const RetreadingService = () => {
                                 </div>
                             </td>
                             <td>
-                                <div className="form-group">
+                                <div className="form-group-retreading">
                                 <label htmlFor="tireBrand">Tire Brand Name</label>
                                 <input
                                     id="tireBrand"
@@ -295,7 +295,7 @@ const RetreadingService = () => {
 
                         <hr />
                         <h3>Preferred Completion Date</h3>
-                        <div className="form-group">
+                        <div className="form-group-retreading">
                         <br /><br />
                             <ReactDatePicker
                                 id="completionDate"
@@ -328,7 +328,7 @@ const RetreadingService = () => {
 
                         <hr />
                         <h3>Additional Notes</h3>
-                        <div className="form-group">
+                        <div className="form-group-retreading">
                         <br /><br />
                             <textarea
                                 id="notes"
@@ -341,7 +341,7 @@ const RetreadingService = () => {
                         </div>
 
                         <hr />
-                        <div className="form-group">
+                        <div className="form-group-retreading">
                             <label htmlFor="needDeliveryService">
                                 <h3>Need Delivery Service?</h3>
                             </label>

@@ -309,18 +309,18 @@ body {
 }
 
 /* Form Group */
-.form-group {
+.form-group-retreading {
     display: flex;
     width: 100%;
     flex-direction: column;
 }
 
-.form-group label {
+.form-group-retreading label {
     margin-bottom: 5px;
     font-weight: 500;
 }
 
-.form-group input {
+.form-group-retreading input {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;

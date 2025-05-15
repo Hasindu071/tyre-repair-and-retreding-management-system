@@ -147,7 +147,7 @@ const RepairServiceForm = () => {
                     <h3 className="repair-title">Repair Service (Fixing Punctures / Patches)</h3>
                     <form onSubmit={handleSubmit} className="repair-form">
                         <div className="repair-input-group">
-                            <div className="form-group">
+                            <div className="form-group-repair">
                                 <label htmlFor="patchesApplied">Number of Patches Applied</label>
                                 <input
                                     id="patchesApplied"
@@ -159,7 +159,7 @@ const RepairServiceForm = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group-repair">
                                 <label htmlFor="punctureSize">Puncture Size (cm)</label>
                                 <input
                                     id="punctureSize"
@@ -171,7 +171,7 @@ const RepairServiceForm = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group-repair">
                                 <label htmlFor="tireBrand">Tire Brand Name</label>
                                 <input
                                     id="tireBrand"

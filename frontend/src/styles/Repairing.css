@@ -71,11 +71,11 @@
   gap: 1.5rem;
 }
 
-.form-group {
+.form-group-repair {
   margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.form-group-repair label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
@@ -83,8 +83,8 @@
   font-size: 1rem;
 }
 
-.form-group input,
-.form-group select {
+.form-group-repair input,
+.form-group-repair select {
   width: 100%;
   padding: 0.8rem 1rem;
   border: 1px solid #ddd;
@@ -93,8 +93,8 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.form-group-repair input:focus,
+.form-group-repair select:focus {
   border-color: #ff7e5f;
   box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
   outline: none;
