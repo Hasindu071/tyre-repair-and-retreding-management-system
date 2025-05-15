@@ -1,155 +1,265 @@
-/* Inquiries.css */
+/* Inquiries.css - Creative Design */
 
-/* Main container styles */
+/* Main container styles with gradient background */
 .inquiries-container {
-  padding: 20px;
-  max-width: 1200px;
+  padding: 2rem;
+  max-width: 1400px;
   margin: 0 auto;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #000000a1 0%, #0000007e 100%);
+  min-height: 100vh;
 }
 
-/* Header styles */
+/* Header styles with animated gradient text */
 .inquiries-container h2 {
-  color: #ffffff;
-  margin-bottom: 20px;
-  font-size: 24px;
+  color: transparent;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  text-align: center;
+  background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradientText 6s ease infinite;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Inquiries list container */
+@keyframes gradientText {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+/* Inquiries list container with subtle perspective */
 .inquiries-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+  perspective: 1000px;
 }
 
-/* Individual inquiry card */
+/* Individual inquiry card with 3D effect */
 .inquiry-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.inquiry-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #4CAF50, #2196F3);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
 }
 
 .inquiry-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  transform: translateY(-5px) rotateX(5deg);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* Read/unread states */
+.inquiry-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Read/unread states with creative indicators */
 .inquiry-card.read {
-  background-color: #f9f9f9;
+  background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
 }
 
 .inquiry-card.unread {
-  border-left: 4px solid #4CAF50;
+  background: linear-gradient(to bottom right, #ffffff, #f0fff4);
+  border-left: 6px solid #4CAF50;
+  animation: pulse 2s infinite;
 }
 
-/* Card content styles */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4) }
+  70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0) }
+  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0) }
+}
+
+/* Card content styles with modern typography */
 .inquiry-card h3 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 18px;
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  font-size: 1.4rem;
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+}
+
+.inquiry-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #4CAF50, #2196F3);
+  border-radius: 3px;
 }
 
 .inquiry-card p {
-  margin: 5px 0;
-  color: #555;
-  font-size: 14px;
+  margin: 0.5rem 0;
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .inquiry-card p strong {
-  color: #333;
+  color: #34495e;
+  font-weight: 600;
 }
 
-/* Status indicator */
+/* Creative status indicator */
 .status {
   display: inline-block;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  margin: 10px 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .status[data-status="read"] {
-  background-color: #e0e0e0;
+  background: #e0e0e0;
   color: #666;
 }
 
 .status[data-status="unread"] {
-  background-color: #4CAF50;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
   color: white;
+  animation: bounce 2s infinite;
 }
 
-/* Action buttons container */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) }
+  50% { transform: translateY(-3px) }
+}
+
+/* Action buttons with modern design */
 .inquiry-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-/* Button base styles */
 .mark-read-btn,
 .delete-btn {
-  padding: 6px 12px;
+  padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Mark as read button */
 .mark-read-btn {
-  background-color: #4CAF50;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
   color: white;
 }
 
 .mark-read-btn:hover {
-  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
 }
 
-/* Delete button - always visible and colored */
 .delete-btn {
-  background-color: #f44336;
+  background: linear-gradient(90deg, #f44336, #ff5252);
   color: white;
 }
 
 .delete-btn:hover {
-  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(244, 67, 54, 0.3);
 }
 
-/* Ensure delete button is always fully visible */
-.inquiry-card.read .delete-btn {
-  opacity: 1;
-  background-color: #f44336;
+/* Button ripple effect */
+.mark-read-btn::after,
+.delete-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
 }
 
-.inquiry-card.read .delete-btn:hover {
-  background-color: #d32f2f;
+.mark-read-btn:focus:not(:active)::after,
+.delete-btn:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
 }
 
-/* Responsive adjustments */
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* Responsive design with creative touches */
 @media (max-width: 768px) {
+  .inquiries-container {
+    padding: 1.5rem;
+  }
+  
   .inquiries-list {
     grid-template-columns: 1fr;
   }
   
   .inquiry-card {
-    padding: 12px;
+    padding: 1.25rem;
   }
   
   .inquiry-actions {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
   }
   
   .mark-read-btn,
   .delete-btn {
-    width: 100%;
-    padding: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
   }
+}
+
+/* Floating animation for unread cards */
+@keyframes float {
+  0% { transform: translateY(0px) }
+  50% { transform: translateY(-5px) }
+  100% { transform: translateY(0px) }
+}
+
+.inquiry-card.unread {
+  animation: float 3s ease-in-out infinite;
 }
