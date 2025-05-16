@@ -5,7 +5,7 @@ import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
-import { getCustomerOrderStatus } from "../services/productServices";
+import { getCustomerOrderStatus, getCustomerPendingRejectedOrderstatus } from "../services/productServices";
 import { FaTrashAlt } from "react-icons/fa";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -14,6 +14,7 @@ const MyOrders = () => {
     const { userID } = useAuth();
     const userId = userID; // Extract user ID from context
     const [orders, setOrders] = useState([]);
+    const [pendingRejectedOrders, setPendingRejectedOrders] = useState([]);
     const [hideCompleted, setHideCompleted] = useState(
         JSON.parse(localStorage.getItem("hideCompleted")) || false
     );
@@ -21,6 +22,7 @@ const MyOrders = () => {
     useEffect(() => {
         if (userId) {
             fetchOrders(userId);
+            fetchPendingRejectedOrders(userId);
         }
     }, [userId]);
 
@@ -38,6 +40,16 @@ const MyOrders = () => {
         }
     };
 
+    const fetchPendingRejectedOrders = async (customerId) => {
+        try {
+            const data = await getCustomerPendingRejectedOrderstatus(customerId);
+            setPendingRejectedOrders(data);
+        } catch (error) {
+            console.error("Error fetching pending/rejected orders:", error);
+            toast.error("Error fetching pending/rejected orders");
+        }
+    };
+
     const getStatusColor = (status) => {
         switch (status) {
             case "Completed":
@@ -46,8 +58,12 @@ const MyOrders = () => {
                 return "#f39c12";
             case "Cancelled":
                 return "#e74c3c";
-            default:
+            case "Pending":
                 return "#3498db";
+            case "Rejected":
+                return "#e74c3c";
+            default:
+                return "#f39c12";
         }
     };
 
@@ -69,15 +85,16 @@ const MyOrders = () => {
                 <div className="orders-list">
                     {filteredOrders.length > 0 ? (
                         filteredOrders.map((order) => {
-                            const showProgressChart =
-                                order.progress > 0 && order.progress < 100;
-
+                            const showProgressChart = order.progress > 0 && order.progress < 100;
                             const pieData = {
                                 labels: ["Progress", "Remaining"],
                                 datasets: [
                                     {
                                         data: [order.progress, 100 - order.progress],
-                                        backgroundColor: [getStatusColor(order.status), "#E0E0E0"],
+                                        backgroundColor: [
+                                            getStatusColor(order.status),
+                                            "#E0E0E0"
+                                        ],
                                         borderWidth: 1,
                                     },
                                 ],
@@ -90,7 +107,7 @@ const MyOrders = () => {
                                     data-status={order.status}
                                 >
                                     <div className="order-header">
-                                        <h3>Order :{order.order_id}</h3>
+                                        <h3>Order :{order.service_id}</h3>
                                         <span
                                             className="order-badge"
                                             style={{
@@ -100,7 +117,6 @@ const MyOrders = () => {
                                             {order.status || "Unknown"}
                                         </span>
                                     </div>
-
                                     <div className="order-details">
                                         <p>
                                             <strong>Date:</strong>{" "}
@@ -108,13 +124,11 @@ const MyOrders = () => {
                                         </p>
                                         <p>
                                             <strong>Progress:</strong>{" "}
-                                            {order.progress !== null &&
-                                            order.progress !== undefined
+                                            {order.progress !== null && order.progress !== undefined
                                                 ? `${order.progress}%`
                                                 : "N/A"}
                                         </p>
                                     </div>
-
                                     {showProgressChart && (
                                         <div className="progress-chart-container">
                                             <div className="progress-chart">
@@ -134,6 +148,50 @@ const MyOrders = () => {
                             <div className="empty-illustration"></div>
                         </div>
                     )}
+                </div>
+                <div className="pending-rejected-orders">
+                    <h2 className="my-orders-title">Pending & Rejected Orders</h2>
+                    <div className="orders-list">
+                        {pendingRejectedOrders.length > 0 ? (
+                            pendingRejectedOrders.map((order1) => (
+                                <div
+                                    key={order1.id}
+                                    className={`order-card ${order1.status === "Rejected" ? "rejected-card" : ""}`}
+                                    data-status={order1.status}
+                                >
+                                    <div className="order-header">
+                                        <h3>Order :{order1.service_id}</h3>
+                                        <span
+                                            className="order-badge"
+                                            style={{ backgroundColor: getStatusColor(order1.status) }}
+                                        >
+                                            {order1.status || "Unknown"}
+                                        </span>
+                                    </div>
+                                    <div className="order-details">
+                                        <p>
+                                            <strong>Date:</strong>{" "}
+                                            {new Date(order1.receiveDate).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                    {order1.status === "Rejected" && (
+                                        <div className="reject-order-details">
+                                            <p>
+                                                <strong>Reason for Rejection:</strong>{" "}
+                                                {order1.note || "N/A"}
+                                            </p>
+                                            <h10><em>more infor: 071-7517940</em></h10>
+                                        </div>
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <div className="no-orders-container">
+                                <p className="no-orders">No pending or rejected orders found</p>
+                                <div className="empty-illustration"></div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

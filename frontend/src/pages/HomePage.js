@@ -324,7 +324,7 @@ const HomePage = () => {
 
   <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
     <a
-      href="https://example.com"
+      href="https://www.facebook.com/share/18xvyjdA2r/"
       target="_blank"
       rel="noopener noreferrer"
       style={{ color: "#1877f2", fontSize: "20px" }}
@@ -332,7 +332,7 @@ const HomePage = () => {
       <FontAwesomeIcon icon={faFacebook} />
     </a>
     <a
-      href="https://example.com"
+      href="https://github.com/Hasindu071"
       target="_blank"
       rel="noopener noreferrer"
       style={{ color: "#0a66c2", fontSize: "20px" }}
@@ -340,7 +340,7 @@ const HomePage = () => {
       <FontAwesomeIcon icon={faLinkedin} />
     </a>
     <a
-      href="https://instagram.com"
+      href="https://www.instagram.com/___.hasindu.___?igsh=YW96cXYzNzY3bTJ2"
       target="_blank"
       rel="noopener noreferrer"
       style={{ color: "#c32aa3", fontSize: "20px" }}
@@ -348,7 +348,7 @@ const HomePage = () => {
       <FontAwesomeIcon icon={faInstagram} />
     </a>
     <a
-      href="https://youtube.com"
+      href="http://www.youtube.com/@hasinduthirasara2449"
       target="_blank"
       rel="noopener noreferrer"
       style={{ color: "#ff0000", fontSize: "20px" }}

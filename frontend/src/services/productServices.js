@@ -131,3 +131,13 @@ export const getCustomerOrderStatus = async (customerId) => {
         throw error;
     }
 };
+
+export const getCustomerPendingRejectedOrderstatus = async (customerId) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/orders/pending-rejected/${customerId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error in getCustomerPendingRejectedOrderstatus:", error);
+        throw error;
+    }
+};

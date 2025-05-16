@@ -245,3 +245,8 @@
 .hide-completed-btn:hover {
     background-color: #c02bb4;
 }
+
+.rejected-card {
+    background-color: #ffe6e6;  /* light red background */
+    border: 1px solid #e74c3c;  /* red border */
+}

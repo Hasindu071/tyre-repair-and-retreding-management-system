@@ -386,5 +386,29 @@ router.get('/getWorkerServices', async (req, res) => {
     res.status(500).json({ message: "Server error fetching worker services.", error: error.message });
   }
 });
+
+// GET /orders/pending-rejected/:customerId
+// Retrieves orders for a customer that have a status of "Pending" or "Rejected"
+router.get('/pending-rejected/:customerId', async (req, res) => {
+    const { customerId } = req.params;
+    if (!customerId) {
+        return res.status(400).json({ message: "Customer ID is required" });
+    }
+    try {
+        const query = `
+            SELECT s.*, o.order_id, o.order_date AS orderDate, r.note
+            FROM services s
+            LEFT JOIN orders o ON o.service_id = s.service_id
+            LEFT JOIN reject_orders r ON r.service_id = s.service_id
+            WHERE s.customer_ID = ? 
+              AND s.status IN ('Pending', 'Rejected')
+        `;
+        const [rows] = await db.promise().query(query, [customerId]);
+        return res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error fetching pending/rejected orders:", error);
+        return res.status(500).json({ message: "Server error", error: error.message });
+    }
+});
   
 module.exports = router;
