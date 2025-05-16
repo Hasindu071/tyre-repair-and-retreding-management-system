@@ -67,7 +67,7 @@ const Notification = () => {
       <div className="notification-container">
         <h2 className="title-notification">
           <FiBell style={{ verticalAlign: "middle", marginRight: "10px" }} />
-          Notifications {unreadCount > 0 && `(${unreadCount} unread)`}
+          Notifications in UserFeedbacks {unreadCount > 0 && `(${unreadCount} unread)`}
         </h2>
         <div className="notification-grid">
           {loading ? (
