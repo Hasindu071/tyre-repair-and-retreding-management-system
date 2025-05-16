@@ -304,65 +304,84 @@ const HomePage = () => {
 <br />
 <br />
 
-<div
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    padding: "20px",
-    backgroundColor: "#f9f9f9",
-    borderTop: "2px solid #ddd",
-  }}
->
-  <img
-    src={Logo}
-    alt="Ryak Tires Logo"
-    style={{ maxWidth: "150px", marginBottom: "10px" }}
-  />
+  <div className="footer-section">
+    <img src={Logo} alt="Ryak Tires Logo" className="footer-logo" />
+    
+    <div className="social-links">
+      <a
+        href="https://www.facebook.com/share/18xvyjdA2r/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#1877f2" }}
+      >
+        <FontAwesomeIcon icon={faFacebook} />
+      </a>
+      <a
+        href="https://github.com/Hasindu071"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#0a66c2" }}
+      >
+        <FontAwesomeIcon icon={faLinkedin} />
+      </a>
+      <a
+        href="https://www.instagram.com/___.hasindu.___?igsh=YW96cXYzNzY3bTJ2"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#c32aa3" }}
+      >
+        <FontAwesomeIcon icon={faInstagram} />
+      </a>
+      <a
+        href="http://www.youtube.com/@hasinduthirasara2449"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#ff0000" }}
+      >
+        <FontAwesomeIcon icon={faYoutube} />
+      </a>
+    </div>
 
-  <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
-    <a
-      href="https://www.facebook.com/share/18xvyjdA2r/"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: "#1877f2", fontSize: "20px" }}
-    >
-      <FontAwesomeIcon icon={faFacebook} />
-    </a>
-    <a
-      href="https://github.com/Hasindu071"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: "#0a66c2", fontSize: "20px" }}
-    >
-      <FontAwesomeIcon icon={faLinkedin} />
-    </a>
-    <a
-      href="https://www.instagram.com/___.hasindu.___?igsh=YW96cXYzNzY3bTJ2"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: "#c32aa3", fontSize: "20px" }}
-    >
-      <FontAwesomeIcon icon={faInstagram} />
-    </a>
-    <a
-      href="http://www.youtube.com/@hasinduthirasara2449"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ color: "#ff0000", fontSize: "20px" }}
-    >
-      <FontAwesomeIcon icon={faYoutube} />
-    </a>
+    <nav className="nav-links" style={{ marginBottom: "15px" }}>
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="/services">Services</a>
+        </li>
+        <li>
+          <a href="/contact">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <p className="footer-text">
+      Your trusted partner in tire repair and retreading.
+      <br /> Visit us at 123 Tire Street, <br /> Ryak House, Yatiyana, Matara.
+      <br /> Call us at 071-7517940.
+    </p>
+    
+    <div className="location-map">
+      <iframe
+        title="Ryak Tires Location"
+        src="https://www.google.com/maps/embed?pb=!1m19!1m8!1m3!1d247.98508121900736!2d80.59740970942767!3d6.027466104864847!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m5!1s0x3ae147ad22b0b5b3%3A0xa5bb5ce7421a14ee!2s2HHW%2B3W3!3m2!1d6.027561599999999!2d80.5972816!4m0!5e0!3m2!1sen!2sus!4v1747421061467!5m2!1sen!2sus"
+        width="100%"
+        height="300"
+        style={{ border: 0 }}
+        allowFullScreen=""
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    
+    <footer className="footer-copy">
+      <p>&copy; 2023 Ryak Tires. All rights reserved.</p>
+    </footer>
   </div>
-  <p style={{ fontSize: "16px", color: "#555", marginBottom: "10px" }}>
-    Your trusted partner in tire repair and retreading.
-  </p>
-  <footer style={{ fontSize: "14px", color: "#555" }}>
-    <p>&copy; 2023 Ryak Tires. All rights reserved.</p>
-  </footer>
-</div>
     </div>
   );
 }
