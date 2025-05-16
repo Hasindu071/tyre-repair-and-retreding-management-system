@@ -25,7 +25,30 @@ const OurProductsSales = () => {
       }
     };
     fetchProducts();
-  }, []);
+}, []);
+
+// Auto-scroll logic for the Swiper container
+useEffect(() => {
+  const container = document.querySelector('.swiper-container-sale');
+  if (!container) return;
+
+  let scrollAmount = 0;
+  const step = 1;         
+  const intervalDelay = 10; 
+
+  const intervalId = setInterval(() => {
+    scrollAmount += step;
+    if (scrollAmount >= container.scrollWidth - container.clientWidth) {
+      scrollAmount = 0;
+    }
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth"
+    });
+  }, intervalDelay);
+
+  return () => clearInterval(intervalId);
+}, [products]);
 
   const handleImageClick = (product) => {
     setSelectedProduct(product);
