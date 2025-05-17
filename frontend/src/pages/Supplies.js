@@ -5,6 +5,7 @@ import OwnerSidebar from "../components/SideNav";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import swal from "sweetalert";
 
 // Validation helper functions
 const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
@@ -206,40 +207,67 @@ const Supplies = () => {
     }
   };
 
-  // Handle supply deletion
+  // Handle supply deletion with SweetAlert confirmation
   const handleDeleteSupply = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/supplies/${id}`);
-      toast.success("Supply deleted successfully");
-      fetchSupplies();
-    } catch (error) {
-      console.error("Error deleting supply:", error);
-      toast.error("Error deleting supply");
-    }
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this supply!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          await axios.delete(`http://localhost:5000/supplies/${id}`);
+          await swal("Supply deleted successfully", { icon: "success" });
+          fetchSupplies();
+        } catch (error) {
+          swal("Failed to delete supply", { icon: "error" });
+        }
+      }
+    });
   };
 
-  // Handle product deletion
+  // Handle product deletion with SweetAlert confirmation
   const handleDeleteProduct = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/products/${id}`);
-      toast.success("Product deleted successfully");
-      fetchProductNames();
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      toast.error("Error deleting product");
-    }
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this product!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          await axios.delete(`http://localhost:5000/products/${id}`);
+          await swal("Product deleted successfully", { icon: "success" });
+          fetchProductNames();
+        } catch (error) {
+          swal("Failed to delete product", { icon: "error" });
+        }
+      }
+    });
   };
 
-  // Delete inventory record using DELETE method
+  // Handle inventory deletion with SweetAlert confirmation
   const handleDeleteInventory = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/supplies/inventory/${id}`);
-      toast.success("Inventory deleted successfully");
-      fetchInventory();
-    } catch (error) {
-      console.error("Error deleting inventory:", error);
-      toast.error("Error deleting inventory");
-    }
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this inventory record!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          await axios.delete(`http://localhost:5000/supplies/inventory/${id}`);
+          await swal("Inventory deleted successfully", { icon: "success" });
+          fetchInventory();
+        } catch (error) {
+          swal("Failed to delete inventory", { icon: "error" });
+        }
+      }
+    });
   };
 
   return (
