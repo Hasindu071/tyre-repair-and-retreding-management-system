@@ -3,6 +3,7 @@ import OwnerSidebar from "../components/SideNav";
 import "../styles/OwnerSendNotice.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import swal from 'sweetalert';
 import { getNotices, sendNoticeAPI, deleteNoticeAPI } from '../services/productServices';
 
 const OwnerSendNotice = () => {
@@ -35,21 +36,31 @@ const OwnerSendNotice = () => {
         }
     };
 
-    // Delete a notice
+    // Delete a notice with confirmation using SweetAlert
     const handleDelete = async (id) => {
-        try {
-            await deleteNoticeAPI(id);
-            toast.success('Notice deleted successfully');
-            fetchNotices();
-        } catch (error) {
-            toast.error('Failed to delete notice');
-        }
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this notice!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                try {
+                    await deleteNoticeAPI(id);
+                    await swal("Notice deleted successfully", { icon: "success" });
+                    fetchNotices();
+                } catch (error) {
+                    swal("Failed to delete notice", { icon: "error" });
+                }
+            }
+        });
     };
 
     return (
         <div className="owner-send-notice-page">
             <OwnerSidebar />
-            <br></br>
+            <br />
             <div className="content-send-wrapper">
                 <div className="notice-send-form-container">
                     <h2>Send Customers Notice (Offers/Promotions/Updates)</h2>
@@ -70,9 +81,14 @@ const OwnerSendNotice = () => {
                             <div key={n.id} className="notice-send-card">
                                 <div className="notice-send-content">
                                     <p>{n.notice}</p>
-                                    <small>{n.date ? new Date(n.date).toLocaleString() : ''}</small>
+                                    <small>
+                                        {n.date ? new Date(n.date).toLocaleString() : ''}
+                                    </small>
                                 </div>
-                                <button className="btn-send-delete" onClick={() => handleDelete(n.id)}>
+                                <button
+                                    className="btn-send-delete"
+                                    onClick={() => handleDelete(n.id)}
+                                >
                                     Delete
                                 </button>
                             </div>

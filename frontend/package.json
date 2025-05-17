@@ -28,6 +28,8 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.10.1",
     "react-toastify": "^11.0.3",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.21.1",
     "swiper": "^11.2.5"
   },
   "scripts": {
