@@ -3,7 +3,7 @@ const db = require('../config/db');
 module.exports = {
     getMessages: async (worker_id) => {
         let query = `
-            SELECT wm.*, wr.firstName, wr.lastName 
+            SELECT wm.*, wr.firstName, wr.lastName, wr.email
             FROM worker_messages wm 
             JOIN worker_register wr ON wm.worker_id = wr.id
         `;

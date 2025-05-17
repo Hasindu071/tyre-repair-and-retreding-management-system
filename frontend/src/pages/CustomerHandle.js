@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   fetchFullCustomers,
   updateCustomerProfile,
-  deleteCustomer,
 } from "../services/ownerServices";
 
 const CustomerHandle = () => {
@@ -126,19 +125,6 @@ const CustomerHandle = () => {
     }
   };
 
-  const handleDelete = async (customerId) => {
-    if (window.confirm("Are you sure you want to delete this customer?")) {
-      try {
-        await deleteCustomer(customerId);
-        setCustomers((prev) =>
-          prev.filter((cust) => cust.id !== customerId)
-        );
-        toast.success("Customer deleted successfully!");
-      } catch (error) {
-        toast.error("Error deleting customer");
-      }
-    }
-  };
 
   return (
     <div>
@@ -189,12 +175,6 @@ const CustomerHandle = () => {
                         onClick={() => handleEdit(customer.id)}
                       >
                         Edit
-                      </button>
-                      <button
-                        className="cancel-button"
-                        onClick={() => handleDelete(customer.id)}
-                      >
-                        Delete
                       </button>
                     </td>
                   </tr>
