@@ -350,7 +350,7 @@ const Supplies = () => {
                 <tr key={supply.id}>
                   <td>{supply.id}</td>
                   <td>{supply.name}</td>
-                  <td>{supply.phone_number}</td>
+                  <td>0{supply.phone_number}</td>
                   <td>{supply.address}</td>
                   <td>{supply.company_name}</td>
                   <td>
@@ -501,7 +501,7 @@ const Supplies = () => {
                 <td>{inventory.stock}</td>
                 <td>{inventory.quantity}</td>
                 <td>{inventory.amount}</td>
-                <td>{inventory.date}</td>
+                <td>{new Date(inventory.date).toLocaleString()}</td>
                 <td>
                   <button onClick={() => handleDeleteInventory(inventory.id)}>
                     Delete
