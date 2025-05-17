@@ -1,5 +1,17 @@
-body{
+:root {
+    --primary-color: #d14641;
+    --primary-hover: #b52b27;
+    --text-color: #333;
+    --border-color: #00000099;
+    --background-card: #ffffff;
+    --box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+body {
     background-image: url('../assets/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* === Worker Signup Container === */
@@ -11,40 +23,44 @@ body{
     padding: 20px;
 }
 
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 5px;
-    margin-left: 10px;
-}
-
-/* === Signup Card === */
+/* === Headings and Labels === */
 .worker-signup-card {
-    background: white;
+    background: var(--background-card);
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     max-width: 450px;
     width: 100%;
     text-align: center;
 }
 
-/* === Title === */
 .worker-signup-title {
     font-size: 26px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
 .worker-signup-title span {
-    color: #d9534f; /* Red color accent */
+    color: #d14641;
 }
 
-.form-group label {
-    text-align: left;
+/* Labels */
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+/* === Form Groups === */
+.form-group-worker {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 /* === Input Fields === */
@@ -52,14 +68,14 @@ label {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 16px;
     transition: 0.3s;
 }
 
 .worker-signup-input:focus {
-    border-color: #d9534f;
+    border-color: var(--primary-color);
     outline: none;
     box-shadow: 0px 0px 8px rgba(217, 83, 79, 0.3);
 }
@@ -69,7 +85,7 @@ label {
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    background: #d9534f;
+    background: #b52b27;
     color: white;
     border: none;
     border-radius: 6px;
@@ -78,7 +94,7 @@ label {
 }
 
 .worker-signup-button:hover {
-    background: #b52b27;
+    background: #a41e1e;
 }
 
 /* === Responsive Design === */
@@ -86,12 +102,10 @@ label {
     .worker-signup-card {
         padding: 20px;
     }
-
     .worker-signup-input {
         font-size: 14px;
         padding: 10px;
     }
-
     .worker-signup-button {
         font-size: 14px;
     }

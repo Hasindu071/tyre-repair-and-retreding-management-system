@@ -87,7 +87,7 @@ const WorkerSignup = () => {
                         </div>
                     )}
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className="form-group-worker">
                             <label htmlFor="email">Email:</label>
                             <input
                                 type="email"
@@ -100,7 +100,7 @@ const WorkerSignup = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group-worker">
                             <label htmlFor="password">Password:</label>
                             <input
                                 type="password"
@@ -113,7 +113,7 @@ const WorkerSignup = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group-worker">
                             <label htmlFor="rePassword">Re-enter Password:</label>
                             <input
                                 type="password"
