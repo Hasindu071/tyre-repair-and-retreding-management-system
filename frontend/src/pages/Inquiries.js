@@ -7,6 +7,7 @@ import {
     markWorkerMessageAsRead, 
     deleteWorkerMessage 
 } from "../services/NotificationService";
+import swal from 'sweetalert';
 
 const Inquiries = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -38,29 +39,34 @@ const Inquiries = () => {
     const markAsRead = async (inquiryId) => {
         try {
             await markWorkerMessageAsRead(inquiryId);
-            // Update the local state immediately by reloading the page or using state update logic
-            window.location.reload();
+            window.location.reload(); // or update state locally
         } catch (error) {
             console.error('Error marking as read:', error);
         }
     };
 
     const deleteInquiry = async (inquiryId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this inquiry?");
-        if (!confirmDelete) return;
-
-        try {
-            await deleteWorkerMessage(inquiryId);
-            // Immediately update local state
-            setInquiries(prev => prev.filter(inquiry => inquiry.id !== inquiryId));
-            // Clear if the deleted one was selected
-            if (selectedInquiry && selectedInquiry.id === inquiryId) {
-                setSelectedInquiry(null);
-                setMessages([]);
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this inquiry!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                try {
+                    await deleteWorkerMessage(inquiryId);
+                    await swal("Inquiry deleted successfully", { icon: "success" });
+                    setInquiries(prev => prev.filter(inquiry => inquiry.id !== inquiryId));
+                    if (selectedInquiry && selectedInquiry.id === inquiryId) {
+                        setSelectedInquiry(null);
+                        setMessages([]);
+                    }
+                } catch (error) {
+                    swal("Failed to delete inquiry", { icon: "error" });
+                }
             }
-        } catch (error) {
-            console.error('Error deleting inquiry:', error);
-        }
+        });
     };
 
     const handleInquiryClick = (inquiry) => {
@@ -75,7 +81,7 @@ const Inquiries = () => {
         <div>
             <OwnerNavbar unreadCount={inquiries.filter(i => !i.is_read).length} />
             <div className="inquiries-container">
-                <h2>Customer Inquiries</h2>
+                <h2>Workers Inquiries</h2>
                 <div className="inquiries-list">
                     {inquiries.map((inquiry) => (
                         <div 

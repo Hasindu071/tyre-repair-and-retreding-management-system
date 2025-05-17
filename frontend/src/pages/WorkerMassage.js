@@ -43,6 +43,7 @@ const WorkerMessage = () => {
             <WorkerNavbar />
             <div className="worker-message-container">
                 <h2>Worker Messages</h2>
+                <h9><em>Chat with your Owner</em></h9>
                 <div className="message-box">
                     {messages.map((msg, index) => (
                         <div key={index} className={`message ${msg.worker_id === Number(workerId) ? 'worker' : 'other'}`}>
@@ -51,11 +52,11 @@ const WorkerMessage = () => {
                     ))}
                 </div>
                 <div className="message-input">
-                    <input 
-                        type="text" 
+                    <textarea 
                         placeholder="Type your message..." 
                         value={newMessage} 
                         onChange={(e) => setNewMessage(e.target.value)}
+                        rows="4"  // Adjust row count as needed for a bigger box
                     />
                     <button onClick={handleSendMessage}>Send</button>
                 </div>
