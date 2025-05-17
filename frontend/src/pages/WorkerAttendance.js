@@ -13,6 +13,7 @@ const OwnerMarksWorkerAttendance = () => {
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
   const [totalAttendanceCount, setTotalAttendanceCount] = useState(0);
   const [showBulkAttendance, setShowBulkAttendance] = useState(false);
   const [selectedWorkers, setSelectedWorkers] = useState([]);
@@ -44,29 +45,30 @@ const OwnerMarksWorkerAttendance = () => {
         return date.getMonth() === selectedMonth && date.getFullYear() === selectedYear;
       });
 
-      setAttendanceDates(filtered);
-      setAttendanceMarked(dates.includes(todayISO));
+      setAttendanceDates(dates); // Store all dates, not just filtered ones
+      setAttendanceMarked(dates.includes(selectedDate));
       setTotalAttendanceCount(total);
     } catch (error) {
       console.error("Error fetching attendance:", error);
     }
   };
 
-  const markAttendance = async () => {
+  const markAttendance = async (dateToMark = selectedDate) => {
     if (!selectedWorker) return;
     try {
       const res = await axios.post("http://localhost:5000/attendance/mark", {
         worker_id: selectedWorker.id,
+        date: dateToMark
       });
 
       if (res.status === 200) {
-        setMessage("Attendance marked successfully!");
+        setMessage(`Attendance marked successfully for ${dateToMark}!`);
         await fetchWorkerAttendance(selectedWorker.id);
         setShowCalendarModal(false);
       }
     } catch (error) {
       if (error.response?.status === 400 &&
-        error.response.data.message === "Attendance already marked for today.") {
+          error.response.data.message === "Attendance already marked for this day.") {
         setMessage(error.response.data.message);
         await fetchWorkerAttendance(selectedWorker.id);
       } else {
@@ -84,30 +86,29 @@ const OwnerMarksWorkerAttendance = () => {
 
     try {
       const responses = await Promise.all(
-        selectedWorkers.map(workerId => 
+        selectedWorkers.map(workerId =>
           axios.post("http://localhost:5000/attendance/mark", {
-            worker_id: workerId
+            worker_id: workerId,
+            date: selectedDate
           })
         )
       );
 
       const successfulMarks = responses.filter(res => res.status === 200).length;
-      const alreadyMarked = responses.filter(res => 
-        res.response?.status === 400 && 
-        res.response.data.message === "Attendance already marked for today."
+      const alreadyMarked = responses.filter(res =>
+        res.response?.status === 400 &&
+        res.response.data.message === "Attendance already marked for this day."
       ).length;
 
       setBulkMessage(
-        `Successfully marked attendance for ${successfulMarks} workers. ` +
-        `${alreadyMarked} workers already had attendance marked for today.`
+        `Successfully marked attendance for ${successfulMarks} workers on ${selectedDate}. ` +
+        `${alreadyMarked} workers already had attendance marked for this day.`
       );
 
-      // Refresh individual worker data if one is selected
       if (selectedWorker) {
         fetchWorkerAttendance(selectedWorker.id);
       }
 
-      // Clear selections after marking
       setSelectedWorkers([]);
     } catch (error) {
       console.error("Error marking bulk attendance:", error);
@@ -116,9 +117,9 @@ const OwnerMarksWorkerAttendance = () => {
   };
 
   const toggleWorkerSelection = (workerId) => {
-    setSelectedWorkers(prev => 
-      prev.includes(workerId) 
-        ? prev.filter(id => id !== workerId) 
+    setSelectedWorkers(prev =>
+      prev.includes(workerId)
+        ? prev.filter(id => id !== workerId)
         : [...prev, workerId]
     );
   };
@@ -136,6 +137,10 @@ const OwnerMarksWorkerAttendance = () => {
     }
 
     return daysArray;
+  };
+
+  const isFutureDate = (date) => {
+    return new Date(date) > new Date();
   };
 
   return (
@@ -163,13 +168,26 @@ const OwnerMarksWorkerAttendance = () => {
                 Selected Worker: {selectedWorker.firstName} {selectedWorker.lastName}
               </p>
               <p>Total Days Attended: {totalAttendanceCount}</p>
+              <div className="date-selection mb-3">
+                <label htmlFor="attendanceDate" className="form-label">Select Date:</label>
+                <input
+                  type="date"
+                  id="attendanceDate"
+                  className="form-control"
+                  value={selectedDate}
+                  max={todayISO}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              </div>
 
               <button
                 className={`btn ${attendanceMarked ? "btn-success" : "btn-primary"}`}
-                onClick={markAttendance}
-                disabled={attendanceMarked}
+                onClick={() => markAttendance()}
+                disabled={attendanceMarked || isFutureDate(selectedDate)}
               >
-                {attendanceMarked ? "Attendance Marked" : "Mark Attendance"}
+                {attendanceMarked 
+                  ? `Attendance Marked for ${selectedDate}`
+                  : `Mark Attendance for ${selectedDate}`}
               </button>
               <button className="btn btn-info" onClick={() => setShowCalendarModal(true)}>
                 View Attendance Calendar
@@ -195,6 +213,17 @@ const OwnerMarksWorkerAttendance = () => {
         {showBulkAttendance && (
           <div className="bulk-attendance-section mt-4 p-3 border rounded">
             <h4>Mark Attendance for Multiple Workers</h4>
+            <div className="date-selection mb-3">
+              <label htmlFor="bulkAttendanceDate" className="form-label">Select Date:</label>
+              <input
+                type="date"
+                id="bulkAttendanceDate"
+                className="form-control"
+                value={selectedDate}
+                max={todayISO}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+            </div>
             <div className="workers-list">
               {workers.map(worker => (
                 <div key={worker.id} className="worker-checkbox">
@@ -213,7 +242,7 @@ const OwnerMarksWorkerAttendance = () => {
             <button 
               className="btn btn-primary mt-2"
               onClick={markBulkAttendance}
-              disabled={selectedWorkers.length === 0}
+              disabled={selectedWorkers.length === 0 || isFutureDate(selectedDate)}
             >
               Mark Attendance for Selected Workers
             </button>
@@ -311,24 +340,42 @@ const OwnerMarksWorkerAttendance = () => {
                   {generateCalendar().map((date, idx) => {
                     if (!date) return <div key={idx} className="calendar-cell empty-cell"></div>;
                     const isoDate = date.toISOString().slice(0, 10);
-                    const isMarked = attendanceDates.includes(isoDate);
+                    const isAttended = attendanceDates.includes(isoDate);
+                    const isSelected = isoDate === selectedDate;
+                    const isFuture = isFutureDate(isoDate);
                     return (
                       <div
                         key={idx}
-                        className={`calendar-cell ${isMarked ? "attended-cell" : "not-attended-cell"}`}
+                        onClick={() => !isFuture && setSelectedDate(isoDate)}
+                        className={`calendar-cell 
+                          ${isAttended ? "attended-cell" : "not-attended-cell"} 
+                          ${isSelected ? "selected-day" : ""}
+                          ${isFuture ? "future-day" : ""}`}
+                        style={{ cursor: isFuture ? "not-allowed" : "pointer" }}
+                        title={isFuture ? "Cannot mark future dates" : ""}
                       >
                         {date.getDate()}
                       </div>
                     );
                   })}
                 </div>
+                <div className="mt-3">
+                  <p>Selected Date: {selectedDate}</p>
+                  {attendanceDates.includes(selectedDate) ? (
+                    <p className="text-success">Attendance already marked for this date</p>
+                  ) : isFutureDate(selectedDate) ? (
+                    <p className="text-warning">Cannot mark attendance for future dates</p>
+                  ) : (
+                    <button 
+                      className="btn btn-primary"
+                      onClick={() => markAttendance(selectedDate)}
+                    >
+                      Mark Attendance for {selectedDate}
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="modal-footer">
-                {!attendanceMarked && (
-                  <button className="btn btn-primary" onClick={markAttendance}>
-                    Mark Attendance for Today
-                  </button>
-                )}
                 <button className="btn btn-secondary" onClick={() => setShowCalendarModal(false)}>
                   Close
                 </button>

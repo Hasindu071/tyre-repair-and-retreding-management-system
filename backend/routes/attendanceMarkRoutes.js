@@ -1,38 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db'); // Ensure this connects to your database
+const db = require('../config/db'); // Make sure your db is correctly configured
 
 // POST endpoint to mark attendance
 router.post('/mark', (req, res) => {
-    const { worker_id } = req.body;
-    if (!worker_id) {
-        return res.status(400).json({ message: "Worker ID is required." });
+  const { worker_id, date } = req.body;
+  if (!worker_id || !date) {
+    return res.status(400).json({ message: "Worker ID and date are required." });
+  }
+  
+  // Use the provided date instead of defaulting to today
+  const dateToMark = date;
+  
+  // Check if attendance is already marked for this worker on the provided date
+  const checkQuery = "SELECT * FROM worker_attendance WHERE worker_id = ? AND date = ?";
+  db.query(checkQuery, [worker_id, dateToMark], (err, results) => {
+    if (err) {
+      console.error("Error checking attendance:", err);
+      return res.status(500).json({ message: "Server error." });
     }
-    
-    // Get today's date in YYYY-MM-DD format
-    const today = new Date().toISOString().slice(0, 10);
-    
-    // Check if attendance is already marked for today
-    const checkQuery = "SELECT * FROM worker_attendance WHERE worker_id = ? AND date = ?";
-    db.query(checkQuery, [worker_id, today], (err, results) => {
-        if (err) {
-            console.error("Error checking attendance:", err);
-            return res.status(500).json({ message: "Server error." });
-        }
-        if (results.length > 0) {
-            return res.status(400).json({ message: "Attendance already marked for today." });
-        }
-        
-        // Insert attendance record
-        const insertQuery = "INSERT INTO worker_attendance (worker_id, date) VALUES (?, ?)";
-        db.query(insertQuery, [worker_id, today], (err2, result) => {
-            if (err2) {
-                console.error("Error marking attendance:", err2);
-                return res.status(500).json({ message: "Server error." });
-            }
-            return res.status(200).json({ message: "Attendance marked successfully!" });
-        });
+    if (results.length > 0) {
+      return res.status(400).json({ message: "Attendance already marked for this day." });
+    }
+    // Insert the attendance record using the provided date
+    const insertQuery = "INSERT INTO worker_attendance (worker_id, date) VALUES (?, ?)";
+    db.query(insertQuery, [worker_id, dateToMark], (err2, result) => {
+      if (err2) {
+        console.error("Error marking attendance:", err2);
+        return res.status(500).json({ message: "Server error." });
+      }
+      return res.status(200).json({ message: "Attendance marked successfully!" });
     });
+  });
 });
 
 // GET endpoint to fetch a worker's attendance history
