@@ -199,4 +199,112 @@
     margin-top: 1rem;
 }
 
+/* ViewTasks.css */
+
+/* Ensure modals overlay the screen */
+.modal-ss {
+  display: none;
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+}
+
+.modal-ss.show {
+  display: block;
+}
+
+/* Style modal content */
+.modal-dialog {
+  margin: 1.75rem auto;
+  max-width: 800px;
+  transition: transform 0.3s ease-out;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+}
+
+/* Center the QR modal */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  min-height: calc(100% - 1rem);
+}
+
+.modal-header,
+.modal-footer {
+  border: none;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+/* QR code */
+#qr-code-printable {
+  padding: 1rem;
+  background: white;
+  display: inline-block;
+}
+
+/* Photo styling */
+.task-photo {
+  max-width: 120px;
+  height: auto;
+  border-radius: 0.3rem;
+  margin: 0.25rem;
+}
+
+.photo-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Loader and error styling */
+.loader {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.25rem;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.25rem;
+}
+
+.no-tasks {
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+/* Button tweaks */
+.btn-sm {
+  font-size: 0.8rem;
+}
+
+.modal-ss {
+  z-index: 1050;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+}
+
 
