@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/WorkerStocks.css";
 import WorkerSideBar from "../components/WorkerSideBar";
 import { getProducts, decreaseStock } from "../services/productServices";
+import swal from "sweetalert";
 
 const WorkerStocks = () => {
     const [stocks, setStocks] = useState([]);
@@ -30,37 +31,48 @@ const WorkerStocks = () => {
     const handleStockDecrease = async (id) => {
         const decreaseAmount = decreaseValues[id];
         if (!decreaseAmount || isNaN(decreaseAmount) || decreaseAmount < 0) {
-            alert("Please enter a valid decrease amount");
+            swal("Invalid Input", "Please enter a valid decrease amount", "warning");
             return;
         }
         const currentStock = stocks.find(stock => stock.id === id)?.stock || 0;
         if (decreaseAmount > currentStock) {
-            alert("Decrease amount cannot be greater than available stock");
+            swal("Invalid Amount", "Decrease amount cannot be greater than available stock", "warning");
             return;
         }
 
         const storedWorkerId = localStorage.getItem("workerId");
         if (!storedWorkerId) {
-            alert("Worker not logged in");
+            swal("Not Logged In", "Worker not logged in", "warning");
             return;
         }
         const workerId = parseInt(storedWorkerId, 10);
 
-        try {
-            // Use service to decrease stock and record the worker's decrease.
-            const response = await decreaseStock(id, workerId, decreaseAmount);
-            alert(response.message);
+        // Show confirmation dialog before decreasing stock
+        swal({
+            title: "Are you sure?",
+            text: `Do you really want to decrease the stock by ${decreaseAmount}?`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDecrease) => {
+            if (willDecrease) {
+                try {
+                    // Use service to decrease stock and record the worker's decrease.
+                    const response = await decreaseStock(id, workerId, decreaseAmount);
+                    swal("Success!", response.message, "success");
 
-            // Update local stocks state using the updated stock from the response.
-            const updatedStock = response.updatedStock;
-            const updatedStocks = stocks.map(stock =>
-                stock.id === id ? { ...stock, stock: updatedStock } : stock
-            );
-            setStocks(updatedStocks);
-        } catch (error) {
-            console.error("Error updating stock:", error);
-            alert("Error updating stock");
-        }
+                    // Update local stocks state using the updated stock from the response.
+                    const updatedStock = response.updatedStock;
+                    const updatedStocks = stocks.map(stock =>
+                        stock.id === id ? { ...stock, stock: updatedStock } : stock
+                    );
+                    setStocks(updatedStocks);
+                } catch (error) {
+                    console.error("Error updating stock:", error);
+                    swal("Error", "Error updating stock", "error");
+                }
+            }
+        });
     };
 
     return (
