@@ -47,7 +47,13 @@ const ApproveOrder = () => {
                 <td>
                   {order.tireBrand} {order.internalStructure}
                 </td>
-                <td>{order.receiveDate}</td>
+                <td>
+                  {new Date(order.receiveDate).toLocaleDateString('en-US', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                  })}
+                </td>
                 <td>{order.notes}</td>
                 <td>
                   {order.serviceDetails && order.serviceDetails.insidePhoto && (

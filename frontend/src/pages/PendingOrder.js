@@ -99,7 +99,9 @@ const handleConfirmRejection = async () => {
                                 <td>{repair.punctureSize}</td>
                                 <td>{repair.internalStructure}</td>
                                 <td>{repair.tireBrand}</td>
-                                <td>{repair.receiveDate}</td>
+                                <td>
+                                    {new Date(repair.receiveDate).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                </td>
                                 <td>{repair.notes}</td>
                                 <td>
                                     {repair.insideDamagePhoto && (
@@ -182,7 +184,9 @@ const handleConfirmRejection = async () => {
                                 <td>{retreading.tireWidth}</td>
                                 <td>{retreading.tireBrand}</td>
                                 <td>{retreading.tirePattern}</td>
-                                <td>{retreading.receiveDate}</td>
+                                <td>
+                                    {new Date(retreading.receiveDate).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                </td>
                                 <td>{retreading.internalStructure}</td>
                                 <td>{retreading.notes}</td>
                                 <td>

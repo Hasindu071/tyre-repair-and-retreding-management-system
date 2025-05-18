@@ -51,7 +51,15 @@ const OwnerSeeCompleteOrders = () => {
                         ? `${task.customerFirstName} ${task.customerLastName}`
                         : "N/A"}
                     </td>
-                    <td>{task.order_date || "N/A"}</td>
+                    <td>
+                      {task.order_date
+                        ? new Date(task.order_date).toLocaleDateString('en-US', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric'
+                          })
+                        : "N/A"}
+                    </td>
                     <td>{task.status}</td>
                     <td>
                       {task.workerFirstName
