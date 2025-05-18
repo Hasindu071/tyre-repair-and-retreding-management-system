@@ -441,5 +441,25 @@ router.get('/pending-rejected/:customerId', async (req, res) => {
         return res.status(500).json({ message: "Server error", error: error.message });
     }
 });
-  
+
+router.get('/getCompletedTasksOwnerShow', async (req, res) => {
+    try {
+      const [rows] = await db.promise().query(`
+        SELECT s.*, o.*, 
+               c.firstName AS customerFirstName, c.lastName AS customerLastName, 
+               w.firstName AS workerFirstName, w.lastName AS workerLastName, 
+               s.total_amount AS TotalAmount
+        FROM services s
+        JOIN orders o ON s.service_id = o.service_id
+        JOIN customer_register c ON c.id = s.customer_ID
+        JOIN worker_register w ON w.id = o.emp_id
+        WHERE o.status = 'Completed'
+      `);
+      res.status(200).json(rows);
+    } catch (error) {
+      console.error("Error fetching approved repairs:", error);
+      res.status(500).json({ message: "Server error." });
+    }
+});
+
 module.exports = router;
