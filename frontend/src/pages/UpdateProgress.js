@@ -136,7 +136,15 @@ const UpdateProgress = () => {
                                     <tr key={task.order_id}>
                                         <td>{task.order_id}</td>
                                         <td>{task.tireBrand} {task.internalStructure}</td>
-                                        <td>{task.receiveDate}</td>
+                                        <td>
+                                        {task.receiveDate
+                                            ? new Date(task.receiveDate).toLocaleDateString('en-US', {
+                                                day: '2-digit',
+                                                month: 'long',
+                                                year: 'numeric'
+                                            })
+                                            : "N/A"}
+                                        </td>
                                         <td>
                                             <button 
                                                 type="button"
