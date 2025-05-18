@@ -27,7 +27,7 @@ const ApproveOrder = () => {
       <OwnerSidebar />
       <div className="approve-order-container">
         <h1>Approve Orders</h1>
-        <table className="order-table">
+        <table className="order-table-approve">
           <thead>
             <tr>
               <th>Service ID</th>

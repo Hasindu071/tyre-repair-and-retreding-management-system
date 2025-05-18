@@ -1,99 +1,144 @@
+/* ApproveOrder.css */
+
 .approve-order-page {
-  background-color: #f5bebe;
+  min-height: 100vh;
 }
+
 .approve-order-container {
-  padding: 20px;
-  margin: 0 auto;
-  max-width: 1200px;
-  font-family: Arial, sans-serif;
+  flex: 1;
+  padding: 2rem;
+  margin-left: 250px; /* Adjust based on your sidebar width */
 }
 
 .approve-order-container h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #ffffff;
+  color: #343a40;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 1rem;
 }
 
-.order-table {
+/* Table Styles */
+.order-table-approve {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
-.order-table th,
-.order-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+.order-table-approve thead {
+  background-color: #495057;
+}
+
+.order-table-approve th {
+  padding: 1rem;
   text-align: left;
+  color: white;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
 }
 
-.order-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+.order-table-approve tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s;
 }
 
-.view-btn-order,
-.approve-btn-order,
-.reject-btn-order {
-  margin: 0 5px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+.order-table-approve tbody tr:hover {
+  background-color: #f1f3f5;
 }
 
-.view-btn-order {
-  background-color: #4caf50;
-  color: #fff;
+.order-table-approve td {
+  padding: 1rem;
+  vertical-align: middle;
+  color: #495057;
 }
 
-.approve-btn-order {
-  background-color: #2196f3;
-  color: #fff;
-}
-
-.reject-btn-order {
-  background-color: #f44336;
-  color: #fff;
-}
-
-/* Modal styles */
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
+/* Image styling */
+.order-table-approve img {
   border-radius: 4px;
-  max-width: 500px;
-  margin: 0 auto;
+  object-fit: cover;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 15px;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 18px;
-}
-
-.btn-close {
-  background: none;
-  border: none;
-  font-size: 20px;
+.order-table-approve img:hover {
+  transform: scale(1.05);
   cursor: pointer;
 }
 
-.modal-body {
-  margin-bottom: 15px;
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .order-table-approve {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .order-table-approve img {
+    width: 3cm;
+    height: 3cm;
+  }
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+@media (max-width: 768px) {
+  .approve-order-container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .approve-order-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .order-table-approve th,
+  .order-table-approve td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .order-table-approve img {
+    width: 2.5cm;
+    height: 2.5cm;
+  }
+}
+
+/* Toast notification styling overrides */
+.Toastify__toast {
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.Toastify__toast--error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.Toastify__toast--success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Additional styling for empty state */
+.no-orders {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.no-orders i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 }
