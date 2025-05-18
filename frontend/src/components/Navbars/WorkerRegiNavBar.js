@@ -2,15 +2,38 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom'; // Using NavLink for active links
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../../assets/Logo.png';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const navigate = useNavigate();
 
+  // Get worker id from localStorage (if needed)
+  // const id = localStorage.getItem("workerId");
+
+  // Local logout function (since worker has no AuthContext)
+  const logout = () => {
+    localStorage.removeItem("workerId");
+    // Remove any other tokens/items as needed.
+  };
+
   // Handle Logout
   const handleLogout = () => {
-    // Add logout functionality here (e.g., clear user session, redirect)
-    console.log("User logged out");
-    navigate("/RoleLoginSelection");
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to log out?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout',
+      background: '#203a43',
+      color: 'white'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        navigate('/login/worker');
+      }
+    });
   };
 
   return (
@@ -39,28 +62,56 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto">
             {/* Home */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/WorkerDashboard" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink
+                className="nav-link"
+                to="/WorkerDashboard"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 Home
               </NavLink>
             </li>
 
             {/* Profile */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/Worker/Profile" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink
+                className="nav-link"
+                to="/Worker/Profile"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 Profile
               </NavLink>
             </li>
 
-            {/* Your Services */}
+            {/* Your Messages */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/Worker/Message" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
-                Massage
+              <NavLink
+                className="nav-link"
+                to="/Worker/Message"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
+                Messages
               </NavLink>
             </li>
 
-            {/* stock */}
+            {/* Stocks */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/Worker/Stocks" style={({ isActive }) => ({ color: isActive ? 'red' : 'black', fontWeight: isActive ? 'bold' : 'normal' })}>
+              <NavLink
+                className="nav-link"
+                to="/Worker/Stocks"
+                style={({ isActive }) => ({
+                  color: isActive ? 'red' : 'black',
+                  fontWeight: isActive ? 'bold' : 'normal'
+                })}
+              >
                 Stocks
               </NavLink>
             </li>

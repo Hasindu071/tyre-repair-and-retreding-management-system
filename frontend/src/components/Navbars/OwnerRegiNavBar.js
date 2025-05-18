@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useMessageContext } from '../../context/MessageContext';
 import { useNotificationContext } from '../../context/NotificationContext';
+import { useAuth } from '../../context/AuthContext';
+import Swal from 'sweetalert2';
 
 import Logo from '../../assets/Logo.png';
 
@@ -11,10 +13,25 @@ const Navbar = () => {
   const { unreadCount } = useMessageContext(); // For worker messages
   const { unreadContactCount } = useNotificationContext(); // For contact inquiries
   const navigate = useNavigate();
+    const { logout } = useAuth();
 
   const handleLogout = () => {
-    // Add logout logic here (e.g., clear token, redirect)
-    navigate('/RoleLoginSelection');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to log out?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout',
+      background: '#203a43',
+      color: 'white'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        navigate('/login/owner');
+      }
+    });
   };
 
   return (

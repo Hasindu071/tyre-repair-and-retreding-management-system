@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../../assets/Logo.png';
-import { getNotices } from '../../services/NotificationService'; // Adjust path if needed
+import { getNotices } from '../../services/NotificationService'; 
+import { useAuth } from '../../context/AuthContext';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [hasUnread, setHasUnread] = useState(false);
+  const { logout } = useAuth();
 
   // Fetch notices to check for unread
   useEffect(() => {
@@ -22,8 +25,22 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    console.log("User logged out");
-    navigate("/RoleLoginSelection");
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to log out?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout',
+      background: '#203a43',
+      color: 'white'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        navigate('/login/customer');
+      }
+    });
   };
 
   return (
