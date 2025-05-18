@@ -140,7 +140,6 @@ const handleSubmit = async (e) => {
                 <th>Status</th>
                 <th>Delivery</th>
                 <th>Worker</th>
-                <th>Service Amount</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -151,11 +150,10 @@ const handleSubmit = async (e) => {
                     <td>{task.order_id}</td>
                     <td>{task.total_amount}</td>
                     <td>{task.customer_ID}</td>
-                    <td>{task.order_date || "N/A"}</td>
+                    <td>{task.order_date ? new Date(task.order_date).toLocaleDateString() : "N/A"}</td>
                     <td>{task.status}</td>
                     <td>{task.needDeliveryService}</td>
                     <td>{task.workerFirstName ? `${task.workerFirstName} ${task.workerLastName}` : "N/A"}</td>
-                    <td>{task.TotalAmount}</td>
                     <td>
                       <button
                         onClick={() => handleAutoFill(task)}
@@ -315,7 +313,7 @@ const handleSubmit = async (e) => {
                 <td>{payment.amount}</td>
                 <td>{payment.delivery_fee}</td>
                 <td>{payment.net_amount}</td>
-                <td>{payment.payment_date}</td>
+                <td>{payment.payment_date ? new Date(payment.payment_date).toLocaleDateString() : "N/A"}</td>
                 <td>{payment.note}</td>
                 <td>{payment.payment_method}</td>
               </tr>
