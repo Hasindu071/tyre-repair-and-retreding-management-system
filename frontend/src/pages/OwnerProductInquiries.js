@@ -84,7 +84,9 @@ const OwnerProductInquiries = () => {
                                                 )}
                                                 <td>{record.workerName}</td>
                                                 <td>{record.decrease_amount}</td>
-                                                <td>{record.decrease_date}</td>
+                                                <td>
+                                                {new Date(record.decrease_date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                                </td>
                                             </tr>
                                         ))}
                                         <tr key={`${productName}-total`}>

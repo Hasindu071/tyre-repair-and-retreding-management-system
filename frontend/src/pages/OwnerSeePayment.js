@@ -210,7 +210,9 @@ const fetchWorkerServices = async () => {
                   <td>Rs.{payment.amount}</td>
                   <td>Rs.{payment.bonus}</td>
                   <td>{payment.note}</td>
-                  <td>{payment.date}</td>
+                  <td>
+                    {new Date(payment.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  </td>
                   <td className={payment.status === "Paid" ? "paid" : "pending"}>
                     {payment.status}
                   </td>
@@ -306,7 +308,7 @@ const fetchWorkerServices = async () => {
                 <td>{service.serviceId}</td>
                 <td>{service.serviceCharge}</td>
                 <td>{(service.serviceCharge * 0.3).toFixed(2)}</td> {/* Calculate 30% commission */}
-                <td>{service.date}</td>
+                <td>{new Date(service.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}</td>
               </tr>
             ))}
           </tbody>
