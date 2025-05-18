@@ -15,6 +15,7 @@ const UpdateProgress = () => {
 
     useEffect(() => {
         const workerId = localStorage.getItem("workerId");
+        console.log("Worker ID:", workerId);
         const fetchTasks = async () => {
             try {
                 const res = await getUpdateOrders(workerId);
@@ -36,7 +37,8 @@ const UpdateProgress = () => {
 
     const fetchStartedTasks = async () => {
         try {
-            const res = await getStartedTasks();
+            const workerId = localStorage.getItem("workerId");
+            const res = await getStartedTasks(workerId);
             setStartedTasks(res);
         } catch (err) {
             console.error("Error fetching started tasks:", err);

@@ -87,19 +87,30 @@ router.put('/assignWorker/:id', async (req, res) => {
 
 // Endpoint to fetch approved repair orders from the services table with corresponding order details
 router.get('/UpdateOrders', async (req, res) => {
-    try {
-      const [rows] = await db.promise().query(`
-        SELECT s.*, o.*
-        FROM services s
-        JOIN orders o ON s.service_id = o.service_id
-        WHERE o.status = 'Pending'
-      `);
-      res.status(200).json(rows);
-    } catch (error) {
-      console.error("Error fetching approved repairs:", error);
-      res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
-    }
+  const { workerId } = req.query; // <-- get it from the query params
+
+  if (!workerId) {
+    return res.status(400).json({ message: 'Worker ID is required' });
+  }
+
+  try {
+    const [rows] = await db.promise().query(
+      `
+      SELECT s.*, o.*
+      FROM services s
+      JOIN orders o ON s.service_id = o.service_id
+      WHERE o.status = 'Pending' AND o.emp_id = ?
+      `,
+      [workerId]
+    );
+
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error("Error fetching worker's pending orders:", error);
+    res.status(500).json({ message: 'Server error fetching orders', error: error.message });
+  }
 });
+
 
 // PUT /Orders/startTask – Mark a task as started (In Progress)
 router.put('/startTask', async (req, res) => {
@@ -137,20 +148,33 @@ router.put('/updateProgress', async (req, res) => {
     }
 });
 
+
+// GET /orders/getStartedTasks – Retrieve all tasks that are in progress for a specific worker
 router.get('/getStartedTasks', async (req, res) => {
+  const { workerId } = req.query;
+
+  if (!workerId) {
+    return res.status(400).json({ message: 'Worker ID is required' });
+  }
+
   try {
-    const [rows] = await db.promise().query(`
+    const [rows] = await db.promise().query(
+      `
       SELECT s.*, o.*
       FROM services s
       JOIN orders o ON s.service_id = o.service_id
-      WHERE o.status = 'In Progres'
-    `);
+      WHERE o.status = 'In Progres' AND o.emp_id = ?
+      `,
+      [workerId]
+    );
+
     res.status(200).json(rows);
   } catch (error) {
-    console.error("Error fetching approved repairs:", error);
-    res.status(500).json({ message: 'Server error fetching approved repairs', error: error.message });
+    console.error("Error fetching started tasks:", error);
+    res.status(500).json({ message: 'Server error fetching started tasks', error: error.message });
   }
 });
+
 
 
 // GET /orders/getMyOrders – Retrieve all orders (or filter by customer if needed)

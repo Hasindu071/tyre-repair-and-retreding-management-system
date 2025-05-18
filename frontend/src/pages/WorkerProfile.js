@@ -5,8 +5,8 @@ import '../styles/WorkerProfile.css';
 import { getWorkerProfile } from "../services/workerServices";
 
 const WorkerProfile = () => {
-    // Retrieve the worker ID from localStorage (if not found, fallback to '1')
-    const storedWorkerId = localStorage.getItem("workerId") || 1;
+    // Retrieve the worker ID from localStorage
+    const storedWorkerId = localStorage.getItem("workerId");
     const [worker, setWorker] = useState({});
 
     useEffect(() => {

@@ -26,9 +26,11 @@ export const getUpdateOrders = async (workerId) => {
     }
 };
 
-export const getStartedTasks = async () => {
+export const getStartedTasks = async (workerId) => {
     try {
-        const response = await axios.get(`${API_URL}/getStartedTasks`);
+        const response = await axios.get(`${API_URL}/getStartedTasks`, {
+            params: { workerId }
+        });
         return response.data;
     } catch (error) {
         console.error("Error fetching started tasks:", error);
