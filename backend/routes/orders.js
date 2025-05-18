@@ -219,6 +219,12 @@ router.put('/completeOrder/:id', async (req, res) => {
 
   // Example backend endpoint in orders.js
   router.get('/getCompletedTasks', async (req, res) => {
+      const { workerId } = req.query;
+
+  if (!workerId) {
+    return res.status(400).json({ message: 'Worker ID is required' });
+  }
+
     try {
       const [rows] = await db.promise().query(`
         SELECT s.*, o.*, 
@@ -229,8 +235,9 @@ router.put('/completeOrder/:id', async (req, res) => {
         JOIN orders o ON s.service_id = o.service_id
         JOIN customer_register c ON c.id = s.customer_ID
         JOIN worker_register w ON w.id = o.emp_id
-        WHERE o.status = 'Completed'
-      `);
+        WHERE o.status = 'Completed' AND o.emp_id = ?
+      `, [workerId]);
+      
       res.status(200).json(rows);
     } catch (error) {
       console.error("Error fetching approved repairs:", error);

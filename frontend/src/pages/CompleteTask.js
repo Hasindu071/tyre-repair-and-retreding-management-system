@@ -6,13 +6,15 @@ import { fetchCompletedTasks } from "../services/orderServices";
 const CompleteTask = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
 
+  const workerId = localStorage.getItem("workerId");
+
   useEffect(() => {
     getCompletedTasks();
   }, []);
 
   const getCompletedTasks = async () => {
     try {
-      const data = await fetchCompletedTasks();
+      const data = await fetchCompletedTasks(workerId);
       setCompletedTasks(data);
     } catch (error) {
       // Error logging is handled in the service.
