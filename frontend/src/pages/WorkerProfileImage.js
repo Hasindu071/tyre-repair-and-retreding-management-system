@@ -53,12 +53,13 @@ const WorkerRegisterCreativeView = () => {
     return (
         <div>
             <OwnerSidebar />
+            <div className="worker-profile-page-show">
             <div className="worker-profile-container">
                 <h2 className="worker-profile-heading text-center">Registered Workers</h2>
                 <div className="worker-profile-row row">
                     {workers.map(worker => (
                         <div className="worker-profile" key={worker.id}>
-                            <div className="worker-profile-card">
+                            <div className="worker-profile-card-show">
                                 {worker.profilePicture ? (
                                     <img 
                                         src={`http://localhost:5000${worker.profilePicture}`} 
@@ -99,6 +100,7 @@ const WorkerRegisterCreativeView = () => {
             </div>
             <ToastContainer />
         </div>
+    </div>
     );
 };
 
