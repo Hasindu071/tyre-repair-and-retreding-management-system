@@ -70,7 +70,15 @@ const CustomerSeePaymentBilling = () => {
                             <p><strong>Receipt No:</strong> {latestPayment.id}</p>
                             <p><strong>Customer ID:</strong> {latestPayment.customer_ID}</p>
                             <p><strong>Order ID:</strong> {latestPayment.order_id}</p>
-                            <p><strong>Date:</strong> {latestPayment.payment_date}</p>
+                            <p>
+                            <strong>Date:</strong> {latestPayment.payment_date 
+                                ? new Date(latestPayment.payment_date).toLocaleDateString('en-US', {
+                                    day: '2-digit',
+                                    month: 'long',
+                                    year: 'numeric'
+                                })
+                                : "N/A"}
+                            </p>
                             <hr />
                             <p><strong>Amount:</strong> Rs {latestPayment.amount}</p>
                             <p>
@@ -107,7 +115,13 @@ const CustomerSeePaymentBilling = () => {
                                             <strong>Receipt No:</strong> {payment.id}
                                         </p>
                                         <p>
-                                            <strong>Date:</strong> {payment.payment_date}
+                                        <strong>Date:</strong> {payment.payment_date 
+                                            ? new Date(payment.payment_date).toLocaleDateString('en-US', {
+                                                day: '2-digit',
+                                                month: 'long',
+                                                year: 'numeric'
+                                            })
+                                            : "N/A"}
                                         </p>
                                         <p>
                                             <strong>Amount:</strong> Rs {payment.amount}
