@@ -154,8 +154,20 @@ const ViewTasks = () => {
                   <p><strong>Worker:</strong> {selectedTask.firstName ? `${selectedTask.firstName} ${selectedTask.lastName}` : "N/A"}</p>
                   <p><strong>Amount:</strong> {selectedTask.total_amount || 0}</p>
                   <div className="photo-grid">
-                    <img src={`http://localhost:5000${selectedTask.serviceDetails?.insidePhoto}`} alt="Inside" className="task-photo" />
-                    <img src={`http://localhost:5000${selectedTask.serviceDetails?.outsidePhoto}`} alt="Outside" className="task-photo" />
+                    <img 
+                      src={`http://localhost:5000${
+                        selectedTask.serviceDetails?.insidePhoto || selectedTask.serviceDetails?.insideDamagePhoto
+                      }`}
+                      alt="Inside" 
+                      className="task-photo" 
+                    />
+                    <img 
+                      src={`http://localhost:5000${
+                        selectedTask.serviceDetails?.outsidePhoto || selectedTask.serviceDetails?.outsideDamagePhoto
+                      }`}
+                      alt="Outside" 
+                      className="task-photo" 
+                    />
                   </div>
                 </>
               )}
