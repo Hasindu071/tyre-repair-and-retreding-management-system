@@ -92,7 +92,7 @@ const DailyOrderSummaryReport = () => {
                                     <tr>
                                         <th>Date</th>
                                         <th>Total Orders</th>
-                                        <th>Total Revenue ($)</th>
+                                        <th>Total Revenue (Rs)</th>
                                         <th>Average Progress (%)</th>
                                     </tr>
                                 </thead>
