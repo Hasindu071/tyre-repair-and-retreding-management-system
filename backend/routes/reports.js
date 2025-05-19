@@ -109,8 +109,9 @@ router.get('/serviceCompletion', async (req, res) => {
   try {
       // Query completed orders between the given dates.
       const completedQuery = `
-          SELECT order_id AS orderId, DATE(order_date) AS date
+          SELECT order_id AS orderId, DATE(order_date) AS date, service_id AS serviceId
           FROM orders
+
           WHERE status = 'Completed'
             AND DATE(order_date) BETWEEN ? AND ?
       `;

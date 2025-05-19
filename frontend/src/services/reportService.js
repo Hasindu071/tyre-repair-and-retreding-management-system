@@ -16,7 +16,7 @@ export const getWorkerPerformanceReport = async (startDate, endDate) => {
 // complete task show all tasks report
 export const fetchServiceCompletionReport = async (startDate, endDate) => {
     try {
-        const response = await axios.get("http://localhost:5000/eports/serviceCompletion", {
+        const response = await axios.get("http://localhost:5000/reports/serviceCompletion", {
             params: { startDate, endDate }
         });
         return response.data;
