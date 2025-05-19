@@ -15,6 +15,7 @@ const ViewTasks = () => {
   const [error, setError] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [qrTask, setQrTask] = useState(null);
+  const [patternImages] = useState({});
 
 
   useEffect(() => {
@@ -24,7 +25,6 @@ const ViewTasks = () => {
         setLoading(false);
         return;
       }
-
       try {
         const data = await getAssignedOrders(currentWorkerId);
         setTasks(data);
@@ -35,15 +35,14 @@ const ViewTasks = () => {
         setLoading(false);
       }
     };
-
     fetchTasks();
   }, [currentWorkerId]);
 
   const showModal = (modalId) => {
-  const modalEl = document.getElementById(modalId);
-  const modal = Modal.getOrCreateInstance(modalEl);
-  modal.show();
-};
+    const modalEl = document.getElementById(modalId);
+    const modal = Modal.getOrCreateInstance(modalEl);
+    modal.show();
+  };
 
   const handleViewClick = (task) => {
     setSelectedTask(task);
@@ -74,66 +73,117 @@ const ViewTasks = () => {
         <WorkerSideBar />
         <div className="tasks-container">
           <h2 className="title">Assigned Tasks</h2>
+          {/* Tasks Table Section */}
           {tasks.length ? (
-            <div className="table-responsive">
-              <table className="table table-hover align-middle text-center">
-                <thead className="table-dark">
-                  <tr>
-                    <th>Service ID</th>
-                    <th>Details</th>
-                    <th>Date</th>
-                    <th>Notes</th>
-                    <th>Pattern</th>
-                    <th>Inside</th>
-                    <th>Outside</th>
-                    <th>Worker</th>
-                    <th>Amount</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tasks.map(task => (
-                    <tr key={task.id}>
-                      <td>{task.service_id}</td>
-                      <td>{task.tireBrand} {task.internalStructure}</td>
-                      <td>{task.receiveDate}</td>
-                      <td>{task.notes}</td>
-                      <td>{task.tirePattern || "N/A"}</td>
-                      <td>
-                        { (task.serviceDetails?.insidePhoto || task.serviceDetails?.insideDamagePhoto) ? (
-                          <img
-                            src={`http://localhost:5000${task.serviceDetails?.insidePhoto || task.serviceDetails?.insideDamagePhoto}`}
-                            alt="Inside"
-                            className="task-photo"
-                          />
-                        ) : (
-                          "No image available"
-                        )}
-                      </td>
-                      <td>
-                        { (task.serviceDetails?.outsidePhoto || task.serviceDetails?.outsideDamagePhoto) ? (
-                          <img
-                            src={`http://localhost:5000${task.serviceDetails?.outsidePhoto || task.serviceDetails?.outsideDamagePhoto}`}
-                            alt="Outside"
-                            className="task-photo"
-                          />
-                        ) : (
-                          "No image available"
-                        )}
-                      </td>
-                      <td>{task.firstName ? `${task.firstName} ${task.lastName}` : "N/A"}</td>
-                      <td>{task.total_amount || 0}</td>
-                      <td>
-                        <button className="btn btn-outline-info btn-sm" onClick={() => handleViewClick(task)}>View</button>
-                        <button className="btn btn-outline-dark btn-sm ms-2" onClick={() => handleQRClick(task)}>QR</button>
-                      </td>
+            <section className="tasks-table-section">
+              <div className="table-responsive">
+                <table className="table table-hover align-middle text-center">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>Service ID</th>
+                      <th>Details</th>
+                      <th>Date</th>
+                      <th>Notes</th>
+                      <th>Pattern</th>
+                      <th>Inside</th>
+                      <th>Outside</th>
+                      <th>Worker</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {tasks.map(task => (
+                      <tr key={task.id}>
+                        <td>{task.service_id}</td>
+                        <td>{task.tireBrand} {task.internalStructure}</td>
+                        <td>{task.receiveDate}</td>
+                        <td>{task.notes}</td>
+                        <td>{task.tirePattern || "--"}</td>
+                        <td>
+                          {(task.serviceDetails?.insidePhoto || task.serviceDetails?.insideDamagePhoto) ? (
+                            <img
+                              src={`http://localhost:5000${task.serviceDetails?.insidePhoto || task.serviceDetails?.insideDamagePhoto}`}
+                              alt="Inside"
+                              className="task-photo"
+                            />
+                          ) : (
+                            "No image available"
+                          )}
+                        </td>
+                        <td>
+                          {(task.serviceDetails?.outsidePhoto || task.serviceDetails?.outsideDamagePhoto) ? (
+                            <img
+                              src={`http://localhost:5000${task.serviceDetails?.outsidePhoto || task.serviceDetails?.outsideDamagePhoto}`}
+                              alt="Outside"
+                              className="task-photo"
+                            />
+                          ) : (
+                            "No image available"
+                          )}
+                        </td>
+                        <td>{task.firstName ? `${task.firstName} ${task.lastName}` : "N/A"}</td>
+                        <td>{task.total_amount || 0}</td>
+                        <td>
+                          <button className="btn btn-outline-info btn-sm" onClick={() => handleViewClick(task)}>View</button>
+                          <button className="btn btn-outline-dark btn-sm ms-2" onClick={() => handleQRClick(task)}>QR</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
           ) : <p className="no-tasks">No tasks assigned.</p>}
         </div>
+      </div>
+      {/* Patterns Gallery Section */}
+      <h3 className="subtitle" style={{ color: "#f8f9fa", marginLeft: '250px' }}>Tire Patterns</h3>
+      <div
+        className="pattern-gallery-worker"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          backgroundColor: '#f8f9fa', 
+          width: '50%',
+          marginLeft: '250px',
+          paddingTop: '20px',
+        }}
+      >
+        {[1, 2, 3, 4, 5, 6].map((num) => (
+          <div
+            key={num}
+            className="pattern-update-item-worker"
+            style={{
+              flex: 'none',
+              margin: '0 5px',
+              padding: '10px',
+              backgroundColor: '#fff', 
+              width: '3cm',
+              height: '3cm',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <img
+              src={
+                patternImages[num]
+                  ? patternImages[num]
+                  : `${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/assets/pattern/pattern${num}.jpg`
+              }
+              alt={`Pattern ${num}`}
+              className="pattern-image-worker"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain'
+              }}
+            />
+            <div style={{ marginTop: '5px', fontWeight: 'bold', color: '#333' }}>{num}</div>
+          </div>
+        ))}
       </div>
 
       {/* View Task Modal */}
