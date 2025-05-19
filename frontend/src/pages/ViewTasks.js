@@ -83,6 +83,7 @@ const ViewTasks = () => {
                     <th>Details</th>
                     <th>Date</th>
                     <th>Notes</th>
+                    <th>Pattern</th>
                     <th>Inside</th>
                     <th>Outside</th>
                     <th>Worker</th>
@@ -97,8 +98,29 @@ const ViewTasks = () => {
                       <td>{task.tireBrand} {task.internalStructure}</td>
                       <td>{task.receiveDate}</td>
                       <td>{task.notes}</td>
-                      <td><img src={`http://localhost:5000${task.serviceDetails?.insidePhoto}`} alt="Inside" className="task-photo" /></td>
-                      <td><img src={`http://localhost:5000${task.serviceDetails?.outsidePhoto}`} alt="Outside" className="task-photo" /></td>
+                      <td>{task.tirePattern || "N/A"}</td>
+                      <td>
+                        { (task.serviceDetails?.insidePhoto || task.serviceDetails?.insideDamagePhoto) ? (
+                          <img
+                            src={`http://localhost:5000${task.serviceDetails?.insidePhoto || task.serviceDetails?.insideDamagePhoto}`}
+                            alt="Inside"
+                            className="task-photo"
+                          />
+                        ) : (
+                          "No image available"
+                        )}
+                      </td>
+                      <td>
+                        { (task.serviceDetails?.outsidePhoto || task.serviceDetails?.outsideDamagePhoto) ? (
+                          <img
+                            src={`http://localhost:5000${task.serviceDetails?.outsidePhoto || task.serviceDetails?.outsideDamagePhoto}`}
+                            alt="Outside"
+                            className="task-photo"
+                          />
+                        ) : (
+                          "No image available"
+                        )}
+                      </td>
                       <td>{task.firstName ? `${task.firstName} ${task.lastName}` : "N/A"}</td>
                       <td>{task.total_amount || 0}</td>
                       <td>

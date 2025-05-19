@@ -56,21 +56,31 @@ const ApproveOrder = () => {
                 </td>
                 <td>{order.notes}</td>
                 <td>
-                  {order.serviceDetails && order.serviceDetails.insidePhoto && (
+                  {order.serviceDetails &&
+                  (order.serviceDetails.insidePhoto || order.serviceDetails.insideDamagePhoto) ? (
                     <img
-                      src={`http://localhost:5000${order.serviceDetails.insidePhoto}`}
+                      src={`http://localhost:5000${
+                        order.serviceDetails.insidePhoto || order.serviceDetails.insideDamagePhoto
+                      }`}
                       alt="Inside"
                       style={{ width: "4cm", height: "4cm" }}
                     />
+                  ) : (
+                    "No image available"
                   )}
                 </td>
                 <td>
-                  {order.serviceDetails && order.serviceDetails.outsidePhoto && (
+                  {order.serviceDetails &&
+                  (order.serviceDetails.outsidePhoto || order.serviceDetails.outsideDamagePhoto) ? (
                     <img
-                      src={`http://localhost:5000${order.serviceDetails.outsidePhoto}`}
+                      src={`http://localhost:5000${
+                        order.serviceDetails.outsidePhoto || order.serviceDetails.outsideDamagePhoto
+                      }`}
                       alt="Outside"
                       style={{ width: "4cm", height: "4cm" }}
                     />
+                  ) : (
+                    "No image available"
                   )}
                 </td>
                 <td>

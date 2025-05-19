@@ -20,7 +20,7 @@ const getRetreadings = async () => {
 
 const getApprovedOrders = async () => {
   const [rows] = await db.promise().query(`
-    SELECT * FROM services WHERE status = 'Checking'
+    SELECT * FROM services WHERE status = 'Approved'
   `);
   return rows;
 };
@@ -28,9 +28,10 @@ const getApprovedOrders = async () => {
 const getAssignedOrders = async (workerId) => {
   let query = `
     SELECT o.*, s.service_id, s.status AS service_status, s.receiveDate, s.notes, s.tireBrand, s.internalStructure,
-           e.firstName, e.lastName
+           e.firstName, e.lastName, tirePattern
     FROM orders o
     JOIN services s ON o.service_id = s.service_id
+    LEFT JOIN retreading r ON o.service_id = r.id
     LEFT JOIN worker_register e ON o.emp_id = e.id
     WHERE s.status = 'Approved'
   `;
