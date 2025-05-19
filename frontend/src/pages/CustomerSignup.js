@@ -86,7 +86,7 @@ const CustomerSignup = () => {
                 <div className="customer-signup-card">
                     <h2 className="customer-signup-title">Customer <span>SignUp</span></h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className="form-group-ll">
                             <label htmlFor="email" className="form-label">Email:</label>
                             <input
                                 type="email"
@@ -95,11 +95,12 @@ const CustomerSignup = () => {
                                 placeholder="Enter your email"
                                 value={signupData.email}
                                 onChange={handleChange}
-                                className="customer-signup-input"
+                                className="customer-signup-input-ll"
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <br></br>
+                        <div className="form-group-ll">
                             <label htmlFor="password" className="form-label">Password:</label>
                             <input
                                 type="password"
@@ -108,11 +109,12 @@ const CustomerSignup = () => {
                                 placeholder="Enter your password"
                                 value={signupData.password}
                                 onChange={handleChange}
-                                className="customer-signup-input"
+                                className="customer-signup-input-ll"
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <br></br>
+                        <div className="form-group-ll">
                             <label htmlFor="rePassword" className="form-label">Re-enter Password:</label>
                             <input
                                 type="password"
@@ -121,10 +123,11 @@ const CustomerSignup = () => {
                                 placeholder="Re-enter your password"
                                 value={signupData.rePassword}
                                 onChange={handleChange}
-                                className="customer-signup-input"
+                                className="customer-signup-input-ll"
                                 required
                             />
                         </div>
+                        <br></br>
                         <button type="submit" className="customer-signup-button">
                             Submit
                         </button>
