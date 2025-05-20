@@ -82,27 +82,35 @@ const CustomerRegister = () => {
                             <div className="col-md-6 mb-3">
                                 <label htmlFor="firstName">First Name:</label>
                                 <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    placeholder="Enter your first name"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="Enter your first name"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                onKeyPress={(e) => {
+                                    if (!/[A-Za-z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                    }
+                                }}
+                                className="form-control"
+                                required
                                 />
-                            </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="lastName">Last Name:</label>
+
                                 <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    placeholder="Enter your last name"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Enter your last name"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                onKeyPress={(e) => {
+                                    if (!/[A-Za-z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                    }
+                                }}
+                                className="form-control"
+                                required
                                 />
                             </div>
                             <div className="col-md-6 mb-3">
