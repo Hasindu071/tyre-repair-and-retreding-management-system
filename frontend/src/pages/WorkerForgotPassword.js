@@ -62,7 +62,7 @@ const WorkerForgotPassword = () => {
                     <button type="submit" className="submit-button-worker" disabled={loading}>
                         {loading ? 'Sending...' : 'Send Reset Link'}
                     </button>
-                    <p className="back-to-login-worker" onClick={() => navigate('/worker/login')}>
+                    <p className="back-to-login-worker" onClick={() => navigate('/login/worker')}>
                         Back to Login
                     </p>
                 </form>
@@ -92,7 +92,7 @@ const WorkerForgotPassword = () => {
                                         className="btn btn-primary"
                                         onClick={() => {
                                             setShowModal(false);
-                                            navigate('/worker/login');
+                                            navigate('/login/worker');
                                         }}
                                     >
                                         OK
