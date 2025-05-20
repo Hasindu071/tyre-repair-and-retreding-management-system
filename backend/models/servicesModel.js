@@ -20,7 +20,9 @@ const getRetreadings = async () => {
 
 const getApprovedOrders = async () => {
   const [rows] = await db.promise().query(`
-    SELECT * FROM services WHERE status = 'Approved'
+    SELECT * FROM services 
+    WHERE status = 'Approved'
+      AND service_id NOT IN (SELECT service_id FROM orders)
   `);
   return rows;
 };
