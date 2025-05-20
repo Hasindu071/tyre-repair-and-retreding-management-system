@@ -24,7 +24,7 @@ const OwnerMarksWorkerAttendance = () => {
   const todayISO = today.toISOString().slice(0, 10);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/WorkerRegister")
+    axios.get("http://localhost:5000/WorkerRegister/approveWorker")
       .then(res => setWorkers(res.data))
       .catch(err => console.error("Error fetching workers:", err));
   }, []);
