@@ -5,6 +5,7 @@ import { FiBell, FiRefreshCw, FiInbox, FiMail, FiClock, FiTrash2, FiCheck } from
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getNotifications, markNotificationAsRead, deleteNotificationService } from "../services/NotificationService";
+import swal from "sweetalert";
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -111,7 +112,20 @@ const Notification = () => {
                   )}
                   <button
                     className="action-btn delete"
-                    onClick={() => deleteNotification(notification.id)}
+                    onClick={() => {
+                      swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this notification!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                      }).then(async (willDelete) => {
+                        if (willDelete) {
+                          await deleteNotification(notification.id);
+                          swal("Notification deleted successfully", { icon: "success" });
+                        }
+                      });
+                    }}
                   >
                     <FiTrash2 style={{ marginRight: "5px" }} />
                     Delete

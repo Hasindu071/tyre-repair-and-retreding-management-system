@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../context/AuthContext';
 import { getourProducts, addProduct, deleteProduct } from "../services/productServices";
+import swal from "sweetalert";
 
 const OurProductOwner = () => {
     const [productName, setProductName] = useState('');
@@ -151,7 +152,7 @@ const OurProductOwner = () => {
                                 <th>ID</th>
                                 <th>Product Name</th>
                                 <th>Description</th>
-                                <th>Price ($)</th>
+                                <th>Price (Rs.)</th>
                                 <th>Image</th>
                                 <th>Actions</th>
                             </tr>
@@ -176,12 +177,25 @@ const OurProductOwner = () => {
                                             )}
                                         </td>
                                         <td>
-                                            <button
-                                                className="delete-button-our"
-                                                onClick={() => handleDelete(product.id)}
-                                            >
-                                                Delete
-                                            </button>
+                                        <button
+                                        className="delete-button-our"
+                                        onClick={() => {
+                                            swal({
+                                            title: "Are you sure?",
+                                            text: "Once deleted, you will not be able to recover this product!",
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                            }).then(async (willDelete) => {
+                                            if (willDelete) {
+                                                await handleDelete(product.id);
+                                                swal("Product deleted successfully", { icon: "success" });
+                                            }
+                                            });
+                                        }}
+                                        >
+                                        Delete
+                                        </button>
                                         </td>
                                     </tr>
                                 ))

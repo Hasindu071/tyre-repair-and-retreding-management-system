@@ -105,15 +105,26 @@ const Inquiries = () => {
                                         Mark as Read
                                     </button>
                                 )}
-                                <button 
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        deleteInquiry(inquiry.id);
-                                    }}
-                                    className="delete-btn"
-                                >
-                                    Delete
-                                </button>
+                            <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                swal({
+                                title: "Are you sure?",
+                                text: "Once deleted, you will not be able to recover this inquiry!",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                                }).then(async (willDelete) => {
+                                if (willDelete) {
+                                    await deleteInquiry(inquiry.id);
+                                    swal("Inquiry deleted successfully", { icon: "success" });
+                                }
+                                });
+                            }}
+                            className="delete-btn"
+                            >
+                            Delete
+                            </button>
                             </div>
                         </div>
                     ))}
