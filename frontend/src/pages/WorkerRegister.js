@@ -115,16 +115,20 @@ const WorkerRegister = () => {
                         </div>
                         <div className="form-group-worker">
                             <label htmlFor="title">Title:</label>
-                            <input
-                                type="text"
+                            <select
+                                style={{ backgroundColor: '#4a4a4a', color: 'rgb(149, 149, 149)', border: 'none' }}
                                 id="title"
                                 name="title"
-                                placeholder="Enter job title"
                                 value={formData.title}
                                 onChange={handleChange}
-                                onKeyPress={handleAlphaInput}
                                 required
-                            />
+                                className="form-control"
+                            >
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Mrs">Mrs</option>
+                            </select>
                         </div>
                         <div className="form-group-worker">
                             <label htmlFor="phone1">Phone Number 1:</label>

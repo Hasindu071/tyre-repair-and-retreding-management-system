@@ -52,7 +52,7 @@ const CustomerDashboard = () => {
                         </div>
                         <div className="customer-dashboard-item">
                             <FaClipboardList size={50} className="customer-dashboard-icon" />
-                            <h3>My Orders</h3>
+                            <h3>Check My Orders</h3>
                             <button className="customer-dashboard-button" onClick={handleMyOrders}>
                                 View
                             </button>
