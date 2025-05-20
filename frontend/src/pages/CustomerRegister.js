@@ -89,14 +89,16 @@ const CustomerRegister = () => {
                                 value={formData.firstName}
                                 onChange={handleChange}
                                 onKeyPress={(e) => {
-                                    if (!/[A-Za-z\s]/.test(e.key)) {
+                                    if (!/[A-Za-z\s']/.test(e.key)) {
                                     e.preventDefault();
                                     }
                                 }}
                                 className="form-control"
                                 required
                                 />
-
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="lastName">Last Name:</label>
                                 <input
                                 type="text"
                                 id="lastName"
@@ -105,7 +107,7 @@ const CustomerRegister = () => {
                                 value={formData.lastName}
                                 onChange={handleChange}
                                 onKeyPress={(e) => {
-                                    if (!/[A-Za-z\s]/.test(e.key)) {
+                                    if (!/[A-Za-z\s']/.test(e.key)) {
                                     e.preventDefault();
                                     }
                                 }}
