@@ -31,7 +31,10 @@ router.get('/getOrders', (req, res) => {
 // Route to fetch workers
 router.get('/getWorkers', async (req, res) => {
     try {
-        const [workers] = await db.promise().query('SELECT id, CONCAT(firstName, " ", lastName) AS name FROM worker_register');
+        const [workers] = await db.promise().query(
+            'SELECT id, CONCAT(firstName, " ", lastName) AS name FROM worker_register WHERE status = ?',
+            ['Approved']
+        );
         res.status(200).json(workers);
     } catch (error) {
         console.error('Database fetch error:', error);

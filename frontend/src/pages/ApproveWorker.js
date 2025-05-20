@@ -5,6 +5,7 @@ import "../styles/ApproveWorker.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchApproveWorkers, updateWorkerStatus } from "../services/ownerServices";
+import swal from "sweetalert";
 
 const ApproveWorker = () => {
   const [workers, setWorkers] = useState([]);
@@ -98,7 +99,20 @@ const ApproveWorker = () => {
                     </button>
                     <button
                       className="remove-button-worker"
-                      onClick={() => handleApproval(worker.id, "Removed")}
+                      onClick={() => {
+                        swal({
+                          title: "Are you sure?",
+                          text: "Once removed, this worker will be permanently deleted.",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        }).then(async (willRemove) => {
+                          if (willRemove) {
+                            await handleApproval(worker.id, "Removed");
+                            swal("Worker removed successfully", { icon: "success" });
+                          }
+                        });
+                      }}
                       disabled={worker.status === "Removed"}
                     >
                       Remove
