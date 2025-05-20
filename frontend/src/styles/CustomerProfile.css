@@ -90,3 +90,71 @@
         padding: 25px;
     }
 }
+.modal-body-pp {
+    padding: 1.5rem;
+    grid-template-columns: 1fr 1fr; 
+    gap: 1rem;
+}
+
+.form-group-pp {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group-pp label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-control-pp {
+    padding: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    color: #495057;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control-pp:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.btn-pp {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-pp.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-pp.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-pp.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-pp.btn-secondary:hover {
+    background-color: #5a6268;
+}
