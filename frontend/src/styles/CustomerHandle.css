@@ -137,18 +137,19 @@
   color: #f8f9fa;
 }
 
-.form-group {
+.form-group-oo {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.form-group-oo label {
   font-weight: 500;
   color: #495057;
+  text-align: left;
   margin-bottom: 5px;
   display: block;
 }
 
-.form-control {
+.form-control-oo {
   width: 100%;
   padding: 10px;
   border: 1px solid #ced4da;
@@ -157,7 +158,7 @@
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-control:focus {
+.form-control-oo:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);

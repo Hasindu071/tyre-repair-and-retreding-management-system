@@ -213,11 +213,13 @@ const CustomerHandle = () => {
               </div>
               <div className="modal-body">
                 <form onSubmit={handleUpdate}>
-                  <div className="form-group">
+                  <div className="form-group-oo
+                  
+                  ">
                     <label>First Name</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.firstName}
                       onChange={(e) =>
                         setSelectedCustomer({
@@ -228,11 +230,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>Last Name</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.lastName}
                       onChange={(e) =>
                         setSelectedCustomer({
@@ -243,11 +245,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>Email</label>
                     <input
                       type="email"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.email}
                       onChange={(e) =>
                         setSelectedCustomer({
@@ -258,11 +260,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>NIC</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.nic}
                       pattern="^(\d{9}[vV]|\d{12})$"
                       title="NIC must be 9 digits followed by V or 12 digits"
@@ -275,11 +277,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>Phone Number 1</label>
                     <input
                       type="number"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.phone1}
                       pattern="^\d{10}$"
                       title="Phone number must be 10 digits"
@@ -292,11 +294,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>Phone Number 2</label>
                     <input
                       type="number"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.phone2}
                       pattern="^\d{10}$"
                       title="Phone number must be 10 digits"
@@ -308,11 +310,11 @@ const CustomerHandle = () => {
                       }
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>House Name</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.houseName}
                       onChange={(e) =>
                         setSelectedCustomer({
@@ -323,11 +325,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>City</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.city}
                       onChange={(e) =>
                         setSelectedCustomer({
@@ -338,11 +340,11 @@ const CustomerHandle = () => {
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group-oo">
                     <label>State</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control-oo"
                       value={selectedCustomer.state}
                       onChange={(e) =>
                         setSelectedCustomer({
