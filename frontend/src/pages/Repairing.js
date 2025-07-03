@@ -157,6 +157,8 @@ const RepairServiceForm = () => {
                                     value={formData.patchesApplied}
                                     onChange={handleChange}
                                     required
+                                    min={1}
+                                    max={10} // Assuming a maximum of 10 patches
                                 />
                             </div>
                             <div className="form-group-repair">
@@ -169,6 +171,8 @@ const RepairServiceForm = () => {
                                     value={formData.punctureSize}
                                     onChange={handleChange}
                                     required
+                                    min={0.1}
+                                    max={5} // Assuming a maximum size of 5 cm
                                 />
                             </div>
                             <div className="form-group-repair">

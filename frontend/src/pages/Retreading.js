@@ -30,6 +30,7 @@ const RetreadingService = () => {
     const [patterns, setPatterns] = useState([]);
     const [loading, setLoading] = useState(false);
     const [responseMessage, setResponseMessage] = useState(null);
+    const [inputError, setInputError] = useState(null);
 
     useEffect(() => {
         const fetchPatterns = async () => {
@@ -51,13 +52,24 @@ const RetreadingService = () => {
                 ...prevData,
                 [name]: file
             }));
+    } else {
+        // Validation for number fields
+        if (
+            (name === "sizeCode" && (value < 0 || value > 100)) ||
+            (name === "wheelDiameter" && (value < 0 || value > 100)) ||
+            (name === "tireWidth" && (value < 0 || value > 1000))
+        ) {
+            setInputError("Value out of allowed range.");
+            return;
         } else {
-            setFormData(prevData => ({
-                ...prevData,
-                [name]: value
-            }));
+            setInputError(null);
         }
-    };
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    }
+};
 
     const handleCompletionDateChange = (date) => {
         setFormData(prev => ({
@@ -155,6 +167,8 @@ const RetreadingService = () => {
                                     value={formData.sizeCode}
                                     onChange={handleChange}
                                     required
+                                    min={0}
+                                    max={100}
                                 />
                             </div>
                             </td>
@@ -169,6 +183,8 @@ const RetreadingService = () => {
                                     value={formData.wheelDiameter}
                                     onChange={handleChange}
                                     required
+                                    min={0}
+                                    max={100}
                                 />
                                 </div>
                             </td>
@@ -185,6 +201,8 @@ const RetreadingService = () => {
                                     value={formData.tireWidth}
                                     onChange={handleChange}
                                     required
+                                    min={0}
+                                    max={1000}
                                 />
                                 </div>
                             </td>

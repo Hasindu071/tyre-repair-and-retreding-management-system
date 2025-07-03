@@ -370,7 +370,7 @@ router.get('/workersTask/:id', async (req, res) => {
       FROM orders o
       LEFT JOIN services s ON o.service_id = s.service_id
       LEFT JOIN worker_register w ON o.emp_id = w.id
-      WHERE o.emp_id = ?
+      WHERE o.emp_id = ?  AND o.status != 'Completed'
     `;
     const [rows] = await db.promise().query(query, [taskId]);
     console.log("Worker Task Details:", rows); // Debugging line
