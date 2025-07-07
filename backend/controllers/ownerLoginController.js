@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const OwnerLogin = require('../models/ownerLoginModel');
 
+// This function handles the login of an owner, including password verification and JWT token generation.
+// It checks if the email and password are provided, verifies the credentials against the database,
 const loginOwner = (req, res) => {
     const { email, password } = req.body;
 

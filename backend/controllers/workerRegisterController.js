@@ -2,6 +2,8 @@
 const bcrypt = require('bcryptjs');
 const Worker = require('../models/workerRegisterModel');
 
+// Register a new worker
+// This function handles the registration of a new worker, including password hashing and profile picture upload.
 exports.registerWorker = async (req, res) => {
   const { firstName, lastName, email, title, phone1, phone2, nic, address1, address2, password } = req.body;
   const profilePicture = req.file ? `/uploads/${req.file.filename}` : null;
